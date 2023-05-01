@@ -1,0 +1,35 @@
+<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Window
+    x:Class="ShadowViewer.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ShadowViewer"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    
+    mc:Ignorable="d">
+
+    <Grid MinWidth="650" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Border
+            x:Name="AppTitleBar"
+            Height="48"
+            Margin="48,0,0,0"
+            VerticalAlignment="Top"
+            AutomationProperties.AutomationId="AppTitleBar"
+            Background="Transparent"
+            Canvas.ZIndex="1"
+            IsHitTestVisible="True">
+            <StackPanel Orientation="Horizontal">
+                <Image Width="18" Source="ms-appx:///Assets/Tiles/TitlebarLogo.png" />
+                <TextBlock
+                    x:Name="AppTitle"
+                    x:Uid="AppTitle"
+                    Margin="16,0,0,0"
+                    VerticalAlignment="Center" />
+            </StackPanel>
+        </Border>
+        <Frame x:Name="RootFrame" />
+    </Grid>
+</Window>

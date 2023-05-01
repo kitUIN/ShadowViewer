@@ -1,0 +1,72 @@
+<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Page
+    x:Class="ShadowViewer.Pages.NavigationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:co="using:ShadowViewer.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ShadowViewer.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources />
+    <Grid>
+        <NavigationView
+            x:Name="NavView"
+            Grid.Column="1"
+            BackRequested="NavView_BackRequested"
+            Canvas.ZIndex="0"
+            IsBackEnabled="True"
+            IsTabStop="False"
+            IsTitleBarAutoPaddingEnabled="True"
+            ItemInvoked="NavView_ItemInvoked"
+            Loaded="NavView_Loaded"
+            OpenPaneLength="220">
+            <NavigationView.AutoSuggestBox>
+                <AutoSuggestBox
+                    x:Name="controlsSearchBox"
+                    MinWidth="150"
+                    VerticalAlignment="Center"
+                    x:FieldModifier="public"
+                    KeyboardAcceleratorPlacementMode="Hidden"
+                    PlaceholderText="Search"
+                    QueryIcon="Find" />
+            </NavigationView.AutoSuggestBox>
+
+            <Frame x:Name="ContentFrame" />
+            <NavigationView.MenuItems>
+                <NavigationViewItem
+                    x:Name="HomeItem"
+                    x:Uid="HomeItem"
+                    Icon="Home"
+                    Tag="Home" />
+                <NavigationViewItem
+                    x:Name="PluginItem"
+                    x:Uid="PluginItem"
+                    Tag="Plugins">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE74C;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem
+                    x:Name="DownloadItem"
+                    x:Uid="DownloadItem"
+                    Icon="Download"
+                    Tag="Download" />
+            </NavigationView.MenuItems>
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItem
+                    x:Name="UserItem"
+                    x:Uid="UserItem"
+                    Tag="User">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE77B;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.FooterMenuItems>
+        </NavigationView>
+        <Grid x:Name="TopGrid" Canvas.ZIndex="1" />
+        
+    </Grid>
+</Page>

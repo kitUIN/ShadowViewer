@@ -1,0 +1,108 @@
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Page
+    x:Class="ShadowViewer.Pages.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:ShadowViewer.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <!--  These styles can be referenced to create a consistent SettingsPage layout  -->
+
+        <!--  Spacing between cards  -->
+        <x:Double x:Key="SettingsCardSpacing">3</x:Double>
+
+        <!--  Style (inc. the correct spacing) of a section header  -->
+        <Style
+            x:Key="SettingsSectionHeaderTextBlockStyle"
+            BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+            TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="Margin" Value="1,29,0,5" />
+            </Style.Setters>
+        </Style>
+    </Page.Resources>
+    <ScrollViewer Padding="20,0,20,0">
+        <Grid>
+            <StackPanel
+                MaxWidth="1000"
+                HorizontalAlignment="Stretch"
+                Spacing="{StaticResource SettingsCardSpacing}">
+                <win:StackPanel.ChildrenTransitions>
+                    <win:EntranceThemeTransition FromVerticalOffset="50" />
+                    <win:RepositionThemeTransition IsStaggeringEnabled="False" />
+                </win:StackPanel.ChildrenTransitions>
+                <TextBlock x:Uid="MainSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <labs:SettingsCard x:Name="ThemeSettingCard" x:Uid="ThemeSettingCard">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE790;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ComboBox x:Name="ThemeModeSetting" SelectionChanged="ThemeModeSetting_SelectionChanged">
+                        <ComboBoxItem x:Uid="LightTheme" Tag="Light" />
+                        <ComboBoxItem x:Uid="DarkTheme" Tag="Dark" />
+                        <ComboBoxItem x:Uid="DefaultTheme" Tag="Default" />
+                    </ComboBox>
+                </labs:SettingsCard>
+                <labs:SettingsCard x:Name="LogSettingCard" x:Uid="LogSettingCard">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE82D;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <Button x:Uid="LogButton" Click="LogButton_Click" />
+                </labs:SettingsCard>
+                <TextBlock x:Uid="PluginSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <StackPanel
+                    x:Name="PluginSettingsStackPanel"
+                    HorizontalAlignment="Stretch"
+                    Loaded="PluginSettingsStackPanel_Loaded"
+                    Spacing="{StaticResource SettingsCardSpacing}">
+                    <win:StackPanel.ChildrenTransitions>
+                        <win:EntranceThemeTransition FromVerticalOffset="50" />
+                        <win:RepositionThemeTransition IsStaggeringEnabled="False" />
+                    </win:StackPanel.ChildrenTransitions>
+
+                </StackPanel>
+
+
+
+                <!--  About  -->
+                <TextBlock x:Uid="AboutSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <labs:SettingsExpander Description="© 2023-2023 kitUIN. All rights reserved." Header="ShadowViewer">
+                    <labs:SettingsExpander.HeaderIcon>
+                        <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/AppTitleBar.scale-200.png" />
+                    </labs:SettingsExpander.HeaderIcon>
+                    <TextBlock
+                        win:IsTextSelectionEnabled="True"
+                        FontSize="16"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        Text="1.0.0.0" />
+                    <labs:SettingsExpander.Items>
+                        <labs:SettingsCard
+                            x:Name="BugRequestCard"
+                            x:Uid="BugRequestCard"
+                            Click="BugRequestCard_Click"
+                            IsClickEnabled="True">
+                            <labs:SettingsCard.ActionIcon>
+                                <FontIcon Glyph="&#xE8A7;" />
+                            </labs:SettingsCard.ActionIcon>
+                        </labs:SettingsCard>
+                        <labs:SettingsCard
+                            x:Uid="DependenciesCard"
+                            HorizontalContentAlignment="Left"
+                            ContentAlignment="Vertical">
+                            <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
+                                <HyperlinkButton Content="Windows UI Library" NavigateUri="https://aka.ms/winui" />
+                                <HyperlinkButton Content="Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/WindowsCommunityToolkit" />
+                            </StackPanel>
+                        </labs:SettingsCard>
+                    </labs:SettingsExpander.Items>
+                </labs:SettingsExpander>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

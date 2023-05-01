@@ -1,0 +1,191 @@
+<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Page
+    x:Class="ShadowViewer.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dv="using:ShadowViewer.Models"
+    xmlns:local="using:ShadowViewer.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="LocalComicTemplate" x:DataType="dv:LocalComic">
+            <StackPanel
+                Width="130"
+                Height="130"
+                Padding="6"
+                Background="Transparent"
+                Tag="{x:Bind Name}">
+                <Image
+                    Width="120"
+                    Height="75"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom"
+                    Source="{x:Bind Img}" />
+                <TextBlock
+                    MaxWidth="100"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    MaxLines="2"
+                    Text="{x:Bind Name}"
+                    TextTrimming="CharacterEllipsis"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+        </DataTemplate>
+        <CommandBarFlyout
+            x:Name="HomeCommandBarFlyout"
+            AlwaysExpanded="True"
+            Closed="HomeCommandBarFlyout_Closed"
+            Placement="Right">
+            <AppBarButton
+                x:Name="ShadowCommandRename"
+                Click="ShadowCommandRename_Click"
+                Icon="Rename">
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="ShadowCommandRenameToolTip" />
+                </ToolTipService.ToolTip>
+            </AppBarButton>
+            <AppBarButton
+                x:Name="ShadowCommandDelete"
+                Click="ShadowCommandDelete_Click"
+                Icon="Delete">
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="ShadowCommandDeleteToolTip" />
+                </ToolTipService.ToolTip>
+            </AppBarButton>
+            <AppBarButton
+                x:Name="ShadowCommandStatus"
+                Click="ShadowCommandStatus_Click"
+                Icon="Repair">
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="ShadowCommandStatusToolTip" />
+                </ToolTipService.ToolTip>
+            </AppBarButton>
+            <CommandBarFlyout.SecondaryCommands>
+                <AppBarButton x:Name="ShadowCommandAdd" x:Uid="ShadowCommandAdd">
+                    <AppBarButton.Icon>
+                        <FontIcon Glyph="&#xECC8;" />
+                    </AppBarButton.Icon>
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="ShadowCommandAddToolTip" />
+                    </ToolTipService.ToolTip>
+                    <AppBarButton.Flyout>
+                        <MenuFlyout>
+
+                            <MenuFlyoutItem
+                                x:Name="ShadowCommandNewFolder"
+                                x:Uid="ShadowCommandNewFolder"
+                                Click="ShadowCommandAddNewFolder_Click"
+                                Icon="NewFolder">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="ShadowCommandNewFolderToolTip" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="ShadowCommandNewComic"
+                                x:Uid="ShadowCommandNewComic"
+                                Click="ShadowCommandAddFromFolder_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE82E;" />
+                                </MenuFlyoutItem.Icon>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="ShadowCommandNewComicToolTip" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="ShadowCommandRefresh"
+                    x:Uid="ShadowCommandRefresh"
+                    Click="ShadowCommandRefresh_Click"
+                    Icon="Refresh">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="ShadowCommandRefreshToolTip" />
+                    </ToolTipService.ToolTip>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="ShadowCommandAddTag"
+                    x:Uid="ShadowCommandAddTag"
+                    Icon="Tag"
+                    Tapped="ShadowCommandAddTag_Click">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="ShadowCommandAddTagToolTip" />
+                    </ToolTipService.ToolTip>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="ShadowCommandReImg"
+                    x:Uid="ShadowCommandReImg"
+                    Click="ShadowCommandReImg_Click"
+                    Icon="Pictures">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="ShadowCommandReImgToolTip" />
+                    </ToolTipService.ToolTip>
+                </AppBarButton>
+                <AppBarButton
+                    x:Name="ShadowCommandMove"
+                    x:Uid="ShadowCommandMove"
+                    Click="ShadowCommandMove_Click"
+                    Icon="MoveToFolder">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="ShadowCommandMoveToolTip" />
+                    </ToolTipService.ToolTip>
+                </AppBarButton>
+
+            </CommandBarFlyout.SecondaryCommands>
+        </CommandBarFlyout>
+        <Flyout x:Key="ColorPickerFlyout">
+            <RelativePanel>
+                <ColorPicker
+                    x:Name="ColorPicker"
+                    IsColorChannelTextInputVisible="False"
+                    IsHexInputVisible="False" />
+                <Grid
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                    RelativePanel.Below="ColorPicker">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Margin="0,12,2,0"
+                        HorizontalAlignment="Stretch"
+                        Content="OK" />
+                    <Button
+                        Grid.Column="1"
+                        Margin="2,12,0,0"
+                        HorizontalAlignment="Stretch"
+                        Content="Cancel" />
+                </Grid>
+            </RelativePanel>
+        </Flyout>
+    </Page.Resources>
+    <Grid x:Name="Root" RightTapped="Root_RightTapped">
+        <ScrollViewer
+            HorizontalScrollBarVisibility="Disabled"
+            HorizontalScrollMode="Disabled"
+            IsVerticalScrollChainingEnabled="True"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Enabled">
+            <GridView
+                x:Name="ContentGridView"
+                Padding="6"
+                AllowDrop="True"
+                CanDragItems="True"
+                CanReorderItems="True"
+                DoubleTapped="ContentGridView_DoubleTapped"
+                FlowDirection="LeftToRight"
+                IsItemClickEnabled="False"
+                ItemTemplate="{StaticResource LocalComicTemplate}"
+                ItemsSource="{x:Bind viewModel.LocalComics}"
+                RightTapped="ContentGridView_RightTapped"
+                SelectionMode="Extended" />
+
+        </ScrollViewer>
+
+    </Grid>
+</Page>

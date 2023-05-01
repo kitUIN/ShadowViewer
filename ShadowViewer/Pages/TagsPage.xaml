@@ -1,0 +1,46 @@
+<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+<!--  Licensed under the MIT License.  -->
+
+<Page
+    x:Class="ShadowViewer.Pages.TagsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:ShadowViewer.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid Padding="10,36,10,5">
+        <Button x:Name="colorPickerButton" Content="Pick a color">
+            <Button.Flyout>
+                <Flyout x:Name="ColorPickerFlyout">
+                    <RelativePanel>
+                        <ColorPicker
+                            x:Name="MainColorPicker"
+                            IsColorChannelTextInputVisible="False"
+                            IsHexInputVisible="False" />
+                        <Grid
+                            RelativePanel.AlignLeftWithPanel="True"
+                            RelativePanel.AlignRightWithPanel="True"
+                            RelativePanel.Below="MainColorPicker">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Margin="0,12,2,0"
+                                HorizontalAlignment="Stretch"
+                                Content="OK" />
+                            <Button
+                                Grid.Column="1"
+                                Margin="2,12,0,0"
+                                HorizontalAlignment="Stretch"
+                                Content="Cancel" />
+                        </Grid>
+                    </RelativePanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
+    </Grid>
+</Page>
