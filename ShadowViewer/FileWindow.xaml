@@ -22,7 +22,7 @@
             <StackPanel Orientation="Horizontal">
                 <Image Width="18" Source="ms-appx:///Assets/Tiles/TitlebarLogo.png" />
                 <TextBlock
-                    x:Uid="FileAppTitle"
+                    x:Name="FileAppTitle"
                     Margin="16,0,0,0"
                     VerticalAlignment="Center" />
             </StackPanel>

@@ -10,11 +10,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel 
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        Orientation="Horizontal">
-        <TextBlock Text="{x:Bind Title}" Width=""/>
-        <TextBlock Text="{x:Bind Text}" />
+    <StackPanel
+        x:Name="Root"
+        Orientation="Horizontal"
+        Spacing="10">
+        <TextBlock
+            Width="100"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Text="{x:Bind Title}" />
+        <TextBlock
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            IsTextSelectionEnabled="True"
+            Text="{x:Bind Text}"
+            TextTrimming="CharacterEllipsis"
+            TextWrapping="NoWrap" />
     </StackPanel>
 </UserControl>

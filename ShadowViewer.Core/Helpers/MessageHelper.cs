@@ -48,6 +48,13 @@ namespace ShadowViewer.Helpers
         public static void SendFilesReload()
         {
             WeakReferenceMessenger.Default.Send(new FilesMessage("Reload"));
-        } 
+        }
+        /// <summary>
+        /// 通知StatusPage关闭窗口
+        /// </summary>
+        public static void SendStatusClose()
+        {
+            WeakReferenceMessenger.Default.Send(new StatusMessage("Close"));
+        }
     }
 }

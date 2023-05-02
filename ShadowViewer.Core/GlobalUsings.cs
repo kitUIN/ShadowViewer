@@ -29,6 +29,7 @@ global using Microsoft.UI.Xaml.Media;
 global using ShadowViewer.Models;
 global using Microsoft.UI;
 global using  Windows.UI;
+global using System.Web;
 global using CommunityToolkit.WinUI.UI.Controls;
-
+global using CommunityToolkit.WinUI.Helpers;
 

@@ -13,6 +13,7 @@ namespace ShadowViewer.Pages
         private ShadowPath parameter;
         private HomeViewModel viewModel;
         private bool isLoaded = false;
+        private Window window;
         public HomePage()
         {
             this.InitializeComponent();
@@ -42,9 +43,8 @@ namespace ShadowViewer.Pages
             };
             ShadowCommandRename.IsEnabled = isComicBook & isSingle;
             ShadowCommandDelete.IsEnabled = isComicBook;
-            ShadowCommandAddTag.IsEnabled = isComicBook;
+            ShadowCommandAddTag.IsEnabled = isComicBook & isSingle;
             ShadowCommandStatus.IsEnabled = isComicBook & isSingle;
-            ShadowCommandReImg.IsEnabled = isComicBook & isSingle;
             HomeCommandBarFlyout.ShowAt(sender, myOption);
         }
         /// <summary>
@@ -87,36 +87,53 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await XamlHelper.CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"),XamlRoot, comic.Name, comic.Img).ShowAsync();
+            await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"),XamlRoot, comic.Name, comic.Img).ShowAsync();
         }
 
         private void ShadowCommandDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            HomeCommandBarFlyout.Hide();
+            var comics =  ContentGridView.SelectedItems;
+            foreach(LocalComic comic in comics)
+            {
+                comic.RemoveInDB();
+                viewModel.LocalComics.Remove(comic);
+                WindowHelper.ColseWindowFromTitle(comic.Name);
+            }
+            MessageHelper.SendFilesReload();
         }
 
         private  void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
         {
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            var newWindow = new FileWindow();
-            WindowHelper.TrackWindow(newWindow);
-            newWindow.Navigate(typeof(StatusPage), comic);
+            var newWindow = WindowHelper.GetWindowForTitle(comic.Name) as FileWindow;
+            if(newWindow == null)
+            {
+                newWindow = new FileWindow();
+                WindowHelper.TrackWindow(newWindow);
+                newWindow.Navigate(typeof(StatusPage), comic, I18nHelper.GetString("FileAppTitle.Text"));
+            }
             isLoaded = false;
+            window = newWindow;
         }
 
         private void ShadowCommandMove_Click(object sender, RoutedEventArgs e)
         {
 
         }
-        private async void ShadowCommandReImg_Click(object sender, RoutedEventArgs e)
+        private void ShadowCommandStatus_Click(object sender, RoutedEventArgs e)
         {
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await XamlHelper.CreateRenameDialog(I18nHelper.GetString("ShadowCommandReImgToolTip.Content"),XamlRoot, comic.Name, comic.Img).ShowAsync();
-        }
-        private async void ShadowCommandStatus_Click(object sender, RoutedEventArgs e)
-        {
-            LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await XamlHelper.CreateStatusDialog(XamlRoot, comic).ShowAsync();
+            var newWindow = WindowHelper.GetWindowForTitle(comic.Name) as FileWindow;
+            if (newWindow == null)
+            {
+                newWindow = new FileWindow();
+                WindowHelper.TrackWindow(newWindow);
+                newWindow.Title = comic.Name;
+                newWindow.Navigate(typeof(StatusPage), comic, I18nHelper.GetString("FileAppTitle.Text"));
+            }
+            isLoaded = false;
+            window = newWindow;
         }
         private void ShadowCommandRefresh_Click(object sender, RoutedEventArgs e)
         {
@@ -163,11 +180,81 @@ namespace ShadowViewer.Pages
 
         private void HomeCommandBarFlyout_Closed(object sender, object e)
         {
-            if (!isLoaded)
+            if (!isLoaded && window!=null)
             {
                 isLoaded = true;
-                WindowHelper.ActiveWindows.Last().Activate();
+                window.Activate();
             }
+        }
+
+        /// <summary>
+        /// 重命名/更改图标对话框
+        /// </summary>
+        /// <returns></returns>
+        private ContentDialog CreateRenameDialog(string title, XamlRoot xamlRoot, string oldname, string oldimg)
+        {
+            ContentDialog dialog = XamlHelper.CreateContentDialog(xamlRoot);
+            dialog.Title = title;
+            dialog.PrimaryButtonText = I18nHelper.GetString("Dialog/ConfirmButton");
+            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
+            StackPanel grid = new StackPanel()
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Orientation = Orientation.Vertical,
+            };
+            StackPanel stackPanel = new StackPanel()
+            {
+                Margin = new Thickness(0, 10, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Orientation = Orientation.Horizontal,
+            };
+            Button selectImg = new Button()
+            {
+                Margin = new Thickness(10, 0, 0, 0),
+                Content = new SymbolIcon(Symbol.Folder),
+            };
+            var imgBox = XamlHelper.CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Img"), "", oldimg, 163);
+            selectImg.Click += async (s, e) =>
+            {
+                Button button = s as Button;
+                var file = await FileHelper.SelectFileAsync(dialog, ".png", ".jpg", ".jpeg");
+                if (file != null)
+                {
+                    ((TextBox)imgBox.Children[1]).Text = file.Path;
+                }
+            };
+            stackPanel.Children.Add(imgBox);
+            stackPanel.Children.Add(selectImg);
+            var nameBox = XamlHelper.CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Name"),
+                I18nHelper.GetString("Dialog/CreateFolder/Title"), oldname, 222);
+            grid.Children.Add(nameBox);
+            grid.Children.Add(stackPanel);
+            dialog.Content = grid;
+            dialog.PrimaryButtonClick += (s, e) =>
+            {
+                var img = ((TextBox)imgBox.Children[1]).Text;
+                var name = ((TextBox)nameBox.Children[1]).Text;
+                if (img != oldimg)
+                {
+                    DBHelper.Update("Img", "Name", img, oldname);
+                }
+                if (name != oldname)
+                {
+                    DBHelper.Update("Name", "Name", name, oldname);
+                }
+                MessageHelper.SendFilesReload();
+                if(img != oldimg || name != oldname)
+                {
+                    var newWindow = WindowHelper.GetWindowForTitle(oldname) as FileWindow;
+                    if (newWindow != null)
+                    {
+                        LocalComic comic = DBHelper.GetFrom("Name", name)[0];
+                        newWindow.Title = comic.Name;
+                        newWindow.Navigate(typeof(StatusPage), comic, I18nHelper.GetString("FileAppTitle.Text"));
+                    }
+                }
+            };
+            return dialog;
         }
     }
 }

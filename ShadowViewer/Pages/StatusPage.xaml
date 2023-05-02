@@ -5,19 +5,94 @@
     x:Class="ShadowViewer.Pages.StatusPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:co="using:ShadowViewer.Controls"
+    xmlns:core="using:ShadowViewer.Models"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid
-        Padding="10,32,10,5"
-        HorizontalAlignment="Center"
-        VerticalAlignment="Top">
-        <ScrollViewer>
-            <StackPanel Orientation="Vertical">
-                
+    <Grid Padding="0,32,0,5">
+        <ScrollViewer Padding="10">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Orientation="Vertical"
+                Spacing="6">
+                <Border
+                    Padding="10,0,10,0"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="7">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Margin="18,5,18,5" Tapped="Image_Tapped">
+                            <Image
+                                Width="60"
+                                Height="60"
+                                VerticalAlignment="Center"
+                                Source="{x:Bind viewModel.Comic.Img, Mode=OneWay}" />
+                        </Button>
+                        <TextBox
+                            x:Name="FileImg"
+                            MaxWidth="350"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            KeyDown="FileImg_KeyDown"
+                            Text="{x:Bind viewModel.Comic.Img, Mode=OneWay}"
+                            TextWrapping="NoWrap" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    Padding="10,0,10,0"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="7">
+                    <StackPanel
+                        Padding="10,10,10,10"
+                        Orientation="Vertical"
+                        Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock
+                                x:Uid="NameStatus"
+                                Width="100"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                x:Name="FileName"
+                                MaxWidth="350"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                KeyDown="FileName_KeyDown"
+                                Text="{x:Bind viewModel.Comic.Name, Mode=OneWay}"
+                                TextWrapping="NoWrap" />
+                        </StackPanel>
+                        <co:StatusBlock x:Uid="AuthorStatus" Text="{x:Bind viewModel.Comic.Author}" />
+                        <co:StatusBlock x:Uid="TypeStatus" Text="{x:Bind viewModel.GetComicType}" />
+                        <co:StatusBlock x:Uid="ParentStatus" Text="{x:Bind viewModel.Comic.Parent}" />
+                        <co:StatusBlock x:Uid="PathStatus" Text="{x:Bind viewModel.GetShadowPath}" />
+                        <co:StatusBlock x:Uid="PercentStatus" Text="{x:Bind viewModel.Comic.Percent}" />
+                        <co:StatusBlock x:Uid="LinkStatus" Text="{x:Bind viewModel.Comic.Link}" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    Padding="10,0,10,0"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="7">
+                    <StackPanel
+                        Padding="10,10,10,10"
+                        Orientation="Vertical"
+                        Spacing="10">
+                        <co:StatusBlock x:Uid="CreateTimeStatus" Text="{x:Bind viewModel.Comic.CreateTime}" />
+                        <co:StatusBlock x:Uid="LastReadTimeStatus" Text="{x:Bind viewModel.Comic.LastReadTime}" />
+                        <co:StatusBlock x:Uid="SizeStatus" Text="{x:Bind viewModel.Comic.SizeString}" />
+                    </StackPanel>
+                </Border>
+                <Border
+                    Padding="20,10,20,10"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="7">
+                    <labs:TokenView ItemsSource="{x:Bind viewModel.Tags}" SelectionMode="None" />
+                </Border>
             </StackPanel>
         </ScrollViewer>
 

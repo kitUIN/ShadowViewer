@@ -24,6 +24,7 @@ namespace ShadowViewer
                 .CreateLogger();
             DBHelper.InitializeDatabase();
             PluginHelper.Init();
+            TagsHelper.Init();
         }
 
         /// <summary>

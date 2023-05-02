@@ -103,6 +103,21 @@ namespace ShadowViewer.Models
         {
             SizeString = ShowSize(value);
         }
+        partial void OnImgChanged(string oldValue, string newValue)
+        {
+            if (oldValue != newValue)
+            {
+                DBHelper.Update("Img", "Name", newValue, Name);
+            }
+                
+        }
+        partial void OnNameChanged(string oldValue, string newValue)
+        {
+            if (oldValue != newValue)
+            {
+                DBHelper.Update("Name", "Name", newValue, oldValue);
+            }
+        }
         public void AddTag(string tag)
         {
             if (!Tags.Contains(tag))
@@ -180,6 +195,10 @@ namespace ShadowViewer.Models
             }
             strings.Reverse();
             return path + string.Join("/", strings) + name;
+        }
+        public void RemoveInDB()
+        {
+            DBHelper.RemoveLocalComic("name", Name);
         }
     }
 }

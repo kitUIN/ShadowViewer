@@ -124,8 +124,14 @@
     <value>ShadowReader</value>
     <comment>ShadowReader</comment>
   </data>
+  <data name="AuthorStatus.Title" xml:space="preserve">
+    <value>作者:</value>
+  </data>
   <data name="BugRequestCard.Header" xml:space="preserve">
     <value>🐛提交Bug或提出意见</value>
+  </data>
+  <data name="CreateTimeStatus.Title" xml:space="preserve">
+    <value>创建时间:</value>
   </data>
   <data name="DarkTheme.Content" xml:space="preserve">
     <value>深色</value>
@@ -151,44 +157,41 @@
   <data name="Dialog.CreateFolder.Title" xml:space="preserve">
     <value>新建文件夹</value>
   </data>
-  <data name="Dialog.Status.Author" xml:space="preserve">
-    <value>创建者</value>
-  </data>
-  <data name="Dialog.Status.CreateTime" xml:space="preserve">
-    <value>创建时间</value>
-  </data>
-  <data name="Dialog.Status.File" xml:space="preserve">
-    <value>文件</value>
-  </data>
-  <data name="Dialog.Status.Folder" xml:space="preserve">
-    <value>文件夹</value>
-  </data>
-  <data name="Dialog.Status.LastReadTime" xml:space="preserve">
-    <value>最后查看时间</value>
-  </data>
-  <data name="Dialog.Status.Link" xml:space="preserve">
-    <value>指向</value>
-  </data>
-  <data name="Dialog.Status.Path" xml:space="preserve">
-    <value>Shadow地址</value>
-  </data>
-  <data name="Dialog.Status.Size" xml:space="preserve">
-    <value>大小</value>
-  </data>
-  <data name="Dialog.Status.Type" xml:space="preserve">
-    <value>类型</value>
-  </data>
   <data name="DownloadItem.Content" xml:space="preserve">
     <value>下载</value>
+  </data>
+  <data name="Error.Message.NoFile" xml:space="preserve">
+    <value>文件不存在</value>
+  </data>
+  <data name="Error.Message.NotImage" xml:space="preserve">
+    <value>选择的文件不是合规图片(png,jpg,jpeg,bmp)</value>
+  </data>
+  <data name="Error.Message.UriFormatException" xml:space="preserve">
+    <value>不规范的地址,请重试</value>
+  </data>
+  <data name="Error.Title" xml:space="preserve">
+    <value>错误</value>
   </data>
   <data name="FileAppTitle.Text" xml:space="preserve">
     <value>属性</value>
   </data>
+  <data name="FileStatus.Title" xml:space="preserve">
+    <value>文件</value>
+  </data>
+  <data name="FolderStatus.Title" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
   <data name="HomeItem.Content" xml:space="preserve">
     <value>主页</value>
   </data>
+  <data name="LastReadTimeStatus.Title" xml:space="preserve">
+    <value>最后查看时间:</value>
+  </data>
   <data name="LightTheme.Content" xml:space="preserve">
     <value>浅色</value>
+  </data>
+  <data name="LinkStatus.Title" xml:space="preserve">
+    <value>指向:</value>
   </data>
   <data name="LogButton.Content" xml:space="preserve">
     <value>打开日志文件夹</value>
@@ -201,6 +204,18 @@
   </data>
   <data name="MainSettingTitle.Text" xml:space="preserve">
     <value>主要设置</value>
+  </data>
+  <data name="NameStatus.Text" xml:space="preserve">
+    <value>名称:</value>
+  </data>
+  <data name="ParentStatus.Title" xml:space="preserve">
+    <value>上一级:</value>
+  </data>
+  <data name="PathStatus.Title" xml:space="preserve">
+    <value>Shadow地址:</value>
+  </data>
+  <data name="PercentStatus.Title" xml:space="preserve">
+    <value>阅读进度:</value>
   </data>
   <data name="PivotStatus.Header" xml:space="preserve">
     <value>属性</value>
@@ -253,20 +268,23 @@
   <data name="ShadowCommandRefreshToolTip.Content" xml:space="preserve">
     <value>刷新</value>
   </data>
-  <data name="ShadowCommandReImg.Label" xml:space="preserve">
-    <value>更改图标</value>
-  </data>
-  <data name="ShadowCommandReImgToolTip.Content" xml:space="preserve">
-    <value>更改图标</value>
-  </data>
   <data name="ShadowCommandRenameToolTip.Content" xml:space="preserve">
     <value>重命名</value>
+  </data>
+  <data name="ShadowCommandStatus.Label" xml:space="preserve">
+    <value>属性</value>
   </data>
   <data name="ShadowCommandStatusToolTip.Content" xml:space="preserve">
     <value>属性</value>
   </data>
+  <data name="SizeStatus.Title" xml:space="preserve">
+    <value>大小:</value>
+  </data>
   <data name="Strings.Version" xml:space="preserve">
     <value>版本号</value>
+  </data>
+  <data name="Tag.Add" xml:space="preserve">
+    <value>点击添加标签</value>
   </data>
   <data name="Tag.Local" xml:space="preserve">
     <value>本地</value>
@@ -276,6 +294,9 @@
   </data>
   <data name="ThemeSettingCard.Header" xml:space="preserve">
     <value>主题</value>
+  </data>
+  <data name="TypeStatus.Title" xml:space="preserve">
+    <value>类型:</value>
   </data>
   <data name="UserItem.Content" xml:space="preserve">
     <value>用户</value>

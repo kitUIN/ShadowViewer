@@ -37,5 +37,6 @@ namespace ShadowViewer.Controls
             StatusBlock control = (StatusBlock)d;
             control.Title = (string)e.NewValue;
         }
+         
     }
 }

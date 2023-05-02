@@ -1,4 +1,6 @@
-﻿namespace ShadowViewer.Helpers
+﻿
+
+namespace ShadowViewer.Helpers
 {
     public static class UriHelper
     {
@@ -20,6 +22,22 @@
         public static string JoinToString(this ObservableCollection<string> tags)
         {
             return string.Join(",", tags);
+        }
+        public static async Task<StorageFile> GetFile(this Uri uri)
+        {
+            return await StorageFile.GetFileFromPathAsync(uri.DecodePath());
+        }
+        public static string DecodePath(this StorageFile file)
+        {
+            return HttpUtility.UrlDecode(file.Path);
+        }
+        public static string DecodePath(this Uri uri)
+        {
+            return HttpUtility.UrlDecode(uri.AbsolutePath);
+        }
+        public static string DecodeUri(this Uri uri)
+        {
+            return HttpUtility.UrlDecode(uri.AbsoluteUri);
         }
     }
 }

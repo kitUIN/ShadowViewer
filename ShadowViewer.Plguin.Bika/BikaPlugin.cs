@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
+using ShadowViewer.Models;
 using ShadowViewer.Plguin.Bika;
 
 namespace ShadowViewer.Plugin.Bika
@@ -64,9 +65,9 @@ namespace ShadowViewer.Plugin.Bika
 
         }
 
-        public Border PluginTagHandler(string tag)
+        public ShadowTag PluginTagHandler(string tag)
         {
-            return new Border();
+            throw new NotImplementedException();
         }
     }
 }

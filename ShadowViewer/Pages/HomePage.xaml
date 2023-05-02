@@ -57,11 +57,12 @@
                 </ToolTipService.ToolTip>
             </AppBarButton>
             <AppBarButton
-                x:Name="ShadowCommandStatus"
-                Click="ShadowCommandStatus_Click"
-                Icon="Repair">
+                x:Name="ShadowCommandAddTag"
+                x:Uid="ShadowCommandAddTag"
+                Icon="Tag"
+                Tapped="ShadowCommandAddTag_Click">
                 <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="ShadowCommandStatusToolTip" />
+                    <ToolTip x:Uid="ShadowCommandAddTagToolTip" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
             <CommandBarFlyout.SecondaryCommands>
@@ -107,24 +108,7 @@
                         <ToolTip x:Uid="ShadowCommandRefreshToolTip" />
                     </ToolTipService.ToolTip>
                 </AppBarButton>
-                <AppBarButton
-                    x:Name="ShadowCommandAddTag"
-                    x:Uid="ShadowCommandAddTag"
-                    Icon="Tag"
-                    Tapped="ShadowCommandAddTag_Click">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="ShadowCommandAddTagToolTip" />
-                    </ToolTipService.ToolTip>
-                </AppBarButton>
-                <AppBarButton
-                    x:Name="ShadowCommandReImg"
-                    x:Uid="ShadowCommandReImg"
-                    Click="ShadowCommandReImg_Click"
-                    Icon="Pictures">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="ShadowCommandReImgToolTip" />
-                    </ToolTipService.ToolTip>
-                </AppBarButton>
+
                 <AppBarButton
                     x:Name="ShadowCommandMove"
                     x:Uid="ShadowCommandMove"
@@ -134,7 +118,15 @@
                         <ToolTip x:Uid="ShadowCommandMoveToolTip" />
                     </ToolTipService.ToolTip>
                 </AppBarButton>
-
+                <AppBarButton
+                    x:Name="ShadowCommandStatus"
+                    x:Uid="ShadowCommandStatus"
+                    Click="ShadowCommandStatus_Click"
+                    Icon="Repair">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="ShadowCommandStatusToolTip" />
+                    </ToolTipService.ToolTip>
+                </AppBarButton>
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
         <Flyout x:Key="ColorPickerFlyout">

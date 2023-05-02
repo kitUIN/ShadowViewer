@@ -34,6 +34,6 @@
         /// </summary>
         /// <param name="tag">The tag.</param>
         /// <returns></returns>
-        public Border PluginTagHandler(string tag);
+        public ShadowTag PluginTagHandler(string tag);
     }
 }

@@ -117,68 +117,11 @@ namespace ShadowViewer.Helpers
                 var name = ((TextBox)nameBox.Children[1]).Text;
                 DBHelper.AddComic(name, img, parent);
                 MessageHelper.SendFilesReload();
+
             };
             return dialog;
         }
-        /// <summary>
-        /// 重命名/更改图标对话框
-        /// </summary>
-        /// <returns></returns>
-        public static ContentDialog CreateRenameDialog(string title,XamlRoot xamlRoot,string oldname,string oldimg)
-        {
-            ContentDialog dialog = CreateContentDialog(xamlRoot);
-            dialog.Title = title;
-            dialog.PrimaryButtonText = I18nHelper.GetString("Dialog/ConfirmButton");
-            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
-            StackPanel grid = new StackPanel()
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Orientation = Orientation.Vertical,
-            };
-            StackPanel stackPanel = new StackPanel()
-            {
-                Margin = new Thickness(0, 10, 0, 0),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Orientation = Orientation.Horizontal,
-            };
-            Button selectImg = new Button()
-            {
-                Margin = new Thickness(10, 0, 0, 0),
-                Content = new SymbolIcon(Symbol.Folder),
-            };
-            var imgBox = CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Img"), "", oldimg, 163);
-            selectImg.Click += async (s, e) =>
-            {
-                Button button = s as Button;
-                var file = await FileHelper.SelectFileAsync(dialog, ".png", ".jpg", ".jpeg");
-                if (file != null)
-                {
-                    ((TextBox)imgBox.Children[1]).Text = file.Path;
-                }
-            };
-            stackPanel.Children.Add(imgBox);
-            stackPanel.Children.Add(selectImg);
-            var nameBox = CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Name"),
-                I18nHelper.GetString("Dialog/CreateFolder/Title"),oldname, 222);
-            grid.Children.Add(nameBox);
-            grid.Children.Add(stackPanel);
-            dialog.Content = grid;
-            dialog.PrimaryButtonClick += (s, e) =>
-            {
-                var img = ((TextBox)imgBox.Children[1]).Text;
-                var name = ((TextBox)nameBox.Children[1]).Text;
-                if(img != oldimg)
-                {
-                    DBHelper.Update("Img", "Name", img, oldname);
-                }
-                if (name != oldname)
-                {
-                    DBHelper.Update("Name", "Name", name, oldname);
-                }
-                MessageHelper.SendFilesReload();
-            };
-            return dialog;
-        }
+        
         /// <summary>
         /// 创建一个基础的ContentDialog
         /// </summary>
@@ -190,6 +133,15 @@ namespace ShadowViewer.Helpers
             dialog.XamlRoot = xamlRoot;
             dialog.Style = Application.Current.Resources["DefaultContentDialogStyle"] as Style;
             dialog.DefaultButton = ContentDialogButton.Primary;
+            return dialog;
+        }
+        public static ContentDialog CreateMessageDialog(XamlRoot xamlRoot,string title,string message)
+        {
+            ContentDialog dialog = CreateContentDialog(xamlRoot);
+            dialog.Title = title;
+            dialog.Content = message;
+            dialog.PrimaryButtonText = I18nHelper.GetString("Dialog/ConfirmButton");
+            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
             return dialog;
         }
         public static StackPanel CreateOneLineTextBlock(string title, string value)
@@ -235,18 +187,7 @@ namespace ShadowViewer.Helpers
                 Orientation = Orientation.Horizontal,
             };
             
-            var color = new ColorPicker
-            {
-                IsAlphaTextInputVisible = false,
-                IsAlphaSliderVisible = false,
-                IsAlphaEnabled = false,
-                IsHexInputVisible = false,
-                IsColorChannelTextInputVisible = true,
-                IsMoreButtonVisible = false,
-                IsColorSliderVisible = true,
-                ColorSpectrumShape = ColorSpectrumShape.Box,
-             };
-            panel.Children.Add(color);
+             
             scrollViewer.Content = panel;
             dialog.Content = scrollViewer;
             return dialog;
@@ -279,7 +220,7 @@ namespace ShadowViewer.Helpers
             grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.LastReadTime"), comic.LastReadTime));
             grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.Size"), comic.SizeString));
             grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.Link"), comic.Link));
-            grid.Children.Add(CreateTags(comic.Tags));
+             
             dialog.Content = grid;
             return dialog;
         }
@@ -292,29 +233,6 @@ namespace ShadowViewer.Helpers
                 Background = background,
                 Child = new TextBlock { Text = title, FontSize=13, FontWeight = FontWeights.Bold },
             };
-        }
-        private static Border CreateLocalTag(string title)
-        {
-            return CreateTag(title, new SolidColorBrush(Color.FromArgb(0xff, 0xff, 0xca, 0x28)));
-        }
-        public static WrapPanel CreateTags(ObservableCollection<string> tags)
-        {
-            WrapPanel wrapPanel = new WrapPanel();
-            foreach (string tag in tags)
-            {
-                if (tag == "Tag.Local") 
-                {
-                    wrapPanel.Children.Add(CreateLocalTag(I18nHelper.GetString(tag)));
-                }
-                foreach (var name in PluginHelper.EnabledPlugins)
-                {
-                    if(tag.Contains(name))
-                    {
-                        wrapPanel.Children.Add(PluginHelper.PluginInstances[name].PluginTagHandler(tag));
-                    }
-                }
-            }
-            return wrapPanel;
         }
     }
 }
