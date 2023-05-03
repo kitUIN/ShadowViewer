@@ -15,7 +15,7 @@ namespace ShadowViewer.ViewModels
         public void RefreshLocalComic()
         {
             LocalComics.Clear();
-            foreach(LocalComic item in DBHelper.GetFrom("Parent", path.paths.Last()))
+            foreach(LocalComic item in DBHelper.GetLocalComicFrom("Parent", path.paths.Last()))
             {
                 LocalComics.Add(item);
             }

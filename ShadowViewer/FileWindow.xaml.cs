@@ -12,12 +12,12 @@ namespace ShadowViewer
             this.SetTitleBar(AppTitleBar);
             var ScreenHeight = DisplayArea.Primary.WorkArea.Height;
             var ScreenWidth = DisplayArea.Primary.WorkArea.Width;
-            this.AppWindow.MoveAndResize(new RectInt32(ScreenWidth / 2 - 350, ScreenHeight / 2 - 350, 700, 700));
+            this.AppWindow.MoveAndResize(new RectInt32(ScreenWidth / 2 - 320, ScreenHeight / 2 - 375, 640, 750));
             
         }
-        public void Navigate(Type page, LocalComic comic,string title)
+        public void Navigate(Type page, List<object> args, string title)
         {
-            RootFrame.Navigate(page,comic);
+            RootFrame.Navigate(page, args);
             FileAppTitle.Text = title;
         }
 

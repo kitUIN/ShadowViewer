@@ -1,6 +1,8 @@
 ﻿
 
 using ShadowViewer.Models;
+using System.Collections.Generic;
+using System.Reflection.PortableExecutable;
 using System.Xml.Linq;
 
 namespace ShadowViewer.Helpers
@@ -61,7 +63,7 @@ namespace ShadowViewer.Helpers
                 db.Open();
 
                 SqliteCommand command = db.CreateCommand();
-                command.CommandText = "insert into ShadowTagsTable values (@Tag, @Name, @Background, @Foreground);";
+                command.CommandText = "insert into ShadowTagsTable values (@Tag, @Name, @Foreground, @Background);";
                 command.Parameters.AddWithValue("@Tag", shadowTag.tag);
                 command.Parameters.AddWithValue("@Name", shadowTag.name);
                 command.Parameters.AddWithValue("@Background", shadowTag.BackgroundHex);
@@ -77,6 +79,7 @@ namespace ShadowViewer.Helpers
                 }
             }
         }
+        
         public static List<ShadowTag> GetAllShadowTags()
         {
             using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
@@ -90,9 +93,7 @@ namespace ShadowViewer.Helpers
                 {
                     while(reader.Read())
                     {
-                        ShadowTag shadowTag = new ShadowTag(reader.GetString(0), reader.GetString(1),
-                        reader.GetString(2), reader.GetString(3));
-                        shadowTags.Add(shadowTag);
+                        shadowTags.Add(ShadowTag.LoadFromDB(reader));
                     }
                 }
                 Log.ForContext<SqliteConnection>().Information("获取标签(counts={Count})", shadowTags.Count);
@@ -119,48 +120,101 @@ namespace ShadowViewer.Helpers
                 } 
             }
         }
-        public static void UpdateShadowTag(string name, string where, string newArg, string oldArg)
+        public static List<ShadowTag> GetShadowTagFrom(string name, string arg)
         {
             using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
             {
                 db.Open();
 
                 SqliteCommand command = db.CreateCommand();
-                command.CommandText = $"update ShadowTagsTable SET {name} = @NewArg where {where} = @OldArg;";
+                command.CommandText = $"select * from ShadowTagsTable where {name} = @Tag;";
+                command.Parameters.AddWithValue("@Tag", arg);
+                List < ShadowTag > res = new List<ShadowTag >();
+                using (SqliteDataReader reader = command.ExecuteReader())
+                {
+                    while(reader.Read())
+                    {
+                        ShadowTag shadowTag = ShadowTag.LoadFromDB(reader);
+                        res.Add(shadowTag);
+                    }
+                }
+                Log.ForContext<SqliteConnection>().Information("从{name}={arg}获取数据标签(counts={c})", name, arg, res.Count);
+                return res;
+            }
+        }
+        private static void Update(string table,string name,  string newArg, string where, string whereArg)
+        {
+            using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
+            {
+                db.Open();
+
+                SqliteCommand command = db.CreateCommand();
+                command.CommandText = $"update {table} set {name} = @NewArg where {where} = @WhereArg;";
                 command.Parameters.AddWithValue("@NewArg", newArg);
-                command.Parameters.AddWithValue("@OldArg", oldArg);
-                try
-                {
-                    command.ExecuteReader();
-                    Log.ForContext<SqliteConnection>().Information("更新数据标签:{name}({old}->{new})", name, oldArg, newArg);
-                }
-                catch (Exception ex)
-                {
-                    Log.ForContext<SqliteConnection>().Error("更新数据标签:{name}({old}->{new})失败:\n{Ex}", name, oldArg, newArg, ex);
-                }
+                command.Parameters.AddWithValue("@WhereArg", whereArg);
+                command.ExecuteReader();
+            }
+        }
+        public static void UpdateShadowTag(string name, string where, string newArg, string whereArg)
+        {
+            try
+            {
+                Update("ShadowTagsTable", name,  newArg,where, whereArg);
+                Log.ForContext<SqliteConnection>().Information("更新数据标签:{name}({old}->{new})", name, whereArg, newArg);
+            }
+            catch (Exception ex)
+            {
+                Log.ForContext<SqliteConnection>().Error("更新数据标签:{name}({old}->{new})失败:\n{Ex}", name, whereArg, newArg, ex);
+            }
+        }
+        public static void UpdateLocalComic(string name, string where, string newArg, string whereArg)
+        {
+            try
+            {
+                Update("ShadowTable", name, newArg, where,  whereArg);
+                Log.ForContext<SqliteConnection>().Information("漫画:{name}({old}->{new})", name, whereArg, newArg);
+            }
+            catch (Exception ex)
+            {
+                Log.ForContext<SqliteConnection>().Error("漫画:{name}({old}->{new})失败:\n{Ex}", name, whereArg, newArg, ex);
+            }
+        }
+        private static void Remove(string table , string where, string id)
+        {
+            using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
+            {
+                db.Open();
+
+                SqliteCommand command = db.CreateCommand();
+                command.CommandText = $"delete from {table} where {where} = @ID;";
+                command.Parameters.AddWithValue("@ID", id);
+                command.ExecuteReader();
             }
         }
         public static void RemoveShadowTag(string where, string id)
         {
-            using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
+            try
             {
-                db.Open();
-
-                SqliteCommand command = db.CreateCommand();
-                command.CommandText = $"delete from ShadowTagsTable where {where} = @ID;";
-                command.Parameters.AddWithValue("@ID", id); 
-                try
-                {
-                    command.ExecuteReader();
-                    Log.ForContext<SqliteConnection>().Information("删除数据标签:{where}={id}", where, id);
-                }
-                catch (Exception ex)
-                {
-                    Log.ForContext<SqliteConnection>().Error("删除数据标签:{where}={id} 失败:\n{Ex}", where, id, ex);
-                }
+                Remove("ShadowTagsTable", where, id);
+                Log.ForContext<SqliteConnection>().Information("删除数据标签:{where}={id}", where, id);
+            }
+            catch (Exception ex)
+            {
+                Log.ForContext<SqliteConnection>().Error("删除数据标签:{where}={id} 失败:\n{Ex}", where, id, ex);
             }
         }
-        
+        public static void RemoveLocalComic(string where, string id)
+        {
+            try
+            {
+                Remove("ShadowTable", where, id);
+                Log.ForContext<SqliteConnection>().Information("删除漫画:{where}={id}", where, id);
+            }
+            catch (Exception ex)
+            {
+                Log.ForContext<SqliteConnection>().Error("删除漫画:{where}={id} 失败:\n{Ex}", where, id, ex);
+            }
+        }
         public static void AddComic(LocalComic localComic)
         {
             using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
@@ -199,9 +253,8 @@ namespace ShadowViewer.Helpers
             if (name == "") { name = Guid.NewGuid().ToString("N"); }
             var comic = LocalComic.CreateFolder(name ,"", img, parent);
             AddComic(comic);
-        }
-
-        public static Collection<LocalComic> GetFrom(string name, string arg)
+        } 
+        public static Collection<LocalComic> GetLocalComicFrom(string name, string arg)
         {
             using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
             {
@@ -222,46 +275,29 @@ namespace ShadowViewer.Helpers
                 return res;
             }
         }
-        public static void Update(string name,string where, string newArg, string oldArg)
+
+        public static bool Contains(string table ,string where, string whereArg)
         {
             using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
             {
                 db.Open();
 
                 SqliteCommand command = db.CreateCommand();
-                command.CommandText = $"update ShadowTable SET {name} = @NewArg where {where} = @OldArg;";
-                command.Parameters.AddWithValue("@NewArg", newArg);
-                command.Parameters.AddWithValue("@OldArg", oldArg);
-                try
+                command.CommandText = $"select count(*) from {table} where {where} = @WhereArg;";
+                command.Parameters.AddWithValue("@WhereArg", whereArg); 
+                using (SqliteDataReader reader = command.ExecuteReader())
                 {
-                    command.ExecuteReader();
-                    Log.ForContext<SqliteConnection>().Information("漫画:{name}({old}->{new})", name, oldArg, newArg);
+                    while (reader.Read())
+                    {
+                        return reader.GetInt32(0) > 0;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Log.ForContext<SqliteConnection>().Error("漫画:{name}({old}->{new})失败:\n{Ex}", name, oldArg, newArg, ex);
-                } 
+                return false;
             }
         }
-        public static void RemoveLocalComic(string where, string id)
+        public static bool ContainsTag(string where, string whereArg)
         {
-            using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
-            {
-                db.Open();
-
-                SqliteCommand command = db.CreateCommand();
-                command.CommandText = $"delete from ShadowTable where {where} = @ID;";
-                command.Parameters.AddWithValue("@ID", id);
-                try
-                {
-                    command.ExecuteReader();
-                    Log.ForContext<SqliteConnection>().Information("删除漫画:{where}={id}", where, id);
-                }
-                catch (Exception ex)
-                {
-                    Log.ForContext<SqliteConnection>().Error("删除漫画:{where}={id} 失败:\n{Ex}", where, id, ex);
-                }
-            }
+            return Contains("ShadowTagsTable", where, whereArg);
         }
     }
     

@@ -34,5 +34,10 @@ namespace ShadowViewer.Models
         {
             return $"ShadowTag(id={tag},name={name},foreground={ForegroundHex},background={BackgroundHex})";
         }
+        public static ShadowTag LoadFromDB(SqliteDataReader reader)
+        {
+            return new ShadowTag(reader.GetString(0), reader.GetString(1),
+                        reader.GetString(2), reader.GetString(3));
+        }
     }
 }

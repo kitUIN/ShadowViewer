@@ -107,7 +107,7 @@ namespace ShadowViewer.Models
         {
             if (oldValue != newValue)
             {
-                DBHelper.Update("Img", "Name", newValue, Name);
+                DBHelper.UpdateLocalComic("Img", "Name", newValue, Name);
             }
                 
         }
@@ -115,7 +115,7 @@ namespace ShadowViewer.Models
         {
             if (oldValue != newValue)
             {
-                DBHelper.Update("Name", "Name", newValue, oldValue);
+                DBHelper.UpdateLocalComic("Name", "Name", newValue, oldValue);
             }
         }
         public void AddTag(string tag)
@@ -131,7 +131,7 @@ namespace ShadowViewer.Models
             {
                 AnotherTags.Add(tag);
             }
-        }
+        } 
         public void LoadTags(string tags)
         {
             foreach(var tag in tags.Split(","))
@@ -153,22 +153,22 @@ namespace ShadowViewer.Models
             long GB = MB * 1024;
             if (size / GB >= 1)
             {
-                return $"{Math.Round(size / (float)GB, 2)}GB";
+                return $"{Math.Round(size / (float)GB, 2)} GB";
             }
             else if (size / MB >= 1)
             {
-                return $"{Math.Round(size / (float)MB, 2)}MB";
+                return $"{Math.Round(size / (float)MB, 2)} MB";
             }
             else if (size / KB >= 1)
             {
-                return $"{Math.Round(size / (float)KB, 2)}KB";
+                return $"{Math.Round(size / (float)KB, 2)} KB";
             }
-            return $"{size}B";
+            return $"{size} B";
         }
         public static LocalComic CreateFolder(string name, string author, string img, string parent)
         {
             var time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            return new LocalComic(name, author, parent, "", time, time, name, "Tag.Local", "", img, 0, true);
+            return new LocalComic(name, author, parent, "", time, time, name, "Local", "", img, 0, true);
         }
         public static LocalComic ReadComicFromDB(SqliteDataReader reader)
         {
@@ -190,7 +190,7 @@ namespace ShadowViewer.Models
             while (parent != "")
             {
                 Log.Information(parent);
-                parent = DBHelper.GetFrom("Name", parent)[0].Parent;
+                parent = DBHelper.GetLocalComicFrom("Name", parent)[0].Parent;
                 strings.Add(parent);
             }
             strings.Reverse();
@@ -199,6 +199,10 @@ namespace ShadowViewer.Models
         public void RemoveInDB()
         {
             DBHelper.RemoveLocalComic("name", Name);
+        }
+        public void UpdateAnotherTags()
+        {
+            DBHelper.UpdateLocalComic("AnotherTags", "Name", AnotherTags.JoinToString(), Name);
         }
     }
 }

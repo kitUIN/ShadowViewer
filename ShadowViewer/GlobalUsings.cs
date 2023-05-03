@@ -40,4 +40,5 @@ global using Microsoft.UI;
 global using CommunityToolkit.Mvvm.Messaging;
 global using Microsoft.UI.Windowing;
 global using Windows.Graphics;
+global using Windows.UI;
 global using Path = System.IO.Path;

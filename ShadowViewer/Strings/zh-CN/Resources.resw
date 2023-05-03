@@ -120,6 +120,9 @@
   <data name="AboutSettingTitle.Text" xml:space="preserve">
     <value>关于</value>
   </data>
+  <data name="AddNewTag.Content" xml:space="preserve">
+    <value>添加</value>
+  </data>
   <data name="AppTitle.Text" xml:space="preserve">
     <value>ShadowReader</value>
     <comment>ShadowReader</comment>
@@ -229,6 +232,9 @@
   <data name="PluginSettingTitle.Text" xml:space="preserve">
     <value>插件设置</value>
   </data>
+  <data name="SettingButton.Content" xml:space="preserve">
+    <value>设置</value>
+  </data>
   <data name="ShadowCommandAdd.Label" xml:space="preserve">
     <value>新建</value>
   </data>
@@ -288,6 +294,18 @@
   </data>
   <data name="Tag.Local" xml:space="preserve">
     <value>本地</value>
+  </data>
+  <data name="TagBackgroundText.Text" xml:space="preserve">
+    <value>背景色</value>
+  </data>
+  <data name="TagForegroundText.Text" xml:space="preserve">
+    <value>字体色</value>
+  </data>
+  <data name="TagIdBox.Header" xml:space="preserve">
+    <value>标签ID(不可重复)</value>
+  </data>
+  <data name="TagNameBox.Header" xml:space="preserve">
+    <value>标签名称</value>
   </data>
   <data name="ThemeSettingCard.Description" xml:space="preserve">
     <value>设置应用的主题</value>

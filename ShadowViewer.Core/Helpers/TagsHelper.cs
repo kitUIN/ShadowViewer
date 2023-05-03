@@ -6,9 +6,9 @@
         public static void Init()
         {
             var tags = DBHelper.GetAllShadowTags();
-            if(!tags.Any(x => x.tag == "Tag.Local"))
+            if(!tags.Any(x => x.tag == "Local"))
             {
-                ShadowTag local = new ShadowTag("Tag.Local", I18nHelper.GetString("Tag.Local"), "#000000", "#ffd657");
+                ShadowTag local = new ShadowTag("Local", I18nHelper.GetString("Tag.Local"), "#000000", "#ffd657");
                 DBHelper.AddShadowTag(local);
                 tags.Add(local);
             }
@@ -57,6 +57,6 @@
             {
                 ShadowTags.Remove(tag);
             }
-        }
+        } 
     }
 }

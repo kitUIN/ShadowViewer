@@ -4,6 +4,7 @@ namespace ShadowViewer.Helpers
 {
     public static class XamlHelper
     {
+        
         public static FontIcon CreateFontIcon(string glyph)
         {
             return new FontIcon()

@@ -103,38 +103,46 @@ namespace ShadowViewer.Pages
             MessageHelper.SendFilesReload();
         }
 
-        private  void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
-        {
-            LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            var newWindow = WindowHelper.GetWindowForTitle(comic.Name) as FileWindow;
-            if(newWindow == null)
-            {
-                newWindow = new FileWindow();
-                WindowHelper.TrackWindow(newWindow);
-                newWindow.Navigate(typeof(StatusPage), comic, I18nHelper.GetString("FileAppTitle.Text"));
-            }
-            isLoaded = false;
-            window = newWindow;
-        }
+        
 
         private void ShadowCommandMove_Click(object sender, RoutedEventArgs e)
         {
 
         }
+        private  void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
+        {
+            HomeCommandBarFlyout.Hide();
+            LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
+            NavigateToStatus(comic, true);
+        }
         private void ShadowCommandStatus_Click(object sender, RoutedEventArgs e)
         {
+            HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            var newWindow = WindowHelper.GetWindowForTitle(comic.Name) as FileWindow;
+            NavigateToStatus(comic, false);
+        }
+        private void NavigateToStatus(LocalComic comic, bool isTag = false, string name = null, bool isMessage = false , bool isLoaded = false)
+        {
+            var newWindow = WindowHelper.GetWindowForTitle(name ?? comic.Name) as FileWindow;
             if (newWindow == null)
             {
                 newWindow = new FileWindow();
                 WindowHelper.TrackWindow(newWindow);
-                newWindow.Title = comic.Name;
-                newWindow.Navigate(typeof(StatusPage), comic, I18nHelper.GetString("FileAppTitle.Text"));
             }
-            isLoaded = false;
+            newWindow.Title = comic.Name;
+            List<object> args = new List<object>
+            {
+                comic
+            };
+            if (!isMessage)
+            {
+                args.Add(isTag);
+            }
+            newWindow.Navigate(typeof(StatusPage), args, I18nHelper.GetString("FileAppTitle.Text"));
+            this.isLoaded = isLoaded;
             window = newWindow;
         }
+        
         private void ShadowCommandRefresh_Click(object sender, RoutedEventArgs e)
         {
             MessageHelper.SendFilesReload();
@@ -236,22 +244,17 @@ namespace ShadowViewer.Pages
                 var name = ((TextBox)nameBox.Children[1]).Text;
                 if (img != oldimg)
                 {
-                    DBHelper.Update("Img", "Name", img, oldname);
+                    DBHelper.UpdateLocalComic("Img", "Name", img, oldname);
                 }
                 if (name != oldname)
                 {
-                    DBHelper.Update("Name", "Name", name, oldname);
+                    DBHelper.UpdateLocalComic("Name", "Name", name, oldname);
                 }
                 MessageHelper.SendFilesReload();
                 if(img != oldimg || name != oldname)
                 {
-                    var newWindow = WindowHelper.GetWindowForTitle(oldname) as FileWindow;
-                    if (newWindow != null)
-                    {
-                        LocalComic comic = DBHelper.GetFrom("Name", name)[0];
-                        newWindow.Title = comic.Name;
-                        newWindow.Navigate(typeof(StatusPage), comic, I18nHelper.GetString("FileAppTitle.Text"));
-                    }
+                    LocalComic comic = DBHelper.GetLocalComicFrom("Name", name)[0];
+                    NavigateToStatus(comic, false, oldname, true,true);
                 }
             };
             return dialog;
