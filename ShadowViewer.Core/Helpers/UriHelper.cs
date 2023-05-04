@@ -5,10 +5,9 @@ namespace ShadowViewer.Helpers
 {
     public static class UriHelper
     {
-        public static ShadowPath ShadowPathTree;
-        public static void PathTreeInit()
+        public static ShadowPath PathTreeInit(List<string> black)
         {
-            ShadowPathTree = new ShadowPath("local", false, null);
+            return new ShadowPath("local", false, null, black);
         }
         public static async void LaunchUriAsync(this Uri uri)
         {

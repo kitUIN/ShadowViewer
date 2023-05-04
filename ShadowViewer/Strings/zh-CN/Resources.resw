@@ -211,6 +211,15 @@
   <data name="MainSettingTitle.Text" xml:space="preserve">
     <value>主要设置</value>
   </data>
+  <data name="MoveTeachingTip.ActionButtonContent" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="MoveTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="MoveTeachingTip.Title" xml:space="preserve">
+    <value>移动到</value>
+  </data>
   <data name="NameStatus.Text" xml:space="preserve">
     <value>名称:</value>
   </data>

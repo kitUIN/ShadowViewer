@@ -118,6 +118,14 @@ namespace ShadowViewer.Models
                 ComicDB.Update("Link", "Name", newValue, oldValue);
                 ComicDB.Update("Name", "Name", newValue, oldValue);
                 ComicDB.Update("Parent", "Parent", newValue, oldValue);
+                Link = newValue;
+            }
+        }
+        partial void OnParentChanged(string oldValue, string newValue)
+        {
+            if(oldValue != newValue && newValue != Name)
+            {
+                ComicDB.Update("Parent", "Name", newValue, Name);
             }
         }
         public void AddTag(string tag)
@@ -181,23 +189,22 @@ namespace ShadowViewer.Models
         }
         public static string GetPath(string name, string parent)
         {
-            
-            string path = "shadow://local/";
-            
-            if (parent == "local")
-            {
-                return path + name;
-            }
             List<string> strings = new List<string>();
             while (parent != "local")
             {
                 if(ComicDB.GetFirst("Name", parent) is LocalComic local)
                 {
-                    strings.Add(local.Parent);
+                    strings.Add(parent);
+                    parent = local.Parent;
+                }
+                else
+                {
+                    break;
                 }
             }
+            strings.Add("local");
             strings.Reverse();
-            return path + string.Join("/", strings) + name;
+            return "shadow://" + string.Join(" / ", strings) +"/"+ name;
         }
         public void RemoveInDB()
         {

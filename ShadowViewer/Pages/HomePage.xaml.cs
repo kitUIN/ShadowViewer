@@ -25,6 +25,7 @@ namespace ShadowViewer.Pages
             };
             ShadowCommandRename.IsEnabled = isComicBook & isSingle;
             ShadowCommandDelete.IsEnabled = isComicBook;
+            ShadowCommandMove.IsEnabled = isComicBook;
             ShadowCommandAddTag.IsEnabled = isComicBook & isSingle;
             ShadowCommandStatus.IsEnabled = isComicBook & isSingle;
             HomeCommandBarFlyout.ShowAt(sender, myOption);
@@ -85,11 +86,19 @@ namespace ShadowViewer.Pages
             MessageHelper.SendFilesReload();
         }
 
-        
+
 
         private void ShadowCommandMove_Click(object sender, RoutedEventArgs e)
         {
-
+            HomeCommandBarFlyout.Hide(); 
+            var black  = new List<string>();
+            foreach(LocalComic comic in ContentGridView.SelectedItems)
+            {
+                black.Add(comic.Name);
+            }
+            MoveTreeView.ItemsSource = new List<ShadowPath>{ UriHelper.PathTreeInit(black) };
+            MoveTeachingTip.IsOpen = true;
+             
         }
         private  void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
         {
@@ -259,6 +268,32 @@ namespace ShadowViewer.Pages
                 Frame.Navigate(this.GetType(), "shadow://"+ string.Join("/", list));
             }
             
+        }
+
+
+        private void MoveTeachingTip_ActionButtonClick(TeachingTip sender, object args)
+        {
+            if(MoveTreeView.SelectedItem is ShadowPath path)
+            {
+                MoveToPath(path.Name);
+            }
+        }
+        private void MoveToPath(string path)
+        {
+            foreach (LocalComic comic in ContentGridView.SelectedItems)
+            {
+                comic.Parent = path;
+            }
+            MoveTeachingTip.IsOpen = false;
+            MessageHelper.SendFilesReload();
+        }
+
+        private void TreeViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            if (MoveTreeView.SelectedItem is ShadowPath path)
+            {
+                MoveToPath(path.Name);
+            }
         }
     }
 }

@@ -18,16 +18,24 @@
             this.name = name;
             this.isFile = isFile;
             this.parent = parent;
-            InitChildren();
         }
-        public void InitChildren()
+        public ShadowPath(string name, bool isFile, ShadowPath parent,List<string> black)
+        {
+            this.name = name;
+            this.isFile = isFile;
+            this.parent = parent;
+            InitChildren(black);
+        }
+        public void InitChildren(List<string> black)
         {
             var children = ComicDB.Get("Parent", name);
             foreach (var child in children)
             {
-                Children.Add(new ShadowPath(child.Name, !child.IsFolder, this));
+                if (black.Contains(child.Name)) continue;
+                Children.Add(new ShadowPath(child.Name, !child.IsFolder, this, black));
             }
         }
+         
         /*public static ShadowPath CreateFromUri(Uri uri)
         {
 
