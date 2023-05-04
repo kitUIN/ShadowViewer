@@ -16,14 +16,20 @@ namespace ShadowViewer
         public App()
         {
             this.InitializeComponent();
-            _ = FileHelper.CreateFolderAsync(ApplicationData.Current.LocalFolder, "Logs");
-            _ = FileHelper.CreateFileAsync(ApplicationData.Current.LocalFolder, "ShadowViewer.db");
+            // log
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.File(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "ShadowViewer.log"), outputTemplate: "{Timestamp:MM-dd HH:mm:ss.fff} [{Level:u4}] {SourceContext} | {Message:lj} {Exception}{NewLine}", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
-            DBHelper.InitializeDatabase();
+            // 文件创建
+            _ = FileHelper.CreateFolderAsync(ApplicationData.Current.LocalFolder, "Logs");
+            _ = FileHelper.CreateFileAsync(ApplicationData.Current.LocalFolder, "ShadowViewer.db");
+            // 数据库
+            ComicDB.Init();
+            TagDB.Init();
+            // 插件
             PluginHelper.Init();
+            // 标签数据
             TagsHelper.Init();
         }
 

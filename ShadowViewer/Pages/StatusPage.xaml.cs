@@ -133,7 +133,7 @@ namespace ShadowViewer.Pages
                 ForegroundColorPicker.SelectedColor, BackgroundColorPicker.SelectedColor);
             if (!TagsHelper.ShadowTags.Any(x => x.tag == tag.tag))
             {
-                DBHelper.AddShadowTag(tag);
+                TagDB.Add(tag);
                 TagsHelper.ShadowTags.Add(tag);
             }
             viewModel.Comic.AddAnotherTag(tag.tag);

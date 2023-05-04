@@ -1,15 +1,15 @@
 ﻿namespace ShadowViewer.Helpers
 {
-    public class FileHelper
+    public static class FileHelper
     {
         public static async Task CreateFileAsync(StorageFolder localFolder, string path)
         {
-            Log.ForContext<FileHelper>().Debug("创建文件: {Folder}/{Path}", localFolder.Path, path);
+            Log.ForContext<StorageFolder>().Debug("创建文件: {Folder}/{Path}", localFolder.Path, path);
             await localFolder.CreateFileAsync(path, CreationCollisionOption.OpenIfExists);
         }
         public static async Task CreateFolderAsync(StorageFolder localFolder,string path)
         {
-            Log.ForContext<FileHelper>().Debug("创建文件夹: {Folder}/{Path}", localFolder.Path, path);
+            Log.ForContext<StorageFolder>().Debug("创建文件夹: {Folder}/{Path}", localFolder.Path, path);
             await localFolder.CreateFolderAsync(path, CreationCollisionOption.OpenIfExists);
         }
         public static async Task<StorageFolder> SelectFolderAsync(UIElement element, string accessToken = "")
@@ -27,7 +27,7 @@
                 {
                     StorageApplicationPermissions.FutureAccessList.AddOrReplace(accessToken, folder);
                 }
-                Log.ForContext<FileHelper>().Debug("选择了文件夹:{Path}", folder.Path);
+                Log.ForContext<FolderPicker>().Debug("选择了文件夹:{Path}", folder.Path);
                 return folder;
             }
             return null;
@@ -44,7 +44,7 @@
             var file = await openPicker.PickSingleFileAsync();
             if (file != null)
             {
-                Log.ForContext<FileHelper>().Debug("选择了文件:{Path}", file.Path);
+                Log.ForContext<FileOpenPicker>().Debug("选择了文件:{Path}", file.Path);
                 return file;
             }
             return null;

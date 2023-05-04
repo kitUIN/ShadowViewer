@@ -9,6 +9,7 @@ global using ShadowViewer.Pages;
 global using ShadowViewer.Configs;
 // global using ShadowViewer.Controls;
 global using ShadowViewer.Helpers;
+global using ShadowViewer.DataBases;
 global using ShadowViewer.Messages;
 global using ShadowViewer.ViewModels;
 global using ShadowViewer.Models;

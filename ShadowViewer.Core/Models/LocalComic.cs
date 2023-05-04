@@ -1,4 +1,5 @@
-﻿using ShadowViewer.Helpers;
+﻿using ShadowViewer.DataBases;
+using ShadowViewer.Helpers;
 
 namespace ShadowViewer.Models
 {
@@ -107,7 +108,7 @@ namespace ShadowViewer.Models
         {
             if (oldValue != newValue)
             {
-                DBHelper.UpdateLocalComic("Img", "Name", newValue, Name);
+                ComicDB.Update("Img", "Name", newValue, Name);
             }
                 
         }
@@ -115,7 +116,7 @@ namespace ShadowViewer.Models
         {
             if (oldValue != newValue)
             {
-                DBHelper.UpdateLocalComic("Name", "Name", newValue, oldValue);
+                ComicDB.Update("Name", "Name", newValue, oldValue);
             }
         }
         public void AddTag(string tag)
@@ -190,19 +191,21 @@ namespace ShadowViewer.Models
             while (parent != "")
             {
                 Log.Information(parent);
-                parent = DBHelper.GetLocalComicFrom("Name", parent)[0].Parent;
-                strings.Add(parent);
+                if(ComicDB.GetFirst("Name", parent) is LocalComic local)
+                {
+                    strings.Add(local.Parent);
+                }
             }
             strings.Reverse();
             return path + string.Join("/", strings) + name;
         }
         public void RemoveInDB()
         {
-            DBHelper.RemoveLocalComic("name", Name);
+            ComicDB.Remove("name", Name);
         }
         public void UpdateAnotherTags()
         {
-            DBHelper.UpdateLocalComic("AnotherTags", "Name", AnotherTags.JoinToString(), Name);
+            ComicDB.Update("AnotherTags", "Name", AnotherTags.JoinToString(), Name);
         }
     }
 }

@@ -116,9 +116,8 @@ namespace ShadowViewer.Helpers
             {
                 var img = ((TextBox)imgBox.Children[1]).Text;
                 var name = ((TextBox)nameBox.Children[1]).Text;
-                DBHelper.AddComic(name, img, parent);
+                ComicDB.Add(name, img, parent);
                 MessageHelper.SendFilesReload();
-
             };
             return dialog;
         }

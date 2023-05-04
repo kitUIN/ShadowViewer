@@ -244,17 +244,19 @@ namespace ShadowViewer.Pages
                 var name = ((TextBox)nameBox.Children[1]).Text;
                 if (img != oldimg)
                 {
-                    DBHelper.UpdateLocalComic("Img", "Name", img, oldname);
+                    ComicDB.Update("Img", "Name", img, oldname);
                 }
                 if (name != oldname)
                 {
-                    DBHelper.UpdateLocalComic("Name", "Name", name, oldname);
+                    ComicDB.Update("Name", "Name", name, oldname);
                 }
                 MessageHelper.SendFilesReload();
                 if(img != oldimg || name != oldname)
                 {
-                    LocalComic comic = DBHelper.GetLocalComicFrom("Name", name)[0];
-                    NavigateToStatus(comic, false, oldname, true,true);
+                    if(ComicDB.GetFirst("Name", name) is LocalComic comic)
+                    {
+                        NavigateToStatus(comic, false, oldname, true, true);
+                    }
                 }
             };
             return dialog;

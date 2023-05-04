@@ -1,6 +1,4 @@
-﻿using ShadowViewer.Models;
-
-namespace ShadowViewer.ViewModels
+﻿namespace ShadowViewer.ViewModels
 {
     public class HomeViewModel: ObservableRecipient, IRecipient<FilesMessage>
     {
@@ -15,7 +13,7 @@ namespace ShadowViewer.ViewModels
         public void RefreshLocalComic()
         {
             LocalComics.Clear();
-            foreach(LocalComic item in DBHelper.GetLocalComicFrom("Parent", path.paths.Last()))
+            foreach(LocalComic item in ComicDB.Get("Parent", path.paths.Last()))
             {
                 LocalComics.Add(item);
             }
