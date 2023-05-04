@@ -2,18 +2,21 @@
 {
     public class HomeViewModel: ObservableRecipient, IRecipient<FilesMessage>
     {
-        public ShadowPath path;
+        public ShadowPath Path { get; set; }
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
-        public HomeViewModel(ShadowPath path)
+        public HomeViewModel()
         {
-            this.path = path;
             IsActive = true;
+        }
+        public void Navigate(object parameter)
+        {
+            Path = new ShadowPath(parameter is string ? parameter as string : "local");
             RefreshLocalComic();
         }
         public void RefreshLocalComic()
         {
             LocalComics.Clear();
-            foreach(LocalComic item in ComicDB.Get("Parent", path.paths.Last()))
+            foreach(LocalComic item in ComicDB.Get("Parent", Path.paths.Last()))
             {
                 LocalComics.Add(item);
             }

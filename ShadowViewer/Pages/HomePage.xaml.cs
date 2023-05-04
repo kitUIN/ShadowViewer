@@ -1,41 +1,21 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
-using Microsoft.UI.Xaml.Controls;
-using ShadowViewer.DataBases;
-using System.Xml.Linq;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace ShadowViewer.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class HomePage : Page
     {
-        private ShadowPath parameter;
-        private HomeViewModel viewModel;
+        private HomeViewModel viewModel = new HomeViewModel();
         private bool isLoaded = false;
         private Window window;
         public HomePage()
         {
-            this.InitializeComponent();
-        }
-        public void Refresh()
-        {
-            this.Frame.Navigate(this.GetType(), parameter);
+            this.InitializeComponent(); 
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-
-            if(e.Parameter is ShadowPath parameter)
-            {
-                this.parameter = parameter;
-            }else if(e.Parameter == null)
-            {
-                this.parameter = new ShadowPath("/");
-            }
-            viewModel = new HomeViewModel(this.parameter);
+            viewModel.Navigate(e.Parameter);
         }
+        
         private void ShowMenu(Point position, UIElement sender, bool isComicBook, bool isSingle, bool isFolder)
         {
             FlyoutShowOptions myOption = new FlyoutShowOptions()
@@ -82,7 +62,7 @@ namespace ShadowViewer.Pages
         private async void ShadowCommandAddNewFolder_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            await CreateFolderDialog(XamlRoot, parameter.paths.Last()).ShowAsync();
+            await CreateFolderDialog(XamlRoot, viewModel.Path.paths.Last()).ShowAsync();
         }
 
         private async void ShadowCommandRename_Click(object sender, RoutedEventArgs e)
@@ -182,8 +162,7 @@ namespace ShadowViewer.Pages
                 var item = element.DataContext;
                 if (item is LocalComic comic)
                 {
-                    //parameter = new PathMessage(comic.Id, parameter.ParentPath + "/" + comic.Name);
-                    //Refresh();
+                    Frame.Navigate(this.GetType(), viewModel.Path.Combine(comic.Link).ToString(), new EntranceNavigationTransitionInfo());
                 }
             }
         }

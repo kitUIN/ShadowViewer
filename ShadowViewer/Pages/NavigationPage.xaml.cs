@@ -13,7 +13,6 @@ namespace ShadowViewer.Pages
         {
             this.InitializeComponent();
             viewModel = new NavigationViewModel(ContentFrame, this.XamlRoot, TopGrid);
-            
             NavView.SelectedItem = NavView.MenuItems[0];
             ContentFrame.Navigate(typeof(HomePage));
         }
@@ -55,10 +54,6 @@ namespace ShadowViewer.Pages
         {
             if (!ContentFrame.CanGoBack)
                 return false;
-
-            if (NavView.IsPaneOpen && (NavView.DisplayMode == NavigationViewDisplayMode.Compact || NavView.DisplayMode == NavigationViewDisplayMode.Minimal))
-                return false;
-
             ContentFrame.GoBack();
             return true;
         }

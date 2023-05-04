@@ -8,13 +8,20 @@
             paths = new List<string>(path.Split('/'));
              
         }
-        public void Combine(string newPath)
+        public ShadowPath Combine(string newPath)
         {
             paths.Add(newPath);
+            return this;
         }
-        public void Pre()
+        public ShadowPath Pre()
         {
             paths.RemoveAt(paths.Count - 1);
+            return this;
+        }
+        
+        public override string ToString()
+        {
+            return string.Join("/", paths);
         }
     }
 }
