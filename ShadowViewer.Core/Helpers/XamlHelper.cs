@@ -68,59 +68,7 @@ namespace ShadowViewer.Helpers
             grid.Children.Add(txt);
             return grid;
         }
-        /// <summary>
-        /// 新建文件夹对话框
-        /// </summary>
-        /// <returns></returns>
-        public static ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
-        {
-            ContentDialog dialog = CreateContentDialog(xamlRoot);
-            dialog.Title = I18nHelper.GetString("Dialog/CreateFolder/Title");
-            dialog.PrimaryButtonText = I18nHelper.GetString("Dialog/ConfirmButton");
-            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
-            StackPanel grid = new StackPanel()
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Orientation = Orientation.Vertical,
-            };
-            StackPanel stackPanel = new StackPanel()
-            {
-                Margin = new Thickness(0, 10, 0, 0),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Orientation = Orientation.Horizontal,
-            };
-            Button selectImg = new Button()
-            {
-                Margin = new Thickness(10, 0, 0, 0),
-                Content = new SymbolIcon(Symbol.Folder),
-
-            };
-            var imgBox = CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Img"), "","", 163);
-            selectImg.Click += async (s, e) =>
-            {
-                Button button = s as Button;
-                var file = await FileHelper.SelectFileAsync(dialog, ".png", ".jpg", ".jpeg");
-                if (file != null)
-                {
-                    ((TextBox)imgBox.Children[1]).Text = file.Path;
-                }
-            };
-            stackPanel.Children.Add(imgBox);
-            stackPanel.Children.Add(selectImg);
-            var nameBox = CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Name"),
-                I18nHelper.GetString("Dialog/CreateFolder/Title"),"", 222);
-            grid.Children.Add(nameBox);
-            grid.Children.Add(stackPanel);
-            dialog.Content = grid;
-            dialog.PrimaryButtonClick += (s, e) =>
-            {
-                var img = ((TextBox)imgBox.Children[1]).Text;
-                var name = ((TextBox)nameBox.Children[1]).Text;
-                ComicDB.Add(name, img, parent);
-                MessageHelper.SendFilesReload();
-            };
-            return dialog;
-        }
+        
         
         /// <summary>
         /// 创建一个基础的ContentDialog
@@ -168,71 +116,6 @@ namespace ShadowViewer.Helpers
             panel.Children.Add(headerBlock);
             panel.Children.Add(text);
             return panel;
-        }
-        /// <summary>
-        /// 添加标签对话框
-        /// </summary>
-        /// <param name="xamlRoot">The xaml root.</param>
-        /// <param name="comic">The comic.</param>
-        /// <returns></returns>
-        public static ContentDialog CreateTagsDialog(XamlRoot xamlRoot, LocalComic comic)
-        {
-            ContentDialog dialog = CreateContentDialog(xamlRoot);
-            dialog.Title = I18nHelper.GetString("ShadowCommandAddTag.Label");
-            dialog.PrimaryButtonText = I18nHelper.GetString("Dialog/ConfirmButton");
-            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
-            ScrollViewer scrollViewer = new ScrollViewer();
-            StackPanel panel = new StackPanel()
-            {
-                Orientation = Orientation.Horizontal,
-            };
-            
-             
-            scrollViewer.Content = panel;
-            dialog.Content = scrollViewer;
-            return dialog;
-        }
-
-        /// <summary>
-        /// 查看属性对话框
-        /// </summary>
-        /// <param name="xamlRoot">The xaml root.</param>
-        /// <param name="comic">The comic.</param>
-        /// <returns></returns>
-        public static ContentDialog CreateStatusDialog(XamlRoot xamlRoot, LocalComic comic)
-        {
-            ContentDialog dialog = CreateContentDialog(xamlRoot);
-            dialog.Title = I18nHelper.GetString("ShadowCommandStatusToolTip/Content");
-            dialog.PrimaryButtonText = I18nHelper.GetString("Dialog/ConfirmButton");
-            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
-            
-            StackPanel grid = new StackPanel()
-            {
-                Spacing = 10,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Orientation = Orientation.Vertical,
-            };
-            grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog/CreateFolder/Name"), comic.Name));
-            grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.Author"), comic.Author));
-            grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.Type"), I18nHelper.GetString(comic.IsFolder ? "Dialog.Status.Folder" : "Dialog.Status.File")));
-            grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.Path"), LocalComic.GetPath(comic.Name,comic.Parent)));
-            grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.CreateTime"), comic.CreateTime));
-            grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.LastReadTime"), comic.LastReadTime));
-            grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.Size"), comic.SizeString));
-            grid.Children.Add(CreateOneLineTextBlock(I18nHelper.GetString("Dialog.Status.Link"), comic.Link));
-             
-            dialog.Content = grid;
-            return dialog;
-        }
-        private static Border CreateTag(string title, Brush background)
-        { 
-            return new Border
-            {
-                CornerRadius = new CornerRadius(7),
-                Padding = new Thickness(7,4,7,4),
-                Background = background,
-                Child = new TextBlock { Text = title, FontSize=13, FontWeight = FontWeights.Bold },
-            };
         }
     }
 }

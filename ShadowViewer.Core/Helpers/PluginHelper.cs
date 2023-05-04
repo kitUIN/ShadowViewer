@@ -84,7 +84,11 @@
                         return false;
                     }
                     PluginInstances[name] = pluginPlugin;
-                    Log.ForContext<PluginHelper>().Information("[{name}]插件加载成功", PluginInstances[name].MetaData().Name);
+                    if(EnabledPlugins.Contains(name))
+                    {
+                        PluginInstances[name].Init();
+                        Log.ForContext<PluginHelper>().Information("[{name}]插件加载成功", PluginInstances[name].MetaData().Name);
+                    }
                     return true;
                 }
             }catch(Exception e)

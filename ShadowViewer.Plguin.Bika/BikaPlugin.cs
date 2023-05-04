@@ -14,10 +14,10 @@ namespace ShadowViewer.Plugin.Bika
                 "kitUIN", "0.1.0",
                 null, new Uri("ms-appx://ShadowViewer.Plguin.Bika/Assets/Icons/logo.png"), 1);
          
-        public BikaPlugin()
-        { 
+        public void Init()
+        {
+            throw new NotImplementedException();
         }
-
         public PluginMetaData MetaData()
         {
             return BikaMetaData;
@@ -69,5 +69,7 @@ namespace ShadowViewer.Plugin.Bika
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

@@ -118,8 +118,11 @@ namespace ShadowViewer.Pages
             if (e.Key == VirtualKey.Enter)
             {
                 viewModel.Comic.Name = box.Text;
-                MessageHelper.SendFilesReload();
                 WindowHelper.GetWindowForElement(this).Title  = viewModel.Comic.Name;
+                var comic = ComicDB.GetFirst("Name", box.Text);
+                this.Frame.Navigate(typeof(StatusPage), new List<object> { comic, isTag });
+                MessageHelper.SendFilesReload();
+                WindowHelper.GetWindowForElement(this).Activate();
             }
         }
         public SolidColorBrush ToBrush(Color color)

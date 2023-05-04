@@ -25,11 +25,11 @@
             try
             {
                 DBHelper.Update(DBHelper.DBPath, DBTable, name, newArg, where, whereArg);
-                Log.ForContext<SqliteConnection>().Information("漫画:{name}({old}->{new})", name, whereArg, newArg);
+                Log.ForContext<SqliteConnection>().Information("修改漫画:{name}({old}->{new})", name, whereArg, newArg);
             }
             catch (Exception ex)
             {
-                Log.ForContext<SqliteConnection>().Error("漫画:{name}({old}->{new})失败:\n{Ex}", name, whereArg, newArg, ex);
+                Log.ForContext<SqliteConnection>().Error("修改漫画:{name}({old}->{new})失败:\n{Ex}", name, whereArg, newArg, ex);
             }
         }
         public static void Add(LocalComic localComic)

@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 using Microsoft.UI.Xaml.Controls;
+using ShadowViewer.DataBases;
+using System.Xml.Linq;
 
 namespace ShadowViewer.Pages
 {
@@ -80,14 +82,14 @@ namespace ShadowViewer.Pages
         private async void ShadowCommandAddNewFolder_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            await XamlHelper.CreateFolderDialog(XamlRoot, parameter.paths.Last()).ShowAsync();
+            await CreateFolderDialog(XamlRoot, parameter.paths.Last()).ShowAsync();
         }
 
         private async void ShadowCommandRename_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"),XamlRoot, comic.Name, comic.Img).ShowAsync();
+            await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"),XamlRoot, comic).ShowAsync();
         }
 
         private void ShadowCommandDelete_Click(object sender, RoutedEventArgs e)
@@ -194,12 +196,7 @@ namespace ShadowViewer.Pages
                 window.Activate();
             }
         }
-
-        /// <summary>
-        /// 重命名/更改图标对话框
-        /// </summary>
-        /// <returns></returns>
-        private ContentDialog CreateRenameDialog(string title, XamlRoot xamlRoot, string oldname, string oldimg)
+        private ContentDialog CreateRawDialog(string title, XamlRoot xamlRoot, string oldName)
         {
             ContentDialog dialog = XamlHelper.CreateContentDialog(xamlRoot);
             dialog.Title = title;
@@ -210,48 +207,37 @@ namespace ShadowViewer.Pages
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Orientation = Orientation.Vertical,
             };
-            StackPanel stackPanel = new StackPanel()
-            {
-                Margin = new Thickness(0, 10, 0, 0),
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Orientation = Orientation.Horizontal,
-            };
             Button selectImg = new Button()
             {
                 Margin = new Thickness(10, 0, 0, 0),
                 Content = new SymbolIcon(Symbol.Folder),
             };
-            var imgBox = XamlHelper.CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Img"), "", oldimg, 163);
-            selectImg.Click += async (s, e) =>
-            {
-                Button button = s as Button;
-                var file = await FileHelper.SelectFileAsync(dialog, ".png", ".jpg", ".jpeg");
-                if (file != null)
-                {
-                    ((TextBox)imgBox.Children[1]).Text = file.Path;
-                }
-            };
-            stackPanel.Children.Add(imgBox);
-            stackPanel.Children.Add(selectImg);
             var nameBox = XamlHelper.CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Name"),
-                I18nHelper.GetString("Dialog/CreateFolder/Title"), oldname, 222);
-            grid.Children.Add(nameBox);
-            grid.Children.Add(stackPanel);
-            dialog.Content = grid;
-            dialog.PrimaryButtonClick += (s, e) =>
+                I18nHelper.GetString("Dialog/CreateFolder/Title"), oldName, 222);
+            ((TextBox)nameBox.Children[1]).TextChanged += (s, e) =>
             {
-                var img = ((TextBox)imgBox.Children[1]).Text;
-                var name = ((TextBox)nameBox.Children[1]).Text;
-                if (img != oldimg)
-                {
-                    ComicDB.Update("Img", "Name", img, oldname);
-                }
-                if (name != oldname)
-                {
-                    ComicDB.Update("Name", "Name", name, oldname);
-                }
+                var sender = s as TextBox;
+                dialog.IsPrimaryButtonEnabled = !ComicDB.Contains("Name", sender.Text);
+            };
+            grid.Children.Add(nameBox);
+            dialog.Content = grid;
+            return dialog;
+        }
+        /// <summary>
+        /// 重命名对话框
+        /// </summary>
+        /// <returns></returns>
+        private ContentDialog CreateRenameDialog(string title, XamlRoot xamlRoot, LocalComic comic)
+        {
+            ContentDialog dialog = CreateRawDialog(title,xamlRoot,comic.Name);
+            dialog.IsPrimaryButtonEnabled = false;
+            dialog.PrimaryButtonClick +=  (s, e) =>
+            {
+                var name = ((TextBox)((StackPanel)((StackPanel)dialog.Content).Children[0]).Children[1]).Text;
+                var oldname = comic.Name;
+                comic.Name = name;
                 MessageHelper.SendFilesReload();
-                if(img != oldimg || name != oldname)
+                if(name != oldname)
                 {
                     if(ComicDB.GetFirst("Name", name) is LocalComic comic)
                     {
@@ -260,6 +246,23 @@ namespace ShadowViewer.Pages
                 }
             };
             return dialog;
+        }
+        /// <summary>
+        /// 新建文件夹对话框
+        /// </summary>
+        /// <returns></returns>
+        public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
+        {
+            ContentDialog dialog = CreateRawDialog(I18nHelper.GetString("Dialog/CreateFolder/Title"), xamlRoot, "");
+            dialog.IsPrimaryButtonEnabled = true;
+            dialog.PrimaryButtonClick += (s, e) =>
+            {
+                var name = ((TextBox)((StackPanel)((StackPanel)dialog.Content).Children[0]).Children[1]).Text;
+                ComicDB.Add(name, "", parent);
+                MessageHelper.SendFilesReload();
+            };
+            return dialog;
+           
         }
     }
 }

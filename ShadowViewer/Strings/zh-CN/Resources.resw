@@ -169,6 +169,9 @@
   <data name="Error.Message.NotImage" xml:space="preserve">
     <value>选择的文件不是合规图片(png,jpg,jpeg,bmp)</value>
   </data>
+  <data name="Error.Message.Repeat" xml:space="preserve">
+    <value>你所输入的对象已存在</value>
+  </data>
   <data name="Error.Message.UriFormatException" xml:space="preserve">
     <value>不规范的地址,请重试</value>
   </data>

@@ -110,13 +110,14 @@ namespace ShadowViewer.Models
             {
                 ComicDB.Update("Img", "Name", newValue, Name);
             }
-                
         }
         partial void OnNameChanged(string oldValue, string newValue)
         {
             if (oldValue != newValue)
             {
+                ComicDB.Update("Link", "Name", newValue, oldValue);
                 ComicDB.Update("Name", "Name", newValue, oldValue);
+                ComicDB.Update("Parent", "Parent", newValue, oldValue);
             }
         }
         public void AddTag(string tag)

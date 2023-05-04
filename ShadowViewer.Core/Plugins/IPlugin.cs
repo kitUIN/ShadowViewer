@@ -9,6 +9,10 @@
         /// <returns></returns>
         public PluginMetaData MetaData();
         /// <summary>
+        /// 初始化
+        /// </summary>
+        public void Init();
+        /// <summary>
         /// 插件跳转页面
         /// </summary>
         /// <returns></returns>
