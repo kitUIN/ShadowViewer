@@ -1,16 +1,21 @@
 ﻿
 
+
 namespace ShadowViewer.Helpers
 {
     public static class UriHelper
     {
+        public static ShadowPath ShadowPathTree;
+        public static void PathTreeInit()
+        {
+            ShadowPathTree = new ShadowPath("local", false, null);
+        }
         public static async void LaunchUriAsync(this Uri uri)
         {
             if (uri != null)
             {
                 await Launcher.LaunchUriAsync(uri);
             }
-            
         }
         public static async void LaunchFolderAsync(this StorageFolder folder)
         {

@@ -34,3 +34,5 @@ global using CommunityToolkit.WinUI.UI.Controls;
 global using CommunityToolkit.WinUI.Helpers;
 global using ShadowViewer.Helpers;
 global using ShadowViewer.DataBases;
+global using ShadowViewer.Utils;
+

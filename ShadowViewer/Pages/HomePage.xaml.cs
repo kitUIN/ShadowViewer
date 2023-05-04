@@ -1,10 +1,10 @@
-using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace ShadowViewer.Pages
 {
     public sealed partial class HomePage : Page
     {
-        private HomeViewModel viewModel = new HomeViewModel();
+        private HomeViewModel ViewModel { get;} = new HomeViewModel();
         private bool isLoaded = false;
         private Window window;
         public HomePage()
@@ -13,7 +13,7 @@ namespace ShadowViewer.Pages
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            viewModel.Navigate(e.Parameter);
+            ViewModel.Navigate(e.Parameter);
         }
         
         private void ShowMenu(Point position, UIElement sender, bool isComicBook, bool isSingle, bool isFolder)
@@ -62,7 +62,7 @@ namespace ShadowViewer.Pages
         private async void ShadowCommandAddNewFolder_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            await CreateFolderDialog(XamlRoot, viewModel.Path.paths.Last()).ShowAsync();
+            await CreateFolderDialog(XamlRoot, ViewModel.Path).ShowAsync();
         }
 
         private async void ShadowCommandRename_Click(object sender, RoutedEventArgs e)
@@ -79,7 +79,7 @@ namespace ShadowViewer.Pages
             foreach(LocalComic comic in comics)
             {
                 comic.RemoveInDB();
-                viewModel.LocalComics.Remove(comic);
+                ViewModel.LocalComics.Remove(comic);
                 WindowHelper.ColseWindowFromTitle(comic.Name);
             }
             MessageHelper.SendFilesReload();
@@ -162,7 +162,7 @@ namespace ShadowViewer.Pages
                 var item = element.DataContext;
                 if (item is LocalComic comic)
                 {
-                    Frame.Navigate(this.GetType(), viewModel.Path.Combine(comic.Link).ToString(), new EntranceNavigationTransitionInfo());
+                    Frame.Navigate(this.GetType(), ViewModel.OriginPath + "/" + comic.Name);
                 }
             }
         }
@@ -242,6 +242,23 @@ namespace ShadowViewer.Pages
             };
             return dialog;
            
+        }
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            PathBar.Width = ((Grid)sender).ActualWidth - 200; 
+            PathBar.MaxWidth = ((Grid)sender).ActualWidth - 200; 
+        }
+
+        private void PathBar_ItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
+        {
+            int index = ViewModel.Paths.IndexOf(args.Item as string);
+            if (index != -1)
+            {
+                List<string> list = ViewModel.Paths.GetRange(0, index + 1);
+                Frame.Navigate(this.GetType(), "shadow://"+ string.Join("/", list));
+            }
+            
         }
     }
 }

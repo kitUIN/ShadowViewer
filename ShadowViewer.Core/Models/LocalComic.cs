@@ -184,14 +184,13 @@ namespace ShadowViewer.Models
             
             string path = "shadow://local/";
             
-            if (parent == "")
+            if (parent == "local")
             {
                 return path + name;
             }
             List<string> strings = new List<string>();
-            while (parent != "")
+            while (parent != "local")
             {
-                Log.Information(parent);
                 if(ComicDB.GetFirst("Name", parent) is LocalComic local)
                 {
                     strings.Add(local.Parent);

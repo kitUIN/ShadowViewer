@@ -31,6 +31,8 @@ namespace ShadowViewer
             PluginHelper.Init();
             // 标签数据
             TagsHelper.Init();
+            // 路径树
+            UriHelper.PathTreeInit();
         }
 
         /// <summary>

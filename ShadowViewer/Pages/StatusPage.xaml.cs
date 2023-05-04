@@ -18,7 +18,6 @@ namespace ShadowViewer.Pages
             
             if (e.Parameter is List<object> args)
             {
-                
                 if(args.Count >= 2 && args[1] is bool flag)
                 {
                     isTag = flag;
