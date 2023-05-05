@@ -1,4 +1,6 @@
 using Microsoft.UI.Xaml.Controls.Primitives;
+using ShadowViewer.DataBases;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace ShadowViewer.Pages
 {
@@ -293,6 +295,40 @@ namespace ShadowViewer.Pages
             if (MoveTreeView.SelectedItem is ShadowPath path)
             {
                 MoveToPath(path.Name);
+            }
+        }
+        private void GridViewItem_Drop(object sender, DragEventArgs e)
+        {
+            if (sender is FrameworkElement frame && frame.Tag is string name)
+            {
+                foreach (LocalComic item in ContentGridView.SelectedItems)
+                {
+                    item.Parent = name;
+                }
+                MessageHelper.SendFilesReload();
+            }
+        } 
+        private void GridViewItem_DragOverCustomized(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = DataPackageOperation.Move;
+            e.DragUIOverride.Caption = I18nHelper.GetString("ShadowCommandMove.Label");
+            if (sender is FrameworkElement frame && frame.Tag is string name)
+            {
+                e.DragUIOverride.Caption += name;
+            }
+            e.DragUIOverride.IsCaptionVisible = true;
+            e.DragUIOverride.IsGlyphVisible = true;
+        }
+
+ 
+        private void ContentGridView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
+        {
+            foreach(var item in e.Items)
+            {
+                if(!ContentGridView.SelectedItems.Contains(item))
+                {
+                    ContentGridView.SelectedItems.Add(item);
+                }
             }
         }
     }

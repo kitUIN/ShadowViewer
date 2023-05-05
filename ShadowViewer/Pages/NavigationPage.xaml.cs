@@ -71,7 +71,10 @@ namespace ShadowViewer.Pages
              
         }
 
-        
+        private void NavView_Drop(object sender, DragEventArgs e)
+        {
+
+        }
     }
 
 }

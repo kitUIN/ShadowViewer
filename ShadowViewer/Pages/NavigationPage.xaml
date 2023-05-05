@@ -19,7 +19,9 @@
             BackRequested="NavView_BackRequested"
             Canvas.ZIndex="0"
             IsBackEnabled="True"
+            IsPaneOpen="False"
             IsTabStop="False"
+             
             IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavView_ItemInvoked"
             Loaded="NavView_Loaded"

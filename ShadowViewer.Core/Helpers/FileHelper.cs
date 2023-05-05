@@ -4,13 +4,31 @@
     {
         public static async Task CreateFileAsync(StorageFolder localFolder, string path)
         {
-            Log.ForContext<StorageFolder>().Debug("创建文件: {Folder}/{Path}", localFolder.Path, path);
-            await localFolder.CreateFileAsync(path, CreationCollisionOption.OpenIfExists);
+            try
+            {
+                await localFolder.CreateFileAsync(path, CreationCollisionOption.FailIfExists);
+                Log.ForContext<StorageFolder>().Debug("创建文件: {Folder}/{Path}", localFolder.Path, path);
+            }
+            catch (Exception)
+            {
+
+            }
+            
+            
         }
         public static async Task CreateFolderAsync(StorageFolder localFolder,string path)
         {
-            Log.ForContext<StorageFolder>().Debug("创建文件夹: {Folder}/{Path}", localFolder.Path, path);
-            await localFolder.CreateFolderAsync(path, CreationCollisionOption.OpenIfExists);
+            try
+            {
+                await localFolder.CreateFolderAsync(path, CreationCollisionOption.FailIfExists);
+                Log.ForContext<StorageFolder>().Debug("创建文件夹: {Folder}/{Path}", localFolder.Path, path);
+            }
+            catch (Exception)
+            {
+
+            }
+            
+            
         }
         public static async Task<StorageFolder> SelectFolderAsync(UIElement element, string accessToken = "")
         {

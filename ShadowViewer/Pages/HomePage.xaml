@@ -12,30 +12,7 @@
     xmlns:model="using:ShadowViewer.Utils"
     mc:Ignorable="d">
     <Page.Resources>
-        <DataTemplate x:Key="LocalComicTemplate" x:DataType="dv:LocalComic">
-            <StackPanel
-                Width="130"
-                Height="130"
-                Padding="6"
-                Background="Transparent"
-                Tag="{x:Bind Name}">
-                <Image
-                    Width="120"
-                    Height="75"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    Source="{x:Bind Img}" />
-                <TextBlock
-                    MaxWidth="100"
-                    Margin="0,10,0,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    MaxLines="2"
-                    Text="{x:Bind Name}"
-                    TextTrimming="CharacterEllipsis"
-                    TextWrapping="Wrap" />
-            </StackPanel>
-        </DataTemplate>
+
         <CommandBarFlyout
             x:Name="HomeCommandBarFlyout"
             AlwaysExpanded="True"
@@ -199,16 +176,46 @@
             <GridView
                 x:Name="ContentGridView"
                 Padding="6"
-                AllowDrop="True"
+                AllowDrop="False"
                 CanDragItems="True"
-                CanReorderItems="True"
+                CanReorderItems="False"
                 DoubleTapped="ContentGridView_DoubleTapped"
+                DragItemsStarting="ContentGridView_DragItemsStarting"
                 FlowDirection="LeftToRight"
                 IsItemClickEnabled="False"
-                ItemTemplate="{StaticResource LocalComicTemplate}"
                 ItemsSource="{x:Bind ViewModel.LocalComics}"
                 RightTapped="ContentGridView_RightTapped"
-                SelectionMode="Extended" />
+                SelectionMode="Extended">
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="dv:LocalComic">
+                        <StackPanel
+                            Width="130"
+                            Height="130"
+                            Padding="6"
+                            AllowDrop="True"
+                            Background="Transparent"
+                            DragOver="GridViewItem_DragOverCustomized"
+                            Drop="GridViewItem_Drop"
+                            Tag="{x:Bind Name}">
+                            <Image
+                                Width="120"
+                                Height="75"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Bottom"
+                                Source="{x:Bind Img}" />
+                            <TextBlock
+                                MaxWidth="100"
+                                Margin="0,10,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                MaxLines="2"
+                                Text="{x:Bind Name}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
 
         </ScrollViewer>
         <StackPanel
@@ -222,7 +229,19 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 ItemClicked="PathBar_ItemClicked"
-                ItemsSource="{x:Bind ViewModel.Paths}" />
+                ItemsSource="{x:Bind ViewModel.Paths}">
+                <BreadcrumbBar.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <BreadcrumbBarItem
+                            AllowDrop="True"
+                            DragOver="GridViewItem_DragOverCustomized"
+                            Drop="GridViewItem_Drop"
+                            Tag="{Binding}">
+                            <TextBlock Text="{Binding}" />
+                        </BreadcrumbBarItem>
+                    </DataTemplate>
+                </BreadcrumbBar.ItemTemplate>
+            </BreadcrumbBar>
             <Button>
                 <SymbolIcon Symbol="Filter" />
             </Button>
