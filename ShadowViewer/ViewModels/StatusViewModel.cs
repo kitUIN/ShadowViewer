@@ -15,7 +15,7 @@
         }
         public string GetShadowPath
         {
-            get => LocalComic.GetPath(Comic.Name, Comic.Parent);
+            get => ComicHelper.GetPath(Comic.Name, Comic.Parent);
         }
         public void LoadTags(bool isTag)
         {
@@ -61,7 +61,6 @@
         {
             var item = e.TokenItem;
             Comic.AnotherTags.Remove(item.Tag.ToString());
-            Comic.UpdateAnotherTags();
         }
         public void Receive(StatusMessage message)
         {

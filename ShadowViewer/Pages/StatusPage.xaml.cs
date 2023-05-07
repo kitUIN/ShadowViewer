@@ -138,8 +138,7 @@ namespace ShadowViewer.Pages
                 TagDB.Add(tag);
                 TagsHelper.ShadowTags.Add(tag);
             }
-            viewModel.Comic.AddAnotherTag(tag.tag);
-            viewModel.Comic.UpdateAnotherTags();
+            viewModel.Comic.AnotherTags.Add(tag.tag);
             viewModel.LoadTags(isTag);
         }
 

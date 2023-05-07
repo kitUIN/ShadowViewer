@@ -1,4 +1,6 @@
-﻿namespace ShadowViewer.DataBases
+﻿using System.Xml.Linq;
+
+namespace ShadowViewer.DataBases
 {
     public static class ComicDB
     {
@@ -63,7 +65,7 @@
         {
             if (img == "") { img = "ms-appx:///Assets/Default/folder.png"; }
             if (name == "") { name = Guid.NewGuid().ToString("N"); }
-            var comic = LocalComic.CreateFolder(name, "", img, parent);
+            var comic =  ComicHelper.CreateFolder(name, "", img, parent);
             Add(comic);
         }
 
@@ -81,13 +83,13 @@
         }
         public static List<LocalComic> Get(string where, string whereArg)
         {
-            List<LocalComic> res = DBHelper.Get(DBHelper.DBPath, DBTable, KeyValuePair.Create(where, whereArg as object), LocalComic.ReadComicFromDB).Cast<LocalComic>().ToList();
+            List<LocalComic> res = DBHelper.Get(DBHelper.DBPath, DBTable, KeyValuePair.Create(where, whereArg as object), ReadComicFromDB).Cast<LocalComic>().ToList();
             Log.ForContext<SqliteConnection>().Information("[{name}={Parent}]获取漫画(counts={Count})", where, whereArg, res.Count);
             return res;
         }
         public static LocalComic GetFirst(string where, string whereArg)
         {
-            List<LocalComic> res = DBHelper.Get(DBHelper.DBPath, DBTable, KeyValuePair.Create(where, whereArg as object), LocalComic.ReadComicFromDB).Cast<LocalComic>().ToList();
+            List<LocalComic> res = DBHelper.Get(DBHelper.DBPath, DBTable, KeyValuePair.Create(where, whereArg as object), ReadComicFromDB).Cast<LocalComic>().ToList();
             Log.ForContext<SqliteConnection>().Information("[{name}={Parent}]获取漫画(counts={Count})", where, whereArg, res.Count);
             if(res.Count > 0 )
             {
@@ -98,6 +100,37 @@
         public static bool Contains(string where, string whereArg)
         {
             return DBHelper.Contains(DBHelper.DBPath, DBTable, where, whereArg);
+        }
+        
+        public static LocalComic ReadComicFromDB(SqliteDataReader reader)
+        {
+            return new LocalComic(reader.GetString(0), reader.GetString(1), reader.GetString(2),
+                reader.GetString(3), reader.GetString(4), reader.GetString(5),
+                reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9),
+                reader.GetInt64(10), reader.GetBoolean(11));
+        }
+        public static void RemoveInDB(this LocalComic comic)
+        {
+            Remove(nameof(comic.Name), comic.Name);
+        }
+        public static string GetPath(string name, string parent)
+        {
+            List<string> strings = new List<string>();
+            while (parent != "local")
+            {
+                if (ComicDB.GetFirst("Name", parent) is LocalComic local)
+                {
+                    strings.Add(parent);
+                    parent = local.Parent;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            strings.Add("local");
+            strings.Reverse();
+            return "shadow://" + string.Join(" / ", strings) + "/" + name;
         }
     }
 }

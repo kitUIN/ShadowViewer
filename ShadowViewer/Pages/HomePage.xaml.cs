@@ -171,13 +171,17 @@ namespace ShadowViewer.Pages
             if (e.OriginalSource is FrameworkElement element)
             {
                 var item = element.DataContext;
-                if (item is LocalComic comic)
+                if (item is LocalComic comic && comic.IsFolder)
                 {
                     Frame.Navigate(this.GetType(), ViewModel.OriginPath + "/" + comic.Name);
                 }
             }
         }
-
+        /// <summary>
+        /// 右键菜单关闭时触发
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
         private void HomeCommandBarFlyout_Closed(object sender, object e)
         {
             if (!isLoaded && window!=null)
@@ -186,6 +190,13 @@ namespace ShadowViewer.Pages
                 window.Activate();
             }
         }
+        /// <summary>
+        /// 创建一个原始的对话框
+        /// </summary>
+        /// <param name="title">The title.</param>
+        /// <param name="xamlRoot">The xaml root.</param>
+        /// <param name="oldName">The old name.</param>
+        /// <returns></returns>
         private ContentDialog CreateRawDialog(string title, XamlRoot xamlRoot, string oldName)
         {
             ContentDialog dialog = XamlHelper.CreateContentDialog(xamlRoot);
@@ -323,6 +334,7 @@ namespace ShadowViewer.Pages
  
         private void ContentGridView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
+             
             foreach(var item in e.Items)
             {
                 if(!ContentGridView.SelectedItems.Contains(item))
@@ -330,6 +342,41 @@ namespace ShadowViewer.Pages
                     ContentGridView.SelectedItems.Add(item);
                 }
             }
+        }
+
+        private async void Root_Drop(object sender, DragEventArgs e)
+        {
+            OverBorder.Visibility = Visibility.Collapsed;
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            { 
+                foreach(var item in await e.DataView.GetStorageItemsAsync())
+                {
+                    if(item is StorageFolder folder)
+                    {
+                        await ComicHelper.ImportComicsAsync(folder, ViewModel.Path);
+                    }
+                }
+                MessageHelper.SendFilesReload();
+            }
+        }
+
+        private void Root_DragOver(object sender, DragEventArgs e)
+        {
+
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.AcceptedOperation = DataPackageOperation.Link;
+                e.DragUIOverride.Caption = I18nHelper.GetString("String.Import");
+                OverBorder.Visibility = Visibility.Visible;
+                OverBorder.Width = Root.ActualWidth - 20;
+                OverBorder.Height = Root.ActualHeight - 20;
+                ImportText.Text = "将文件拖到这并导入为漫画";
+            }
+        }
+
+        private void Root_DragLeave(object sender, DragEventArgs e)
+        {
+            OverBorder.Visibility = Visibility.Collapsed;
         }
     }
 }

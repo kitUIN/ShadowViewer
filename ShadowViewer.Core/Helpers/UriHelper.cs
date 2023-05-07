@@ -23,9 +23,9 @@ namespace ShadowViewer.Helpers
                 await Launcher.LaunchFolderAsync(folder);
             }
         }
-        public static string JoinToString(this ObservableCollection<string> tags)
+        public static string JoinToString(this ObservableCollection<string> tags,string separator = ",")
         {
-            return string.Join(",", tags);
+            return string.Join(separator, tags);
         }
         public static async Task<StorageFile> GetFile(this Uri uri)
         {

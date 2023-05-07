@@ -77,28 +77,29 @@ namespace ShadowViewer.Models
             this.createTime = createTime;
             this.lastReadTime = lastReadTime;
             this.parent = parent;
-            this.Tags = tags;
-            this.AnotherTags = anotherTags;
+            Tags = tags;
+            AnotherTags = anotherTags;
             this.link = link;
             this.size = size;
             this.sizeString = ShowSize(size);
             this.isFolder = isFolder;
+            Tags.CollectionChanged += Tags_CollectionChanged;
+            AnotherTags.CollectionChanged += AnotherTags_CollectionChanged;
         }
-        public LocalComic(string name, string author, string parent, string percent, string createTime, string lastReadTime, string link, string tags, string anotherTags, string img, long size,bool isFolder)
+
+        private void AnotherTags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            this.name = name;
-            this.author = author;
-            this.img = img;
-            this.percent = percent;
-            this.createTime = createTime;
-            this.lastReadTime = lastReadTime;
-            this.parent = parent;
-            LoadTags(tags);
-            LoadAnotherTags(anotherTags);
-            this.link = link;
-            this.size = size;
-            this.sizeString = ShowSize(size);
-            this.isFolder = isFolder;
+            ComicDB.Update(nameof(AnotherTags), nameof(Name), AnotherTags.JoinToString(), Name);
+        }
+
+        private void Tags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ComicDB.Update(nameof(Tags), nameof(Name), Tags.JoinToString(), Name);
+        }
+
+        public LocalComic(string name, string author, string parent, string percent, string createTime, string lastReadTime, string link, string tags, string anotherTags, string img, long size,bool isFolder):
+            this(name,author, parent, percent, createTime, lastReadTime, link, LoadTags(tags), LoadTags(anotherTags), img, size, isFolder)
+        {
         }
         partial void OnSizeChanged(long value)
         {
@@ -108,54 +109,47 @@ namespace ShadowViewer.Models
         {
             if (oldValue != newValue)
             {
-                ComicDB.Update("Img", "Name", newValue, Name);
+                ComicDB.Update(nameof(Img), nameof(Name), newValue, Name);
             }
         }
         partial void OnNameChanged(string oldValue, string newValue)
         {
             if (oldValue != newValue)
             {
-                ComicDB.Update("Link", "Name", newValue, oldValue);
-                ComicDB.Update("Name", "Name", newValue, oldValue);
-                ComicDB.Update("Parent", "Parent", newValue, oldValue);
-                Link = newValue;
+                
+                ComicDB.Update(nameof(Name), nameof(Name), newValue, oldValue);
+                Parent = Name;
+                if (IsFolder)
+                {
+                    Link = Name;
+                }
+            }
+        }
+        partial void OnLinkChanged(string oldValue, string newValue)
+        {
+            if (oldValue != newValue)
+            {
+                ComicDB.Update(nameof(Link), nameof(Name), newValue, Name);
             }
         }
         partial void OnParentChanged(string oldValue, string newValue)
         {
-            if(oldValue != newValue && newValue != Name)
+            if(oldValue != newValue)
             {
-                ComicDB.Update("Parent", "Name", newValue, Name);
+                ComicDB.Update(nameof(Parent), nameof(Name), newValue, Name);
             }
         }
-        public void AddTag(string tag)
+         
+        private static ObservableCollection<string> LoadTags(string tags)
         {
-            if (!Tags.Contains(tag))
+            var res = new HashSet<string>();
+            foreach (var tag in tags.Split(","))
             {
-                Tags.Add(tag);
+                res.Add(tag);
             }
+            return new ObservableCollection<string>(res);
         }
-        public void AddAnotherTag(string tag)
-        {
-            if (!AnotherTags.Contains(tag))
-            {
-                AnotherTags.Add(tag);
-            }
-        } 
-        public void LoadTags(string tags)
-        {
-            foreach(var tag in tags.Split(","))
-            {
-                AddTag(tag);
-            }
-        }
-        public void LoadAnotherTags(string tags)
-        {
-            foreach(var tag in tags.Split(","))
-            {
-                AddAnotherTag(tag);
-            }
-        }
+         
         public string ShowSize(long size)
         {
             long KB = 1024;
@@ -175,44 +169,9 @@ namespace ShadowViewer.Models
             }
             return $"{size} B";
         }
-        public static LocalComic CreateFolder(string name, string author, string img, string parent)
-        {
-            var time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            return new LocalComic(name, author, parent, "", time, time, name, "Local", "", img, 0, true);
-        }
-        public static LocalComic ReadComicFromDB(SqliteDataReader reader)
-        {
-            return new LocalComic(reader.GetString(0), reader.GetString(1), reader.GetString(2),
-                reader.GetString(3), reader.GetString(4), reader.GetString(5),
-                reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9),
-                reader.GetInt64(10), reader.GetBoolean(11));
-        }
-        public static string GetPath(string name, string parent)
-        {
-            List<string> strings = new List<string>();
-            while (parent != "local")
-            {
-                if(ComicDB.GetFirst("Name", parent) is LocalComic local)
-                {
-                    strings.Add(parent);
-                    parent = local.Parent;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            strings.Add("local");
-            strings.Reverse();
-            return "shadow://" + string.Join(" / ", strings) +"/"+ name;
-        }
-        public void RemoveInDB()
-        {
-            ComicDB.Remove("name", Name);
-        }
-        public void UpdateAnotherTags()
-        {
-            ComicDB.Update("AnotherTags", "Name", AnotherTags.JoinToString(), Name);
-        }
+        
+        
+        
+
     }
 }

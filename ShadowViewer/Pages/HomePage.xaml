@@ -163,6 +163,10 @@
     <Grid
         x:Name="Root"
         Padding="5"
+        AllowDrop="True"
+        DragLeave="Root_DragLeave"
+        DragOver="Root_DragOver"
+        Drop="Root_Drop"
         RightTapped="Root_RightTapped"
         SizeChanged="Grid_SizeChanged">
 
@@ -265,5 +269,25 @@
                 </DropDownButton.Flyout>
             </DropDownButton>
         </StackPanel>
+        <Border
+            x:Name="OverBorder"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+            CornerRadius="8"
+            Visibility="Collapsed">
+            <StackPanel
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Orientation="Vertical"
+                Spacing="20">
+                <FontIcon FontSize="100" Glyph="&#xE74B;" />
+                <TextBlock
+                    x:Name="ImportText"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    FontSize="30" />
+            </StackPanel>
+        </Border>
     </Grid>
 </Page>

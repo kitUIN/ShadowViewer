@@ -22,8 +22,10 @@
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <ItemGroup>
+    <Content Remove="Assets\Default\Import.png" />
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
-    <None Remove="Controls\StatusBlock.xaml" />
     <None Remove="FileWindow.xaml" />
     <None Remove="MainPage.xaml" />
     <None Remove="Pages\HomePage.xaml" />

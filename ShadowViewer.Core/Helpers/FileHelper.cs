@@ -1,4 +1,7 @@
-﻿namespace ShadowViewer.Helpers
+﻿using System.Collections.Generic;
+using Windows.Foundation;
+
+namespace ShadowViewer.Helpers
 {
     public static class FileHelper
     {
@@ -66,6 +69,6 @@
                 return file;
             }
             return null;
-        }
+        } 
     }
 }
