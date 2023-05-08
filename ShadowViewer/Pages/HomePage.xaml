@@ -201,7 +201,7 @@
                             DragOver="GridViewItem_DragOverCustomized"
                             Drop="GridViewItem_Drop"
                             Spacing="3"
-                            Tag="{x:Bind Name}">
+                            Tag="{x:Bind}">
                             <Image
                                 Width="120"
                                 Height="75"
@@ -232,13 +232,16 @@
 
         </ScrollViewer>
         <StackPanel
-            HorizontalAlignment="Center"
+            Margin="10,0,0,0"
+            HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Orientation="Horizontal"
-            Spacing="3">
+            Spacing="10">
+            <Button>
+                <FontIcon FontSize="13" Glyph="&#xE71C;" />
+            </Button>
             <BreadcrumbBar
                 x:Name="PathBar"
-                Margin="0,0,20,0"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 ItemClicked="PathBar_ItemClicked"
@@ -255,28 +258,6 @@
                     </DataTemplate>
                 </BreadcrumbBar.ItemTemplate>
             </BreadcrumbBar>
-            <Button>
-                <SymbolIcon Symbol="Filter" />
-            </Button>
-            <DropDownButton>
-                <DropDownButton.Content>
-                    <FontIcon Glyph="&#xE8B9;" />
-                </DropDownButton.Content>
-                <DropDownButton.Flyout>
-                    <MenuFlyout Placement="Bottom">
-                        <MenuFlyoutItem Text="Picture">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8B9;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Detail">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE8CA;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout>
-                </DropDownButton.Flyout>
-            </DropDownButton>
         </StackPanel>
         <Border
             x:Name="OverBorder"

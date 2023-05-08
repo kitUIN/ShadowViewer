@@ -312,8 +312,8 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="SizeChangedEventArgs"/> instance containing the event data.</param>
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            PathBar.Width = ((Grid)sender).ActualWidth - 200; 
-            PathBar.MaxWidth = ((Grid)sender).ActualWidth - 200; 
+            PathBar.Width = ((Grid)sender).ActualWidth - 200;
+             
         }
         /// <summary>
         /// µØÖ·À¸µã»÷
@@ -375,11 +375,24 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void GridViewItem_Drop(object sender, DragEventArgs e)
         {
-            if (sender is FrameworkElement frame && frame.Tag is string name)
+            if (sender is FrameworkElement frame  )
             {
+                string parent;
+                if(frame.Tag is LocalComic comic && comic.IsFolder)
+                {
+                    parent = comic.Name;
+                }
+                else if(frame.Tag is string name)
+                {
+                    parent = name;
+                }
+                else
+                {
+                    return;
+                }
                 foreach (LocalComic item in ContentGridView.SelectedItems)
                 {
-                    item.Parent = name;
+                    item.Parent = parent;
                 }
                 MessageHelper.SendFilesReload();
                 MessageHelper.SendStatusReloadDB();
@@ -392,14 +405,30 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void GridViewItem_DragOverCustomized(object sender, DragEventArgs e)
         {
-            e.AcceptedOperation = DataPackageOperation.Move;
-            e.DragUIOverride.Caption = I18nHelper.GetString("ShadowCommandMove.Label");
-            if (sender is FrameworkElement frame && frame.Tag is string name)
+            if (sender is FrameworkElement frame)
             {
-                e.DragUIOverride.Caption += name;
+                string parent;
+                if (frame.Tag is LocalComic comic && comic.IsFolder)
+                {
+                    parent = comic.Name;
+                    e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None;
+                    e.DragUIOverride.IsCaptionVisible = comic.IsFolder;
+                }
+                else if (frame.Tag is string name)
+                {
+                    parent = name;
+                    e.AcceptedOperation =  DataPackageOperation.Move;
+                    e.DragUIOverride.IsCaptionVisible = true;
+                }
+                else
+                {
+                    return;
+                }
+                e.DragUIOverride.Caption = I18nHelper.GetString("ShadowCommandMove.Label") + parent;
+                e.DragUIOverride.IsGlyphVisible = true;
             }
-            e.DragUIOverride.IsCaptionVisible = true;
-            e.DragUIOverride.IsGlyphVisible = true;
+
+            
         }
 
         /// <summary>
