@@ -1,13 +1,25 @@
-﻿namespace ShadowViewer.ViewModels
+﻿using Microsoft.UI.Xaml.Controls;
+using System.Xml.Linq;
+
+namespace ShadowViewer.ViewModels
 {
     internal partial class StatusViewModel: ObservableRecipient, IRecipient<StatusMessage>
     {
         public LocalComic Comic { get; set; }
+        private Frame frame;
+        private UIElement tagIdBox;
+        [ObservableProperty]
+        private bool isTag;
         public ObservableCollection<TokenItem> Tags = new ObservableCollection<TokenItem>();
-        public StatusViewModel(LocalComic comic,bool isTag)
+        public ObservableCollection<string> ExistID = new ObservableCollection<string>();
+        public StatusViewModel(LocalComic comic, bool isTag, Frame frame,UIElement tagIdBox)
         {
             Comic = comic;
-            LoadTags(isTag);
+            IsActive = true;
+            IsTag = isTag;
+            this.frame = frame;
+            this.tagIdBox = tagIdBox;
+            LoadTags();
         }
         public string GetComicType
         {
@@ -17,7 +29,7 @@
         {
             get => ComicHelper.GetPath(Comic.Name, Comic.Parent);
         }
-        public void LoadTags(bool isTag)
+        public void LoadTags()
         {
             Tags.Clear();
             foreach (var item in Comic.Tags)
@@ -47,7 +59,7 @@
                             Content = shadowTag.name,
                             Foreground = shadowTag.foreground,
                             Background = shadowTag.background,
-                            IsRemoveable = isTag,
+                            IsRemoveable = IsTag,
                             Tag = shadowTag.tag,
                         };
                         tokenItem.Removing += ShowTagItem_Removing;
@@ -62,9 +74,27 @@
             var item = e.TokenItem;
             Comic.AnotherTags.Remove(item.Tag.ToString());
         }
+        public void Reload()
+        {
+            Reload(Comic);
+        }
+        public void Reload(LocalComic comic)
+        {
+            frame.Navigate(typeof(StatusPage), new List<object> { comic, IsTag });
+        }
         public void Receive(StatusMessage message)
         {
-            Log.Information("hello{222}", message.objects[0]);
+            if (message.objects.Length >= 1 && message.objects[0] is string method)
+            {
+                if (method == "Reload")
+                {
+                    Reload(); 
+                }
+                else if (method == "ReloadDB")
+                {
+                    Reload(ComicDB.GetFirst(nameof(Comic.Name), Comic.Name));
+                }
+            }
         }
     }
 }

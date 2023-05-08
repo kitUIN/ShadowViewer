@@ -21,7 +21,7 @@
             }
             strings.Add("local");
             strings.Reverse();
-            return "shadow://" + string.Join(" / ", strings) + "/" + name;
+            return "shadow://" + string.Join("/", strings) + "/" + name;
         }
         public static LocalComic CreateFolder(string name, string author, string img, string parent)
         {

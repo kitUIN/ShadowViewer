@@ -14,7 +14,58 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="NoOverButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
 
+
+
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+
+
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </ContentPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
     <Grid Padding="0,32,0,5">
         <ScrollViewer Padding="10">
             <StackPanel
@@ -67,12 +118,26 @@
                                 Text="{x:Bind viewModel.Comic.Name, Mode=OneWay}"
                                 TextWrapping="NoWrap" />
                         </StackPanel>
-                        <co:StatusBlock x:Uid="AuthorStatus" Text="{x:Bind viewModel.Comic.Author}" />
-                        <co:StatusBlock x:Uid="TypeStatus" Text="{x:Bind viewModel.GetComicType}" />
-                        <co:StatusBlock x:Uid="ParentStatus" Text="{x:Bind viewModel.Comic.Parent}" />
-                        <co:StatusBlock x:Uid="PathStatus" Text="{x:Bind viewModel.GetShadowPath}" />
-                        <co:StatusBlock x:Uid="PercentStatus" Text="{x:Bind viewModel.Comic.Percent}" />
-                        <co:StatusBlock x:Uid="LinkStatus" Text="{x:Bind viewModel.Comic.Link}" />
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock
+                                x:Uid="AuthorStatus"
+                                Width="100"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                x:Name="AuthorName"
+                                MaxWidth="350"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                KeyDown="AuthorName_KeyDown"
+                                Text="{x:Bind viewModel.Comic.Author, Mode=OneWay}"
+                                TextWrapping="NoWrap" />
+                        </StackPanel>
+                        <co:StatusBlock x:Uid="TypeStatus" Text="{x:Bind viewModel.GetComicType, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="ParentStatus" Text="{x:Bind viewModel.Comic.Parent, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="PathStatus" Text="{x:Bind viewModel.GetShadowPath, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="PercentStatus" Text="{x:Bind viewModel.Comic.Percent, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="LinkStatus" Text="{x:Bind viewModel.Comic.Link, Mode=OneWay}" />
                     </StackPanel>
                 </Border>
                 <Border
@@ -83,9 +148,9 @@
                         Padding="10,10,10,10"
                         Orientation="Vertical"
                         Spacing="10">
-                        <co:StatusBlock x:Uid="CreateTimeStatus" Text="{x:Bind viewModel.Comic.CreateTime}" />
-                        <co:StatusBlock x:Uid="LastReadTimeStatus" Text="{x:Bind viewModel.Comic.LastReadTime}" />
-                        <co:StatusBlock x:Uid="SizeStatus" Text="{x:Bind viewModel.Comic.SizeString}" />
+                        <co:StatusBlock x:Uid="CreateTimeStatus" Text="{x:Bind viewModel.Comic.CreateTime, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="LastReadTimeStatus" Text="{x:Bind viewModel.Comic.LastReadTime, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="SizeStatus" Text="{x:Bind viewModel.Comic.SizeString, Mode=OneWay}" />
                     </StackPanel>
                 </Border>
                 <Border
@@ -98,30 +163,41 @@
                     Padding="20,10,20,10"
                     Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                     CornerRadius="7"
-                    Visibility="{x:Bind isTag}">
-                    <StackPanel Orientation="Horizontal">
-                        <labs:TokenView SelectionMode="None">
-                            <labs:TokenItem
-                                x:Name="ShowTagItem"
-                                Background="{x:Bind ToBrush(BackgroundColorPicker.SelectedColor), Mode=OneWay}"
-                                Content="{x:Bind TagNameBox.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                Foreground="{x:Bind ToBrush(ForegroundColorPicker.SelectedColor), Mode=OneWay}"
-                                IsSelected="False" />
-                        </labs:TokenView>
-                        <Button x:Uid="SettingButton" Margin="60,0,10,0">
+                    Visibility="{x:Bind viewModel.IsTag}">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button x:Uid="SettingButton">
                             <Button.Flyout>
                                 <Flyout>
                                     <StackPanel Orientation="Horizontal" Spacing="10">
+                                        <AutoSuggestBox
+                                            x:Name="TagNameBox"
+                                            x:Uid="TagNameBox"
+                                            Width="140"
+                                            MaxSuggestionListHeight="80"
+                                            SuggestionChosen="TagNameBox_SuggestionChosen"
+                                            TextChanged="TagNameBox_TextChanged">
+                                            <AutoSuggestBox.ItemTemplate>
+                                                <DataTemplate x:DataType="core:ShadowTag">
+                                                    <Grid>
+                                                        <Button
+                                                            HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Background="{x:Bind background}"
+                                                            Content="{x:Bind name}"
+                                                            CornerRadius="16"
+                                                            Foreground="{x:Bind foreground}"
+                                                            IsEnabled="False"
+                                                            Style="{StaticResource NoOverButton}"
+                                                            Tag="{x:Bind tag}" />
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </AutoSuggestBox.ItemTemplate>
+                                        </AutoSuggestBox>
                                         <TextBox
                                             x:Name="TagIdBox"
                                             x:Uid="TagIdBox"
-                                            MaxWidth="120"  
-                                            TextChanged="TagIdBox_TextChanged"/>
-                                        <TextBox
-                                            x:Name="TagNameBox"
-                                            x:Uid="TagNameBox"
-                                            MaxWidth="120"
-                                            TextChanged="TagNameBox_TextChanged" />
+                                            Width="100"
+                                            TextChanged="TagIdBox_TextChanged" />
                                         <StackPanel Orientation="Vertical" Spacing="9">
                                             <TextBlock x:Uid="TagBackgroundText" />
                                             <controls:ColorPickerButton
@@ -162,6 +238,18 @@
                             x:Name="AddNewTag"
                             x:Uid="AddNewTag"
                             Click="AddNewTag_Click" />
+                        <TextBlock
+                            x:Uid="PreviewBlock"
+                            Margin="30,0,0,0"
+                            VerticalAlignment="Center" />
+                        <labs:TokenView SelectionMode="None">
+                            <labs:TokenItem
+                                x:Name="ShowTagItem"
+                                Background="{x:Bind ToBrush(BackgroundColorPicker.SelectedColor), Mode=OneWay}"
+                                Content="{x:Bind TagNameBox.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                Foreground="{x:Bind ToBrush(ForegroundColorPicker.SelectedColor), Mode=OneWay}"
+                                IsSelected="False" />
+                        </labs:TokenView>
                     </StackPanel>
 
                 </Border>

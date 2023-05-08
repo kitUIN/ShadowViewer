@@ -88,7 +88,7 @@ namespace ShadowViewer.Helpers
             ContentDialog dialog = CreateContentDialog(xamlRoot);
             dialog.Title = title;
             dialog.Content = message;
-            dialog.PrimaryButtonText = I18nHelper.GetString("Dialog/ConfirmButton");
+            dialog.IsPrimaryButtonEnabled = false;
             dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
             return dialog;
         }

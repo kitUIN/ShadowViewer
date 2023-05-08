@@ -25,6 +25,7 @@
             IsTextSelectionEnabled="True"
             Text="{x:Bind Text}"
             TextTrimming="CharacterEllipsis"
-            TextWrapping="NoWrap" />
+            TextWrapping="NoWrap"
+            ToolTipService.ToolTip="{x:Bind Text}" />
     </StackPanel>
 </UserControl>

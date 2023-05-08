@@ -30,7 +30,7 @@ namespace ShadowViewer.DataBases
                 { "@Foreground", shadowTag.ForegroundHex },
                 { "@Background", shadowTag.BackgroundHex },
             });
-                Log.ForContext<SqliteConnection>().Information("添加标签数据{shadowTag}", shadowTag.ToString());
+                Log.ForContext<SqliteConnection>().Information("添加标签数据{shadowTag}", shadowTag.Log());
             }
             catch (Exception ex)
             {

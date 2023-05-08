@@ -116,13 +116,13 @@ namespace ShadowViewer.Models
         {
             if (oldValue != newValue)
             {
-                
                 ComicDB.Update(nameof(Name), nameof(Name), newValue, oldValue);
-                Parent = Name;
+                ComicDB.Update(nameof(Parent), nameof(Parent), newValue, oldValue);
                 if (IsFolder)
                 {
                     Link = Name;
                 }
+                WindowHelper.SetWindowTitle(oldValue, newValue);
             }
         }
         partial void OnLinkChanged(string oldValue, string newValue)
@@ -134,7 +134,7 @@ namespace ShadowViewer.Models
         }
         partial void OnParentChanged(string oldValue, string newValue)
         {
-            if(oldValue != newValue)
+            if(oldValue != newValue && newValue != Name)
             {
                 ComicDB.Update(nameof(Parent), nameof(Name), newValue, Name);
             }
@@ -145,7 +145,10 @@ namespace ShadowViewer.Models
             var res = new HashSet<string>();
             foreach (var tag in tags.Split(","))
             {
-                res.Add(tag);
+                if (tag != "")
+                {
+                    res.Add(tag);
+                }
             }
             return new ObservableCollection<string>(res);
         }

@@ -127,7 +127,7 @@
     <value>ShadowReader</value>
     <comment>ShadowReader</comment>
   </data>
-  <data name="AuthorStatus.Title" xml:space="preserve">
+  <data name="AuthorStatus.Text" xml:space="preserve">
     <value>作者:</value>
   </data>
   <data name="BugRequestCard.Header" xml:space="preserve">
@@ -174,9 +174,6 @@
   </data>
   <data name="Error.Message.UriFormatException" xml:space="preserve">
     <value>不规范的地址,请重试</value>
-  </data>
-  <data name="Error.Title" xml:space="preserve">
-    <value>错误</value>
   </data>
   <data name="FileAppTitle.Text" xml:space="preserve">
     <value>属性</value>
@@ -244,8 +241,17 @@
   <data name="PluginSettingTitle.Text" xml:space="preserve">
     <value>插件设置</value>
   </data>
+  <data name="PreviewBlock.Text" xml:space="preserve">
+    <value>预览:</value>
+  </data>
   <data name="SettingButton.Content" xml:space="preserve">
-    <value>设置</value>
+    <value>标签设置</value>
+  </data>
+  <data name="Shadow.Error.SQLite.Unique" xml:space="preserve">
+    <value>数据库中已存在该值</value>
+  </data>
+  <data name="Shadow.Error.Title" xml:space="preserve">
+    <value>错误</value>
   </data>
   <data name="ShadowCommandAdd.Label" xml:space="preserve">
     <value>新建</value>
@@ -298,6 +304,9 @@
   <data name="SizeStatus.Title" xml:space="preserve">
     <value>大小:</value>
   </data>
+  <data name="String.Default.Tag" xml:space="preserve">
+    <value>新增</value>
+  </data>
   <data name="String.Import" xml:space="preserve">
     <value>导入</value>
   </data>
@@ -317,7 +326,7 @@
     <value>字体色</value>
   </data>
   <data name="TagIdBox.Header" xml:space="preserve">
-    <value>标签ID(不可重复)</value>
+    <value>标签ID</value>
   </data>
   <data name="TagNameBox.Header" xml:space="preserve">
     <value>标签名称</value>

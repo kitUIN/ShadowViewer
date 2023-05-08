@@ -32,6 +32,10 @@ namespace ShadowViewer.Models
         }
         public override string ToString()
         {
+            return name;
+        }
+        public string Log()
+        {
             return $"ShadowTag(id={tag},name={name},foreground={ForegroundHex},background={BackgroundHex})";
         }
         public static ShadowTag LoadFromDB(SqliteDataReader reader)

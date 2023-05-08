@@ -32,6 +32,7 @@ namespace ShadowViewer.DataBases
             catch (Exception ex)
             {
                 Log.ForContext<SqliteConnection>().Error("修改漫画:{name}({old}->{new})失败:\n{Ex}", name, whereArg, newArg, ex);
+                throw;
             }
         }
         public static void Add(LocalComic localComic)
@@ -59,6 +60,7 @@ namespace ShadowViewer.DataBases
             catch (Exception ex)
             {
                 Log.ForContext<SqliteConnection>().Error("添加本地漫画失败:\n {Ex}", ex);
+                throw;
             }
         }
         public static void Add(string name, string img, string parent)
@@ -79,6 +81,7 @@ namespace ShadowViewer.DataBases
             catch (Exception ex)
             {
                 Log.ForContext<SqliteConnection>().Error("删除漫画:{where}={id} 失败:\n{Ex}", where, id, ex);
+                throw;
             }
         }
         public static List<LocalComic> Get(string where, string whereArg)
@@ -88,7 +91,7 @@ namespace ShadowViewer.DataBases
             return res;
         }
         public static LocalComic GetFirst(string where, string whereArg)
-        {
+        { 
             List<LocalComic> res = DBHelper.Get(DBHelper.DBPath, DBTable, KeyValuePair.Create(where, whereArg as object), ReadComicFromDB).Cast<LocalComic>().ToList();
             Log.ForContext<SqliteConnection>().Information("[{name}={Parent}]获取漫画(counts={Count})", where, whereArg, res.Count);
             if(res.Count > 0 )

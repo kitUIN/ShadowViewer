@@ -238,13 +238,7 @@ namespace ShadowViewer.Pages
                 var oldname = comic.Name;
                 comic.Name = name;
                 MessageHelper.SendFilesReload();
-                if(name != oldname)
-                {
-                    if(ComicDB.GetFirst("Name", name) is LocalComic comic)
-                    {
-                        NavigateToStatus(comic, false, oldname, true, true);
-                    }
-                }
+                MessageHelper.SendStatusReload();
             };
             return dialog;
         }
@@ -282,8 +276,6 @@ namespace ShadowViewer.Pages
             }
             
         }
-
-
         private void MoveTeachingTip_ActionButtonClick(TeachingTip sender, object args)
         {
             if(MoveTreeView.SelectedItem is ShadowPath path)
@@ -299,6 +291,7 @@ namespace ShadowViewer.Pages
             }
             MoveTeachingTip.IsOpen = false;
             MessageHelper.SendFilesReload();
+            MessageHelper.SendStatusReload();
         }
 
         private void TreeViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -317,6 +310,7 @@ namespace ShadowViewer.Pages
                     item.Parent = name;
                 }
                 MessageHelper.SendFilesReload();
+                MessageHelper.SendStatusReloadDB();
             }
         } 
         private void GridViewItem_DragOverCustomized(object sender, DragEventArgs e)

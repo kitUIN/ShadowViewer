@@ -1,4 +1,5 @@
-﻿using ShadowViewer.Messages;
+﻿using ShadowViewer.DataBases;
+using ShadowViewer.Messages;
 
 namespace ShadowViewer.Helpers
 {
@@ -56,5 +57,19 @@ namespace ShadowViewer.Helpers
         {
             WeakReferenceMessenger.Default.Send(new StatusMessage("Close"));
         }
+        /// <summary>
+        /// 通知StatusPage更新属性
+        /// </summary>
+        public static void SendStatusReload()
+        {
+            WeakReferenceMessenger.Default.Send(new StatusMessage("Reload"));
+        } /// <summary>
+        /// 通知StatusPage更新属性
+        /// </summary>
+        public static void SendStatusReloadDB()
+        {
+            WeakReferenceMessenger.Default.Send(new StatusMessage("ReloadDB"));
+        }
+        
     }
 }

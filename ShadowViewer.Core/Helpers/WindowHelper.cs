@@ -44,12 +44,22 @@ namespace ShadowViewer.Helpers
                 foreach (Window window in _activeWindows)
                 {
                     if (title == window.Title)
-                    { 
+                    {
                         return window;
                     }
                 }
             }
             return null;
+        }
+        static public void SetWindowTitle(string oldTitle,string title)
+        {
+            foreach (Window window in _activeWindows)
+            {
+                if (oldTitle == window.Title)
+                {
+                    window.Title = title;
+                }
+            }
         }
         static public Window GetWindowForElement(UIElement element)
         {
