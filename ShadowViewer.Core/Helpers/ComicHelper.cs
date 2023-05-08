@@ -57,17 +57,33 @@ namespace ShadowViewer.Helpers
             }
             return folders;
         }
+        /// <summary>
+        /// 从文件中获取封面
+        /// </summary>
+        /// <param name="files">The files.</param>
+        /// <returns></returns>
         public static string GetImgInFiles(List<StorageFile> files)
         {
             files.Sort((x, y) => x.Name.CompareTo(y.Name));
             var imgFile = files.FirstOrDefault(x => pngs.Contains(x.FileType));
             return imgFile is null ? null : imgFile.Path;
         }
-        public static string GetSizeInFiles(List<StorageFile> files)
+        /// <summary>
+        /// 计算大小
+        /// </summary>
+        /// <param name="files">The files.</param>
+        /// <returns></returns>
+        public static async Task<ulong> GetSizeInFiles(List<StorageFile> files)
         {
-            files.Sort((x, y) => x.Name.CompareTo(y.Name));
-            var imgFile = files.FirstOrDefault(x => pngs.Contains(x.FileType));
-            return imgFile is null ? null : imgFile.Path;
+            ulong res = 0;
+            foreach (var item in files)
+            {
+                if (pngs.Contains(item.FileType))
+                {
+                    res += (await item.GetBasicPropertiesAsync()).Size;
+                }
+            } 
+            return res;
         }
         /// <summary>
         /// 从文件夹导入漫画
@@ -81,7 +97,7 @@ namespace ShadowViewer.Helpers
             List<StorageFile> oneFiles = (await folder.GetFilesAsync()).ToList();
             // 一层的漫画
             var img = GetImgInFiles(oneFiles);
-            var size = (await folder.GetBasicPropertiesAsync()).Size;
+            var size = await GetSizeInFiles(oneFiles);
             // 无封面情况,从内部取
             
             // 最多2层漫画
@@ -89,13 +105,13 @@ namespace ShadowViewer.Helpers
             {
                 foreach(var item in first)
                 {
+                    List<StorageFile> twoFiles = (await item.GetFilesAsync()).ToList();
                     if (img is null)
                     {
-                        List<StorageFile> twoFiles = (await folder.GetFilesAsync()).ToList();
                         img = GetImgInFiles(twoFiles);
                     }
+                    size += await GetSizeInFiles(twoFiles);
                 }
-                
             }
             if (img is null)
             {   
