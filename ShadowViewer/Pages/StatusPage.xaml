@@ -72,6 +72,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Orientation="Vertical"
+                SizeChanged="StackPanel_SizeChanged"
                 Spacing="6">
                 <Border
                     Padding="10,0,10,0"
@@ -111,7 +112,6 @@
                                 VerticalAlignment="Center" />
                             <TextBox
                                 x:Name="FileName"
-                                MaxWidth="350"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 KeyDown="FileName_KeyDown"

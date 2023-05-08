@@ -237,6 +237,11 @@ namespace ShadowViewer.Pages
             }
             
         }
-        
+
+        private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var s = sender as StackPanel;
+            FileName.Width = s.ActualWidth - 170;
+        }
     }
 }
