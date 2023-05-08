@@ -1,4 +1,6 @@
-﻿namespace ShadowViewer.Helpers
+﻿using Microsoft.UI.Xaml.Controls;
+
+namespace ShadowViewer.Helpers
 {
     public static class ComicHelper
     {
@@ -55,25 +57,52 @@
             }
             return folders;
         }
-        public static async Task  ImportComicsAsync(StorageFolder folder, string parent)
+        public static string GetImgInFiles(List<StorageFile> files)
         {
+            files.Sort((x, y) => x.Name.CompareTo(y.Name));
+            var imgFile = files.FirstOrDefault(x => pngs.Contains(x.FileType));
+            return imgFile is null ? null : imgFile.Path;
+        }
+        public static string GetSizeInFiles(List<StorageFile> files)
+        {
+            files.Sort((x, y) => x.Name.CompareTo(y.Name));
+            var imgFile = files.FirstOrDefault(x => pngs.Contains(x.FileType));
+            return imgFile is null ? null : imgFile.Path;
+        }
+        /// <summary>
+        /// 从文件夹导入漫画
+        /// </summary>
+        /// <param name="folder">The folder.</param>
+        /// <param name="parent">The parent.</param>
+        public static async Task  ImportComicsAsync(StorageFolder folder, string parent)
+        { 
             var time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            List<IStorageItem> item = (await folder.GetItemsAsync()).ToList();
-            var first = CheckEffectiveFolderAsync(item);
-            item.Sort((x, y) => x.Name.CompareTo(y.Name));
-            var imgItem = item.FirstOrDefault(x => x is StorageFile file && pngs.Contains(file.FileType));
-            string img = imgItem is null ? "" : imgItem.Path;
-            // 多层漫画无封面,从里面取
-            if (imgItem is null && first.Count > 0)
-            {
-                StorageFolder imgFolder = item.FirstOrDefault(x => x is StorageFolder) as StorageFolder;
-                List<IStorageItem> item2 = (await imgFolder.GetItemsAsync()).ToList();
-                item2.Sort((x, y) => x.Name.CompareTo(y.Name));
-                var imgItem2 = item.FirstOrDefault(x => x is StorageFile file && pngs.Contains(file.FileType));
-                img = imgItem2 is null ? "" : imgItem2.Path;
-            }
-            ComicDB.Add(new LocalComic(folder.DisplayName, "", parent, "0%", time, time, folder.Path, "Local", "", img, 0, false));
+            var first = await folder.GetFoldersAsync();
+            List<StorageFile> oneFiles = (await folder.GetFilesAsync()).ToList();
+            // 一层的漫画
+            var img = GetImgInFiles(oneFiles);
+            var size = (await folder.GetBasicPropertiesAsync()).Size;
+            // 无封面情况,从内部取
             
+            // 最多2层漫画
+            if (first.Count > 0)
+            {
+                foreach(var item in first)
+                {
+                    if (img is null)
+                    {
+                        List<StorageFile> twoFiles = (await folder.GetFilesAsync()).ToList();
+                        img = GetImgInFiles(twoFiles);
+                    }
+                }
+                
+            }
+            if (img is null)
+            {   
+                img = "";
+            }
+            ComicDB.Add(new LocalComic(folder.DisplayName, "", parent, "0%", time, time, folder.Path, "Local", "", img, (long)size, false));
+
         }
     }
 }

@@ -17,7 +17,14 @@ namespace ShadowViewer.Pages
         {
             ViewModel.Navigate(e.Parameter);
         }
-        
+        /// <summary>
+        /// 显示右键菜单
+        /// </summary>
+        /// <param name="position">The position.</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="isComicBook">if set to <c>true</c> [is comic book].</param>
+        /// <param name="isSingle">if set to <c>true</c> [is single].</param>
+        /// <param name="isFolder">if set to <c>true</c> [is folder].</param>
         private void ShowMenu(Point position, UIElement sender, bool isComicBook, bool isSingle, bool isFolder)
         {
             FlyoutShowOptions myOption = new FlyoutShowOptions()
@@ -53,43 +60,64 @@ namespace ShadowViewer.Pages
             ShowMenu(e.GetPosition(sender as UIElement), sender as UIElement, isComicBook, isSingle, isFolder);
 
         }
+        /// <summary>
+        /// 右键菜单-新建漫画导入
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private async void ShadowCommandAddFromFolder_Click(object sender, RoutedEventArgs e)
         {
 
             var folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
             if (folder != null)
             {
-
+                await ComicHelper.ImportComicsAsync(folder, ViewModel.Path);
+                MessageHelper.SendFilesReload();
             }
         }
+        /// <summary>
+        /// 右键菜单-新建文件夹
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private async void ShadowCommandAddNewFolder_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
             await CreateFolderDialog(XamlRoot, ViewModel.Path).ShowAsync();
         }
-
+        /// <summary>
+        /// 右键菜单-重命名
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private async void ShadowCommandRename_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
             await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"),XamlRoot, comic).ShowAsync();
         }
-
+        /// <summary>
+        /// 右键菜单-删除
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandDelete_Click(object sender, RoutedEventArgs e)
         {
-            HomeCommandBarFlyout.Hide();
-            var comics =  ContentGridView.SelectedItems;
-            foreach(LocalComic comic in comics)
+            HomeCommandBarFlyout.Hide(); 
+            foreach(LocalComic comic in ContentGridView.SelectedItems)
             {
-                comic.RemoveInDB();
-                ViewModel.LocalComics.Remove(comic);
+                comic.RemoveInDB(); 
                 WindowHelper.ColseWindowFromTitle(comic.Name);
             }
             MessageHelper.SendFilesReload();
         }
 
 
-
+        /// <summary>
+        /// 右键菜单-移动到
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandMove_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide(); 
@@ -102,18 +130,36 @@ namespace ShadowViewer.Pages
             MoveTeachingTip.IsOpen = true;
              
         }
-        private  void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// 右键菜单-添加标签
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
             NavigateToStatus(comic, true);
         }
+        /// <summary>
+        /// 右键菜单-查看属性
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandStatus_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
             NavigateToStatus(comic, false);
         }
+        /// <summary>
+        /// 跳转到属性页面
+        /// </summary>
+        /// <param name="comic">The comic.</param>
+        /// <param name="isTag">if set to <c>true</c> [is tag].</param>
+        /// <param name="name">The name.</param>
+        /// <param name="isMessage">if set to <c>true</c> [is message].</param>
+        /// <param name="isLoaded">if set to <c>true</c> [is loaded].</param>
         private void NavigateToStatus(LocalComic comic, bool isTag = false, string name = null, bool isMessage = false , bool isLoaded = false)
         {
             var newWindow = WindowHelper.GetWindowForTitle(name ?? comic.Name) as FileWindow;
@@ -259,13 +305,21 @@ namespace ShadowViewer.Pages
             return dialog;
            
         }
-
+        /// <summary>
+        /// 监控变化
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="SizeChangedEventArgs"/> instance containing the event data.</param>
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             PathBar.Width = ((Grid)sender).ActualWidth - 200; 
             PathBar.MaxWidth = ((Grid)sender).ActualWidth - 200; 
         }
-
+        /// <summary>
+        /// 地址栏点击
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="BreadcrumbBarItemClickedEventArgs"/> instance containing the event data.</param>
         private void PathBar_ItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
         {
             int index = ViewModel.Paths.IndexOf(args.Item as string);
@@ -276,6 +330,11 @@ namespace ShadowViewer.Pages
             }
             
         }
+        /// <summary>
+        /// 移动到 对话框的按钮响应
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The arguments.</param>
         private void MoveTeachingTip_ActionButtonClick(TeachingTip sender, object args)
         {
             if(MoveTreeView.SelectedItem is ShadowPath path)
@@ -283,6 +342,10 @@ namespace ShadowViewer.Pages
                 MoveToPath(path.Name);
             }
         }
+        /// <summary>
+        /// 移动到别的文件夹
+        /// </summary>
+        /// <param name="path">The path.</param>
         private void MoveToPath(string path)
         {
             foreach (LocalComic comic in ContentGridView.SelectedItems)
@@ -293,7 +356,11 @@ namespace ShadowViewer.Pages
             MessageHelper.SendFilesReload();
             MessageHelper.SendStatusReload();
         }
-
+        /// <summary>
+        /// 在树形结构上双击
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void TreeViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (MoveTreeView.SelectedItem is ShadowPath path)
@@ -301,6 +368,11 @@ namespace ShadowViewer.Pages
                 MoveToPath(path.Name);
             }
         }
+        /// <summary>
+        /// 接收拖动
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void GridViewItem_Drop(object sender, DragEventArgs e)
         {
             if (sender is FrameworkElement frame && frame.Tag is string name)
@@ -312,7 +384,12 @@ namespace ShadowViewer.Pages
                 MessageHelper.SendFilesReload();
                 MessageHelper.SendStatusReloadDB();
             }
-        } 
+        }
+        /// <summary>
+        /// 拖动悬浮显示
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void GridViewItem_DragOverCustomized(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Move;
@@ -325,7 +402,11 @@ namespace ShadowViewer.Pages
             e.DragUIOverride.IsGlyphVisible = true;
         }
 
- 
+        /// <summary>
+        /// 拖动开始步骤 添加到GridView选中
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragItemsStartingEventArgs"/> instance containing the event data.</param>
         private void ContentGridView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
              
@@ -337,23 +418,29 @@ namespace ShadowViewer.Pages
                 }
             }
         }
-
+        /// <summary>
+        /// 外部文件拖入进行响应
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private async void Root_Drop(object sender, DragEventArgs e)
         {
             OverBorder.Visibility = Visibility.Collapsed;
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            { 
-                foreach(var item in await e.DataView.GetStorageItemsAsync())
+            {
+                var item = await e.DataView.GetStorageItemsAsync();
+                if (item.Count == 1 && item[0] is StorageFolder folder)
                 {
-                    if(item is StorageFolder folder)
-                    {
-                        await ComicHelper.ImportComicsAsync(folder, ViewModel.Path);
-                    }
+                    await ComicHelper.ImportComicsAsync(folder, ViewModel.Path);
                 }
                 MessageHelper.SendFilesReload();
             }
         }
-
+        /// <summary>
+        /// 外部文件拖动悬浮显示
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void Root_DragOver(object sender, DragEventArgs e)
         {
 
@@ -367,7 +454,11 @@ namespace ShadowViewer.Pages
                 ImportText.Text = "将文件拖到这并导入为漫画";
             }
         }
-
+        /// <summary>
+        /// 外部文件拖动离开
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void Root_DragLeave(object sender, DragEventArgs e)
         {
             OverBorder.Visibility = Visibility.Collapsed;

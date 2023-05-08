@@ -242,6 +242,7 @@ namespace ShadowViewer.Pages
         {
             var s = sender as StackPanel;
             FileName.Width = s.ActualWidth - 170;
+            AuthorName.Width = s.ActualWidth - 170;
         }
     }
 }
