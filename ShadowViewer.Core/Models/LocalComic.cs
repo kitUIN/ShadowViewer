@@ -1,7 +1,4 @@
-﻿using ShadowViewer.DataBases;
-using ShadowViewer.Helpers;
-
-namespace ShadowViewer.Models
+﻿namespace ShadowViewer.Models
 {
     public partial class LocalComic: ObservableObject
     {
@@ -25,6 +22,11 @@ namespace ShadowViewer.Models
         /// </summary>
         [ObservableProperty]
         private string percent;
+        /// <summary>
+        /// 汉化组
+        /// </summary>
+        [ObservableProperty]
+        private string sinicizationGroup;
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -68,17 +70,18 @@ namespace ShadowViewer.Models
         /// </summary>
         [ObservableProperty]
         private bool isFolder = false;
-        public LocalComic(string name, string author, string parent, string percent, string createTime, string lastReadTime, string link, ObservableCollection<string> tags, ObservableCollection<string> anotherTags, string img, long size, bool isFolder)
+        public LocalComic(string name, string author,string sinicizationGroup, string parent, string percent, string createTime, string lastReadTime, string link, string tags = "Local", string anotherTags ="", string img="", long size=0, bool isFolder=false)
         {
             this.name = name;
             this.author = author;
+            this.sinicizationGroup = sinicizationGroup;
             this.img = img;
             this.percent = percent;
             this.createTime = createTime;
             this.lastReadTime = lastReadTime;
             this.parent = parent;
-            Tags = tags;
-            AnotherTags = anotherTags;
+            Tags = LoadTags(tags);
+            AnotherTags = LoadTags(anotherTags);
             this.link = link;
             this.size = size;
             this.sizeString = ShowSize(size);
@@ -96,11 +99,7 @@ namespace ShadowViewer.Models
         {
             ComicDB.Update(nameof(Tags), nameof(Name), Tags.JoinToString(), Name);
         }
-
-        public LocalComic(string name, string author, string parent, string percent, string createTime, string lastReadTime, string link, string tags, string anotherTags, string img, long size,bool isFolder):
-            this(name,author, parent, percent, createTime, lastReadTime, link, LoadTags(tags), LoadTags(anotherTags), img, size, isFolder)
-        {
-        }
+         
         partial void OnSizeChanged(long value)
         {
             SizeString = ShowSize(value);
@@ -110,6 +109,20 @@ namespace ShadowViewer.Models
             if (oldValue != newValue)
             {
                 ComicDB.Update(nameof(Img), nameof(Name), newValue, Name);
+            }
+        }
+        partial void OnAuthorChanged(string oldValue, string newValue)
+        {
+            if (oldValue != newValue)
+            {
+                ComicDB.Update(nameof(Author), nameof(Name), newValue, Name);
+            }
+        }
+        partial void OnSinicizationGroupChanged(string oldValue, string newValue)
+        {
+            if (oldValue != newValue)
+            {
+                ComicDB.Update(nameof(SinicizationGroup), nameof(Name), newValue, Name);
             }
         }
         partial void OnNameChanged(string oldValue, string newValue)
@@ -153,7 +166,7 @@ namespace ShadowViewer.Models
             return new ObservableCollection<string>(res);
         }
          
-        public string ShowSize(long size)
+        private string ShowSize(long size)
         {
             long KB = 1024;
             long MB = KB * 1024;

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using Windows.Foundation;
-
-namespace ShadowViewer.Helpers
+﻿namespace ShadowViewer.Helpers
 {
     public static class FileHelper
     {
+        public static string[] pngs = { ".png", ".jpg", ".jpeg", ".bmp" };
+
         public static async Task CreateFileAsync(StorageFolder localFolder, string path)
         {
             try
@@ -69,6 +68,34 @@ namespace ShadowViewer.Helpers
                 return file;
             }
             return null;
-        } 
+        }
+        /// <summary>
+        /// 计算大小
+        /// </summary>
+        /// <param name="files">The files.</param>
+        /// <returns></returns>
+        public static async Task<ulong> GetSizeInFiles(List<StorageFile> files)
+        {
+            ulong res = 0;
+            foreach (var item in files)
+            {
+                if (pngs.Contains(item.FileType))
+                {
+                    res += (await item.GetBasicPropertiesAsync()).Size;
+                }
+            }
+            return res;
+        }
+        /// <summary>
+        /// 从文件中获取封面
+        /// </summary>
+        /// <param name="files">The files.</param>
+        /// <returns></returns>
+        public static string GetImgInFiles(List<StorageFile> files)
+        {
+            files.Sort((x, y) => x.Name.CompareTo(y.Name));
+            var imgFile = files.FirstOrDefault(x => pngs.Contains(x.FileType));
+            return imgFile is null ? null : imgFile.Path;
+        }
     }
 }

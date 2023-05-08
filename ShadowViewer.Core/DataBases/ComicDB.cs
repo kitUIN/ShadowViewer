@@ -10,6 +10,7 @@ namespace ShadowViewer.DataBases
             DBHelper.Init(DBHelper.DBPath, "create table if not exists ShadowTable " +
                         "(Name nvarchar(2048) primary key," +
                         "Author nvarchar(2048) null," +
+                        "SinicizationGroup nvarchar(2048) null," +
                         "Parent nvarchar(2048) null," +
                         "Percent nchar(128) null," +
                         "CreateTime text null," +
@@ -43,6 +44,7 @@ namespace ShadowViewer.DataBases
                 {
                     { "@Name", localComic.Name                                             },
                     { "@Author", localComic.Author                                      },
+                    { "@SinicizationGroup", localComic.SinicizationGroup                                      },
                     { "@Parent", localComic.Parent                                      },
                     { "@Percent", localComic.Percent                                    },
                     { "@CreateTime", localComic.CreateTime                                },
@@ -110,7 +112,7 @@ namespace ShadowViewer.DataBases
             return new LocalComic(reader.GetString(0), reader.GetString(1), reader.GetString(2),
                 reader.GetString(3), reader.GetString(4), reader.GetString(5),
                 reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9),
-                reader.GetInt64(10), reader.GetBoolean(11));
+                reader.GetString(10), reader.GetInt64(11), reader.GetBoolean(12));
         }
         public static void RemoveInDB(this LocalComic comic)
         {

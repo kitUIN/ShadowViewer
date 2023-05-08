@@ -25,7 +25,7 @@ namespace ShadowViewer.Pages
                 }
                 if (args.Count >= 1 && args[0] is LocalComic comic)
                 {
-                    viewModel = new StatusViewModel(comic, isTag, this.Frame, TagIdBox);
+                    viewModel = new StatusViewModel(comic, isTag, this.Frame);
                 }
             }
             TagIdBox.Text = "0";
@@ -159,6 +159,21 @@ namespace ShadowViewer.Pages
                 viewModel.Reload();
             }
         }
+        /// <summary>
+        /// 汉化组按下回车
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyRoutedEventArgs"/> instance containing the event data.</param>
+        private void GroupName_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            var box = sender as TextBox;
+            if (e.Key == VirtualKey.Enter)
+            {
+                viewModel.Comic.SinicizationGroup = box.Text;
+                MessageHelper.SendFilesReload();
+                viewModel.Reload();
+            }
+        }
         public SolidColorBrush ToBrush(Color color)
         {
             return new SolidColorBrush(color);
@@ -237,12 +252,19 @@ namespace ShadowViewer.Pages
             }
             
         }
-
+        /// <summary>
+        /// 控制文件名 作者 汉化组三个框
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="SizeChangedEventArgs"/> instance containing the event data.</param>
         private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var s = sender as StackPanel;
             FileName.Width = s.ActualWidth - 170;
             AuthorName.Width = s.ActualWidth - 170;
+            GroupName.Width = s.ActualWidth - 170;
         }
+
+        
     }
 }

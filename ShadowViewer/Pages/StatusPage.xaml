@@ -133,6 +133,21 @@
                                 Text="{x:Bind viewModel.Comic.Author, Mode=OneWay}"
                                 TextWrapping="NoWrap" />
                         </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock
+                                x:Uid="Xaml/GroupStatus"
+                                Width="100"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center" />
+                            <TextBox
+                                x:Name="GroupName"
+                                MaxWidth="350"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                KeyDown="GroupName_KeyDown"
+                                Text="{x:Bind viewModel.Comic.SinicizationGroup, Mode=OneWay}"
+                                TextWrapping="NoWrap" />
+                        </StackPanel>
                         <co:StatusBlock x:Uid="TypeStatus" Text="{x:Bind viewModel.GetComicType, Mode=OneWay}" />
                         <co:StatusBlock x:Uid="ParentStatus" Text="{x:Bind viewModel.Comic.Parent, Mode=OneWay}" />
                         <co:StatusBlock x:Uid="PathStatus" Text="{x:Bind viewModel.GetShadowPath, Mode=OneWay}" />

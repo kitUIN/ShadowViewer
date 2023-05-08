@@ -12,7 +12,7 @@ namespace ShadowViewer
             this.SetTitleBar(AppTitleBar);
             var ScreenHeight = DisplayArea.Primary.WorkArea.Height;
             var ScreenWidth = DisplayArea.Primary.WorkArea.Width;
-            this.AppWindow.MoveAndResize(new RectInt32(ScreenWidth / 2 - 320, ScreenHeight / 2 - 375, 640, 750));
+            this.AppWindow.MoveAndResize(new RectInt32(ScreenWidth / 2 - 320, ScreenHeight / 2 - 385, 640, 770));
             
         }
         public void Navigate(Type page, List<object> args, string title)

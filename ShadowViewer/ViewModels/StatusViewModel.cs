@@ -1,29 +1,24 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using System.Xml.Linq;
-
-namespace ShadowViewer.ViewModels
+﻿namespace ShadowViewer.ViewModels
 {
     internal partial class StatusViewModel: ObservableRecipient, IRecipient<StatusMessage>
     {
         public LocalComic Comic { get; set; }
         private Frame frame;
-        private UIElement tagIdBox;
         [ObservableProperty]
         private bool isTag;
         public ObservableCollection<TokenItem> Tags = new ObservableCollection<TokenItem>();
         public ObservableCollection<string> ExistID = new ObservableCollection<string>();
-        public StatusViewModel(LocalComic comic, bool isTag, Frame frame,UIElement tagIdBox)
+        public StatusViewModel(LocalComic comic, bool isTag, Frame frame)
         {
             Comic = comic;
             IsActive = true;
             IsTag = isTag;
             this.frame = frame;
-            this.tagIdBox = tagIdBox;
             LoadTags();
         }
         public string GetComicType
         {
-            get => I18nHelper.GetString(Comic.IsFolder ? "FolderStatus.Title" : "FileStatus.Title");
+            get => I18nHelper.GetString(Comic.IsFolder ? "Shadow.FileType.ComicFolder" : "Shadow.FileType.Comic");
         }
         public string GetShadowPath
         {

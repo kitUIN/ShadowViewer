@@ -194,12 +194,13 @@
                     <DataTemplate x:DataType="dv:LocalComic">
                         <StackPanel
                             Width="130"
-                            Height="130"
+                            Height="150"
                             Padding="6"
                             AllowDrop="True"
                             Background="Transparent"
                             DragOver="GridViewItem_DragOverCustomized"
                             Drop="GridViewItem_Drop"
+                            Spacing="3"
                             Tag="{x:Bind Name}">
                             <Image
                                 Width="120"
@@ -209,13 +210,21 @@
                                 Source="{x:Bind Img}" />
                             <TextBlock
                                 MaxWidth="100"
-                                Margin="0,10,0,0"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
+                                FontSize="16"
                                 MaxLines="2"
                                 Text="{x:Bind Name}"
                                 TextTrimming="CharacterEllipsis"
-                                TextWrapping="Wrap" />
+                                TextWrapping="Wrap"
+                                ToolTipService.ToolTip="{x:Bind Name}" />
+                            <TextBlock
+                                MaxWidth="100"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="13"
+                                Foreground="Gray"
+                                Text="{x:Bind Percent}" />
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>

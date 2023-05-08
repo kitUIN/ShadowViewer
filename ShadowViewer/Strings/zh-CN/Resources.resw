@@ -178,12 +178,6 @@
   <data name="FileAppTitle.Text" xml:space="preserve">
     <value>属性</value>
   </data>
-  <data name="FileStatus.Title" xml:space="preserve">
-    <value>文件</value>
-  </data>
-  <data name="FolderStatus.Title" xml:space="preserve">
-    <value>文件夹</value>
-  </data>
   <data name="HomeItem.Content" xml:space="preserve">
     <value>主页</value>
   </data>
@@ -252,6 +246,12 @@
   </data>
   <data name="Shadow.Error.Title" xml:space="preserve">
     <value>错误</value>
+  </data>
+  <data name="Shadow.FileType.Comic" xml:space="preserve">
+    <value>漫画</value>
+  </data>
+  <data name="Shadow.FileType.ComicFolder" xml:space="preserve">
+    <value>漫画文件夹</value>
   </data>
   <data name="ShadowCommandAdd.Label" xml:space="preserve">
     <value>新建</value>
@@ -342,5 +342,8 @@
   </data>
   <data name="UserItem.Content" xml:space="preserve">
     <value>用户</value>
+  </data>
+  <data name="Xaml.GroupStatus.Text" xml:space="preserve">
+    <value>汉化组</value>
   </data>
 </root>
