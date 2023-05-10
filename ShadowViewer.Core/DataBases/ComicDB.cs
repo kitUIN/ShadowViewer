@@ -86,6 +86,12 @@
             Log.ForContext<SqliteConnection>().Information("[{name}={Parent}]获取漫画(counts={Count})", where, whereArg, res.Count);
             return res;
         }
+        public static List<LocalComic> Get(Dictionary<string,object> where)
+        {
+            List<LocalComic> res = DBHelper.Get(DBHelper.DBPath, DBTable, where, ReadComicFromDB).Cast<LocalComic>().ToList();
+            Log.ForContext<SqliteConnection>().Information("[Dictionary]获取漫画(counts={Count})", res.Count);
+            return res;
+        }
         public static LocalComic GetFirst(string where, string whereArg)
         { 
             List<LocalComic> res = DBHelper.Get(DBHelper.DBPath, DBTable, KeyValuePair.Create(where, whereArg as object), ReadComicFromDB).Cast<LocalComic>().ToList();

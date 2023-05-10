@@ -151,7 +151,7 @@
                                 Orientation="Horizontal"
                                 Spacing="5"
                                 ToolTipService.ToolTip="{x:Bind Name}">
-                                <Image Width="20" Source="ms-appx:///Assets/Default/folder.png" />
+                                <Image Width="20" Source="{x:Bind Img}" />
                                 <TextBlock Text="{x:Bind Name}" />
                             </StackPanel>
                         </TreeViewItem>

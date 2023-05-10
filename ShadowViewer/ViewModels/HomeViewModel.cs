@@ -1,4 +1,6 @@
-﻿namespace ShadowViewer.ViewModels
+﻿using ShadowViewer.DataBases;
+
+namespace ShadowViewer.ViewModels
 {
     public partial class HomeViewModel: ObservableRecipient, IRecipient<FilesMessage>
     { 
@@ -21,6 +23,16 @@
                 foreach(LocalComic item in e.OldItems) 
                 {
                     item.RemoveInDB();
+                }
+            }else if(e.Action== NotifyCollectionChangedAction.Add)
+            {
+                foreach (LocalComic item in e.NewItems)
+                {
+                    if (!ComicDB.Contains("id", item.Id))
+                    {
+                        ComicDB.Add(item);
+                    }
+                    
                 }
             }
         }

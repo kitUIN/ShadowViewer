@@ -13,7 +13,6 @@
             if (img == "") { img = "ms-appx:///Assets/Default/folder.png"; }
             if (name == "") { name = id; }
             var comic =  new LocalComic(id, name, time, time, id, img: img, parent: parent, isFolder: true, percent:"");
-            ComicDB.Add(comic);
             return comic;
         }
         public static LocalComic CreateComic(string name, string img, string parent, string link, string affiliation = "Local",long size=0)

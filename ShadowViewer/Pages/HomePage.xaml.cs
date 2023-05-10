@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace ShadowViewer.Pages
 {
     public sealed partial class HomePage : Page
@@ -115,12 +117,8 @@ namespace ShadowViewer.Pages
         private void ShadowCommandMove_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide(); 
-            var black  = new List<string>();
-            foreach(LocalComic comic in ContentGridView.SelectedItems)
-            {
-                black.Add(comic.Name);
-            }
-            MoveTreeView.ItemsSource = new List<ShadowPath>{ UriHelper.PathTreeInit(black) };
+            List<string> black = ContentGridView.SelectedItems.OfType<LocalComic>().ToList().Select(c => c.Id).ToList();
+            MoveTreeView.ItemsSource = new List<ShadowPath> { new ShadowPath(black) };
             MoveTeachingTip.IsOpen = true;
              
         }
@@ -154,7 +152,7 @@ namespace ShadowViewer.Pages
         
         private void ShadowCommandRefresh_Click(object sender, RoutedEventArgs e)
         {
-            MessageHelper.SendFilesReload();
+            ViewModel.RefreshLocalComic();
         }
         /// <summary>
         /// 右键选中GridViewItem
@@ -264,33 +262,6 @@ namespace ShadowViewer.Pages
             return dialog;
            
         }
-        
-        /// <summary>
-        /// 移动到 对话框的按钮响应
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The arguments.</param>
-        private void MoveTeachingTip_ActionButtonClick(TeachingTip sender, object args)
-        {
-            if(MoveTreeView.SelectedItem is ShadowPath path)
-            {
-                MoveToPath(path.Name);
-            }
-        }
-        /// <summary>
-        /// 移动到别的文件夹
-        /// </summary>
-        /// <param name="path">The path.</param>
-        private void MoveToPath(string path)
-        {
-            foreach (LocalComic comic in ContentGridView.SelectedItems)
-            {
-                comic.Parent = path;
-            }
-            MoveTeachingTip.IsOpen = false;
-            MessageHelper.SendFilesReload();
-            MessageHelper.SendStatusReload();
-        }
         /// <summary>
         /// 在树形结构上双击
         /// </summary>
@@ -298,11 +269,35 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void TreeViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if (MoveTreeView.SelectedItem is ShadowPath path)
-            {
-                MoveToPath(path.Name);
-            }
+            MoveToPath(MoveTreeView.SelectedItem as ShadowPath);
         }
+        /// <summary>
+        /// 移动到 对话框的按钮响应
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The arguments.</param>
+        private void MoveTeachingTip_ActionButtonClick(TeachingTip sender, object args)
+        {
+            MoveToPath(MoveTreeView.SelectedItem as ShadowPath);
+        }
+        /// <summary>
+        /// 移动到别的文件夹
+        /// </summary>
+        /// <param name="path">The path.</param>
+        private void MoveToPath(ShadowPath path)
+        {
+            if (path == null) { return; }
+            foreach (LocalComic comic in ContentGridView.SelectedItems)
+            {
+                if(comic.Id != path.Id && path.IsFolder)
+                {
+                    comic.Parent = path.Id;
+                }
+            }
+            MoveTeachingTip.IsOpen = false;
+            ViewModel.RefreshLocalComic();
+        }
+        
         /// <summary>
         /// 接收拖动
         /// </summary>

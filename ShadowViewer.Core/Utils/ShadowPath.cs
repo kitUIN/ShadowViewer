@@ -1,61 +1,33 @@
-﻿namespace ShadowViewer.Utils
+﻿using System.Xml.Linq;
+
+namespace ShadowViewer.Utils
 {
     public class ShadowPath
-    {
-        private string name;
-        public string Name { get => name; }
-        public ShadowPath Parent { get => parent; }
-        
-        private bool isFile;
-        public bool IsFile { get => isFile; }
-        public bool IsFolder { get => !isFile; }
-
+    { 
+        private LocalComic comic;
+        public string Name { get => comic.Name; }
+        public string Id { get => comic.Id; }
+        public string Img { get => comic.Img; }
+        public bool IsFolder { get => comic.IsFolder; }
         public List<ShadowPath> Children { get; } = new List<ShadowPath>();
-        private ShadowPath parent;
+        public ShadowPath(LocalComic comic)
+        {
+            this.comic = comic;
+        }
 
-        public ShadowPath(string name, bool isFile, ShadowPath parent)
+        public ShadowPath(List<string> black)
         {
-            this.name = name;
-            this.isFile = isFile;
-            this.parent = parent;
-        }
-        public ShadowPath(string name, bool isFile, ShadowPath parent,List<string> black)
-        {
-            this.name = name;
-            this.isFile = isFile;
-            this.parent = parent;
-            InitChildren(black);
-        }
-        public void InitChildren(List<string> black)
-        {
-            var children = ComicDB.Get("Parent", name);
+            this.comic = new LocalComic("local", "local", "", "", "local", img: "ms-appx:///Assets/Default/folder.png");
+            var children = ComicDB.Get(new Dictionary<string, object>()
+            {
+                {"Parent", "local"},
+                {"IsFolder", true},
+            });
+            children.RemoveAll(x => black.Contains(x.Id));
             foreach (var child in children)
             {
-                if (black.Contains(child.Name)) continue;
-                Children.Add(new ShadowPath(child.Name, !child.IsFolder, this, black));
+                Children.Add(new ShadowPath(child));
             }
-        }
-         
-        /*public static ShadowPath CreateFromUri(Uri uri)
-        {
-
-        }*/
-        public ShadowPath Combine(ShadowPath newPath)
-        {
-            Children.Add(newPath);
-            return this;
-        }
-        public override string ToString()
-        {
-            var list = new List<string>();
-            var path = this;
-            while(path != null)
-            {
-                list.Add(path.name);
-                path = path.Parent;
-            }
-            list.Reverse();
-            return string.Join("/", list);
-        }
+        } 
     }
 }
