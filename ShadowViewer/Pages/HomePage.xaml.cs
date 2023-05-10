@@ -191,7 +191,7 @@ namespace ShadowViewer.Pages
                 var item = element.DataContext;
                 if (item is LocalComic comic && comic.IsFolder)
                 {
-                    Frame.Navigate(this.GetType(), ViewModel.OriginPath + "/" + comic.Name);
+                    Frame.Navigate(this.GetType(), new Uri(ViewModel.OriginPath + "/" + comic.Id));
                 }
             }
         }

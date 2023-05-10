@@ -54,7 +54,6 @@
                     </ToolTipService.ToolTip>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-
                             <MenuFlyoutItem
                                 x:Name="ShadowCommandNewFolder"
                                 x:Uid="ShadowCommandNewFolder"

@@ -15,8 +15,9 @@
         {
             OriginPath = parameter.AbsoluteUri;
             List<string> urls = parameter.AbsolutePath.Split('/').ToList();
-            Path = urls.Count > 0? urls.Last() :parameter.Host;
-            Log.ForContext<HomePage>().Information("导航到{patj}", OriginPath);
+            urls.RemoveAll(x => x == "");
+            Path = urls.Count > 0 ? urls.Last() : parameter.Host;
+            Log.ForContext<HomePage>().Information("导航到{path}", OriginPath);
             RefreshLocalComic();
         }
         public void RefreshLocalComic()

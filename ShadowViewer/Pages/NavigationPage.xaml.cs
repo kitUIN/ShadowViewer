@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 namespace ShadowViewer.Pages
 {
     /// <summary>
@@ -8,13 +5,12 @@ namespace ShadowViewer.Pages
     /// </summary>
     public sealed partial class NavigationPage : Page
     {
-        private NavigationViewModel viewModel;
+        private NavigationViewModel ViewModel { get; } = new NavigationViewModel();
         public NavigationPage()
         {
             this.InitializeComponent();
-            viewModel = new NavigationViewModel(ContentFrame, this.XamlRoot, TopGrid);
-            NavView.SelectedItem = NavView.MenuItems[0];
-            ContentFrame.Navigate(typeof(HomePage),"shadow://local/");
+            ViewModel.Navigate(ContentFrame, TopGrid);
+            // NavView.SelectedItem = NavView.MenuItems[0]; 
         }
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
@@ -61,21 +57,16 @@ namespace ShadowViewer.Pages
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            viewModel.LoadPluginItems(PluginItem);
+            ViewModel.LoadPluginItems(PluginItem);
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if(e.Parameter is Page page)
             {
                 ContentFrame.Content = page;
-            }
-             
+            } 
         }
-
-        private void NavView_Drop(object sender, DragEventArgs e)
-        {
-
-        }
+         
     }
 
 }

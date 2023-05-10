@@ -40,26 +40,18 @@ namespace ShadowViewer
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            var actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
-            if (actEventArgs.Kind == ExtendedActivationKind.Protocol 
-                && actEventArgs.Data is IProtocolActivatedEventArgs data)
-            {
-                if (data != null)
-                {
-                    var uri = data.Uri;
-                    var uriString = uri.AbsoluteUri;
-                    Log.Information(uriString);
-                }
-            }
             startupWindow = new MainWindow();
             ThemeHelper.Initialize();
             WindowHelper.TrackWindow(startupWindow);
             startupWindow.Activate();
-            
-        }
-        private void NotificationManager_NotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args)
-        {
-            Log.Information("1111");
+            Uri firstUri = new Uri("shadow://local/");
+            var actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+            if (actEventArgs.Kind == ExtendedActivationKind.Protocol
+                && actEventArgs.Data is IProtocolActivatedEventArgs data && data != null)
+            {
+                firstUri = data.Uri;
+            } 
+            NavigateHelper.ShadowNavigate(firstUri);
         }
         public static TEnum GetEnum<TEnum>(string text) where TEnum : struct
         {

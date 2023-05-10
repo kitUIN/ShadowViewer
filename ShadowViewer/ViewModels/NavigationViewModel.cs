@@ -4,13 +4,12 @@
     {
         private Frame frame;
         private NavigationViewItem pluginItem;
-        private XamlRoot xamlRoot;
+ 
         private Grid topGrid;
-        public NavigationViewModel(Frame frame, XamlRoot xamlRoot, Grid topGrid)
+        public void Navigate(Frame frame,   Grid topGrid)
         {
             IsActive = true;
-            this.frame = frame;
-            this.xamlRoot = xamlRoot;
+            this.frame = frame; 
             this.topGrid = topGrid;
         }
         /// <summary>
@@ -28,35 +27,22 @@
                     PluginHelper.PluginInstances[name].MetaData().Name);
             }
         }
-        public async void Receive(NavigationMessage message)
+        public void Receive(NavigationMessage message)
         {
             if (message.objects.Length >= 1 && message.objects[0] is string method)
             {
-                // 导航操作
-                if(method == "Navigate" && message.objects.Length >=2 && message.objects[1] is string str)
+                // 导航栏插件注入重置
+                if (method == "PluginReload" && message.objects.Length == 1)
                 {
-                    // 导航栏插件注入重置
-                    if (str == "PluginReload")
-                    {
-                        LoadPluginItems(pluginItem);
-                    }
-                    // 跳转新的页面
-                    else if (str == "Frame" && message.objects.Length == 3
-                        && message.objects[2] is Type page)
-                    {
-                        var preNavPageType = frame.CurrentSourcePageType;
-                        if (!(page is null) && !Type.Equals(preNavPageType, page))
-                        {
-                            frame.Navigate(page);
-                        }
-                    }
+                    LoadPluginItems(pluginItem);
                 }
-                // 对话框
-                else if(method == "ContentDialog" && message.objects.Length >= 2 && message.objects[1] is ContentDialog dialog)
+                // 跳转新的页面
+                else if (method == "Navigate" && message.objects.Length ==4
+                    && message.objects[1] is Type page
+                    && !(page is null) && !Type.Equals(frame.CurrentSourcePageType, page))
                 {
-                    
-                    await dialog.ShowAsync();
-                }
+                    frame.Navigate(page, message.objects[2], (NavigationTransitionInfo)message.objects[3]);
+                } 
                 // 顶部元素
                 else if(method == "TopGrid" && message.objects.Length >= 2 && message.objects[1] is UIElement element)
                 {
