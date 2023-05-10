@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Linq;
+using System.Xml.Linq;
 
 namespace ShadowViewer.Utils
 {
@@ -9,10 +10,11 @@ namespace ShadowViewer.Utils
         public string Id { get => comic.Id; }
         public string Img { get => comic.Img; }
         public bool IsFolder { get => comic.IsFolder; }
-        public List<ShadowPath> Children { get; } = new List<ShadowPath>();
+        public List<ShadowPath> Children { get; } 
         public ShadowPath(LocalComic comic)
         {
             this.comic = comic;
+            Children = new List<ShadowPath>();
         }
 
         public ShadowPath(List<string> black)
@@ -23,11 +25,8 @@ namespace ShadowViewer.Utils
                 {"Parent", "local"},
                 {"IsFolder", true},
             });
-            children.RemoveAll(x => black.Contains(x.Id));
-            foreach (var child in children)
-            {
-                Children.Add(new ShadowPath(child));
-            }
+            children.RemoveAll(x => black.Contains(x.Id)); 
+            Children = children.Select(c => new ShadowPath(c)).ToList();
         } 
     }
 }

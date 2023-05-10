@@ -161,17 +161,13 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="RightTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void ContentGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            if (e.OriginalSource is FrameworkElement element)
+            if (e.OriginalSource is FrameworkElement element&& element.DataContext!=null)
             {
-                var item = element.DataContext;
-                if (item != null)
+                var container = (GridViewItem)ContentGridView.ContainerFromItem(element.DataContext);
+                if (container != null && !container.IsSelected)
                 {
-                    var container = (GridViewItem)ContentGridView.ContainerFromItem(item);
-                    if (container != null && !container.IsSelected)
-                    {
-                        ContentGridView.SelectedItems.Clear();
-                        container.IsSelected = true;
-                    }
+                    ContentGridView.SelectedItems.Clear();
+                    container.IsSelected = true;
                 }
             }
         }
@@ -183,9 +179,8 @@ namespace ShadowViewer.Pages
         private void ContentGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (e.OriginalSource is FrameworkElement element)
-            {
-                var item = element.DataContext;
-                if (item is LocalComic comic && comic.IsFolder)
+            { 
+                if (element.DataContext is LocalComic comic && comic.IsFolder)
                 {
                     Frame.Navigate(this.GetType(), new Uri(ViewModel.OriginPath + "/" + comic.Id));
                 }
@@ -218,11 +213,6 @@ namespace ShadowViewer.Pages
             };
             var nameBox = XamlHelper.CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Name"),
                 I18nHelper.GetString("Dialog/CreateFolder/Title"), oldName, 222);
-            ((TextBox)nameBox.Children[1]).TextChanged += (s, e) =>
-            {
-                var sender = s as TextBox;
-                dialog.IsPrimaryButtonEnabled = !ComicDB.Contains("Name", sender.Text);
-            };
             grid.Children.Add(nameBox);
             dialog.Content = grid;
             return dialog;
@@ -257,7 +247,7 @@ namespace ShadowViewer.Pages
             {
                 var name = ((TextBox)((StackPanel)((StackPanel)dialog.Content).Children[0]).Children[1]).Text;
                 ComicHelper.CreateFolder(name,"", parent);
-                MessageHelper.SendFilesReload();
+                ViewModel.RefreshLocalComic();
             };
             return dialog;
            
@@ -306,26 +296,22 @@ namespace ShadowViewer.Pages
         private void GridViewItem_Drop(object sender, DragEventArgs e)
         {
             if (sender is FrameworkElement frame  )
-            {
-                string parent;
+            { 
                 if(frame.Tag is LocalComic comic && comic.IsFolder)
                 {
-                    parent = comic.Name;
-                }
-                else if(frame.Tag is string name)
-                {
-                    parent = name;
-                }
+                    foreach (LocalComic item in ContentGridView.SelectedItems)
+                    {
+                        if (!item.IsFolder)
+                        {
+                            item.Parent = comic.Id;
+                        } 
+                    }
+                } 
                 else
                 {
                     return;
-                }
-                foreach (LocalComic item in ContentGridView.SelectedItems)
-                {
-                    item.Parent = parent;
-                }
-                MessageHelper.SendFilesReload();
-                MessageHelper.SendStatusReloadDB();
+                } 
+                ViewModel.RefreshLocalComic();
             }
         }
         /// <summary>
@@ -336,23 +322,16 @@ namespace ShadowViewer.Pages
         private void GridViewItem_DragOverCustomized(object sender, DragEventArgs e)
         {
             if (sender is FrameworkElement frame)
-            {
-                string parent;
+            { 
                 if (frame.Tag is LocalComic comic && comic.IsFolder)
-                {
-                    parent = comic.Name;
-                    e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None;
-                    e.DragUIOverride.IsCaptionVisible = true;
+                { 
+                    e.DragUIOverride.Caption = I18nHelper.GetString("ShadowCommandMove.Label") + comic.Name;
+                    e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None; 
                 }
-                else
-                {
-                    return;
-                }
-                e.DragUIOverride.Caption = I18nHelper.GetString("ShadowCommandMove.Label") + parent;
+                else { return; } 
                 e.DragUIOverride.IsGlyphVisible = true;
+                e.DragUIOverride.IsCaptionVisible = true;
             }
-
-            
         }
 
         /// <summary>
