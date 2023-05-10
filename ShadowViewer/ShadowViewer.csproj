@@ -26,7 +26,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
-    <None Remove="FileWindow.xaml" />
     <None Remove="MainPage.xaml" />
     <None Remove="Pages\HomePage.xaml" />
     <None Remove="Pages\NavigationPage.xaml" />
@@ -71,11 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\TagsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="FileWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

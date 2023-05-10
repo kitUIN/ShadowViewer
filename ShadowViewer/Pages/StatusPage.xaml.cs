@@ -1,35 +1,24 @@
-
-
+using ShadowViewer.Helpers;
 
 namespace ShadowViewer.Pages
 {
     public sealed partial class StatusPage : Page
     {
-        private StatusViewModel viewModel;
+        private StatusViewModel ViewModel { get; } = new StatusViewModel();
  
         public StatusPage()
         {
             this.InitializeComponent();
             this.RequestedTheme = ThemeHelper.RootTheme;
-            
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            
-            if (e.Parameter is List<object> args)
+            if (e.Parameter is LocalComic comic)
             {
-                bool isTag = false;
-                if (args.Count >= 2 && args[1] is bool flag)
-                {
-                    isTag = flag;
-                }
-                if (args.Count >= 1 && args[0] is LocalComic comic)
-                {
-                    viewModel = new StatusViewModel(comic, isTag, this.Frame);
-                }
+                ViewModel.Navigate(comic, this.Frame);
+                AuthorName.Visibility = comic.IsFolder? Visibility.Collapsed:Visibility.Visible;
+                GroupName.Visibility = comic.IsFolder? Visibility.Collapsed:Visibility.Visible;
             }
-            TagIdBox.Text = "0";
-            TagNameBox.Text = I18nHelper.GetString("String.Default.Tag");
         }
         /// <summary>
         /// 点击图片
@@ -39,9 +28,9 @@ namespace ShadowViewer.Pages
         private async void Image_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var file = await FileHelper.SelectFileAsync(sender as Button, ".png", ".jpg", ".jpeg", ".bmp");
-            if (file != null && file.DecodePath() != viewModel.Comic.Img)
+            if (file != null && file.DecodePath() != ViewModel.Comic.Img)
             {
-                viewModel.Comic.Img = file.DecodePath();
+                ViewModel.Comic.Img = file.DecodePath();
                 MessageHelper.SendFilesReload();
             }
         }
@@ -52,14 +41,13 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="KeyRoutedEventArgs"/> instance containing the event data.</param>
         private async void FileImg_KeyDown(object sender, KeyRoutedEventArgs e)
         {
+            if (e.Key != VirtualKey.Enter) { return; }
             var box = sender as TextBox;
             Uri uri = null;
             bool flag = false;
             string title = I18nHelper.GetString("Shadow.Error.Title");
             string message = "";
-            if (e.Key == VirtualKey.Enter)
-            {
-                try
+            try
                 {
                     uri = new Uri(box.Text);
                     StorageFile file = null;
@@ -71,21 +59,10 @@ namespace ShadowViewer.Pages
                     {
                         file = await StorageFile.GetFileFromPathAsync(uri.DecodeUri());
                     }
-                    if (file != null)
-                    {
-                        if (!(file.FileType == ".jpg" ||
-                            file.FileType == ".jpeg" ||
-                            file.FileType == ".bmp" ||
-                            file.FileType == ".png"))
-                        {
-                            flag = true;
-                            message = I18nHelper.GetString("Error.Message.NotImage");
-                        }
-                    }
-                    else
+                    if (!(file.IsPic()))
                     {
                         flag = true;
-                        message = I18nHelper.GetString("Error.Message.NoFile");
+                        message = I18nHelper.GetString("Error.Message.NotImage");
                     }
                 }
                 catch (UriFormatException)
@@ -93,25 +70,19 @@ namespace ShadowViewer.Pages
                     flag = true;
                     message = I18nHelper.GetString("Error.Message.UriFormatException");
                 }
-                catch (System.Runtime.InteropServices.COMException )
+                catch (Exception exception) when (exception is System.Runtime.InteropServices.COMException || exception is FileNotFoundException)
                 {
                     flag = true;
                     message = I18nHelper.GetString("Error.Message.NoFile");
-                }
-                catch(System.IO.FileNotFoundException)
-                {
-                    flag = true;
-                    message = I18nHelper.GetString("Error.Message.NoFile");
-                }
+                } 
                 if(flag)
                 {
-                    box.Text = viewModel.Comic.Img;
+                    box.Text = ViewModel.Comic.Img;
                     await XamlHelper.CreateMessageDialog(this.XamlRoot, title, message).ShowAsync();
                     return;
                 }
-                viewModel.Comic.Img = box.Text;
+                ViewModel.Comic.Img = box.Text;
                 MessageHelper.SendFilesReload();
-            }
         }
         /// <summary>
         /// 文件名回车
@@ -121,27 +92,10 @@ namespace ShadowViewer.Pages
         private void FileName_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             var box = sender as TextBox;
-            
             if (e.Key == VirtualKey.Enter)
-            { 
-                var old = viewModel.Comic.Name;
-                try 
-                { 
-                    viewModel.Comic.Name = box.Text;
-                    WindowHelper.GetWindowForElement(this).Title = viewModel.Comic.Name;
-                    MessageHelper.SendFilesReload();
-                    viewModel.Reload();
-                }
-                catch (Microsoft.Data.Sqlite.SqliteException ex)
-                {
-                    string message = ex.Message;
-                    if (ex.SqliteErrorCode == 19)
-                    {
-                        message = I18nHelper.GetString("Shadow.Error.SQLite.Unique");
-                    }
-                    box.Text = old;
-                    _ = XamlHelper.CreateMessageDialog(XamlRoot, I18nHelper.GetString("Shadow.Error.Title"), message).ShowAsync();
-                } 
+            {
+                ViewModel.Comic.Name = box.Text;
+                MessageHelper.SendFilesReload();
             }
         }
         /// <summary>
@@ -154,9 +108,8 @@ namespace ShadowViewer.Pages
             var box = sender as TextBox;
             if (e.Key == VirtualKey.Enter)
             {
-                viewModel.Comic.Author = box.Text;
+                ViewModel.Comic.Author = box.Text;
                 MessageHelper.SendFilesReload();
-                viewModel.Reload();
             }
         }
         /// <summary>
@@ -169,102 +122,27 @@ namespace ShadowViewer.Pages
             var box = sender as TextBox;
             if (e.Key == VirtualKey.Enter)
             {
-                viewModel.Comic.SinicizationGroup = box.Text;
+                ViewModel.Comic.Group = box.Text;
                 MessageHelper.SendFilesReload();
-                viewModel.Reload();
             }
         }
         public SolidColorBrush ToBrush(Color color)
         {
             return new SolidColorBrush(color);
         }
+         
         /// <summary>
-        /// 点击添加标签
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void AddNewTag_Click(object sender, RoutedEventArgs e)
-        {
-            if (TagIdBox.Text == "" || TagNameBox.Text == "") { return; }
-            var tag = new ShadowTag(TagIdBox.Text, TagNameBox.Text,
-                ForegroundColorPicker.SelectedColor, BackgroundColorPicker.SelectedColor);
-            if (!TagsHelper.ShadowTags.Any(x => x.tag == tag.tag))
-            {
-                TagDB.Add(tag);
-                TagsHelper.ShadowTags.Add(tag);
-            }
-            viewModel.Comic.AnotherTags.Add(tag.tag);
-            viewModel.LoadTags();
-        }
-        /// <summary>
-        /// 标签ID变化
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="TextChangedEventArgs"/> instance containing the event data.</param>
-        private void TagIdBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (((TextBox)sender).Text.Contains(","))
-            {
-                ((TextBox)sender).Undo();
-                return;
-            } 
-            if (TagsHelper.ShadowTags.FirstOrDefault(x => x.tag == ((TextBox)sender).Text) is ShadowTag shadowTag)
-            {
-                if(TagNameBox.Text != shadowTag.name)
-                {
-                    TagNameBox.Text = shadowTag.name;
-                }
-                ForegroundColorPicker.SelectedColor = shadowTag.foreground.Color;
-                BackgroundColorPicker.SelectedColor = shadowTag.background.Color;
-                ForegroundColorPicker.IsEnabled = false;
-                BackgroundColorPicker.IsEnabled = false;
-            }
-            else
-            {
-                ForegroundColorPicker.IsEnabled = true;
-                BackgroundColorPicker.IsEnabled = true;
-            }
-        }
-        /// <summary>
-        /// 标签名称选择响应
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="AutoSuggestBoxSuggestionChosenEventArgs"/> instance containing the event data.</param>
-        private void TagNameBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
-        {
-            var shadowTag = args.SelectedItem as ShadowTag;
-            sender.Text = shadowTag.name;
-            TagIdBox.Text = shadowTag.tag;
-            ForegroundColorPicker.SelectedColor = shadowTag.foreground.Color;
-            BackgroundColorPicker.SelectedColor = shadowTag.background.Color;
-        }
-        /// <summary>
-        /// 标签名称变化
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="AutoSuggestBoxTextChangedEventArgs"/> instance containing the event data.</param>
-        private void TagNameBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-        {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                var res = TagsHelper.ShadowTags.FindAll(x => x.name.Contains(sender.Text));
-                sender.ItemsSource = res;
-            }
-            
-        }
-        /// <summary>
-        /// 控制文件名 作者 汉化组三个框
+        /// 控制图片名 文件名 作者 汉化组4个框
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="SizeChangedEventArgs"/> instance containing the event data.</param>
         private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var s = sender as StackPanel;
+            FileImg.Width = s.ActualWidth - 170;
             FileName.Width = s.ActualWidth - 170;
             AuthorName.Width = s.ActualWidth - 170;
             GroupName.Width = s.ActualWidth - 170;
         }
-
-        
     }
 }

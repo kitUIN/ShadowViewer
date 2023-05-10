@@ -109,7 +109,7 @@
                 db.Open();
 
                 SqliteCommand command = db.CreateCommand();
-                command.CommandText = $"update {table} set {name} = @NewArg where {where} = @WhereArg;";
+                command.CommandText = $"update {table} set [{name}] = @NewArg where [{where}] = @WhereArg;";
                 command.Parameters.AddWithValue("@NewArg", newArg);
                 command.Parameters.AddWithValue("@WhereArg", whereArg);
                 command.ExecuteReader();

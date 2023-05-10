@@ -1,28 +1,21 @@
 ﻿namespace ShadowViewer.ViewModels
 {
     public partial class HomeViewModel: ObservableRecipient, IRecipient<FilesMessage>
-    {
+    { 
+        public LocalComic ConnectComic { get; set; }
         public string Path { get; private set; } = "local";
-        [ObservableProperty]
-        private List<string> paths = new List<string> { "local" };
+         
         public string OriginPath { get; private set; } = "shadow://local";
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
         public HomeViewModel()
         {
             IsActive = true;
         }
-        public void Navigate(object parameter)
+        public void Navigate(Uri parameter)
         {
-            if(parameter is string path)
-            {
-                OriginPath = path;
-                Paths = path.Replace("shadow://", "").Split("/").ToList();
-                if(Paths.Count == 0)
-                {
-                    Paths.Add("local");
-                }
-                Path = Paths.Last();
-            }
+            OriginPath = parameter.AbsoluteUri;
+            List<string> urls = parameter.AbsolutePath.Split('/').ToList();
+            Path = urls.Count > 0? urls.Last() :parameter.Host;
             Log.ForContext<HomePage>().Information("导航到{patj}", OriginPath);
             RefreshLocalComic();
         }
@@ -32,6 +25,10 @@
             foreach(LocalComic item in ComicDB.Get("Parent", Path))
             {
                 LocalComics.Add(item);
+                if(ConnectComic is LocalComic && item.Id== ConnectComic.Id)
+                {
+                    ConnectComic = item;
+                }
             }
         }
 

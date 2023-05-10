@@ -14,7 +14,7 @@ namespace ShadowViewer.Pages
             this.InitializeComponent();
             viewModel = new NavigationViewModel(ContentFrame, this.XamlRoot, TopGrid);
             NavView.SelectedItem = NavView.MenuItems[0];
-            ContentFrame.Navigate(typeof(HomePage));
+            ContentFrame.Navigate(typeof(HomePage),"shadow://local/");
         }
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {

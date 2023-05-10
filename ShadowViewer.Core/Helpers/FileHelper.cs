@@ -3,7 +3,10 @@
     public static class FileHelper
     {
         public static string[] pngs = { ".png", ".jpg", ".jpeg", ".bmp" };
-
+        public static bool IsPic(this StorageFile file)
+        {
+            return pngs.Contains(file.FileType);
+        }
         public static async Task CreateFileAsync(StorageFolder localFolder, string path)
         {
             try

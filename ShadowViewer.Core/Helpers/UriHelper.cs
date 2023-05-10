@@ -1,6 +1,8 @@
 ﻿
 
 
+using System.Linq;
+
 namespace ShadowViewer.Helpers
 {
     public static class UriHelper
@@ -42,6 +44,34 @@ namespace ShadowViewer.Helpers
         public static string DecodeUri(this Uri uri)
         {
             return HttpUtility.UrlDecode(uri.AbsoluteUri);
+        }
+        public static void ShadowNavigate(Uri uri)
+        {
+            // 本应用协议
+            if (uri.Scheme == "shadow")
+            {
+                var urls = uri.AbsolutePath.Split("/").ToList();
+                if (urls[0] == "/") urls.RemoveAt(0);
+                // 本地
+                if (uri.Host == "local")
+                {
+                    
+                    for(int i=0;i<urls.Count;i++)
+                    {
+                        if(!ComicDB.Contains("id", urls[i]))
+                        {
+                            var s = "shadow://local/"+string.Join("/", urls.GetRange(0, i));
+                        } 
+                    }
+                    //TODO: 导航
+                    var comic = ComicDB.Get("id", urls.Last())[0];
+                    
+                }
+                else
+                {
+                    //TODO: 插件注入
+                }
+            }
         }
     }
 }
