@@ -19,6 +19,7 @@ namespace ShadowViewer.Pages
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             Type _page = null;
+            object parameter = null;
             if (args.IsSettingsInvoked == true)
             {
                 _page = typeof(SettingsPage);
@@ -33,7 +34,7 @@ namespace ShadowViewer.Pages
                 {
                     foreach (string name in PluginHelper.EnabledPlugins)
                     {
-                        _page = PluginHelper.PluginInstances[name].NavigationViewItemInvokedHandler(navItemTag);
+                        PluginHelper.PluginInstances[name].NavigationViewItemInvokedHandler(navItemTag, out _page,out parameter);
                         if (_page != null) break;
                     }
                 }
@@ -41,7 +42,7 @@ namespace ShadowViewer.Pages
             var preNavPageType = ContentFrame.CurrentSourcePageType;
             if (!(_page is null) && !Type.Equals(preNavPageType, _page))
             {
-                ContentFrame.Navigate(_page, null, args.RecommendedNavigationTransitionInfo);
+                ContentFrame.Navigate(_page, parameter, args.RecommendedNavigationTransitionInfo);
             }
         }
 

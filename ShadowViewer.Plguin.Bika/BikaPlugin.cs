@@ -69,7 +69,18 @@ namespace ShadowViewer.Plugin.Bika
         {
             throw new NotImplementedException();
         }
+ 
 
-        
+ 
+        void IPlugin.PluginSettingsExpander(SettingsExpander expander)
+        {
+            throw new NotImplementedException();
+        }
+
+ 
+        public Type NavigationViewItemInvokedHandler(string tag, out Type _page, out object parameter)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

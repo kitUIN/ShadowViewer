@@ -61,11 +61,19 @@ namespace ShadowViewer.Helpers
                         if(!ComicDB.Contains("id", urls[i]))
                         {
                             var s = "shadow://local/"+string.Join("/", urls.GetRange(0, i));
+
                         } 
                     }
                     //TODO: 导航
                     var comic = ComicDB.Get("id", urls.Last())[0];
-                    
+                    if (comic.IsFolder)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
                 }
                 else
                 {
