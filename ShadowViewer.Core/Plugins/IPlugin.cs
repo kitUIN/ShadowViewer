@@ -27,7 +27,7 @@
         /// </summary>
         /// <param name="tag">The tag.</param>
         /// <returns></returns>
-        public Type NavigationViewItemInvokedHandler(string tag,out Type _page,out object parameter);
+        public void NavigationViewItemInvokedHandler(string tag,out Type _page,out object parameter);
         /// <summary>
         /// 插件设置注入
         /// </summary>

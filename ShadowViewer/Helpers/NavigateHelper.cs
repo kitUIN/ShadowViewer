@@ -22,24 +22,30 @@
                 var urls = uri.AbsolutePath.Split("/").ToList();
                 urls.RemoveAll(x=>x=="");
                 // 本地
-                if (uri.Host == "local")
+                switch (uri.Host.ToLower())
                 {
-                    if (urls.Count == 0) { MessageHelper.SendNavigationFrame(typeof(HomePage), uri); return; }
-                    for (int i = 0; i < urls.Count; i++)
-                    {
-                        if (!ComicDB.Contains("id", urls[i]))
+                    case "local":
+                        if (urls.Count == 0) { MessageHelper.SendNavigationFrame(typeof(HomePage), uri); return; }
+                        for (int i = 0; i < urls.Count; i++)
                         {
-                            var s = "shadow://local/" + string.Join("/", urls.GetRange(0, i));
-                            Navigate(urls[i-1], new Uri(s));
-                            return;
+                            if (!ComicDB.Contains("id", urls[i]))
+                            {
+                                var s = "shadow://local/" + string.Join("/", urls.GetRange(0, i));
+                                Navigate(urls[i - 1], new Uri(s));
+                                return;
+                            }
                         }
-                    }
-                    Navigate(urls.Last(), uri);
-                }
-                else
-                {
-                    //TODO: 插件注入
-                }
+                        Navigate(urls.Last(), uri);
+                        break;
+                    case "settings":
+                        MessageHelper.SendNavigationFrame(typeof(SettingsPage));
+                        break;
+                    case "download":
+                        break;
+                    default:
+                        //TODO: 插件注入
+                        break;
+                } 
             }
         }
     }
