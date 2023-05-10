@@ -4,7 +4,7 @@
     {
         private static void Navigate(string id,Uri url)
         {
-            var comic = ComicDB.Get("id", id)[0];
+            var comic = ComicDB.GetFirst("id", id);
             if (comic.IsFolder)
             {
                 MessageHelper.SendNavigationFrame(typeof(HomePage), url);

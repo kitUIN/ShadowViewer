@@ -12,7 +12,8 @@ namespace ShadowViewer.Plugin.Bika
             "Bika", "ßÙßÇÂþ»­",
                 "ßÙßÇÂþ»­ÊÊÅäÆ÷",
                 "kitUIN", "0.1.0",
-                null, new Uri("ms-appx://ShadowViewer.Plguin.Bika/Assets/Icons/logo.png"), 1);
+                new Uri("https://github.com/kitUIN/ShadowViewer/tree/master/ShadowViewer.Plguin.Bika/README.md"),
+                new Uri("ms-appx://ShadowViewer.Plguin.Bika/Assets/Icons/logo.png"), 1);
          
         public void Init()
         {

@@ -90,7 +90,7 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"),XamlRoot, comic).ShowAsync();
+            await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"), XamlRoot, comic).ShowAsync();
         }
         /// <summary>
         /// ÓÒ¼ü²Ëµ¥-É¾³ý

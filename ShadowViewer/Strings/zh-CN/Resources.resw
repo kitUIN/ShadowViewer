@@ -346,4 +346,7 @@
   <data name="Xaml.GroupStatus.Text" xml:space="preserve">
     <value>汉化组:</value>
   </data>
+  <data name="Xaml.SponsorCard.Header" xml:space="preserve">
+    <value>❤️赞助开发者</value>
+  </data>
 </root>

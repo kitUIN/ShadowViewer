@@ -19,6 +19,7 @@ namespace ShadowViewer.Pages
             if (args.IsSettingsInvoked == true)
             {
                 _page = typeof(SettingsPage);
+                parameter = new Uri("shadow://settings/");
             }
             else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag is string navItemTag)
             {
@@ -26,6 +27,14 @@ namespace ShadowViewer.Pages
                 {
                     _page = typeof(HomePage);
                     parameter = new Uri("shadow://local/");
+                }
+                else if (navItemTag == "Download")
+                {
+
+                }
+                else if (navItemTag == "User")
+                {
+
                 }
                 else
                 {
