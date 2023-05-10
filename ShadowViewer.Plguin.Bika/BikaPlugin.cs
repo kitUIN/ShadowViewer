@@ -74,7 +74,8 @@ namespace ShadowViewer.Plugin.Bika
  
         public void NavigationViewItemInvokedHandler(string tag, out Type _page, out object parameter)
         {
-             
+            _page = null;
+            parameter = null;
         }
     }
 }

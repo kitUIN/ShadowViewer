@@ -6,11 +6,25 @@
         public string Path { get; private set; } = "local";
          
         public string OriginPath { get; private set; } = "shadow://local";
+ 
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
         public HomeViewModel()
         {
             IsActive = true;
+            LocalComics.CollectionChanged += LocalComics_CollectionChanged;
         }
+
+        private void LocalComics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach(LocalComic item in e.OldItems) 
+                {
+                    item.RemoveInDB();
+                }
+            }
+        }
+
         public void Navigate(Uri parameter)
         {
             OriginPath = parameter.AbsoluteUri;
@@ -23,14 +37,14 @@
         public void RefreshLocalComic()
         {
             LocalComics.Clear();
-            foreach(LocalComic item in ComicDB.Get("Parent", Path))
+            foreach (LocalComic item in ComicDB.Get("Parent", Path))
             {
                 LocalComics.Add(item);
                 if(ConnectComic is LocalComic && item.Id== ConnectComic.Id)
                 {
                     ConnectComic = item;
                 }
-            }
+            } 
         }
 
         public void Receive(FilesMessage message)

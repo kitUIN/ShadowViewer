@@ -25,6 +25,7 @@ namespace ShadowViewer.Pages
                 if (navItemTag == "Home")
                 {
                     _page = typeof(HomePage);
+                    parameter = new Uri("shadow://local/");
                 }
                 else
                 {

@@ -102,10 +102,8 @@ namespace ShadowViewer.Pages
             HomeCommandBarFlyout.Hide(); 
             foreach(LocalComic comic in ContentGridView.SelectedItems)
             {
-                comic.RemoveInDB(); 
-                WindowHelper.ColseWindowFromTitle(comic.Name);
+                ViewModel.LocalComics.Remove(comic);
             }
-            MessageHelper.SendFilesReload();
         }
 
 
