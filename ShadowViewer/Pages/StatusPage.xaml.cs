@@ -29,7 +29,7 @@ namespace ShadowViewer.Pages
             if (file != null && file.DecodePath() != ViewModel.Comic.Img)
             {
                 ViewModel.Comic.Img = file.DecodePath();
-                MessageHelper.SendFilesReload();
+                
             }
         }
         /// <summary>
@@ -72,7 +72,7 @@ namespace ShadowViewer.Pages
                     return;
                 }
                 ViewModel.Comic.Img = box.Text;
-                MessageHelper.SendFilesReload();
+                
         }
         /// <summary>
         /// 文件名回车

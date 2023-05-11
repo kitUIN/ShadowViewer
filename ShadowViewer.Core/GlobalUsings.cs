@@ -35,8 +35,5 @@ global using CommunityToolkit.WinUI.Helpers;
 global using ShadowViewer.Helpers;
 global using ShadowViewer.DataBases;
 global using ShadowViewer.Utils;
-global using SharpCompress.Archives;
-global using SharpCompress.Common;
-global using SharpCompress.Readers;
 global using System.IO;
 

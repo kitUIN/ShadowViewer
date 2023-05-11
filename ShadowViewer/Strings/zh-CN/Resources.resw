@@ -253,7 +253,7 @@
   <data name="Shadow.FileType.ComicFolder" xml:space="preserve">
     <value>漫画文件夹</value>
   </data>
-  <data name="Shadow.String.Compress" xml:space="preserve">
+  <data name="Shadow.String.ImportDecompress" xml:space="preserve">
     <value>正在解压,请稍后...</value>
   </data>
   <data name="Shadow.String.ImportLoading" xml:space="preserve">

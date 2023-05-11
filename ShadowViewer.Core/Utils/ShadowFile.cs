@@ -26,9 +26,10 @@ namespace ShadowViewer.Utils
                     file.Counts = t.Item2;
                     Children.Add(file);
                 }
-                return new Tuple<int, int>(Children.Max(x => x.Depth) + 1, Children.Sum(x=>x.Counts) + 1);
+                if(Children.Count == 0) return Tuple.Create(0, 1);
+                return Tuple.Create(Children.Max(x => x.Depth) + 1, Children.Sum(x=>x.Counts) + 1);
             }
-            return new Tuple<int, int>(0, 1); 
+            return Tuple.Create(0, 1);
         }
         public static async Task<ShadowFile> Create(IStorageItem item, Action<IStorageItem> sizeAdd)
         {

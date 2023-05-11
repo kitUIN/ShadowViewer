@@ -285,12 +285,23 @@
                 <ProgressBar
                     x:Name="LoadingProgressBar"
                     Width="130"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     IsIndeterminate="True" />
                 <TextBlock
                     x:Name="LoadingControlText"
-                    x:Uid="Xaml/TextBlock/ImportLoading"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="16" />
+                <StackPanel
+                    x:Name="LoadingDetail"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock Text="{x:Bind LoadingProgressBar.Value, Mode=OneWay}" />
+                    <TextBlock Text="/" />
+                    <TextBlock Text="{x:Bind LoadingProgressBar.Maximum, Mode=OneWay}" />
+                </StackPanel>
             </StackPanel>
         </controls:Loading>
     </Grid>
