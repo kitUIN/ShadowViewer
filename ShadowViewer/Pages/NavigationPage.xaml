@@ -21,7 +21,6 @@
             IsBackEnabled="True"
             IsPaneOpen="False"
             IsTabStop="False"
-             
             IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavView_ItemInvoked"
             Loaded="NavView_Loaded"
@@ -70,6 +69,5 @@
             </NavigationView.FooterMenuItems>
         </NavigationView>
         <Grid x:Name="TopGrid" Canvas.ZIndex="1" />
-
     </Grid>
 </Page>

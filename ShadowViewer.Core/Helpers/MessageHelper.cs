@@ -25,12 +25,12 @@ namespace ShadowViewer.Helpers
         }
 
         /// <summary>
-        /// 通知NavigationPage显示顶部元素
+        /// 通知NavigationPage显示Info
         /// </summary>
-        /// <param name="UIElement">顶部元素</param>
-        public static void SendTopUIElement(UIElement uIElement)
+        /// <param name="InfoBar">infoBar</param>
+        public static void SendTopInfo(InfoBar infoBar)
         {
-            WeakReferenceMessenger.Default.Send(new NavigationMessage("TopGrid", uIElement));
+            WeakReferenceMessenger.Default.Send(new NavigationMessage("Info", infoBar));
         } 
         /// <summary>
         /// 通知HomePage刷新元素

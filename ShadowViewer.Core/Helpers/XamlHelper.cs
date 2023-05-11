@@ -114,6 +114,21 @@
             panel.Children.Add(headerBlock);
             panel.Children.Add(text);
             return panel;
+        } 
+        public static InfoBar CreateSimpleInfoBar(InfoBarSeverity severity, string title, string message)
+        {
+            return new InfoBar()
+            {
+                IsIconVisible = true,
+                IsOpen = true,
+                IsClosable = true,
+                Title  = title,
+                Message = message,
+                Severity = severity,
+                Margin = new Thickness(5),
+                VerticalAlignment = VerticalAlignment.Bottom,
+                HorizontalAlignment= HorizontalAlignment.Right,
+            };
         }
     }
 }

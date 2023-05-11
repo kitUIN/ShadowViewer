@@ -6,9 +6,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:co="using:ShadowViewer.Controls"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dv="using:ShadowViewer.Models"
-    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ShadowViewer.Utils"
@@ -64,14 +64,25 @@
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
-                                x:Name="ShadowCommandNewComic"
-                                x:Uid="ShadowCommandNewComic"
+                                x:Name="ShadowCommandAddFromFolder"
+                                x:Uid="Xaml/Command/AddFromFolder"
                                 Click="ShadowCommandAddFromFolder_Click">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE82E;" />
                                 </MenuFlyoutItem.Icon>
                                 <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="ShadowCommandNewComicToolTip" />
+                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromFolder" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="ShadowCommandAddFromZip"
+                                x:Uid="Xaml/Command/AddFromZip"
+                                Click="ShadowCommandAddFromZip_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xF012;" />
+                                </MenuFlyoutItem.Icon>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromZip" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
                         </MenuFlyout>
@@ -107,32 +118,6 @@
                 </AppBarButton>
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
-        <Flyout x:Key="ColorPickerFlyout">
-            <RelativePanel>
-                <ColorPicker
-                    x:Name="ColorPicker"
-                    IsColorChannelTextInputVisible="False"
-                    IsHexInputVisible="False" />
-                <Grid
-                    RelativePanel.AlignLeftWithPanel="True"
-                    RelativePanel.AlignRightWithPanel="True"
-                    RelativePanel.Below="ColorPicker">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Button
-                        Margin="0,12,2,0"
-                        HorizontalAlignment="Stretch"
-                        Content="OK" />
-                    <Button
-                        Grid.Column="1"
-                        Margin="2,12,0,0"
-                        HorizontalAlignment="Stretch"
-                        Content="Cancel" />
-                </Grid>
-            </RelativePanel>
-        </Flyout>
         <TeachingTip
             x:Name="MoveTeachingTip"
             x:Uid="MoveTeachingTip"
@@ -167,7 +152,6 @@
         DragOver="Root_DragOver"
         Drop="Root_Drop"
         RightTapped="Root_RightTapped">
-
         <ScrollViewer
             Margin="0,40,0,0"
             Padding="5"
@@ -191,41 +175,41 @@
                 SelectionMode="Extended">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="dv:LocalComic">
-                        <StackPanel
+                        <Grid
                             Width="130"
                             Height="150"
                             Padding="6"
                             AllowDrop="True"
-                            Background="Transparent"
                             DragOver="GridViewItem_DragOverCustomized"
                             Drop="GridViewItem_Drop"
-                            Spacing="3"
                             Tag="{x:Bind}">
-                            <Image
-                                x:Name="connectedElement"
-                                Width="120"
-                                Height="75"
+                            <StackPanel>
+                                <Image
+                                    x:Name="connectedElement"
+                                    Width="120"
+                                    Height="100"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Source="{x:Bind Img}" />
+                                <TextBlock
+                                    MaxWidth="100"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    MaxLines="1"
+                                    Text="{x:Bind Name}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap"
+                                    ToolTipService.ToolTip="{x:Bind Name}" />
+                            </StackPanel>
+                            <TextBlock
+                                MaxWidth="100"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Bottom"
-                                Source="{x:Bind Img}" />
-                            <TextBlock
-                                MaxWidth="100"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                FontSize="16"
-                                MaxLines="2"
-                                Text="{x:Bind Name}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="Wrap"
-                                ToolTipService.ToolTip="{x:Bind Name}" />
-                            <TextBlock
-                                MaxWidth="100"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
                                 FontSize="13"
                                 Foreground="Gray"
                                 Text="{x:Bind Percent}" />
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
@@ -290,5 +274,24 @@
             </Grid>
 
         </Grid>
+        <controls:Loading x:Name="LoadingControl">
+            <controls:Loading.Background>
+                <AcrylicBrush TintColor="Black" TintOpacity="0.2" />
+            </controls:Loading.Background>
+            <StackPanel
+                Padding="12"
+                Orientation="Vertical"
+                Spacing="10">
+                <ProgressBar
+                    x:Name="LoadingProgressBar"
+                    Width="130"
+                    IsIndeterminate="True" />
+                <TextBlock
+                    x:Name="LoadingControlText"
+                    x:Uid="Xaml/TextBlock/ImportLoading"
+                    VerticalAlignment="Center"
+                    FontSize="16" />
+            </StackPanel>
+        </controls:Loading>
     </Grid>
 </Page>

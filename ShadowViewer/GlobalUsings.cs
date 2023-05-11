@@ -47,3 +47,5 @@ global using Path = System.IO.Path;
 global using Microsoft.UI.Xaml.Media.Animation;
 global using Windows.ApplicationModel.DataTransfer;
 global using Windows.Foundation.Metadata;
+global using Microsoft.Windows.AppLifecycle;
+global using System.Reflection;

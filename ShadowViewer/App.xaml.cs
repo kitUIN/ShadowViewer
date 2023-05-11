@@ -1,28 +1,24 @@
-﻿using Microsoft.Windows.AppLifecycle;
-using Microsoft.Windows.AppNotifications;
-using System.Reflection;
+﻿
 
 namespace ShadowViewer
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
+
     public partial class App : Application
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
+        public static ShadowConfig Config { get; set; } 
         public App()
         {
             this.InitializeComponent();
+            Config = new ShadowConfig();
             // log
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .WriteTo.File(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "ShadowViewer.log"), outputTemplate: "{Timestamp:MM-dd HH:mm:ss.fff} [{Level:u4}] {SourceContext} | {Message:lj} {Exception}{NewLine}", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
             // 文件创建
+            
             _ = FileHelper.CreateFolderAsync(ApplicationData.Current.LocalFolder, "Logs");
+            _ = FileHelper.CreateFolderAsync(ApplicationData.Current.LocalFolder, "Comics");
             _ = FileHelper.CreateFileAsync(ApplicationData.Current.LocalFolder, "ShadowViewer.db");
             // 数据库
             ComicDB.Init();
@@ -31,7 +27,6 @@ namespace ShadowViewer
             PluginHelper.Init();
             // 标签数据
             TagsHelper.Init();
- 
         }
 
         /// <summary>

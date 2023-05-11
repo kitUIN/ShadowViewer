@@ -5,11 +5,11 @@ namespace ShadowViewer.Pages
     /// </summary>
     public sealed partial class NavigationPage : Page
     {
-        private NavigationViewModel ViewModel { get; } = new NavigationViewModel();
+        public NavigationViewModel ViewModel { get; set; }
         public NavigationPage()
         {
             this.InitializeComponent();
-            ViewModel.Navigate(ContentFrame, TopGrid);
+            ViewModel= new NavigationViewModel(ContentFrame, TopGrid);
             // NavView.SelectedItem = NavView.MenuItems[0]; 
         }
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

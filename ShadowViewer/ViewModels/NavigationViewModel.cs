@@ -1,16 +1,21 @@
 ﻿namespace ShadowViewer.ViewModels
 {
-    internal class NavigationViewModel: ObservableRecipient, IRecipient<NavigationMessage>
+    public class NavigationViewModel: ObservableRecipient, IRecipient<NavigationMessage>
     {
         private Frame frame;
         private NavigationViewItem pluginItem;
- 
+        private DispatcherTimer timer = new DispatcherTimer();
         private Grid topGrid;
-        public void Navigate(Frame frame,   Grid topGrid)
+        public NavigationViewModel(Frame frame, Grid topGrid)
         {
             IsActive = true;
             this.frame = frame; 
-            this.topGrid = topGrid;
+            this.topGrid = topGrid; 
+            timer.Tick += Timer_Tick;
+        }
+
+        private void Timer_Tick(object sender, object e)
+        {
         }
         /// <summary>
         /// 导航栏插件栏注入
@@ -44,9 +49,12 @@
                     frame.Navigate(page, message.objects[2], (NavigationTransitionInfo)message.objects[3]);
                 } 
                 // 顶部元素
-                else if(method == "TopGrid" && message.objects.Length >= 2 && message.objects[1] is UIElement element)
+                else if(method == "Info" && message.objects.Length == 2 && message.objects[1] is InfoBar infoBar)
                 {
-                      
+                    timer.Interval = TimeSpan.FromSeconds(5);
+                    topGrid.Children.Clear();
+                    topGrid.Children.Add(infoBar);
+                    infoBar.IsOpen = true;
                 }
                 
             }

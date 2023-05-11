@@ -14,8 +14,8 @@ namespace ShadowViewer.Pages
             if (e.Parameter is LocalComic comic)
             {
                 ViewModel.Navigate(comic, this.Frame);
-                AuthorName.Visibility = comic.IsFolder? Visibility.Collapsed:Visibility.Visible;
-                GroupName.Visibility = comic.IsFolder? Visibility.Collapsed:Visibility.Visible;
+                AuthorName.Visibility = comic.IsFolder? Visibility.Collapsed: Visibility.Visible;
+                GroupName.Visibility = comic.IsFolder? Visibility.Collapsed: Visibility.Visible;
             }
         }
         /// <summary>

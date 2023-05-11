@@ -4,7 +4,6 @@
     { 
         public LocalComic ConnectComic { get; set; }
         public string Path { get; private set; } = "local";
-         
         public Uri OriginPath { get; private set; }
  
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
@@ -26,7 +25,8 @@
                 {
                     item.RemoveInDB();
                 }
-            }else if(e.Action== NotifyCollectionChangedAction.Add)
+            }
+            else if(e.Action== NotifyCollectionChangedAction.Add)
             {
                 foreach (LocalComic item in e.NewItems)
                 {
@@ -35,7 +35,7 @@
                         ComicDB.Add(item);
                     }
                 }
-            }
+            } 
         }
          
         public void RefreshLocalComic()
