@@ -1,26 +1,26 @@
-﻿using System.Xml.Linq;
-
-namespace ShadowViewer.DataBases
+﻿namespace ShadowViewer.DataBases
 {
     public static class ComicDB
     {
-        public static string DBTable { get; } = "ShadowTable";
+        public static string DBTable { get; } = "ShadowComics";
         public static void Init()
         {
-            DBHelper.Init(DBHelper.DBPath, "create table if not exists ShadowTable " +
-                        "(Name nvarchar(2048) primary key," +
-                        "Author nvarchar(2048) null," +
-                        "SinicizationGroup nvarchar(2048) null," +
-                        "Parent nvarchar(2048) null," +
-                        "Percent nchar(128) null," +
-                        "CreateTime text null," +
-                        "LastReadTime text null," +
-                        "Link nvarchar(2048) null," +
-                        "Tags nvarchar(2048) null," +
-                        "AnotherTags nvarchar(2048) null," +
-                        "Img nvarchar(2048) null, " +
-                        "Size bigint null, " +
-                        "IsFolder boolean false);");
+            DBHelper.Init(DBHelper.DBPath, "create table if not exists ShadowComics " +
+                        "([Id] nchar(32) primary key," +
+                        "[Name] nvarchar(2048) null," +
+                        "[Author] nvarchar(2048) null," +
+                        "[Group] nvarchar(2048) null," +
+                        "[Description] ntext null," +
+                        "[Parent] nvarchar(2048) null," +
+                        "[Percent] nvarchar(12) null," +
+                        "[CreateTime] text null," +
+                        "[LastReadTime] text null," +
+                        "[Link] nvarchar(2048) null," +
+                        "[Tags] nvarchar(2048) null," +
+                        "[Affiliation] nvarchar(2048) null," +
+                        "[Img] nvarchar(2048) null, " +
+                        "[Size] bigint null, " +
+                        "[IsFolder] boolean false);");
             Log.ForContext<SqliteConnection>().Information(messageTemplate: "Comic数据库初始化");
         }
         public static void Update(string name, string where, string newArg, string whereArg)
@@ -42,16 +42,18 @@ namespace ShadowViewer.DataBases
             {
                 DBHelper.Add(DBHelper.DBPath, DBTable, new Dictionary<string, object>
                 {
+                    { "@ID", localComic.Id                                             },
                     { "@Name", localComic.Name                                             },
                     { "@Author", localComic.Author                                      },
-                    { "@SinicizationGroup", localComic.SinicizationGroup                                      },
+                    { "@Group", localComic.Group                                      },
+                    { "@Description", localComic.Description                                      },
                     { "@Parent", localComic.Parent                                      },
                     { "@Percent", localComic.Percent                                    },
                     { "@CreateTime", localComic.CreateTime                                },
                     { "@LastReadTime", localComic.LastReadTime                            },
                     { "@Link", localComic.Link                                            },
-                    { "@Tags", localComic.Tags.JoinToString()                             },
-                    { "@AnotherTags", localComic.AnotherTags.JoinToString()               },
+                    { "@Tags", localComic.Tags.JoinToString()                             }, 
+                    { "@Affiliation", localComic.Affiliation                         }, 
                     { "@Img", localComic.Img                                              },
                     { "@Size", localComic.Size                                            },
                     { "@IsFolder", localComic.IsFolder },
@@ -65,14 +67,6 @@ namespace ShadowViewer.DataBases
                 throw;
             }
         }
-        public static void Add(string name, string img, string parent)
-        {
-            if (img == "") { img = "ms-appx:///Assets/Default/folder.png"; }
-            if (name == "") { name = Guid.NewGuid().ToString("N"); }
-            var comic =  ComicHelper.CreateFolder(name, "", img, parent);
-            Add(comic);
-        }
-
         public static void Remove(string where, string id)
         {
             try
@@ -92,6 +86,12 @@ namespace ShadowViewer.DataBases
             Log.ForContext<SqliteConnection>().Information("[{name}={Parent}]获取漫画(counts={Count})", where, whereArg, res.Count);
             return res;
         }
+        public static List<LocalComic> Get(Dictionary<string,object> where)
+        {
+            List<LocalComic> res = DBHelper.Get(DBHelper.DBPath, DBTable, where, ReadComicFromDB).Cast<LocalComic>().ToList();
+            Log.ForContext<SqliteConnection>().Information("[Dictionary]获取漫画(counts={Count})", res.Count);
+            return res;
+        }
         public static LocalComic GetFirst(string where, string whereArg)
         { 
             List<LocalComic> res = DBHelper.Get(DBHelper.DBPath, DBTable, KeyValuePair.Create(where, whereArg as object), ReadComicFromDB).Cast<LocalComic>().ToList();
@@ -109,33 +109,17 @@ namespace ShadowViewer.DataBases
         
         public static LocalComic ReadComicFromDB(SqliteDataReader reader)
         {
-            return new LocalComic(reader.GetString(0), reader.GetString(1), reader.GetString(2),
-                reader.GetString(3), reader.GetString(4), reader.GetString(5),
-                reader.GetString(6), reader.GetString(7), reader.GetString(8), reader.GetString(9),
-                reader.GetString(10), reader.GetInt64(11), reader.GetBoolean(12));
+            return new LocalComic(reader.GetString(0), reader.GetString(1),
+                reader.GetString(7), reader.GetString(8), author: reader.GetString(2),
+                group: reader.GetString(3), description: reader.GetString(4), parent: reader.GetString(5),
+                percent: reader.GetString(6), link: reader.GetString(9),
+                tags:reader.GetString(10),affiliation: reader.GetString(11), img: reader.GetString(12),
+                size:reader.GetInt64(13),isFolder: reader.GetBoolean(14));
         }
         public static void RemoveInDB(this LocalComic comic)
         {
             Remove(nameof(comic.Name), comic.Name);
         }
-        public static string GetPath(string name, string parent)
-        {
-            List<string> strings = new List<string>();
-            while (parent != "local")
-            {
-                if (ComicDB.GetFirst("Name", parent) is LocalComic local)
-                {
-                    strings.Add(parent);
-                    parent = local.Parent;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            strings.Add("local");
-            strings.Reverse();
-            return "shadow://" + string.Join(" / ", strings) + "/" + name;
-        }
+       
     }
 }

@@ -1,8 +1,60 @@
-﻿namespace ShadowViewer.Helpers
+﻿
+namespace ShadowViewer.Helpers
 {
     public static class FileHelper
     {
         public static string[] pngs = { ".png", ".jpg", ".jpeg", ".bmp" };
+        public static string[] zips = { ".zip", ".rar", ".7z" };
+        
+        public static bool IsPic(this StorageFile file)
+        {
+            return pngs.Contains(file.FileType);
+        }
+        public static bool IsZip(this StorageFile file)
+        {
+            return zips.Contains(file.FileType);
+        }
+        public static async Task<StorageFile> IsFileExist(this string uri)
+        {
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromPathAsync(uri);
+                return file;
+            } 
+            catch (Exception exception) when (exception is System.Runtime.InteropServices.COMException || exception is FileNotFoundException)
+            {
+                 return null;
+            }
+        }
+        public static void RarCompress(string rar,string destinationDirectory)
+        {
+            ReaderOptions options = new ReaderOptions();
+            options.ArchiveEncoding.Default = Encoding.GetEncoding("utf-8");
+            using (Stream stream = File.OpenRead(rar))
+            {
+                var reader = ReaderFactory.Open(stream, options);
+                while (reader.MoveToNextEntry())
+                {
+                    if (!reader.Entry.IsDirectory)
+                    { 
+                        reader.WriteEntryToDirectory(destinationDirectory, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                    }
+                }
+            }
+        }
+        public static void ZipCompress(string zip, string destinationDirectory)
+        {
+            ReaderOptions options = new ReaderOptions();
+            options.ArchiveEncoding.Default = Encoding.GetEncoding("utf-8");
+            var archive = ArchiveFactory.Open(zip, options);
+            foreach (var entry in archive.Entries)
+            {
+                if (!entry.IsDirectory)
+                {
+                    entry.WriteToDirectory(destinationDirectory, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                }
+            }
+        } 
 
         public static async Task CreateFileAsync(StorageFolder localFolder, string path)
         {
@@ -15,8 +67,6 @@
             {
 
             }
-            
-            
         }
         public static async Task CreateFolderAsync(StorageFolder localFolder,string path)
         {
@@ -74,15 +124,12 @@
         /// </summary>
         /// <param name="files">The files.</param>
         /// <returns></returns>
-        public static async Task<ulong> GetSizeInFiles(List<StorageFile> files)
+        public static async Task<ulong> GetSizeInFiles(IReadOnlyList<StorageFile> files)
         {
             ulong res = 0;
-            foreach (var item in files)
+            foreach (var item in files.Where(x => pngs.Contains(x.FileType)))
             {
-                if (pngs.Contains(item.FileType))
-                {
-                    res += (await item.GetBasicPropertiesAsync()).Size;
-                }
+                res += (await item.GetBasicPropertiesAsync()).Size;
             }
             return res;
         }
@@ -91,11 +138,11 @@
         /// </summary>
         /// <param name="files">The files.</param>
         /// <returns></returns>
-        public static string GetImgInFiles(List<StorageFile> files)
+        public static string GetImgInFiles(IReadOnlyList<StorageFile> files)
         {
-            files.Sort((x, y) => x.Name.CompareTo(y.Name));
-            var imgFile = files.FirstOrDefault(x => pngs.Contains(x.FileType));
-            return imgFile is null ? null : imgFile.Path;
+            
+            var imgFile = files.OrderBy(x => x.Name).FirstOrDefault(x => pngs.Contains(x.FileType));
+            return imgFile is null ? "" : imgFile.Path;
         }
     }
 }

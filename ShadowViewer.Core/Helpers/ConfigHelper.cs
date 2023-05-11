@@ -2,17 +2,16 @@
 {
     public static class ConfigHelper
     {
-        
-        public static string Get(string container,string key)
+        public static object Get(string container,string key)
         {
             ApplicationDataContainer CoreSettings = ApplicationData.Current.LocalSettings.CreateContainer(container, ApplicationDataCreateDisposition.Always);
             if (CoreSettings.Values.ContainsKey(key))
             {
-                return (string)CoreSettings.Values[key];
+                return CoreSettings.Values[key];
             }
             return null;
         }
-        public static void Set(string container, string key, string value)
+        public static void Set(string container, string key, object value)
         {
             ApplicationDataContainer CoreSettings = ApplicationData.Current.LocalSettings.CreateContainer(container, ApplicationDataCreateDisposition.Always);
             CoreSettings.Values[key] = value;
@@ -30,7 +29,7 @@
             }
             return null;
         }
-        public static string Get(string key)
+        public static object Get(string key)
         {
             return Get("ShadowViewer", key);
         }

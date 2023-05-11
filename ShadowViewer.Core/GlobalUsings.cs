@@ -28,11 +28,15 @@ global using Microsoft.UI.Xaml.Automation.Peers;
 global using Microsoft.UI.Xaml.Media;
 global using ShadowViewer.Models;
 global using Microsoft.UI;
-global using  Windows.UI;
+global using Windows.UI;
 global using System.Web;
 global using CommunityToolkit.WinUI.UI.Controls;
 global using CommunityToolkit.WinUI.Helpers;
 global using ShadowViewer.Helpers;
 global using ShadowViewer.DataBases;
 global using ShadowViewer.Utils;
+global using SharpCompress.Archives;
+global using SharpCompress.Common;
+global using SharpCompress.Readers;
+global using System.IO;
 

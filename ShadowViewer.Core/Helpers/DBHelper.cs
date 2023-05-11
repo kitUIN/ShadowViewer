@@ -94,6 +94,48 @@
             }
         }
         /// <summary>
+        /// 从数据库中获取一个行(多个条件And)
+        /// </summary>
+        /// <param name="dbpath">The dbpath.</param>
+        /// <param name="table">The table.</param>
+        /// <param name="where">The where.</param>
+        /// <param name="convert">The convert.</param>
+        /// <returns></returns>
+        public static List<object> Get(string dbpath, string table, Dictionary<string, object> where, Func<SqliteDataReader, object> convert)
+        {
+            using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
+            {
+                db.Open();
+                var text = $"select * from {table} where ";
+                bool flag = false;
+                SqliteCommand command = db.CreateCommand();
+                foreach (var item in where)
+                {
+                    if (flag)
+                    {
+                        text += " And ";
+                    }
+                    text += item.Key + " = @"+ item.Key;
+                    flag = true;
+                }
+                command.CommandText = text + ";";
+                foreach (var item in where)
+                {
+                    command.Parameters.AddWithValue("@" + item.Key, item.Value);
+                }
+                
+                var res = new List<object>();
+                using (SqliteDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        res.Add(convert(reader));
+                    }
+                }
+                return res;
+            }
+        }
+        /// <summary>
         /// 数据库中更新行
         /// </summary>
         /// <param name="dbpath">The dbpath.</param>
@@ -109,7 +151,7 @@
                 db.Open();
 
                 SqliteCommand command = db.CreateCommand();
-                command.CommandText = $"update {table} set {name} = @NewArg where {where} = @WhereArg;";
+                command.CommandText = $"update {table} set [{name}] = @NewArg where [{where}] = @WhereArg;";
                 command.Parameters.AddWithValue("@NewArg", newArg);
                 command.Parameters.AddWithValue("@WhereArg", whereArg);
                 command.ExecuteReader();

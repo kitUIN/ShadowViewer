@@ -1,6 +1,4 @@
-﻿using Windows.UI.Core;
-
-namespace ShadowViewer.Helpers
+﻿namespace ShadowViewer.Helpers
 {
     // Copy From WinUI 3 Gallery
     public static class WindowHelper

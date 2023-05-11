@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
 namespace ShadowViewer.Pages
 {
     /// <summary>
@@ -8,32 +5,42 @@ namespace ShadowViewer.Pages
     /// </summary>
     public sealed partial class NavigationPage : Page
     {
-        private NavigationViewModel viewModel;
+        public NavigationViewModel ViewModel { get; set; }
         public NavigationPage()
         {
             this.InitializeComponent();
-            viewModel = new NavigationViewModel(ContentFrame, this.XamlRoot, TopGrid);
-            NavView.SelectedItem = NavView.MenuItems[0];
-            ContentFrame.Navigate(typeof(HomePage));
+            ViewModel= new NavigationViewModel(ContentFrame, TopGrid);
+            // NavView.SelectedItem = NavView.MenuItems[0]; 
         }
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             Type _page = null;
+            object parameter = null;
             if (args.IsSettingsInvoked == true)
             {
                 _page = typeof(SettingsPage);
+                parameter = new Uri("shadow://settings/");
             }
             else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag is string navItemTag)
             {
                 if (navItemTag == "Home")
                 {
                     _page = typeof(HomePage);
+                    parameter = new Uri("shadow://local/");
+                }
+                else if (navItemTag == "Download")
+                {
+
+                }
+                else if (navItemTag == "User")
+                {
+
                 }
                 else
                 {
                     foreach (string name in PluginHelper.EnabledPlugins)
                     {
-                        _page = PluginHelper.PluginInstances[name].NavigationViewItemInvokedHandler(navItemTag);
+                        PluginHelper.PluginInstances[name].NavigationViewItemInvokedHandler(navItemTag, out _page,out parameter);
                         if (_page != null) break;
                     }
                 }
@@ -41,7 +48,7 @@ namespace ShadowViewer.Pages
             var preNavPageType = ContentFrame.CurrentSourcePageType;
             if (!(_page is null) && !Type.Equals(preNavPageType, _page))
             {
-                ContentFrame.Navigate(_page, null, args.RecommendedNavigationTransitionInfo);
+                ContentFrame.Navigate(_page, parameter, args.RecommendedNavigationTransitionInfo);
             }
         }
 
@@ -60,21 +67,16 @@ namespace ShadowViewer.Pages
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            viewModel.LoadPluginItems(PluginItem);
+            ViewModel.LoadPluginItems(PluginItem);
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if(e.Parameter is Page page)
             {
                 ContentFrame.Content = page;
-            }
-             
+            } 
         }
-
-        private void NavView_Drop(object sender, DragEventArgs e)
-        {
-
-        }
+         
     }
 
 }

@@ -1,21 +1,20 @@
-using Microsoft.UI.Xaml.Controls.Primitives;
-using ShadowViewer.DataBases;
-using Windows.ApplicationModel.DataTransfer;
+using Microsoft.UI.Xaml.Controls;
+using ShadowViewer.Helpers;
+using System.Linq;
 
 namespace ShadowViewer.Pages
 {
     public sealed partial class HomePage : Page
     {
-        private HomeViewModel ViewModel { get;} = new HomeViewModel();
-        private bool isLoaded = false;
-        private Window window;
+        private HomeViewModel ViewModel { get; set; }
+
         public HomePage()
         {
             this.InitializeComponent(); 
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Navigate(e.Parameter);
+            ViewModel = new HomeViewModel(e.Parameter as Uri);
         }
         /// <summary>
         /// 显示右键菜单
@@ -36,6 +35,7 @@ namespace ShadowViewer.Pages
             ShadowCommandDelete.IsEnabled = isComicBook;
             ShadowCommandMove.IsEnabled = isComicBook;
             ShadowCommandAddTag.IsEnabled = isComicBook & isSingle;
+            ShadowCommandNewFolder.IsEnabled = ViewModel.Path == "local";
             ShadowCommandStatus.IsEnabled = isComicBook & isSingle;
             HomeCommandBarFlyout.ShowAt(sender, myOption);
         }
@@ -58,10 +58,63 @@ namespace ShadowViewer.Pages
                 isSingle = true;
             }
             ShowMenu(e.GetPosition(sender as UIElement), sender as UIElement, isComicBook, isSingle, isFolder);
-
         }
         /// <summary>
-        /// 右键菜单-新建漫画导入
+        /// 从文件夹导入漫画
+        /// </summary>
+        /// <param name="folder">The folder.</param>
+        /// <param name="parent">The parent.</param>
+        private async Task ImportComicsAsync(StorageFolder folder, string parent,string id =null)
+        {
+            LoadingControl.IsLoading = true;
+            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+            ulong size = 0;
+            var file = await ShadowFile.Create(folder, async (s) => {
+                if (s is StorageFile file && file.IsPic())
+                { size += (await file.GetBasicPropertiesAsync()).Size; }
+            });
+            string img = null;
+            if (file.Depth > 2)
+            {
+                while (file.Depth > 2)
+                {
+                    file = file.Children.FirstOrDefault(x => x.Self is StorageFolder);
+                }
+            }
+            img = file.Children.FirstOrDefault(x => x.Self is StorageFile f && f.IsPic())?.Self.Path ?? "";
+            LoadingControl.IsLoading = false;
+            ViewModel.LocalComics.Add(ComicHelper.CreateComic(((StorageFolder)file.Self).DisplayName, img, parent, file.Self.Path, id: id, size: (long)size));
+        }
+        /// <summary>
+        /// 从zip导入漫画
+        /// </summary>
+        /// <param name="folder">The folder.</param>
+        /// <param name="parent">The parent.</param>
+        private async Task ImportComicsAsync(StorageFile storageFile, string parent)
+        {
+            LoadingControl.IsLoading = true;
+            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.Compress");
+            string id = Guid.NewGuid().ToString("N");
+            while (ComicDB.Contains(nameof(id), id))
+            {
+                id = Guid.NewGuid().ToString("N");
+            }
+            StorageFolder comicsFolder = await StorageFolder.GetFolderFromPathAsync(App.Config.ComicsPath);
+            var folder = await comicsFolder.CreateFolderAsync(id);
+            string path = Path.Combine(App.Config.ComicsPath, id);
+            if (storageFile.FileType == ".zip")
+            {
+                FileHelper.ZipCompress(storageFile.Path, path);
+            }
+            else if(storageFile.FileType == ".rar")
+            {
+                FileHelper.RarCompress(storageFile.Path, path);
+            }
+            
+            await ImportComicsAsync(folder, parent, id);
+        }
+        /// <summary>
+        /// 右键菜单-新建漫画从文件夹导入
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -71,8 +124,21 @@ namespace ShadowViewer.Pages
             var folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
             if (folder != null)
             {
-                await ComicHelper.ImportComicsAsync(folder, ViewModel.Path);
-                MessageHelper.SendFilesReload();
+                await ImportComicsAsync(folder, ViewModel.Path);
+            }
+        }
+        /// <summary>
+        /// 右键菜单-新建漫画从压缩文件导入
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private async void ShadowCommandAddFromZip_Click(object sender, RoutedEventArgs e)
+        {
+
+            var file = await FileHelper.SelectFileAsync(this, ".zip",".rar",".7z");
+            if (file != null)
+            {
+                await ImportComicsAsync(file,ViewModel.Path);
             }
         }
         /// <summary>
@@ -94,7 +160,7 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"),XamlRoot, comic).ShowAsync();
+            await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"), XamlRoot, comic).ShowAsync();
         }
         /// <summary>
         /// 右键菜单-删除
@@ -104,12 +170,10 @@ namespace ShadowViewer.Pages
         private void ShadowCommandDelete_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide(); 
-            foreach(LocalComic comic in ContentGridView.SelectedItems)
+            foreach (LocalComic comic in ContentGridView.SelectedItems)
             {
-                comic.RemoveInDB(); 
-                WindowHelper.ColseWindowFromTitle(comic.Name);
+                ViewModel.LocalComics.Remove(comic);
             }
-            MessageHelper.SendFilesReload();
         }
 
 
@@ -120,15 +184,11 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandMove_Click(object sender, RoutedEventArgs e)
         {
-            HomeCommandBarFlyout.Hide(); 
-            var black  = new List<string>();
-            foreach(LocalComic comic in ContentGridView.SelectedItems)
-            {
-                black.Add(comic.Name);
-            }
-            MoveTreeView.ItemsSource = new List<ShadowPath>{ UriHelper.PathTreeInit(black) };
+            HomeCommandBarFlyout.Hide();
+            MoveTreeView.ItemsSource = new List<ShadowPath> { 
+                new ShadowPath(ContentGridView.SelectedItems.Cast<LocalComic>().Select(c => c.Id)) 
+            };
             MoveTeachingTip.IsOpen = true;
-             
         }
         /// <summary>
         /// 右键菜单-添加标签
@@ -139,7 +199,7 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            NavigateToStatus(comic, true);
+            
         }
         /// <summary>
         /// 右键菜单-查看属性
@@ -149,42 +209,18 @@ namespace ShadowViewer.Pages
         private void ShadowCommandStatus_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            NavigateToStatus(comic, false);
+            ConnectedAnimation animation = null;
+            ViewModel.ConnectComic = ContentGridView.SelectedItems[0] as LocalComic;
+            animation = ContentGridView.PrepareConnectedAnimation("forwardComicStatusAnimation", ViewModel.ConnectComic, "connectedElement");
+            SmokeFrame.Navigate(typeof(StatusPage), ViewModel.ConnectComic);
+            SmokeGrid.Visibility = Visibility.Visible;
+            animation.TryStart(destinationElement);
         }
-        /// <summary>
-        /// 跳转到属性页面
-        /// </summary>
-        /// <param name="comic">The comic.</param>
-        /// <param name="isTag">if set to <c>true</c> [is tag].</param>
-        /// <param name="name">The name.</param>
-        /// <param name="isMessage">if set to <c>true</c> [is message].</param>
-        /// <param name="isLoaded">if set to <c>true</c> [is loaded].</param>
-        private void NavigateToStatus(LocalComic comic, bool isTag = false, string name = null, bool isMessage = false , bool isLoaded = false)
-        {
-            var newWindow = WindowHelper.GetWindowForTitle(name ?? comic.Name) as FileWindow;
-            if (newWindow == null)
-            {
-                newWindow = new FileWindow();
-                WindowHelper.TrackWindow(newWindow);
-            }
-            newWindow.Title = comic.Name;
-            List<object> args = new List<object>
-            {
-                comic
-            };
-            if (!isMessage)
-            {
-                args.Add(isTag);
-            }
-            newWindow.Navigate(typeof(StatusPage), args, I18nHelper.GetString("FileAppTitle.Text"));
-            this.isLoaded = isLoaded;
-            window = newWindow;
-        }
+        
         
         private void ShadowCommandRefresh_Click(object sender, RoutedEventArgs e)
         {
-            MessageHelper.SendFilesReload();
+            ViewModel.RefreshLocalComic();
         }
         /// <summary>
         /// 右键选中GridViewItem
@@ -193,17 +229,13 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="RightTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void ContentGridView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            if (e.OriginalSource is FrameworkElement element)
+            if (e.OriginalSource is FrameworkElement element && element.DataContext != null)
             {
-                var item = element.DataContext;
-                if (item != null)
+                var container = (GridViewItem)ContentGridView.ContainerFromItem(element.DataContext);
+                if (container != null && !container.IsSelected)
                 {
-                    var container = (GridViewItem)ContentGridView.ContainerFromItem(item);
-                    if (container != null && !container.IsSelected)
-                    {
-                        ContentGridView.SelectedItems.Clear();
-                        container.IsSelected = true;
-                    }
+                    ContentGridView.SelectedItems.Clear();
+                    container.IsSelected = true;
                 }
             }
         }
@@ -214,28 +246,13 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void ContentGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if (e.OriginalSource is FrameworkElement element)
+            if (e.OriginalSource is FrameworkElement element && element.DataContext is LocalComic comic && comic.IsFolder)
             {
-                var item = element.DataContext;
-                if (item is LocalComic comic && comic.IsFolder)
-                {
-                    Frame.Navigate(this.GetType(), ViewModel.OriginPath + "/" + comic.Name);
-                }
+                Frame.Navigate(this.GetType(), new Uri(ViewModel.OriginPath, comic.Id));
             }
         }
-        /// <summary>
-        /// 右键菜单关闭时触发
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="e">The e.</param>
-        private void HomeCommandBarFlyout_Closed(object sender, object e)
-        {
-            if (!isLoaded && window!=null)
-            {
-                isLoaded = true;
-                window.Activate();
-            }
-        }
+        
+        
         /// <summary>
         /// 创建一个原始的对话框
         /// </summary>
@@ -254,20 +271,11 @@ namespace ShadowViewer.Pages
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Orientation = Orientation.Vertical,
             };
-            Button selectImg = new Button()
-            {
-                Margin = new Thickness(10, 0, 0, 0),
-                Content = new SymbolIcon(Symbol.Folder),
-            };
             var nameBox = XamlHelper.CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Name"),
                 I18nHelper.GetString("Dialog/CreateFolder/Title"), oldName, 222);
-            ((TextBox)nameBox.Children[1]).TextChanged += (s, e) =>
-            {
-                var sender = s as TextBox;
-                dialog.IsPrimaryButtonEnabled = !ComicDB.Contains("Name", sender.Text);
-            };
             grid.Children.Add(nameBox);
             dialog.Content = grid;
+            dialog.IsPrimaryButtonEnabled = true;
             return dialog;
         }
         /// <summary>
@@ -276,15 +284,12 @@ namespace ShadowViewer.Pages
         /// <returns></returns>
         private ContentDialog CreateRenameDialog(string title, XamlRoot xamlRoot, LocalComic comic)
         {
-            ContentDialog dialog = CreateRawDialog(title,xamlRoot,comic.Name);
-            dialog.IsPrimaryButtonEnabled = false;
+            ContentDialog dialog = CreateRawDialog(title, xamlRoot, comic.Name); 
             dialog.PrimaryButtonClick +=  (s, e) =>
             {
                 var name = ((TextBox)((StackPanel)((StackPanel)dialog.Content).Children[0]).Children[1]).Text;
-                var oldname = comic.Name;
                 comic.Name = name;
-                MessageHelper.SendFilesReload();
-                MessageHelper.SendStatusReload();
+                ViewModel.RefreshLocalComic();
             };
             return dialog;
         }
@@ -295,66 +300,14 @@ namespace ShadowViewer.Pages
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
         {
             ContentDialog dialog = CreateRawDialog(I18nHelper.GetString("Dialog/CreateFolder/Title"), xamlRoot, "");
-            dialog.IsPrimaryButtonEnabled = true;
+            
             dialog.PrimaryButtonClick += (s, e) =>
             {
-                var name = ((TextBox)((StackPanel)((StackPanel)dialog.Content).Children[0]).Children[1]).Text;
-                ComicDB.Add(name, "", parent);
-                MessageHelper.SendFilesReload();
+                var name = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
+                ViewModel.LocalComics.Add(ComicHelper.CreateFolder(name, "", parent));
             };
             return dialog;
            
-        }
-        /// <summary>
-        /// 监控变化
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="SizeChangedEventArgs"/> instance containing the event data.</param>
-        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            PathBar.Width = ((Grid)sender).ActualWidth - 200;
-             
-        }
-        /// <summary>
-        /// 地址栏点击
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="BreadcrumbBarItemClickedEventArgs"/> instance containing the event data.</param>
-        private void PathBar_ItemClicked(BreadcrumbBar sender, BreadcrumbBarItemClickedEventArgs args)
-        {
-            int index = ViewModel.Paths.IndexOf(args.Item as string);
-            if (index != -1)
-            {
-                List<string> list = ViewModel.Paths.GetRange(0, index + 1);
-                Frame.Navigate(this.GetType(), "shadow://"+ string.Join("/", list));
-            }
-            
-        }
-        /// <summary>
-        /// 移动到 对话框的按钮响应
-        /// </summary>
-        /// <param name="sender">The sender.</param>
-        /// <param name="args">The arguments.</param>
-        private void MoveTeachingTip_ActionButtonClick(TeachingTip sender, object args)
-        {
-            if(MoveTreeView.SelectedItem is ShadowPath path)
-            {
-                MoveToPath(path.Name);
-            }
-        }
-        /// <summary>
-        /// 移动到别的文件夹
-        /// </summary>
-        /// <param name="path">The path.</param>
-        private void MoveToPath(string path)
-        {
-            foreach (LocalComic comic in ContentGridView.SelectedItems)
-            {
-                comic.Parent = path;
-            }
-            MoveTeachingTip.IsOpen = false;
-            MessageHelper.SendFilesReload();
-            MessageHelper.SendStatusReload();
         }
         /// <summary>
         /// 在树形结构上双击
@@ -363,11 +316,35 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void TreeViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if (MoveTreeView.SelectedItem is ShadowPath path)
-            {
-                MoveToPath(path.Name);
-            }
+            MoveToPath(MoveTreeView.SelectedItem as ShadowPath);
         }
+        /// <summary>
+        /// 移动到 对话框的按钮响应
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The arguments.</param>
+        private void MoveTeachingTip_ActionButtonClick(TeachingTip sender, object args)
+        {
+            MoveToPath(MoveTreeView.SelectedItem as ShadowPath);
+        }
+        /// <summary>
+        /// 移动到别的文件夹
+        /// </summary>
+        /// <param name="path">The path.</param>
+        private void MoveToPath(ShadowPath path)
+        {
+            if (path == null) { return; }
+            foreach (LocalComic comic in ContentGridView.SelectedItems)
+            {
+                if(comic.Id != path.Id && path.IsFolder)
+                {
+                    comic.Parent = path.Id;
+                }
+            }
+            MoveTeachingTip.IsOpen = false;
+            ViewModel.RefreshLocalComic();
+        }
+        
         /// <summary>
         /// 接收拖动
         /// </summary>
@@ -376,26 +353,18 @@ namespace ShadowViewer.Pages
         private void GridViewItem_Drop(object sender, DragEventArgs e)
         {
             if (sender is FrameworkElement frame  )
-            {
-                string parent;
+            { 
                 if(frame.Tag is LocalComic comic && comic.IsFolder)
                 {
-                    parent = comic.Name;
-                }
-                else if(frame.Tag is string name)
-                {
-                    parent = name;
-                }
-                else
-                {
-                    return;
-                }
-                foreach (LocalComic item in ContentGridView.SelectedItems)
-                {
-                    item.Parent = parent;
-                }
-                MessageHelper.SendFilesReload();
-                MessageHelper.SendStatusReloadDB();
+                    foreach (LocalComic item in ContentGridView.SelectedItems)
+                    {
+                        if (!item.IsFolder)
+                        {
+                            item.Parent = comic.Id;
+                        } 
+                    }
+                    ViewModel.RefreshLocalComic();
+                }                 
             }
         }
         /// <summary>
@@ -406,29 +375,16 @@ namespace ShadowViewer.Pages
         private void GridViewItem_DragOverCustomized(object sender, DragEventArgs e)
         {
             if (sender is FrameworkElement frame)
-            {
-                string parent;
+            { 
                 if (frame.Tag is LocalComic comic && comic.IsFolder)
-                {
-                    parent = comic.Name;
-                    e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None;
-                    e.DragUIOverride.IsCaptionVisible = comic.IsFolder;
+                { 
+                    e.DragUIOverride.Caption = I18nHelper.GetString("ShadowCommandMove.Label") + comic.Name;
+                    e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None; 
                 }
-                else if (frame.Tag is string name)
-                {
-                    parent = name;
-                    e.AcceptedOperation =  DataPackageOperation.Move;
-                    e.DragUIOverride.IsCaptionVisible = true;
-                }
-                else
-                {
-                    return;
-                }
-                e.DragUIOverride.Caption = I18nHelper.GetString("ShadowCommandMove.Label") + parent;
+                else { return; } 
                 e.DragUIOverride.IsGlyphVisible = true;
+                e.DragUIOverride.IsCaptionVisible = true;
             }
-
-            
         }
 
         /// <summary>
@@ -457,12 +413,15 @@ namespace ShadowViewer.Pages
             OverBorder.Visibility = Visibility.Collapsed;
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                var item = await e.DataView.GetStorageItemsAsync();
-                if (item.Count == 1 && item[0] is StorageFolder folder)
+                var items = await e.DataView.GetStorageItemsAsync();
+                foreach (var item1 in items.Where(x => x is StorageFolder))
                 {
-                    await ComicHelper.ImportComicsAsync(folder, ViewModel.Path);
+                    await ImportComicsAsync(item1 as StorageFolder, ViewModel.Path);
                 }
-                MessageHelper.SendFilesReload();
+                foreach (var item2 in items.Where(x => x is StorageFile file && file.IsZip()))
+                {
+                     
+                }
             }
         }
         /// <summary>
@@ -491,6 +450,31 @@ namespace ShadowViewer.Pages
         private void Root_DragLeave(object sender, DragEventArgs e)
         {
             OverBorder.Visibility = Visibility.Collapsed;
+        }
+        private async void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsComicStatusAnimation", destinationElement);
+            SmokeGrid.Children.Remove(destinationElement); 
+            animation.Completed += Animation_Completed; 
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
+            {
+                animation.Configuration = new DirectConnectedAnimationConfiguration();
+            } 
+            await ContentGridView.TryStartConnectedAnimationAsync(animation, ViewModel.ConnectComic, "connectedElement");
+        }
+        private void Animation_Completed(ConnectedAnimation sender, object args)
+        {
+            SmokeGrid.Visibility = Visibility.Collapsed;
+            SmokeGrid.Children.Add(destinationElement);
+        }
+
+        private void SmokeGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var grid = sender as Grid;
+            if (grid.ActualHeight > 50)
+            {
+                destinationElement.Height = grid.ActualHeight - 50;
+            }
         }
     }
 }

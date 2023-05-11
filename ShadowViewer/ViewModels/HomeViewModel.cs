@@ -1,38 +1,54 @@
 ﻿namespace ShadowViewer.ViewModels
 {
     public partial class HomeViewModel: ObservableRecipient, IRecipient<FilesMessage>
-    {
+    { 
+        public LocalComic ConnectComic { get; set; }
         public string Path { get; private set; } = "local";
-        [ObservableProperty]
-        private List<string> paths = new List<string> { "local" };
-        public string OriginPath { get; private set; } = "shadow://local";
+        public Uri OriginPath { get; private set; }
+ 
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
-        public HomeViewModel()
+        public HomeViewModel(Uri parameter)
         {
             IsActive = true;
-        }
-        public void Navigate(object parameter)
-        {
-            if(parameter is string path)
-            {
-                OriginPath = path;
-                Paths = path.Replace("shadow://", "").Split("/").ToList();
-                if(Paths.Count == 0)
-                {
-                    Paths.Add("local");
-                }
-                Path = Paths.Last();
-            }
-            Log.ForContext<HomePage>().Information("导航到{patj}", OriginPath);
+            LocalComics.CollectionChanged += LocalComics_CollectionChanged;
+            OriginPath = parameter;
+            Path = parameter.AbsolutePath.Split('/').Where(x => x != "").LastOrDefault() ?? parameter.Host;
+            Log.ForContext<HomePage>().Information("导航到{path}", OriginPath);
             RefreshLocalComic();
         }
+
+        private void LocalComics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if(e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach(LocalComic item in e.OldItems) 
+                {
+                    item.RemoveInDB();
+                }
+            }
+            else if(e.Action== NotifyCollectionChangedAction.Add)
+            {
+                foreach (LocalComic item in e.NewItems)
+                {
+                    if (!ComicDB.Contains("id", item.Id))
+                    {
+                        ComicDB.Add(item);
+                    }
+                }
+            } 
+        }
+         
         public void RefreshLocalComic()
         {
             LocalComics.Clear();
-            foreach(LocalComic item in ComicDB.Get("Parent", Path))
+            foreach (LocalComic item in ComicDB.Get("Parent", Path))
             {
                 LocalComics.Add(item);
-            }
+                if(ConnectComic is LocalComic && item.Id== ConnectComic.Id)
+                {
+                    ConnectComic = item;
+                }
+            } 
         }
 
         public void Receive(FilesMessage message)

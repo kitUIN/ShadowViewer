@@ -3,6 +3,11 @@
     public partial class LocalComic: ObservableObject
     {
         /// <summary>
+        /// ID
+        /// </summary>
+        [ObservableProperty]
+        private string id;
+        /// <summary>
         /// 名称
         /// </summary>
         [ObservableProperty]
@@ -26,7 +31,12 @@
         /// 汉化组
         /// </summary>
         [ObservableProperty]
-        private string sinicizationGroup;
+        private string group;
+        /// <summary>
+        /// 描述
+        /// </summary>
+        [ObservableProperty]
+        private string description;
         /// <summary>
         /// 创建时间
         /// </summary>
@@ -47,9 +57,10 @@
         /// </summary>
         public ObservableCollection<string> Tags { get; } = new ObservableCollection<string>();
         /// <summary>
-        /// 附加标签
+        /// 类型
         /// </summary>
-        public ObservableCollection<string> AnotherTags { get; } = new ObservableCollection<string>();
+        [ObservableProperty]
+        private string affiliation;
         /// <summary>
         /// 链接对象
         /// </summary>
@@ -70,34 +81,33 @@
         /// </summary>
         [ObservableProperty]
         private bool isFolder = false;
-        public LocalComic(string name, string author,string sinicizationGroup, string parent, string percent, string createTime, string lastReadTime, string link, string tags = "Local", string anotherTags ="", string img="", long size=0, bool isFolder=false)
+        public LocalComic(string id, string name, string createTime, 
+            string lastReadTime, string link,string description="",string group = "", string author="", string parent = "local",
+            string percent="0%", string tags = "" , string affiliation = "Local", string img="", long size=0, bool isFolder=false)
         {
+            this.id = id;
             this.name = name;
             this.author = author;
-            this.sinicizationGroup = sinicizationGroup;
+            this.group  = group;
             this.img = img;
             this.percent = percent;
+            this.description = description;
             this.createTime = createTime;
             this.lastReadTime = lastReadTime;
             this.parent = parent;
             Tags = LoadTags(tags);
-            AnotherTags = LoadTags(anotherTags);
+            this.affiliation = affiliation;
             this.link = link;
             this.size = size;
             this.sizeString = ShowSize(size);
             this.isFolder = isFolder;
             Tags.CollectionChanged += Tags_CollectionChanged;
-            AnotherTags.CollectionChanged += AnotherTags_CollectionChanged;
-        }
-
-        private void AnotherTags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            ComicDB.Update(nameof(AnotherTags), nameof(Name), AnotherTags.JoinToString(), Name);
+            
         }
 
         private void Tags_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            ComicDB.Update(nameof(Tags), nameof(Name), Tags.JoinToString(), Name);
+            ComicDB.Update(nameof(Tags), nameof(Id), Tags.JoinToString(), Id);
         }
          
         partial void OnSizeChanged(long value)
@@ -108,48 +118,42 @@
         {
             if (oldValue != newValue)
             {
-                ComicDB.Update(nameof(Img), nameof(Name), newValue, Name);
+                ComicDB.Update(nameof(Img), nameof(Id), newValue, Id);
             }
         }
         partial void OnAuthorChanged(string oldValue, string newValue)
         {
             if (oldValue != newValue)
             {
-                ComicDB.Update(nameof(Author), nameof(Name), newValue, Name);
+                ComicDB.Update(nameof(Author), nameof(Id), newValue, Id);
             }
         }
-        partial void OnSinicizationGroupChanged(string oldValue, string newValue)
+        partial void OnGroupChanged(string oldValue, string newValue)
         {
             if (oldValue != newValue)
             {
-                ComicDB.Update(nameof(SinicizationGroup), nameof(Name), newValue, Name);
+                ComicDB.Update(nameof(Group), nameof(Id), newValue, Id);
             }
         }
         partial void OnNameChanged(string oldValue, string newValue)
         {
             if (oldValue != newValue)
             {
-                ComicDB.Update(nameof(Name), nameof(Name), newValue, oldValue);
-                ComicDB.Update(nameof(Parent), nameof(Parent), newValue, oldValue);
-                if (IsFolder)
-                {
-                    Link = Name;
-                }
-                WindowHelper.SetWindowTitle(oldValue, newValue);
+                ComicDB.Update(nameof(Name), nameof(Id), newValue, Id); 
             }
         }
         partial void OnLinkChanged(string oldValue, string newValue)
         {
             if (oldValue != newValue)
             {
-                ComicDB.Update(nameof(Link), nameof(Name), newValue, Name);
+                ComicDB.Update(nameof(Link), nameof(Id), newValue, Id);
             }
         }
         partial void OnParentChanged(string oldValue, string newValue)
         {
             if(oldValue != newValue && newValue != Name)
             {
-                ComicDB.Update(nameof(Parent), nameof(Name), newValue, Name);
+                ComicDB.Update(nameof(Parent), nameof(Id), newValue, Id);
             }
         }
          
@@ -186,7 +190,20 @@
             return $"{size} B";
         }
         
-        
+        public string Path 
+        { 
+            get
+            {
+                if (Parent == "local")
+                {
+                    return "shadow://local/" + Id;
+                }
+                else
+                {
+                    return "shadow://local/" + Parent + "/" + Id;
+                }
+            } 
+        }
         
 
     }

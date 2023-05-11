@@ -1,53 +1,59 @@
-﻿namespace ShadowViewer.Helpers
+﻿using SharpCompress.Archives;
+using SharpCompress.Common;
+using SharpCompress.Readers;
+using System.IO;
+using Windows.System;
+
+namespace ShadowViewer.Helpers
 {
     public static class ComicHelper
-    {
-        
-        public static string GetPath(string name, string parent)
+    { 
+        public static LocalComic CreateFolder(string name,string img, string parent)
         {
-            List<string> strings = new List<string>();
-            while (parent != "local")
+            string id = Guid.NewGuid().ToString("N");
+            while (ComicDB.Contains(nameof(id), id))
             {
-                if (ComicDB.GetFirst("Name", parent) is LocalComic local)
+                id = Guid.NewGuid().ToString("N");
+            }
+            var time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            if (img == "") { img = "ms-appx:///Assets/Default/folder.png"; }
+            if (name == "") { name = id; }
+            var comic =  new LocalComic(id, name, time, time, id, img: img, parent: parent, isFolder: true, percent:"");
+            return comic;
+        }
+        public static LocalComic CreateComic(string name, string img, string parent, string link, string affiliation = "Local",long size=0,string id=null)
+        {
+            if (id == null)
+            {
+                id = Guid.NewGuid().ToString("N");
+                while (ComicDB.Contains(nameof(id), id))
                 {
-                    strings.Add(parent);
-                    parent = local.Parent;
-                }
-                else
-                {
-                    break;
+                    id = Guid.NewGuid().ToString("N");
                 }
             }
-            strings.Add("local");
-            strings.Reverse();
-            return "shadow://" + string.Join("/", strings) + "/" + name;
-        }
-        public static LocalComic CreateFolder(string name, string author, string img, string parent)
-        {
             var time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            return new LocalComic(name, author, "", parent, "", time, time, name, "Local", "", img, 0, true);
-        }
-         
-        
+            var comic = new LocalComic(id, name, time, time, link, img: img, size: size,
+                affiliation: affiliation, parent: parent);
+            return comic;
+        } 
         /// <summary>
         /// 从文件夹导入漫画
         /// </summary>
         /// <param name="folder">The folder.</param>
         /// <param name="parent">The parent.</param>
-        public static async Task  ImportComicsAsync(StorageFolder folder, string parent)
-        { 
-            var time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        public static async Task<LocalComic> ImportComicsAsync(StorageFolder folder, string parent, Action valueAction, Action CloseAction)
+        {
             var first = await folder.GetFoldersAsync();
             List<StorageFile> oneFiles = (await folder.GetFilesAsync()).ToList();
             // 一层的漫画
             var img = FileHelper.GetImgInFiles(oneFiles);
             var size = await FileHelper.GetSizeInFiles(oneFiles);
             // 无封面情况,从内部取
-            
+
             // 最多2层漫画
             if (first.Count > 0)
             {
-                foreach(var item in first)
+                foreach (var item in first)
                 {
                     List<StorageFile> twoFiles = (await item.GetFilesAsync()).ToList();
                     if (img is null)
@@ -58,11 +64,10 @@
                 }
             }
             if (img is null)
-            {   
+            {
                 img = "";
             }
-            ComicDB.Add(new LocalComic(folder.DisplayName, "","", parent, "0%", time, time, folder.Path, "Local", "", img, (long)size, false));
-
+            return CreateComic(folder.DisplayName, img, parent, folder.Path, size: (long)size);
         }
     }
 }

@@ -253,6 +253,12 @@
   <data name="Shadow.FileType.ComicFolder" xml:space="preserve">
     <value>漫画文件夹</value>
   </data>
+  <data name="Shadow.String.Compress" xml:space="preserve">
+    <value>正在解压,请稍后...</value>
+  </data>
+  <data name="Shadow.String.ImportLoading" xml:space="preserve">
+    <value>正在导入,请稍后...</value>
+  </data>
   <data name="ShadowCommandAdd.Label" xml:space="preserve">
     <value>新建</value>
   </data>
@@ -273,12 +279,6 @@
   </data>
   <data name="ShadowCommandMoveToolTip.Content" xml:space="preserve">
     <value>移动到</value>
-  </data>
-  <data name="ShadowCommandNewComic.Text" xml:space="preserve">
-    <value>新建漫画</value>
-  </data>
-  <data name="ShadowCommandNewComicToolTip.Content" xml:space="preserve">
-    <value>新建漫画</value>
   </data>
   <data name="ShadowCommandNewFolder.Text" xml:space="preserve">
     <value>新建文件夹</value>
@@ -343,7 +343,22 @@
   <data name="UserItem.Content" xml:space="preserve">
     <value>用户</value>
   </data>
+  <data name="Xaml.Command.AddFromFolder.Text" xml:space="preserve">
+    <value>从文件夹导入漫画</value>
+  </data>
+  <data name="Xaml.Command.AddFromZip.Text" xml:space="preserve">
+    <value>从压缩文件导入漫画</value>
+  </data>
   <data name="Xaml.GroupStatus.Text" xml:space="preserve">
-    <value>汉化组</value>
+    <value>汉化组:</value>
+  </data>
+  <data name="Xaml.SponsorCard.Header" xml:space="preserve">
+    <value>❤️赞助开发者</value>
+  </data>
+  <data name="Xaml.ToolTip.AddFromFolder.Content" xml:space="preserve">
+    <value>从文件夹导入漫画</value>
+  </data>
+  <data name="Xaml.ToolTip.AddFromZip.Content" xml:space="preserve">
+    <value>从压缩文件导入漫画</value>
   </data>
 </root>

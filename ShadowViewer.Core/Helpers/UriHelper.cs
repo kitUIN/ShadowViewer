@@ -1,14 +1,8 @@
-﻿
-
-
-namespace ShadowViewer.Helpers
+﻿namespace ShadowViewer.Helpers
 {
     public static class UriHelper
     {
-        public static ShadowPath PathTreeInit(List<string> black)
-        {
-            return new ShadowPath("local", false, null, black);
-        }
+         
         public static async void LaunchUriAsync(this Uri uri)
         {
             if (uri != null)
@@ -43,5 +37,6 @@ namespace ShadowViewer.Helpers
         {
             return HttpUtility.UrlDecode(uri.AbsoluteUri);
         }
+        
     }
 }

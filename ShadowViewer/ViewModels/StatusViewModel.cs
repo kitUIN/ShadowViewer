@@ -2,48 +2,36 @@
 {
     internal partial class StatusViewModel: ObservableRecipient, IRecipient<StatusMessage>
     {
+
         public LocalComic Comic { get; set; }
         private Frame frame;
-        [ObservableProperty]
-        private bool isTag;
         public ObservableCollection<TokenItem> Tags = new ObservableCollection<TokenItem>();
-        public ObservableCollection<string> ExistID = new ObservableCollection<string>();
-        public StatusViewModel(LocalComic comic, bool isTag, Frame frame)
+        public void Navigate(LocalComic comic, Frame frame)
         {
             Comic = comic;
             IsActive = true;
-            IsTag = isTag;
             this.frame = frame;
             LoadTags();
         }
         public string GetComicType
         {
             get => I18nHelper.GetString(Comic.IsFolder ? "Shadow.FileType.ComicFolder" : "Shadow.FileType.Comic");
-        }
-        public string GetShadowPath
-        {
-            get => ComicHelper.GetPath(Comic.Name, Comic.Parent);
-        }
+        } 
         public void LoadTags()
         {
             Tags.Clear();
-            foreach (var item in Comic.Tags)
+            if (TagsHelper.ShadowTags.FirstOrDefault(x => x.tag == Comic.Affiliation) is ShadowTag shadow)
             {
-                if (TagsHelper.ShadowTags.FirstOrDefault(x => x.tag == item) is ShadowTag shadowTag)
+                Tags.Add(new TokenItem
                 {
-                    if (!Tags.Any(x => (string)x.Content == shadowTag.name))
-                    {
-                        Tags.Add(new TokenItem
-                        {
-                            Content = shadowTag.name,
-                            Foreground = shadowTag.foreground,
-                            Background = shadowTag.background,
-                            IsRemoveable = false,
-                        });
-                    }
-                }
+                    Content = shadow.name,
+                    Foreground = shadow.foreground,
+                    Background = shadow.background,
+                    IsRemoveable = false,
+                    Tag = shadow.tag,
+                });
             }
-            foreach (var item in Comic.AnotherTags)
+            foreach (var item in Comic.Tags)
             {
                 if (TagsHelper.ShadowTags.FirstOrDefault(x => x.tag == item) is ShadowTag shadowTag)
                 {
@@ -54,20 +42,20 @@
                             Content = shadowTag.name,
                             Foreground = shadowTag.foreground,
                             Background = shadowTag.background,
-                            IsRemoveable = IsTag,
+                            IsRemoveable = false,
                             Tag = shadowTag.tag,
                         };
                         tokenItem.Removing += ShowTagItem_Removing;
                         Tags.Add(tokenItem);
                     }
                 }
-
             }
+            
         }
         private void ShowTagItem_Removing(object sender, TokenItemRemovingEventArgs e)
         {
             var item = e.TokenItem;
-            Comic.AnotherTags.Remove(item.Tag.ToString());
+            Comic.Tags.Remove(item.Tag.ToString());
         }
         public void Reload()
         {
@@ -75,7 +63,7 @@
         }
         public void Reload(LocalComic comic)
         {
-            frame.Navigate(typeof(StatusPage), new List<object> { comic, IsTag });
+            frame.Navigate(typeof(StatusPage), comic);
         }
         public void Receive(StatusMessage message)
         {

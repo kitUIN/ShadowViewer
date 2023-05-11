@@ -145,5 +145,11 @@ namespace ShadowViewer.Pages
                                                                                 "ThemeChangedNotificationActivityId");
             }
         }
+
+        private void SponsorCard_Click(object sender, RoutedEventArgs e)
+        {
+            var uri = new Uri("https://afdian.net/@kituin");
+            uri.LaunchUriAsync();
+        }
     }
 }
