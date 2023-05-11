@@ -1,5 +1,3 @@
-using ShadowViewer.Helpers;
-
 namespace ShadowViewer.Pages
 {
     public sealed partial class StatusPage : Page
@@ -43,22 +41,14 @@ namespace ShadowViewer.Pages
         {
             if (e.Key != VirtualKey.Enter) { return; }
             var box = sender as TextBox;
-            Uri uri = null;
+            Uri uri;
             bool flag = false;
             string title = I18nHelper.GetString("Shadow.Error.Title");
             string message = "";
             try
                 {
                     uri = new Uri(box.Text);
-                    StorageFile file = null;
-                    if (box.Text.StartsWith("ms-appx"))
-                    {
-                        file = await StorageFile.GetFileFromApplicationUriAsync(uri);
-                    }
-                    else
-                    {
-                        file = await StorageFile.GetFileFromPathAsync(uri.DecodeUri());
-                    }
+                    StorageFile file = uri.Scheme == "ms-appx" ? await StorageFile.GetFileFromApplicationUriAsync(uri) : await StorageFile.GetFileFromPathAsync(uri.DecodeUri());
                     if (!(file.IsPic()))
                     {
                         flag = true;

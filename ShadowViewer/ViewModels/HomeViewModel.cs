@@ -1,19 +1,21 @@
-﻿using ShadowViewer.DataBases;
-
-namespace ShadowViewer.ViewModels
+﻿namespace ShadowViewer.ViewModels
 {
     public partial class HomeViewModel: ObservableRecipient, IRecipient<FilesMessage>
     { 
         public LocalComic ConnectComic { get; set; }
         public string Path { get; private set; } = "local";
          
-        public string OriginPath { get; private set; } = "shadow://local";
+        public Uri OriginPath { get; private set; }
  
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
-        public HomeViewModel()
+        public HomeViewModel(Uri parameter)
         {
             IsActive = true;
             LocalComics.CollectionChanged += LocalComics_CollectionChanged;
+            OriginPath = parameter;
+            Path = parameter.AbsolutePath.Split('/').Where(x => x != "").LastOrDefault() ?? parameter.Host;
+            Log.ForContext<HomePage>().Information("导航到{path}", OriginPath);
+            RefreshLocalComic();
         }
 
         private void LocalComics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -32,20 +34,10 @@ namespace ShadowViewer.ViewModels
                     {
                         ComicDB.Add(item);
                     }
-                    
                 }
             }
         }
-
-        public void Navigate(Uri parameter)
-        {
-            OriginPath = parameter.AbsoluteUri;
-            List<string> urls = parameter.AbsolutePath.Split('/').ToList();
-            urls.RemoveAll(x => x == "");
-            Path = urls.Count > 0 ? urls.Last() : parameter.Host;
-            Log.ForContext<HomePage>().Information("导航到{path}", OriginPath);
-            RefreshLocalComic();
-        }
+         
         public void RefreshLocalComic()
         {
             LocalComics.Clear();

@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Xml.Linq;
-
-namespace ShadowViewer.Utils
+﻿namespace ShadowViewer.Utils
 {
     public class ShadowPath
     { 
@@ -17,7 +14,7 @@ namespace ShadowViewer.Utils
             Children = new List<ShadowPath>();
         }
 
-        public ShadowPath(List<string> black)
+        public ShadowPath(IEnumerable<string> black)
         {
             this.comic = new LocalComic("local", "local", "", "", "local", img: "ms-appx:///Assets/Default/folder.png");
             var children = ComicDB.Get(new Dictionary<string, object>()
@@ -25,8 +22,7 @@ namespace ShadowViewer.Utils
                 {"Parent", "local"},
                 {"IsFolder", true},
             });
-            children.RemoveAll(x => black.Contains(x.Id)); 
-            Children = children.Select(c => new ShadowPath(c)).ToList();
-        } 
+            Children = children.Where(c => !black.Contains(c.Id)).Select(c => new ShadowPath(c)).ToList();
+        }
     }
 }

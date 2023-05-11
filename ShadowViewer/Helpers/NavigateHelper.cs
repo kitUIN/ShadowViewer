@@ -19,8 +19,7 @@
             // 本应用协议
             if (uri.Scheme == "shadow")
             {
-                var urls = uri.AbsolutePath.Split("/").ToList();
-                urls.RemoveAll(x=>x=="");
+                var urls = uri.AbsolutePath.Split("/").Where(x => x != "").ToList();
                 // 本地
                 switch (uri.Host.ToLower())
                 {

@@ -23,14 +23,6 @@ namespace ShadowViewer.Helpers
         {
             WeakReferenceMessenger.Default.Send(new NavigationMessage("Navigate", page, parameter, arg));
         }
-        /// <summary>
-        /// 通知NavigationPage显示对话框
-        /// </summary>
-        /// <param name="ContentDialog">对话框</param>
-        public static void SendShowContentDialog(ContentDialog dialog)
-        {
-            WeakReferenceMessenger.Default.Send(new NavigationMessage("ContentDialog", dialog));
-        }
 
         /// <summary>
         /// 通知NavigationPage显示顶部元素

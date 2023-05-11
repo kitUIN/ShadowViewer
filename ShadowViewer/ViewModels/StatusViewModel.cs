@@ -1,6 +1,4 @@
-﻿using ShadowViewer.Models;
-
-namespace ShadowViewer.ViewModels
+﻿namespace ShadowViewer.ViewModels
 {
     internal partial class StatusViewModel: ObservableRecipient, IRecipient<StatusMessage>
     {

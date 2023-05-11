@@ -1,10 +1,8 @@
-using System.Linq;
-
 namespace ShadowViewer.Pages
 {
     public sealed partial class HomePage : Page
     {
-        private HomeViewModel ViewModel { get;} = new HomeViewModel();
+        private HomeViewModel ViewModel { get; set; }
 
         public HomePage()
         {
@@ -12,7 +10,7 @@ namespace ShadowViewer.Pages
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel.Navigate(e.Parameter as Uri);
+            ViewModel = new HomeViewModel(e.Parameter as Uri);
         }
         /// <summary>
         /// 显示右键菜单
@@ -56,7 +54,6 @@ namespace ShadowViewer.Pages
                 isSingle = true;
             }
             ShowMenu(e.GetPosition(sender as UIElement), sender as UIElement, isComicBook, isSingle, isFolder);
-
         }
         /// <summary>
         /// 右键菜单-新建漫画导入
@@ -69,8 +66,7 @@ namespace ShadowViewer.Pages
             var folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
             if (folder != null)
             {
-                await ComicHelper.ImportComicsAsync(folder, ViewModel.Path);
-                MessageHelper.SendFilesReload();
+                ViewModel.LocalComics.Add(await ComicHelper.ImportComicsAsync(folder, ViewModel.Path));
             }
         }
         /// <summary>
@@ -102,7 +98,7 @@ namespace ShadowViewer.Pages
         private void ShadowCommandDelete_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide(); 
-            foreach(LocalComic comic in ContentGridView.SelectedItems)
+            foreach (LocalComic comic in ContentGridView.SelectedItems)
             {
                 ViewModel.LocalComics.Remove(comic);
             }
@@ -116,11 +112,11 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandMove_Click(object sender, RoutedEventArgs e)
         {
-            HomeCommandBarFlyout.Hide(); 
-            List<string> black = ContentGridView.SelectedItems.OfType<LocalComic>().ToList().Select(c => c.Id).ToList();
-            MoveTreeView.ItemsSource = new List<ShadowPath> { new ShadowPath(black) };
+            HomeCommandBarFlyout.Hide();
+            MoveTreeView.ItemsSource = new List<ShadowPath> { 
+                new ShadowPath(ContentGridView.SelectedItems.Cast<LocalComic>().Select(c => c.Id)) 
+            };
             MoveTeachingTip.IsOpen = true;
-             
         }
         /// <summary>
         /// 右键菜单-添加标签
@@ -182,7 +178,7 @@ namespace ShadowViewer.Pages
             { 
                 if (element.DataContext is LocalComic comic && comic.IsFolder)
                 {
-                    Frame.Navigate(this.GetType(), new Uri(ViewModel.OriginPath + "/" + comic.Id));
+                    Frame.Navigate(this.GetType(), new Uri(ViewModel.OriginPath,comic.Id));
                 }
             }
         }
@@ -363,9 +359,8 @@ namespace ShadowViewer.Pages
                 var item = await e.DataView.GetStorageItemsAsync();
                 if (item.Count == 1 && item[0] is StorageFolder folder)
                 {
-                    await ComicHelper.ImportComicsAsync(folder, ViewModel.Path);
-                }
-                MessageHelper.SendFilesReload();
+                    ViewModel.LocalComics.Add(await ComicHelper.ImportComicsAsync(folder, ViewModel.Path));
+                } 
             }
         }
         /// <summary>

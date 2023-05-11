@@ -1,6 +1,4 @@
-﻿using Microsoft.UI.Text;
-
-namespace ShadowViewer.Helpers
+﻿namespace ShadowViewer.Helpers
 {
     public static class XamlHelper
     {

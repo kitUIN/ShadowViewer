@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="folder">The folder.</param>
         /// <param name="parent">The parent.</param>
-        public static async Task  ImportComicsAsync(StorageFolder folder, string parent)
+        public static async Task<LocalComic>  ImportComicsAsync(StorageFolder folder, string parent)
         { 
             var first = await folder.GetFoldersAsync();
             List<StorageFile> oneFiles = (await folder.GetFilesAsync()).ToList();
@@ -60,7 +60,7 @@
             {   
                 img = "";
             }
-             CreateComic(folder.DisplayName, img, parent, folder.Path,size: (long)size);
+            return CreateComic(folder.DisplayName, img, parent, folder.Path,size: (long)size);
         }
     }
 }
