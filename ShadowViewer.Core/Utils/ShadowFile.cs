@@ -30,9 +30,13 @@ namespace ShadowViewer.Utils
                     Depth = 0;
                     Counts = 1;
                 }
-                Size = Children.Sum(x => x.Size);
-                Depth = Children.Max(x => x.Depth) + 1;
-                Counts = Children.Sum(x => x.Counts) + 1;
+                else
+                {
+                    Size = Children.Sum(x => x.Size);
+                    Depth = Children.Max(x => x.Depth) + 1;
+                    Counts = Children.Sum(x => x.Counts) + 1;
+                }
+                
             }
             else if(Self is StorageFile file)
             {

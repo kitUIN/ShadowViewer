@@ -1,8 +1,4 @@
-﻿using ShadowViewer.Helpers;
-using ShadowViewer.Models;
-using System.Reflection.PortableExecutable;
-
-namespace ShadowViewer.DataBases
+﻿namespace ShadowViewer.DataBases
 {
     public static class TagDB
     {
@@ -11,21 +7,18 @@ namespace ShadowViewer.DataBases
         {
             DBHelper.Init(DBHelper.DBPath, "create table if not exists ShadowTagsTable " +
                         "(" +
-                        "Tag nvarchar(2048) primary key," +
-                        "Name nvarchar(2048) null," +
-                        "Background nchar(128) null," +
-                        "Foreground nchar(128) null" +
+                        "Name ntext PRIMARY KEY null," +
+                        "Background nvarchar(128) null," +
+                        "Foreground nvarchar(128) null" +
                         ");");
             Log.ForContext<SqliteConnection>().Information(messageTemplate: "Tag数据库初始化");
         }
         public static void Add(ShadowTag shadowTag)
         {
-             
             try
             {
                 DBHelper.Add(DBHelper.DBPath, DBTable, new Dictionary<string, object>
             {
-                { "@Tag", shadowTag.tag },
                 { "@Name", shadowTag.name },
                 { "@Foreground", shadowTag.ForegroundHex },
                 { "@Background", shadowTag.BackgroundHex },
@@ -49,10 +42,8 @@ namespace ShadowViewer.DataBases
             Log.ForContext<SqliteConnection>().Information("[{where}={tag}]获取标签(counts={Count})", where, value, shadowTags.Count);
             return shadowTags;
         }
-        public static List<ShadowTag> Get(string tag)
-        {
-            return Get("Tag", tag);
-        }
+        
+        
         public static void Update(string name, string where, string newArg, string whereArg)
         {
             try
@@ -65,16 +56,16 @@ namespace ShadowViewer.DataBases
                 Log.ForContext<SqliteConnection>().Error("更新数据标签:{name}({old}->{new})失败:\n{Ex}", name, whereArg, newArg, ex);
             }
         }
-        public static void Remove(string where, string id)
+        public static void Remove(string where, string name)
         {
             try
             {
-                DBHelper.Remove(DBHelper.DBPath, DBTable, where, id);
-                Log.ForContext<SqliteConnection>().Information("删除数据标签:{where}={id}", where, id);
+                DBHelper.Remove(DBHelper.DBPath, DBTable, where, name);
+                Log.ForContext<SqliteConnection>().Information("删除数据标签:{where}={id}", where, name);
             }
             catch (Exception ex)
             {
-                Log.ForContext<SqliteConnection>().Error("删除数据标签:{where}={id} 失败:\n{Ex}", where, id, ex);
+                Log.ForContext<SqliteConnection>().Error("删除数据标签:{where}={id} 失败:\n{Ex}", where, name, ex);
             }
         }
         public static bool Contains(string where, string whereArg)

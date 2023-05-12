@@ -10,6 +10,7 @@
         /// <param name="commandText">The command text.</param>
         public static void Init(string dbpath,string commandText)
         {
+             
             using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
             {
                 db.Open();
@@ -144,7 +145,7 @@
         /// <param name="newArg">The new argument.</param>
         /// <param name="where">The where.</param>
         /// <param name="whereArg">The where argument.</param>
-        public static void Update(string dbpath, string table, string name, string newArg, string where, string whereArg)
+        public static void Update(string dbpath, string table, string name, object newArg, string where, object whereArg)
         {
             using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
             {
@@ -166,7 +167,7 @@
         /// <param name="table">The table.</param>
         /// <param name="where">The where.</param>
         /// <param name="whereArg">The value.</param>
-        public static void Remove(string dbpath, string table , string where, string whereArg)
+        public static void Remove(string dbpath, string table , string where, object whereArg)
         {
             using (SqliteConnection db = new SqliteConnection($"Filename={dbpath}"))
             {

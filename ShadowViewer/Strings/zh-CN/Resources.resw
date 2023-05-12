@@ -120,11 +120,17 @@
   <data name="Shadow.Error.Message.NoFile" xml:space="preserve">
     <value>文件不存在</value>
   </data>
+  <data name="Shadow.Error.Message.NotEmpty" xml:space="preserve">
+    <value>不能为空</value>
+  </data>
   <data name="Shadow.Error.Message.NotImage" xml:space="preserve">
     <value>选择的文件不是合规图片(png,jpg,jpeg,bmp)</value>
   </data>
   <data name="Shadow.Error.Message.Repeat" xml:space="preserve">
     <value>你所输入的对象已存在</value>
+  </data>
+  <data name="Shadow.Error.Message.TagExists" xml:space="preserve">
+    <value>标签已存在</value>
   </data>
   <data name="Shadow.Error.Message.UriFormatException" xml:space="preserve">
     <value>不规范的地址,请重试</value>
@@ -170,6 +176,9 @@
   </data>
   <data name="Shadow.Tag.Local" xml:space="preserve">
     <value>本地</value>
+  </data>
+  <data name="Xaml.Button.AddTag.Content" xml:space="preserve">
+    <value>添加标签</value>
   </data>
   <data name="Xaml.Button.Log.Content" xml:space="preserve">
     <value>打开日志文件夹</value>
@@ -277,8 +286,14 @@
   <data name="Xaml.TextBlock.Author.Text" xml:space="preserve">
     <value>作者:</value>
   </data>
+  <data name="Xaml.TextBlock.BackgroundColor.Text" xml:space="preserve">
+    <value>背景颜色:</value>
+  </data>
   <data name="Xaml.TextBlock.FileName.Text" xml:space="preserve">
     <value>名称:</value>
+  </data>
+  <data name="Xaml.TextBlock.ForegroundColor.Text" xml:space="preserve">
+    <value>字体颜色:</value>
   </data>
   <data name="Xaml.TextBlock.GroupStatus.Text" xml:space="preserve">
     <value>汉化组:</value>
@@ -288,6 +303,12 @@
   </data>
   <data name="Xaml.TextBlock.PluginSettingTitle.Text" xml:space="preserve">
     <value>插件设置</value>
+  </data>
+  <data name="Xaml.TextBlock.TagName.Text" xml:space="preserve">
+    <value>标签名称:</value>
+  </data>
+  <data name="Xaml.TextBlock.TagPreview.Text" xml:space="preserve">
+    <value>标签预览:</value>
   </data>
   <data name="Xaml.ToolTip.Add.Content" xml:space="preserve">
     <value>新建</value>

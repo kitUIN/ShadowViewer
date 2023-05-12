@@ -16,7 +16,7 @@
                         "[CreateTime] text null," +
                         "[LastReadTime] text null," +
                         "[Link] nvarchar(2048) null," +
-                        "[Tags] nvarchar(2048) null," +
+                        "[Tags] ntext null," +
                         "[Affiliation] nvarchar(2048) null," +
                         "[Img] nvarchar(2048) null, " +
                         "[Size] bigint null, " +

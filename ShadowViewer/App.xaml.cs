@@ -12,7 +12,7 @@ namespace ShadowViewer
             Config = new ShadowConfig();
             // 文件创建
             _ = Config.ComicsPath.ToStorageFolder();
-            _ = Path.Combine(ApplicationData.Current.LocalFolder.Path, "ShadowViewer.db").ToStorageFile();
+            _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
             // log
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()

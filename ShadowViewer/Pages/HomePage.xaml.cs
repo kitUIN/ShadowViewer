@@ -70,8 +70,8 @@ namespace ShadowViewer.Pages
             {
                 IsBusy = true;
                 LoadingControl.IsLoading = true;
-                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
                 LoadingProgressBar.IsIndeterminate = true;
+                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
                 LoadingDetail.Visibility = Visibility.Collapsed;
                 await ViewModel.ImportComicsAsync(folder);
                 LoadingControl.IsLoading = false;
@@ -159,8 +159,12 @@ namespace ShadowViewer.Pages
         private void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            
+            ConnectedAnimation animation = null;
+            ViewModel.ConnectComic = ContentGridView.SelectedItems[0] as LocalComic;
+            animation = ContentGridView.PrepareConnectedAnimation("forwardComicStatusAnimation", ViewModel.ConnectComic, "connectedElement");
+            SmokeFrame.Navigate(typeof(TagsPage), ViewModel.ConnectComic);
+            SmokeGrid.Visibility = Visibility.Visible;
+            animation.TryStart(destinationElement);
         }
         /// <summary>
         /// 右键菜单-查看属性
