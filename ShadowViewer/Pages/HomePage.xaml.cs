@@ -437,5 +437,17 @@ namespace ShadowViewer.Pages
         {
             e.Handled = true;
         }
+
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            SortButton.Content = ((MenuFlyoutItem)sender).Text;
+            ViewModel.Sorts = EnumHelper.GetEnum<ShadowSorts>(((MenuFlyoutItem)sender).Tag.ToString());
+            ViewModel.RefreshLocalComic();
+        }
+
+        private void SortButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            SortButton.Content = I18nHelper.GetString("Xaml/MenuFlyoutItem/RA/Text");
+        }
     }
 }

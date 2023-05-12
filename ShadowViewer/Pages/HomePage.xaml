@@ -97,7 +97,6 @@
                         <ToolTip x:Uid="Xaml/ToolTip/Refresh" />
                     </ToolTipService.ToolTip>
                 </AppBarButton>
-
                 <AppBarButton
                     x:Name="ShadowCommandMove"
                     x:Uid="Xaml/Command/Move"
@@ -216,17 +215,75 @@
             </GridView>
 
         </ScrollViewer>
-        <StackPanel
-            Margin="10,0,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            Orientation="Horizontal"
-            Spacing="10">
-            <Button>
-                <FontIcon FontSize="13" Glyph="&#xE71C;" />
-            </Button>
+        <Grid
+            Height="50"
+            Padding="5"
+            VerticalAlignment="Top">
+            <StackPanel
+                Margin="20,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button>
+                    <FontIcon FontSize="16" Glyph="&#xE71C;" />
 
-        </StackPanel>
+                </Button>
+            </StackPanel>
+            <StackPanel
+                Margin="0,0,20,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <FontIcon FontSize="17" Glyph="&#xE8CB;">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Sort" />
+                    </ToolTipService.ToolTip>
+                </FontIcon>
+                <DropDownButton x:Name="SortButton" Loaded="SortButton_Loaded">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Sort" />
+                    </ToolTipService.ToolTip>
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem
+                                x:Uid="Xaml/MenuFlyoutItem/PA"
+                                Click="MenuFlyoutItem_Click"
+                                Tag="PA" />
+                            <MenuFlyoutItem
+                                x:Uid="Xaml/MenuFlyoutItem/PZ"
+                                Click="MenuFlyoutItem_Click"
+                                Tag="PZ" />
+                            <MenuFlyoutItem
+                                x:Uid="Xaml/MenuFlyoutItem/AZ"
+                                Click="MenuFlyoutItem_Click"
+                                Tag="AZ" />
+                            <MenuFlyoutItem
+                                x:Uid="Xaml/MenuFlyoutItem/ZA"
+                                Click="MenuFlyoutItem_Click"
+                                Tag="ZA" />
+                            <MenuFlyoutItem
+                                x:Uid="Xaml/MenuFlyoutItem/RA"
+                                Click="MenuFlyoutItem_Click"
+                                Tag="RA" />
+                            <MenuFlyoutItem
+                                x:Uid="Xaml/MenuFlyoutItem/RZ"
+                                Click="MenuFlyoutItem_Click"
+                                Tag="RZ" />
+                            <MenuFlyoutItem
+                                x:Uid="Xaml/MenuFlyoutItem/CA"
+                                Click="MenuFlyoutItem_Click"
+                                Tag="CA" />
+                            <MenuFlyoutItem
+                                x:Uid="Xaml/MenuFlyoutItem/CZ"
+                                Click="MenuFlyoutItem_Click"
+                                Tag="CZ" />
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+            </StackPanel>
+
+        </Grid>
         <Border
             x:Name="OverBorder"
             HorizontalAlignment="Center"

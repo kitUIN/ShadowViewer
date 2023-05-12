@@ -30,7 +30,7 @@ namespace ShadowViewer.Helpers
                     }
                 }
 
-                return App.GetEnum<ElementTheme>(App.Current.RequestedTheme.ToString());
+                return EnumHelper.GetEnum<ElementTheme>(App.Current.RequestedTheme.ToString());
             }
         }
 
@@ -76,7 +76,7 @@ namespace ShadowViewer.Helpers
 
             if (savedTheme != null)
             {
-                RootTheme = App.GetEnum<ElementTheme>(savedTheme);
+                RootTheme = EnumHelper.GetEnum<ElementTheme>(savedTheme);
             }
 #endif
         }

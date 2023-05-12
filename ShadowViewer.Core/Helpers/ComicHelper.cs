@@ -63,5 +63,38 @@
             }
             return CreateComic(folder.DisplayName, img, parent, folder.Path, size: (long)size);
         }
+        /// <summary>
+        /// 字母顺序A-Z
+        /// </summary>
+        public static int AZSort(LocalComic x, LocalComic y) => x.Name.CompareTo(y.Name);
+        /// <summary>
+        /// 字母顺序Z-A
+        /// </summary>
+        public static int ZASort(LocalComic x, LocalComic y) => y.Name.CompareTo(x.Name);
+        /// <summary>
+        /// 阅读时间早-晚
+        /// </summary>
+        public static int RASort(LocalComic x, LocalComic y) => x.LastReadTime.CompareTo(y.LastReadTime);
+        /// <summary>
+        /// 阅读时间晚-早(默认)
+        /// </summary>
+        public static int RZSort(LocalComic x, LocalComic y) => y.LastReadTime.CompareTo(x.LastReadTime);
+        /// <summary>
+        /// 创建时间早-晚
+        /// </summary>
+        public static int CASort(LocalComic x, LocalComic y) => x.CreateTime.CompareTo(y.CreateTime);
+        /// <summary>
+        /// 创建时间晚-早
+        /// </summary>
+        public static int CZSort(LocalComic x, LocalComic y) => y.CreateTime.CompareTo(x.CreateTime);
+        /// <summary>
+        /// 阅读进度小-大
+        /// </summary>
+        public static int PASort(LocalComic x, LocalComic y) => x.Percent.CompareTo(y.Percent);
+        /// <summary>
+        /// 阅读进度大-小
+        /// </summary>
+        public static int PZSort(LocalComic x, LocalComic y) => y.Percent.CompareTo(x.Percent);
+        
     }
 }

@@ -5,11 +5,11 @@
         /// <summary>
         /// 字母顺序A-Z
         /// </summary>
-        A,
+        AZ,
         /// <summary>
         /// 字母顺序Z-A
         /// </summary>
-        Z,
+        ZA,
         /// <summary>
         /// 阅读时间早-晚
         /// </summary>
@@ -27,11 +27,11 @@
         /// </summary>
         CZ,
         /// <summary>
-        /// 阅读进度大-小
+        /// 阅读进度小-大
         /// </summary>
         PA,
         /// <summary>
-        /// 阅读进度小-大
+        /// 阅读进度大-小
         /// </summary>
         PZ
 
