@@ -121,7 +121,7 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"), XamlRoot, comic).ShowAsync();
+            await CreateRenameDialog(I18nHelper.GetString("Xaml.ToolTip.Rename.Content"), XamlRoot, comic).ShowAsync();
         }
         /// <summary>
         /// 右键菜单-删除
@@ -237,7 +237,7 @@ namespace ShadowViewer.Pages
         /// <returns></returns>
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
         {
-            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Dialog/CreateFolder/Title"), xamlRoot, "");
+            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.Dialog.CreateFolder.Title"), xamlRoot, "");
             
             dialog.PrimaryButtonClick += (s, e) =>
             {
@@ -315,7 +315,7 @@ namespace ShadowViewer.Pages
             { 
                 if (frame.Tag is LocalComic comic && comic.IsFolder)
                 { 
-                    e.DragUIOverride.Caption = I18nHelper.GetString("ShadowCommandMove.Label") + comic.Name;
+                    e.DragUIOverride.Caption = I18nHelper.GetString("Xaml.Command.Move.Label") + comic.Name;
                     e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None; 
                 }
                 else { return; } 
@@ -348,7 +348,7 @@ namespace ShadowViewer.Pages
         private async void Root_Drop(object sender, DragEventArgs e)
         {
             OverBorder.Visibility = Visibility.Collapsed;
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) && !IsBusy)
             {
                 var items = await e.DataView.GetStorageItemsAsync();
                 IsBusy = true;
@@ -384,14 +384,14 @@ namespace ShadowViewer.Pages
         private void Root_DragOver(object sender, DragEventArgs e)
         {
 
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) && !IsBusy)
             {
                 e.AcceptedOperation = DataPackageOperation.Link;
-                e.DragUIOverride.Caption = I18nHelper.GetString("String.Import");
+                e.DragUIOverride.Caption = I18nHelper.GetString("Shadow.String.Import") + ViewModel.Path;
                 OverBorder.Visibility = Visibility.Visible;
                 OverBorder.Width = Root.ActualWidth - 20;
                 OverBorder.Height = Root.ActualHeight - 20;
-                ImportText.Text = "将文件拖到这并导入为漫画";
+                ImportText.Text = I18nHelper.GetString("Shadow.String.ImportText");
             }
         }
         /// <summary>
@@ -427,6 +427,11 @@ namespace ShadowViewer.Pages
             {
                 destinationElement.Height = grid.ActualHeight - 50;
             }
+        }
+
+        private void SmokeGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

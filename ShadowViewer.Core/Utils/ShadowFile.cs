@@ -8,35 +8,44 @@ namespace ShadowViewer.Utils
         public IStorageItem Self { get; set; }
         public int Depth { get; set; } = 0 ;
         public int Counts { get; set; } = 0;
+        public long Size { get; set; } = 0;
         public List<ShadowFile> Children { get; } = new List<ShadowFile>();
         public ShadowFile(IStorageItem item) 
         {
             Self=item;
         }
-        private async Task<Tuple<int, int>> LoadChildren(Action<IStorageItem> sizeAdd)
+        private async Task LoadChildren()
         {
             if(Self is StorageFolder folder)
             {
                 foreach (var item in await folder.GetItemsAsync())
                 {
                     var file = new ShadowFile(item);
-                    sizeAdd.Invoke(item);
-                    var t = await file.LoadChildren(sizeAdd);
-                    file.Depth = t.Item1;
-                    file.Counts = t.Item2;
+                    await file.LoadChildren();
                     Children.Add(file);
                 }
-                if(Children.Count == 0) return Tuple.Create(0, 1);
-                return Tuple.Create(Children.Max(x => x.Depth) + 1, Children.Sum(x=>x.Counts) + 1);
+                if(Children.Count == 0)
+                {
+                    Size = 0;
+                    Depth = 0;
+                    Counts = 1;
+                }
+                Size = Children.Sum(x => x.Size);
+                Depth = Children.Max(x => x.Depth) + 1;
+                Counts = Children.Sum(x => x.Counts) + 1;
             }
-            return Tuple.Create(0, 1);
+            else if(Self is StorageFile file)
+            {
+                Size = (long)(await file.GetBasicPropertiesAsync()).Size;
+                Depth = 0;
+                Counts = 1;
+            }
+            
         }
-        public static async Task<ShadowFile> Create(IStorageItem item, Action<IStorageItem> sizeAdd)
+        public static async Task<ShadowFile> Create(IStorageItem item)
         {
             var f = new ShadowFile(item);
-            var t = await f.LoadChildren(sizeAdd);
-            f.Depth = t.Item1;
-            f.Counts = t.Item2;
+            await f.LoadChildren();
             return f;
         }
     }

@@ -52,18 +52,18 @@ namespace ShadowViewer.Pages
                     if (!(file.IsPic()))
                     {
                         flag = true;
-                        message = I18nHelper.GetString("Error.Message.NotImage");
+                        message = I18nHelper.GetString("Shadow.Error.Message.NotImage");
                     }
                 }
                 catch (UriFormatException)
                 {
                     flag = true;
-                    message = I18nHelper.GetString("Error.Message.UriFormatException");
+                    message = I18nHelper.GetString("Shadow.Error.Message.UriFormatException");
                 }
                 catch (Exception exception) when (exception is System.Runtime.InteropServices.COMException || exception is FileNotFoundException)
                 {
                     flag = true;
-                    message = I18nHelper.GetString("Error.Message.NoFile");
+                    message = I18nHelper.GetString("Shadow.Error.Message.NoFile");
                 } 
                 if(flag)
                 {

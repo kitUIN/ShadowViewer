@@ -59,7 +59,7 @@
                     { "@IsFolder", localComic.IsFolder },
 
                 });
-                Log.ForContext<SqliteConnection>().Information("添加本地漫画(id={ID})", localComic.Name);
+                Log.ForContext<SqliteConnection>().Information("添加本地漫画(id={ID})", localComic.Id);
             }
             catch (Exception ex)
             {

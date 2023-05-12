@@ -37,24 +37,24 @@
                     <win:EntranceThemeTransition FromVerticalOffset="50" />
                     <win:RepositionThemeTransition IsStaggeringEnabled="False" />
                 </win:StackPanel.ChildrenTransitions>
-                <TextBlock x:Uid="MainSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <labs:SettingsCard x:Name="ThemeSettingCard" x:Uid="ThemeSettingCard">
+                <TextBlock x:Uid="Xaml/TextBlock/MainSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <labs:SettingsCard x:Name="ThemeSettingCard" x:Uid="Xaml/SettingCard/Theme">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE790;" />
                     </labs:SettingsCard.HeaderIcon>
                     <ComboBox x:Name="ThemeModeSetting" SelectionChanged="ThemeModeSetting_SelectionChanged">
-                        <ComboBoxItem x:Uid="LightTheme" Tag="Light" />
-                        <ComboBoxItem x:Uid="DarkTheme" Tag="Dark" />
-                        <ComboBoxItem x:Uid="DefaultTheme" Tag="Default" />
+                        <ComboBoxItem x:Uid="Xaml/ComboBoxItem/LightTheme" Tag="Light" />
+                        <ComboBoxItem x:Uid="Xaml/ComboBoxItem/DarkTheme" Tag="Dark" />
+                        <ComboBoxItem x:Uid="Xaml/ComboBoxItem/DefaultTheme" Tag="Default" />
                     </ComboBox>
                 </labs:SettingsCard>
-                <labs:SettingsCard x:Name="LogSettingCard" x:Uid="LogSettingCard">
+                <labs:SettingsCard x:Name="LogSettingCard" x:Uid="Xaml/SettingCard/Log">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE82D;" />
                     </labs:SettingsCard.HeaderIcon>
-                    <Button x:Uid="LogButton" Click="LogButton_Click" />
+                    <Button x:Uid="Xaml/Button/Log" Click="LogButton_Click" />
                 </labs:SettingsCard>
-                <TextBlock x:Uid="PluginSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <TextBlock x:Uid="Xaml/TextBlock/PluginSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <StackPanel
                     x:Name="PluginSettingsStackPanel"
                     HorizontalAlignment="Stretch"
@@ -70,7 +70,7 @@
 
 
                 <!--  About  -->
-                <TextBlock x:Uid="AboutSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <TextBlock x:Uid="Xaml/TextBlock/AboutSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <labs:SettingsExpander Description="© 2023-2023 kitUIN. All rights reserved." Header="ShadowViewer">
                     <labs:SettingsExpander.HeaderIcon>
                         <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/AppTitleBar.scale-200.png" />
@@ -84,7 +84,7 @@
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
                             x:Name="BugRequestCard"
-                            x:Uid="BugRequestCard"
+                            x:Uid="Xaml/SettingsCard/BugRequest"
                             Click="BugRequestCard_Click"
                             IsClickEnabled="True">
                             <labs:SettingsCard.ActionIcon>
@@ -93,7 +93,7 @@
                         </labs:SettingsCard>
                         <labs:SettingsCard
                             x:Name="SponsorCard"
-                            x:Uid="Xaml/SponsorCard"
+                            x:Uid="Xaml/SettingsCard/Sponsor"
                             Click="SponsorCard_Click"
                             IsClickEnabled="True">
                             <labs:SettingsCard.ActionIcon>
@@ -101,14 +101,14 @@
                             </labs:SettingsCard.ActionIcon>
                         </labs:SettingsCard>
                         <labs:SettingsCard
-                            x:Uid="DependenciesCard"
+                            x:Uid="Xaml/SettingsCard/Dependencies"
                             HorizontalContentAlignment="Left"
                             ContentAlignment="Vertical">
                             <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
                                 <HyperlinkButton Content="Windows UI Library" NavigateUri="https://aka.ms/winui" />
                                 <HyperlinkButton Content="Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
-                                <HyperlinkButton Content="Serilog" NavigateUri="https://serilog.net/" />
-                                <HyperlinkButton Content="Sharp Compress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
+                                <HyperlinkButton Content="Serilog" NavigateUri="https://serilog.net" />
+                                <HyperlinkButton Content="Aspose.ZIP" NavigateUri="https://docs.aspose.com/zip/net" />
                             </StackPanel>
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>

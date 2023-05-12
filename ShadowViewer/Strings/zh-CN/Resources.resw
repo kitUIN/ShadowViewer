@@ -117,129 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AboutSettingTitle.Text" xml:space="preserve">
-    <value>关于</value>
-  </data>
-  <data name="AddNewTag.Content" xml:space="preserve">
-    <value>添加</value>
-  </data>
-  <data name="AppTitle.Text" xml:space="preserve">
-    <value>ShadowReader</value>
-    <comment>ShadowReader</comment>
-  </data>
-  <data name="AuthorStatus.Text" xml:space="preserve">
-    <value>作者:</value>
-  </data>
-  <data name="BugRequestCard.Header" xml:space="preserve">
-    <value>🐛提交Bug或提出意见</value>
-  </data>
-  <data name="CreateTimeStatus.Title" xml:space="preserve">
-    <value>创建时间:</value>
-  </data>
-  <data name="DarkTheme.Content" xml:space="preserve">
-    <value>深色</value>
-  </data>
-  <data name="DefaultTheme.Content" xml:space="preserve">
-    <value>默认</value>
-  </data>
-  <data name="DependenciesCard.Header" xml:space="preserve">
-    <value>💕依赖&amp;鸣谢</value>
-  </data>
-  <data name="Dialog.CloseButton" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="Dialog.ConfirmButton" xml:space="preserve">
-    <value>确认</value>
-  </data>
-  <data name="Dialog.CreateFolder.Img" xml:space="preserve">
-    <value>图标</value>
-  </data>
-  <data name="Dialog.CreateFolder.Name" xml:space="preserve">
-    <value>名称</value>
-  </data>
-  <data name="Dialog.CreateFolder.Title" xml:space="preserve">
-    <value>新建文件夹</value>
-  </data>
-  <data name="DownloadItem.Content" xml:space="preserve">
-    <value>下载</value>
-  </data>
-  <data name="Error.Message.NoFile" xml:space="preserve">
+  <data name="Shadow.Error.Message.NoFile" xml:space="preserve">
     <value>文件不存在</value>
   </data>
-  <data name="Error.Message.NotImage" xml:space="preserve">
+  <data name="Shadow.Error.Message.NotImage" xml:space="preserve">
     <value>选择的文件不是合规图片(png,jpg,jpeg,bmp)</value>
   </data>
-  <data name="Error.Message.Repeat" xml:space="preserve">
+  <data name="Shadow.Error.Message.Repeat" xml:space="preserve">
     <value>你所输入的对象已存在</value>
   </data>
-  <data name="Error.Message.UriFormatException" xml:space="preserve">
+  <data name="Shadow.Error.Message.UriFormatException" xml:space="preserve">
     <value>不规范的地址,请重试</value>
-  </data>
-  <data name="FileAppTitle.Text" xml:space="preserve">
-    <value>属性</value>
-  </data>
-  <data name="HomeItem.Content" xml:space="preserve">
-    <value>主页</value>
-  </data>
-  <data name="LastReadTimeStatus.Title" xml:space="preserve">
-    <value>最后查看时间:</value>
-  </data>
-  <data name="LightTheme.Content" xml:space="preserve">
-    <value>浅色</value>
-  </data>
-  <data name="LinkStatus.Title" xml:space="preserve">
-    <value>指向:</value>
-  </data>
-  <data name="LogButton.Content" xml:space="preserve">
-    <value>打开日志文件夹</value>
-  </data>
-  <data name="LogSettingCard.Description" xml:space="preserve">
-    <value>查看日志</value>
-  </data>
-  <data name="LogSettingCard.Header" xml:space="preserve">
-    <value>日志</value>
-  </data>
-  <data name="MainSettingTitle.Text" xml:space="preserve">
-    <value>主要设置</value>
-  </data>
-  <data name="MoveTeachingTip.ActionButtonContent" xml:space="preserve">
-    <value>移动</value>
-  </data>
-  <data name="MoveTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="MoveTeachingTip.Title" xml:space="preserve">
-    <value>移动到</value>
-  </data>
-  <data name="NameStatus.Text" xml:space="preserve">
-    <value>名称:</value>
-  </data>
-  <data name="ParentStatus.Title" xml:space="preserve">
-    <value>上一级:</value>
-  </data>
-  <data name="PathStatus.Title" xml:space="preserve">
-    <value>Shadow地址:</value>
-  </data>
-  <data name="PercentStatus.Title" xml:space="preserve">
-    <value>阅读进度:</value>
-  </data>
-  <data name="PivotStatus.Header" xml:space="preserve">
-    <value>属性</value>
-  </data>
-  <data name="PivotTags.Header" xml:space="preserve">
-    <value>标签</value>
-  </data>
-  <data name="PluginItem.Content" xml:space="preserve">
-    <value>插件</value>
-  </data>
-  <data name="PluginSettingTitle.Text" xml:space="preserve">
-    <value>插件设置</value>
-  </data>
-  <data name="PreviewBlock.Text" xml:space="preserve">
-    <value>预览:</value>
-  </data>
-  <data name="SettingButton.Content" xml:space="preserve">
-    <value>标签设置</value>
   </data>
   <data name="Shadow.Error.SQLite.Unique" xml:space="preserve">
     <value>数据库中已存在该值</value>
@@ -253,95 +141,50 @@
   <data name="Shadow.FileType.ComicFolder" xml:space="preserve">
     <value>漫画文件夹</value>
   </data>
+  <data name="Shadow.String.Canel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Shadow.String.Confirm" xml:space="preserve">
+    <value>确认</value>
+  </data>
+  <data name="Shadow.String.CreateFolder.Img" xml:space="preserve">
+    <value>图标</value>
+  </data>
+  <data name="Shadow.String.CreateFolder.Name" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="Shadow.String.CreateFolder.Title" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
+  <data name="Shadow.String.Import" xml:space="preserve">
+    <value>导入到</value>
+  </data>
   <data name="Shadow.String.ImportDecompress" xml:space="preserve">
     <value>正在解压,请稍后...</value>
   </data>
   <data name="Shadow.String.ImportLoading" xml:space="preserve">
     <value>正在导入,请稍后...</value>
   </data>
-  <data name="ShadowCommandAdd.Label" xml:space="preserve">
-    <value>新建</value>
+  <data name="Shadow.String.ImportText" xml:space="preserve">
+    <value>将文件拖到这并导入为漫画</value>
   </data>
-  <data name="ShadowCommandAddTag.Label" xml:space="preserve">
-    <value>添加标签</value>
-  </data>
-  <data name="ShadowCommandAddTagToolTip.Content" xml:space="preserve">
-    <value>添加标签</value>
-  </data>
-  <data name="ShadowCommandAddToolTip.Content" xml:space="preserve">
-    <value>新建</value>
-  </data>
-  <data name="ShadowCommandDeleteToolTip.Content" xml:space="preserve">
-    <value>删除</value>
-  </data>
-  <data name="ShadowCommandMove.Label" xml:space="preserve">
-    <value>移动到</value>
-  </data>
-  <data name="ShadowCommandMoveToolTip.Content" xml:space="preserve">
-    <value>移动到</value>
-  </data>
-  <data name="ShadowCommandNewFolder.Text" xml:space="preserve">
-    <value>新建文件夹</value>
-  </data>
-  <data name="ShadowCommandNewFolderToolTip.Content" xml:space="preserve">
-    <value>新建文件夹</value>
-  </data>
-  <data name="ShadowCommandRefresh.Label" xml:space="preserve">
-    <value>刷新</value>
-  </data>
-  <data name="ShadowCommandRefreshToolTip.Content" xml:space="preserve">
-    <value>刷新</value>
-  </data>
-  <data name="ShadowCommandRenameToolTip.Content" xml:space="preserve">
-    <value>重命名</value>
-  </data>
-  <data name="ShadowCommandStatus.Label" xml:space="preserve">
-    <value>属性</value>
-  </data>
-  <data name="ShadowCommandStatusToolTip.Content" xml:space="preserve">
-    <value>属性</value>
-  </data>
-  <data name="SizeStatus.Title" xml:space="preserve">
-    <value>大小:</value>
-  </data>
-  <data name="String.Default.Tag" xml:space="preserve">
-    <value>新增</value>
-  </data>
-  <data name="String.Import" xml:space="preserve">
-    <value>导入</value>
-  </data>
-  <data name="Strings.Version" xml:space="preserve">
-    <value>版本号</value>
-  </data>
-  <data name="Tag.Add" xml:space="preserve">
-    <value>点击添加标签</value>
-  </data>
-  <data name="Tag.Local" xml:space="preserve">
+  <data name="Shadow.Tag.Local" xml:space="preserve">
     <value>本地</value>
   </data>
-  <data name="TagBackgroundText.Text" xml:space="preserve">
-    <value>背景色</value>
+  <data name="Xaml.Button.Log.Content" xml:space="preserve">
+    <value>打开日志文件夹</value>
   </data>
-  <data name="TagForegroundText.Text" xml:space="preserve">
-    <value>字体色</value>
+  <data name="Xaml.ComboBoxItem.DarkTheme.Content" xml:space="preserve">
+    <value>深色</value>
   </data>
-  <data name="TagIdBox.Header" xml:space="preserve">
-    <value>标签ID</value>
+  <data name="Xaml.ComboBoxItem.DefaultTheme.Content" xml:space="preserve">
+    <value>默认</value>
   </data>
-  <data name="TagNameBox.Header" xml:space="preserve">
-    <value>标签名称</value>
+  <data name="Xaml.ComboBoxItem.LightTheme.Content" xml:space="preserve">
+    <value>浅色</value>
   </data>
-  <data name="ThemeSettingCard.Description" xml:space="preserve">
-    <value>设置应用的主题</value>
-  </data>
-  <data name="ThemeSettingCard.Header" xml:space="preserve">
-    <value>主题</value>
-  </data>
-  <data name="TypeStatus.Title" xml:space="preserve">
-    <value>类型:</value>
-  </data>
-  <data name="UserItem.Content" xml:space="preserve">
-    <value>用户</value>
+  <data name="Xaml.Command.Add.Label" xml:space="preserve">
+    <value>新建</value>
   </data>
   <data name="Xaml.Command.AddFromFolder.Text" xml:space="preserve">
     <value>从文件夹导入漫画</value>
@@ -349,16 +192,137 @@
   <data name="Xaml.Command.AddFromZip.Text" xml:space="preserve">
     <value>从压缩文件导入漫画</value>
   </data>
-  <data name="Xaml.GroupStatus.Text" xml:space="preserve">
+  <data name="Xaml.Command.AddTag.Label" xml:space="preserve">
+    <value>添加标签</value>
+  </data>
+  <data name="Xaml.Command.Move.Label" xml:space="preserve">
+    <value>移动到</value>
+  </data>
+  <data name="Xaml.Command.NewFolder.Text" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
+  <data name="Xaml.Command.Refresh.Label" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Xaml.Command.Status.Label" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="Xaml.NavigationViewItem.Download.Content" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="Xaml.NavigationViewItem.Home.Content" xml:space="preserve">
+    <value>主页</value>
+  </data>
+  <data name="Xaml.NavigationViewItem.Plugin.Content" xml:space="preserve">
+    <value>插件</value>
+  </data>
+  <data name="Xaml.NavigationViewItem.User.Content" xml:space="preserve">
+    <value>用户</value>
+  </data>
+  <data name="Xaml.SettingCard.Log.Description" xml:space="preserve">
+    <value>查看日志</value>
+  </data>
+  <data name="Xaml.SettingCard.Log.Header" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="Xaml.SettingsCard.BugRequest.Header" xml:space="preserve">
+    <value>🐛提交Bug或提出意见</value>
+  </data>
+  <data name="Xaml.SettingsCard.Dependencies.Header" xml:space="preserve">
+    <value>💕依赖&amp;鸣谢</value>
+  </data>
+  <data name="Xaml.SettingsCard.Sponsor.Header" xml:space="preserve">
+    <value>❤️赞助开发者</value>
+  </data>
+  <data name="Xaml.StatusBlock.CreateTime.Title" xml:space="preserve">
+    <value>创建时间:</value>
+  </data>
+  <data name="Xaml.StatusBlock.LastReadTime.Title" xml:space="preserve">
+    <value>最后查看时间:</value>
+  </data>
+  <data name="Xaml.StatusBlock.Link.Title" xml:space="preserve">
+    <value>指向:</value>
+  </data>
+  <data name="Xaml.StatusBlock.Parent.Title" xml:space="preserve">
+    <value>上一级:</value>
+  </data>
+  <data name="Xaml.StatusBlock.Path.Title" xml:space="preserve">
+    <value>Shadow地址:</value>
+  </data>
+  <data name="Xaml.StatusBlock.Percent.Title" xml:space="preserve">
+    <value>阅读进度:</value>
+  </data>
+  <data name="Xaml.StatusBlock.Size.Title" xml:space="preserve">
+    <value>大小:</value>
+  </data>
+  <data name="Xaml.StatusBlock.Type.Title" xml:space="preserve">
+    <value>类型:</value>
+  </data>
+  <data name="Xaml.TeachingTip.Move.ActionButtonContent" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="Xaml.TeachingTip.Move.CloseButtonContent" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Xaml.TeachingTip.Move.Title" xml:space="preserve">
+    <value>移动到</value>
+  </data>
+  <data name="Xaml.TextBlock.AboutSettingTitle.Text" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="Xaml.TextBlock.AppTitle.Text" xml:space="preserve">
+    <value>ShadowReader</value>
+    <comment>ShadowReader</comment>
+  </data>
+  <data name="Xaml.TextBlock.Author.Text" xml:space="preserve">
+    <value>作者:</value>
+  </data>
+  <data name="Xaml.TextBlock.FileName.Text" xml:space="preserve">
+    <value>名称:</value>
+  </data>
+  <data name="Xaml.TextBlock.GroupStatus.Text" xml:space="preserve">
     <value>汉化组:</value>
   </data>
-  <data name="Xaml.SponsorCard.Header" xml:space="preserve">
-    <value>❤️赞助开发者</value>
+  <data name="Xaml.TextBlock.MainSettingTitle.Text" xml:space="preserve">
+    <value>主要设置</value>
+  </data>
+  <data name="Xaml.TextBlock.PluginSettingTitle.Text" xml:space="preserve">
+    <value>插件设置</value>
+  </data>
+  <data name="Xaml.ToolTip.Add.Content" xml:space="preserve">
+    <value>新建</value>
   </data>
   <data name="Xaml.ToolTip.AddFromFolder.Content" xml:space="preserve">
     <value>从文件夹导入漫画</value>
   </data>
   <data name="Xaml.ToolTip.AddFromZip.Content" xml:space="preserve">
     <value>从压缩文件导入漫画</value>
+  </data>
+  <data name="Xaml.ToolTip.AddTag.Content" xml:space="preserve">
+    <value>添加标签</value>
+  </data>
+  <data name="Xaml.ToolTip.Delete.Content" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Xaml.ToolTip.Move.Content" xml:space="preserve">
+    <value>移动到</value>
+  </data>
+  <data name="Xaml.ToolTip.NewFolder.Content" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
+  <data name="Xaml.ToolTip.Refresh.Content" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Xaml.ToolTip.Rename.Content" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Xaml.ToolTip.Status.Content" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="Xaml/SettingCard/Theme.Description" xml:space="preserve">
+    <value>设置应用的主题</value>
+  </data>
+  <data name="Xaml/SettingCard/Theme.Header" xml:space="preserve">
+    <value>主题</value>
   </data>
 </root>

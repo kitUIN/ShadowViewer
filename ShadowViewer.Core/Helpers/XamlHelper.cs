@@ -87,7 +87,7 @@
             dialog.Title = title;
             dialog.Content = message;
             dialog.IsPrimaryButtonEnabled = false;
-            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
+            dialog.CloseButtonText = I18nHelper.GetString("Shadow.String.Canel");
             return dialog;
         }
         public static StackPanel CreateOneLineTextBlock(string title, string value)
@@ -126,15 +126,15 @@
         {
             ContentDialog dialog = CreateContentDialog(xamlRoot);
             dialog.Title = title;
-            dialog.PrimaryButtonText = I18nHelper.GetString("Dialog/ConfirmButton");
-            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
+            dialog.PrimaryButtonText = I18nHelper.GetString("Shadow.String.Confirm");
+            dialog.CloseButtonText = I18nHelper.GetString("Shadow.String.Canel");
             StackPanel grid = new StackPanel()
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Orientation = Orientation.Vertical,
             };
-            var nameBox = CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Name"),
-                I18nHelper.GetString("Dialog/CreateFolder/Title"), oldName, 222);
+            var nameBox = CreateOneLineTextBox(I18nHelper.GetString("Shadow.Dialog.CreateFolder.Name"),
+                I18nHelper.GetString("Shadow.Dialog.CreateFolder.Title"), oldName, 222);
             grid.Children.Add(nameBox);
             dialog.Content = grid;
             dialog.IsPrimaryButtonEnabled = true;

@@ -106,7 +106,7 @@
                         Spacing="10">
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <TextBlock
-                                x:Uid="NameStatus"
+                                x:Uid="Xaml/TextBlock/FileName"
                                 Width="100"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center" />
@@ -120,7 +120,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Spacing="10">
                             <TextBlock
-                                x:Uid="AuthorStatus"
+                                x:Uid="Xaml/TextBlock/Author"
                                 Width="100"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center" />
@@ -138,7 +138,7 @@
                             Orientation="Horizontal"
                             Spacing="10">
                             <TextBlock
-                                x:Uid="Xaml/GroupStatus"
+                                x:Uid="Xaml/TextBlock/GroupStatus"
                                 Width="100"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center" />
@@ -151,11 +151,11 @@
                                 Text="{x:Bind ViewModel.Comic.Group, Mode=OneWay}"
                                 TextWrapping="NoWrap" />
                         </StackPanel>
-                        <co:StatusBlock x:Uid="TypeStatus" Text="{x:Bind ViewModel.Comic.Affiliation, Mode=OneWay}" />
-                        <co:StatusBlock x:Uid="ParentStatus" Text="{x:Bind ViewModel.Comic.Parent, Mode=OneWay}" />
-                        <co:StatusBlock x:Uid="PathStatus" Text="{x:Bind ViewModel.Comic.Path, Mode=OneWay}" />
-                        <co:StatusBlock x:Uid="PercentStatus" Text="{x:Bind ViewModel.Comic.Percent, Mode=OneWay}" />
-                        <co:StatusBlock x:Uid="LinkStatus" Text="{x:Bind ViewModel.Comic.Link, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/Type" Text="{x:Bind ViewModel.Comic.Affiliation, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/Parent" Text="{x:Bind ViewModel.Comic.Parent, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/Path" Text="{x:Bind ViewModel.Comic.Path, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/Percent" Text="{x:Bind ViewModel.Comic.Percent, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/Link" Text="{x:Bind ViewModel.Comic.Link, Mode=OneWay}" />
                     </StackPanel>
                 </Border>
                 <Border
@@ -166,9 +166,9 @@
                         Padding="10,10,10,10"
                         Orientation="Vertical"
                         Spacing="10">
-                        <co:StatusBlock x:Uid="CreateTimeStatus" Text="{x:Bind ViewModel.Comic.CreateTime, Mode=OneWay}" />
-                        <co:StatusBlock x:Uid="LastReadTimeStatus" Text="{x:Bind ViewModel.Comic.LastReadTime, Mode=OneWay}" />
-                        <co:StatusBlock x:Uid="SizeStatus" Text="{x:Bind ViewModel.Comic.SizeString, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/CreateTime" Text="{x:Bind ViewModel.Comic.CreateTime, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/LastReadTime" Text="{x:Bind ViewModel.Comic.LastReadTime, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/Size" Text="{x:Bind ViewModel.Comic.SizeString, Mode=OneWay}" />
                     </StackPanel>
                 </Border>
                 <Border

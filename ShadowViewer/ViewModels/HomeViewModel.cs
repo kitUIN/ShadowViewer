@@ -23,12 +23,7 @@
         /// <param name="parent">The parent.</param>
         public async Task ImportComicsAsync(StorageFolder folder,   string id = null)
         {
-
-            ulong size = 0;
-            var file = await ShadowFile.Create(folder, async (s) => {
-                if (s is StorageFile file && file.IsPic())
-                { size += (await file.GetBasicPropertiesAsync()).Size; }
-            });
+            var file = await ShadowFile.Create(folder);
             string img = null;
             if (file.Depth > 2)
             {
@@ -38,7 +33,7 @@
                 }
             }
             img = file.Children.FirstOrDefault(x => x.Self is StorageFile f && f.IsPic())?.Self.Path ?? "";
-            LocalComics.Add(ComicHelper.CreateComic(((StorageFolder)file.Self).DisplayName, img, Path, file.Self.Path, id: id, size: (long)size));
+            LocalComics.Add(ComicHelper.CreateComic(((StorageFolder)file.Self).DisplayName, img, Path, file.Self.Path, id: id, size: file.Size));
         }
         /// <summary>
         /// 导入前先解压
