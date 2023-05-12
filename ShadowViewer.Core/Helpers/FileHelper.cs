@@ -1,5 +1,4 @@
-﻿
-namespace ShadowViewer.Helpers
+﻿namespace ShadowViewer.Helpers
 {
     public static class FileHelper
     {
@@ -14,74 +13,44 @@ namespace ShadowViewer.Helpers
         {
             return zips.Contains(file.FileType);
         }
-        public static async Task<StorageFile> IsFileExist(this string uri)
+        public static async Task<StorageFolder> ToStorageFolder(this string path)
         {
-            try
+            string[] substrings = path.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] result = new string[substrings.Length];
+            for (int i = 0; i < substrings.Length; i++)
             {
-                StorageFile file = await StorageFile.GetFileFromPathAsync(uri);
-                return file;
-            } 
-            catch (Exception exception) when (exception is System.Runtime.InteropServices.COMException || exception is FileNotFoundException)
-            {
-                 return null;
+                result[i] = string.Join("/", substrings.Take(i + 1));
             }
-        }
-        public static void RarCompress(string rar,string destinationDirectory)
-        {
-            ReaderOptions options = new ReaderOptions();
-            options.ArchiveEncoding.Default = Encoding.GetEncoding("utf-8");
-            using (Stream stream = File.OpenRead(rar))
+            for (int i = 0; i < result.Length; i++)
             {
-                var reader = ReaderFactory.Open(stream, options);
-                while (reader.MoveToNextEntry())
+                if (!Directory.Exists(result[i]))
                 {
-                    if (!reader.Entry.IsDirectory)
-                    { 
-                        reader.WriteEntryToDirectory(destinationDirectory, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
-                    }
+                    Directory.CreateDirectory(result[i]);
                 }
             }
+            return await StorageFolder.GetFolderFromPathAsync(path);
         }
-        public static void ZipCompress(string zip, string destinationDirectory)
+        public static async Task<StorageFile> ToStorageFile(this string path)
         {
-            ReaderOptions options = new ReaderOptions();
-            options.ArchiveEncoding.Default = Encoding.GetEncoding("utf-8");
-            var archive = ArchiveFactory.Open(zip, options);
-            foreach (var entry in archive.Entries)
+            string[] substrings = path.Split(new char[] { '/', '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] result = new string[substrings.Length];
+            for (int i = 0; i < substrings.Length; i++)
             {
-                if (!entry.IsDirectory)
+                result[i] = string.Join("/", substrings.Take(i + 1));
+            }
+            for (int i = 0; i < result.Length - 1; i++)
+            {
+                if (!Directory.Exists(result[i]))
                 {
-                    entry.WriteToDirectory(destinationDirectory, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
+                    Directory.CreateDirectory(result[i]);
                 }
             }
+            if (!File.Exists(path))
+            {
+                File.Create(path);
+            }
+            return await StorageFile.GetFileFromPathAsync(path);
         } 
-
-        public static async Task CreateFileAsync(StorageFolder localFolder, string path)
-        {
-            try
-            {
-                await localFolder.CreateFileAsync(path, CreationCollisionOption.FailIfExists);
-                Log.ForContext<StorageFolder>().Debug("创建文件: {Folder}/{Path}", localFolder.Path, path);
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-        public static async Task CreateFolderAsync(StorageFolder localFolder,string path)
-        {
-            try
-            {
-                await localFolder.CreateFolderAsync(path, CreationCollisionOption.FailIfExists);
-                Log.ForContext<StorageFolder>().Debug("创建文件夹: {Folder}/{Path}", localFolder.Path, path);
-            }
-            catch (Exception)
-            {
-
-            }
-            
-            
-        }
         public static async Task<StorageFolder> SelectFolderAsync(UIElement element, string accessToken = "")
         {
             var window = WindowHelper.GetWindowForElement(element);

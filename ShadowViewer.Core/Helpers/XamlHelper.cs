@@ -87,7 +87,7 @@
             dialog.Title = title;
             dialog.Content = message;
             dialog.IsPrimaryButtonEnabled = false;
-            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
+            dialog.CloseButtonText = I18nHelper.GetString("Shadow.String.Canel");
             return dialog;
         }
         public static StackPanel CreateOneLineTextBlock(string title, string value)
@@ -114,21 +114,31 @@
             panel.Children.Add(headerBlock);
             panel.Children.Add(text);
             return panel;
-        } 
-        public static InfoBar CreateSimpleInfoBar(InfoBarSeverity severity, string title, string message)
+        }
+        /// <summary>
+        /// 创建一个原始的对话框
+        /// </summary>
+        /// <param name="title">The title.</param>
+        /// <param name="xamlRoot">The xaml root.</param>
+        /// <param name="oldName">The old name.</param>
+        /// <returns></returns>
+        public static ContentDialog CreateOneLineTextBoxDialog(string title, XamlRoot xamlRoot, string oldName)
         {
-            return new InfoBar()
+            ContentDialog dialog = CreateContentDialog(xamlRoot);
+            dialog.Title = title;
+            dialog.PrimaryButtonText = I18nHelper.GetString("Shadow.String.Confirm");
+            dialog.CloseButtonText = I18nHelper.GetString("Shadow.String.Canel");
+            StackPanel grid = new StackPanel()
             {
-                IsIconVisible = true,
-                IsOpen = true,
-                IsClosable = true,
-                Title  = title,
-                Message = message,
-                Severity = severity,
-                Margin = new Thickness(5),
-                VerticalAlignment = VerticalAlignment.Bottom,
-                HorizontalAlignment= HorizontalAlignment.Right,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Orientation = Orientation.Vertical,
             };
+            var nameBox = CreateOneLineTextBox(I18nHelper.GetString("Shadow.Dialog.CreateFolder.Name"),
+                I18nHelper.GetString("Shadow.Dialog.CreateFolder.Title"), oldName, 222);
+            grid.Children.Add(nameBox);
+            dialog.Content = grid;
+            dialog.IsPrimaryButtonEnabled = true;
+            return dialog;
         }
     }
 }

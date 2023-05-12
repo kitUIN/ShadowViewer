@@ -12,11 +12,46 @@
             IsActive = true;
             LocalComics.CollectionChanged += LocalComics_CollectionChanged;
             OriginPath = parameter;
-            Path = parameter.AbsolutePath.Split('/').Where(x => x != "").LastOrDefault() ?? parameter.Host;
-            Log.ForContext<HomePage>().Information("导航到{path}", OriginPath);
+            Path = parameter.AbsolutePath.Split(new char[] { '/', }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? parameter.Host;
+            Log.ForContext<HomePage>().Information("导航到{path},Path={p}", OriginPath, Path);
             RefreshLocalComic();
         }
-
+        /// <summary>
+        /// 从文件夹导入漫画
+        /// </summary>
+        /// <param name="folder">The folder.</param>
+        /// <param name="parent">The parent.</param>
+        public async Task ImportComicsAsync(StorageFolder folder,   string id = null)
+        {
+            var file = await ShadowFile.Create(folder);
+            string img = null;
+            if (file.Depth > 2)
+            {
+                while (file.Depth > 2)
+                {
+                    file = file.Children.FirstOrDefault(x => x.Self is StorageFolder);
+                }
+            }
+            img = file.Children.FirstOrDefault(x => x.Self is StorageFile f && f.IsPic())?.Self.Path ?? "";
+            LocalComics.Add(ComicHelper.CreateComic(((StorageFolder)file.Self).DisplayName, img, Path, file.Self.Path, id: id, size: file.Size));
+        }
+        /// <summary>
+        /// 导入前先解压
+        /// </summary>
+        /// <param name="storageFile">The storage file.</param>
+        /// <returns></returns>
+        public async Task<Tuple<StorageFolder, string>> ImportZipCompress(StorageFile storageFile)
+        {
+            string id = Guid.NewGuid().ToString("N");
+            while (ComicDB.Contains(nameof(id), id))
+            {
+                id = Guid.NewGuid().ToString("N");
+            }
+            string path = System.IO.Path.Combine(App.Config.ComicsPath, id, storageFile.DisplayName);
+            var folder = await path.ToStorageFolder();
+            await Task.Run(() => {  CompressHelper.DeCompress(storageFile.Path, path); });
+            return new Tuple<StorageFolder, string>(folder, id);
+        }
         private void LocalComics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if(e.Action == NotifyCollectionChangedAction.Remove)

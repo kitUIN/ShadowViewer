@@ -1,10 +1,4 @@
-﻿using SharpCompress.Archives;
-using SharpCompress.Common;
-using SharpCompress.Readers;
-using System.IO;
-using Windows.System;
-
-namespace ShadowViewer.Helpers
+﻿namespace ShadowViewer.Helpers
 {
     public static class ComicHelper
     { 

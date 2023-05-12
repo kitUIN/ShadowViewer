@@ -8,7 +8,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:ShadowViewer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    
     mc:Ignorable="d">
 
     <Grid MinWidth="650" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -25,7 +24,7 @@
                 <Image Width="18" Source="ms-appx:///Assets/Tiles/TitlebarLogo.png" />
                 <TextBlock
                     x:Name="AppTitle"
-                    x:Uid="AppTitle"
+                    x:Uid="Xaml/TextBlock/AppTitle"
                     Margin="16,0,0,0"
                     VerticalAlignment="Center" />
             </StackPanel>

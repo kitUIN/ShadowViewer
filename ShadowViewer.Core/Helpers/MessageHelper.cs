@@ -23,15 +23,6 @@ namespace ShadowViewer.Helpers
         {
             WeakReferenceMessenger.Default.Send(new NavigationMessage("Navigate", page, parameter, arg));
         }
-
-        /// <summary>
-        /// 通知NavigationPage显示Info
-        /// </summary>
-        /// <param name="InfoBar">infoBar</param>
-        public static void SendTopInfo(InfoBar infoBar)
-        {
-            WeakReferenceMessenger.Default.Send(new NavigationMessage("Info", infoBar));
-        } 
         /// <summary>
         /// 通知HomePage刷新元素
         /// </summary>

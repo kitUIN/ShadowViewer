@@ -1,13 +1,9 @@
-using Microsoft.UI.Xaml.Controls;
-using ShadowViewer.Helpers;
-using System.Linq;
-
 namespace ShadowViewer.Pages
 {
     public sealed partial class HomePage : Page
     {
         private HomeViewModel ViewModel { get; set; }
-
+        private bool IsBusy { get; set; } = false;
         public HomePage()
         {
             this.InitializeComponent(); 
@@ -59,60 +55,8 @@ namespace ShadowViewer.Pages
             }
             ShowMenu(e.GetPosition(sender as UIElement), sender as UIElement, isComicBook, isSingle, isFolder);
         }
-        /// <summary>
-        /// 从文件夹导入漫画
-        /// </summary>
-        /// <param name="folder">The folder.</param>
-        /// <param name="parent">The parent.</param>
-        private async Task ImportComicsAsync(StorageFolder folder, string parent,string id =null)
-        {
-            LoadingControl.IsLoading = true;
-            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-            ulong size = 0;
-            var file = await ShadowFile.Create(folder, async (s) => {
-                if (s is StorageFile file && file.IsPic())
-                { size += (await file.GetBasicPropertiesAsync()).Size; }
-            });
-            string img = null;
-            if (file.Depth > 2)
-            {
-                while (file.Depth > 2)
-                {
-                    file = file.Children.FirstOrDefault(x => x.Self is StorageFolder);
-                }
-            }
-            img = file.Children.FirstOrDefault(x => x.Self is StorageFile f && f.IsPic())?.Self.Path ?? "";
-            LoadingControl.IsLoading = false;
-            ViewModel.LocalComics.Add(ComicHelper.CreateComic(((StorageFolder)file.Self).DisplayName, img, parent, file.Self.Path, id: id, size: (long)size));
-        }
-        /// <summary>
-        /// 从zip导入漫画
-        /// </summary>
-        /// <param name="folder">The folder.</param>
-        /// <param name="parent">The parent.</param>
-        private async Task ImportComicsAsync(StorageFile storageFile, string parent)
-        {
-            LoadingControl.IsLoading = true;
-            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.Compress");
-            string id = Guid.NewGuid().ToString("N");
-            while (ComicDB.Contains(nameof(id), id))
-            {
-                id = Guid.NewGuid().ToString("N");
-            }
-            StorageFolder comicsFolder = await StorageFolder.GetFolderFromPathAsync(App.Config.ComicsPath);
-            var folder = await comicsFolder.CreateFolderAsync(id);
-            string path = Path.Combine(App.Config.ComicsPath, id);
-            if (storageFile.FileType == ".zip")
-            {
-                FileHelper.ZipCompress(storageFile.Path, path);
-            }
-            else if(storageFile.FileType == ".rar")
-            {
-                FileHelper.RarCompress(storageFile.Path, path);
-            }
-            
-            await ImportComicsAsync(folder, parent, id);
-        }
+        
+        
         /// <summary>
         /// 右键菜单-新建漫画从文件夹导入
         /// </summary>
@@ -124,7 +68,14 @@ namespace ShadowViewer.Pages
             var folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
             if (folder != null)
             {
-                await ImportComicsAsync(folder, ViewModel.Path);
+                IsBusy = true;
+                LoadingControl.IsLoading = true;
+                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                LoadingProgressBar.IsIndeterminate = true;
+                LoadingDetail.Visibility = Visibility.Collapsed;
+                await ViewModel.ImportComicsAsync(folder);
+                LoadingControl.IsLoading = false;
+                IsBusy = false;
             }
         }
         /// <summary>
@@ -135,12 +86,22 @@ namespace ShadowViewer.Pages
         private async void ShadowCommandAddFromZip_Click(object sender, RoutedEventArgs e)
         {
 
-            var file = await FileHelper.SelectFileAsync(this, ".zip",".rar",".7z");
-            if (file != null)
+            var storageFile = await FileHelper.SelectFileAsync(this, ".zip",".rar",".7z");
+            if (storageFile != null)
             {
-                await ImportComicsAsync(file,ViewModel.Path);
+                IsBusy = true;
+                LoadingProgressBar.IsIndeterminate = true;
+                LoadingDetail.Visibility = Visibility.Collapsed;
+                LoadingControl.IsLoading = true;
+                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
+                var res = await ViewModel.ImportZipCompress(storageFile);
+                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                await ViewModel.ImportComicsAsync(res.Item1, res.Item2);
+                LoadingControl.IsLoading = false;
+                IsBusy = false;
             }
         }
+        
         /// <summary>
         /// 右键菜单-新建文件夹
         /// </summary>
@@ -160,7 +121,7 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await CreateRenameDialog(I18nHelper.GetString("ShadowCommandRenameToolTip.Content"), XamlRoot, comic).ShowAsync();
+            await CreateRenameDialog(I18nHelper.GetString("Xaml.ToolTip.Rename.Content"), XamlRoot, comic).ShowAsync();
         }
         /// <summary>
         /// 右键菜单-删除
@@ -216,8 +177,12 @@ namespace ShadowViewer.Pages
             SmokeGrid.Visibility = Visibility.Visible;
             animation.TryStart(destinationElement);
         }
-        
-        
+
+        /// <summary>
+        /// 右键菜单-刷新
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandRefresh_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.RefreshLocalComic();
@@ -251,40 +216,13 @@ namespace ShadowViewer.Pages
                 Frame.Navigate(this.GetType(), new Uri(ViewModel.OriginPath, comic.Id));
             }
         }
-        
-        
-        /// <summary>
-        /// 创建一个原始的对话框
-        /// </summary>
-        /// <param name="title">The title.</param>
-        /// <param name="xamlRoot">The xaml root.</param>
-        /// <param name="oldName">The old name.</param>
-        /// <returns></returns>
-        private ContentDialog CreateRawDialog(string title, XamlRoot xamlRoot, string oldName)
-        {
-            ContentDialog dialog = XamlHelper.CreateContentDialog(xamlRoot);
-            dialog.Title = title;
-            dialog.PrimaryButtonText = I18nHelper.GetString("Dialog/ConfirmButton");
-            dialog.CloseButtonText = I18nHelper.GetString("Dialog/CloseButton");
-            StackPanel grid = new StackPanel()
-            {
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Orientation = Orientation.Vertical,
-            };
-            var nameBox = XamlHelper.CreateOneLineTextBox(I18nHelper.GetString("Dialog/CreateFolder/Name"),
-                I18nHelper.GetString("Dialog/CreateFolder/Title"), oldName, 222);
-            grid.Children.Add(nameBox);
-            dialog.Content = grid;
-            dialog.IsPrimaryButtonEnabled = true;
-            return dialog;
-        }
         /// <summary>
         /// 重命名对话框
         /// </summary>
         /// <returns></returns>
         private ContentDialog CreateRenameDialog(string title, XamlRoot xamlRoot, LocalComic comic)
         {
-            ContentDialog dialog = CreateRawDialog(title, xamlRoot, comic.Name); 
+            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(title, xamlRoot, comic.Name); 
             dialog.PrimaryButtonClick +=  (s, e) =>
             {
                 var name = ((TextBox)((StackPanel)((StackPanel)dialog.Content).Children[0]).Children[1]).Text;
@@ -299,7 +237,7 @@ namespace ShadowViewer.Pages
         /// <returns></returns>
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
         {
-            ContentDialog dialog = CreateRawDialog(I18nHelper.GetString("Dialog/CreateFolder/Title"), xamlRoot, "");
+            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.Dialog.CreateFolder.Title"), xamlRoot, "");
             
             dialog.PrimaryButtonClick += (s, e) =>
             {
@@ -307,7 +245,6 @@ namespace ShadowViewer.Pages
                 ViewModel.LocalComics.Add(ComicHelper.CreateFolder(name, "", parent));
             };
             return dialog;
-           
         }
         /// <summary>
         /// 在树形结构上双击
@@ -378,7 +315,7 @@ namespace ShadowViewer.Pages
             { 
                 if (frame.Tag is LocalComic comic && comic.IsFolder)
                 { 
-                    e.DragUIOverride.Caption = I18nHelper.GetString("ShadowCommandMove.Label") + comic.Name;
+                    e.DragUIOverride.Caption = I18nHelper.GetString("Xaml.Command.Move.Label") + comic.Name;
                     e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None; 
                 }
                 else { return; } 
@@ -411,17 +348,32 @@ namespace ShadowViewer.Pages
         private async void Root_Drop(object sender, DragEventArgs e)
         {
             OverBorder.Visibility = Visibility.Collapsed;
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) && !IsBusy)
             {
                 var items = await e.DataView.GetStorageItemsAsync();
+                IsBusy = true;
+                LoadingProgressBar.IsIndeterminate = false;
+                LoadingProgressBar.Maximum = items.Count;
+                LoadingDetail.Visibility = Visibility.Visible;
                 foreach (var item1 in items.Where(x => x is StorageFolder))
-                {
-                    await ImportComicsAsync(item1 as StorageFolder, ViewModel.Path);
+                { 
+                    LoadingControl.IsLoading = true;
+                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                    await ViewModel.ImportComicsAsync(item1 as StorageFolder);
+                    LoadingProgressBar.Value++;
                 }
                 foreach (var item2 in items.Where(x => x is StorageFile file && file.IsZip()))
                 {
-                     
+                    LoadingControl.IsLoading = true;
+                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
+                    var res = await ViewModel.ImportZipCompress(item2 as StorageFile);
+                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                    await ViewModel.ImportComicsAsync(res.Item1, res.Item2);
+                    LoadingProgressBar.Value++;
                 }
+                LoadingProgressBar.Value = LoadingProgressBar.Maximum;
+                LoadingControl.IsLoading = false;
+                IsBusy = false;
             }
         }
         /// <summary>
@@ -432,14 +384,14 @@ namespace ShadowViewer.Pages
         private void Root_DragOver(object sender, DragEventArgs e)
         {
 
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) && !IsBusy)
             {
                 e.AcceptedOperation = DataPackageOperation.Link;
-                e.DragUIOverride.Caption = I18nHelper.GetString("String.Import");
+                e.DragUIOverride.Caption = I18nHelper.GetString("Shadow.String.Import") + ViewModel.Path;
                 OverBorder.Visibility = Visibility.Visible;
                 OverBorder.Width = Root.ActualWidth - 20;
                 OverBorder.Height = Root.ActualHeight - 20;
-                ImportText.Text = "将文件拖到这并导入为漫画";
+                ImportText.Text = I18nHelper.GetString("Shadow.String.ImportText");
             }
         }
         /// <summary>
@@ -475,6 +427,11 @@ namespace ShadowViewer.Pages
             {
                 destinationElement.Height = grid.ActualHeight - 50;
             }
+        }
+
+        private void SmokeGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }

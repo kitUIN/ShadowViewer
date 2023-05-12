@@ -8,7 +8,7 @@
             var tags = TagDB.GetAll();
             if(!tags.Any(x => x.tag == "Local"))
             {
-                ShadowTag local = new ShadowTag("Local", I18nHelper.GetString("Tag.Local"), "#000000", "#ffd657");
+                ShadowTag local = new ShadowTag("Local", I18nHelper.GetString("Shadow.Tag.Local"), "#000000", "#ffd657");
                 TagDB.Add(local);
                 tags.Add(local);
             }

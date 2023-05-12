@@ -24,7 +24,7 @@
                 Click="ShadowCommandRename_Click"
                 Icon="Rename">
                 <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="ShadowCommandRenameToolTip" />
+                    <ToolTip x:Uid="Xaml/ToolTip/Rename" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
             <AppBarButton
@@ -32,31 +32,31 @@
                 Click="ShadowCommandDelete_Click"
                 Icon="Delete">
                 <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="ShadowCommandDeleteToolTip" />
+                    <ToolTip x:Uid="Xaml/ToolTip/Delete" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
             <AppBarButton
                 x:Name="ShadowCommandAddTag"
-                x:Uid="ShadowCommandAddTag"
+                x:Uid="Xaml/Command/AddTag"
                 Icon="Tag"
                 Tapped="ShadowCommandAddTag_Click">
                 <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="ShadowCommandAddTagToolTip" />
+                    <ToolTip x:Uid="Xaml/ToolTip/AddTag" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
             <CommandBarFlyout.SecondaryCommands>
-                <AppBarButton x:Name="ShadowCommandAdd" x:Uid="ShadowCommandAdd">
+                <AppBarButton x:Name="ShadowCommandAdd" x:Uid="Xaml/Command/Add">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xECC8;" />
                     </AppBarButton.Icon>
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="ShadowCommandAddToolTip" />
+                        <ToolTip x:Uid="Xaml/ToolTip/Add" />
                     </ToolTipService.ToolTip>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem
                                 x:Name="ShadowCommandNewFolder"
-                                x:Uid="ShadowCommandNewFolder"
+                                x:Uid="Xaml/Command/NewFolder"
                                 Click="ShadowCommandAddNewFolder_Click"
                                 Icon="NewFolder">
                                 <ToolTipService.ToolTip>
@@ -90,37 +90,37 @@
                 </AppBarButton>
                 <AppBarButton
                     x:Name="ShadowCommandRefresh"
-                    x:Uid="ShadowCommandRefresh"
+                    x:Uid="Xaml/Command/Refresh"
                     Click="ShadowCommandRefresh_Click"
                     Icon="Refresh">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="ShadowCommandRefreshToolTip" />
+                        <ToolTip x:Uid="Xaml/ToolTip/Refresh" />
                     </ToolTipService.ToolTip>
                 </AppBarButton>
 
                 <AppBarButton
                     x:Name="ShadowCommandMove"
-                    x:Uid="ShadowCommandMove"
+                    x:Uid="Xaml/Command/Move"
                     Click="ShadowCommandMove_Click"
                     Icon="MoveToFolder">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="ShadowCommandMoveToolTip" />
+                        <ToolTip x:Uid="Xaml/ToolTip/Move" />
                     </ToolTipService.ToolTip>
                 </AppBarButton>
                 <AppBarButton
                     x:Name="ShadowCommandStatus"
-                    x:Uid="ShadowCommandStatus"
+                    x:Uid="Xaml/Command/Status"
                     Click="ShadowCommandStatus_Click"
                     Icon="Repair">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="ShadowCommandStatusToolTip" />
+                        <ToolTip x:Uid="Xaml/ToolTip/Status" />
                     </ToolTipService.ToolTip>
                 </AppBarButton>
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
         <TeachingTip
             x:Name="MoveTeachingTip"
-            x:Uid="MoveTeachingTip"
+            x:Uid="Xaml/TeachingTip/Move"
             ActionButtonClick="MoveTeachingTip_ActionButtonClick"
             IsLightDismissEnabled="True"
             PlacementMargin="20"
@@ -145,6 +145,7 @@
             </TreeView>
         </TeachingTip>
     </Page.Resources>
+
     <Grid
         x:Name="Root"
         AllowDrop="True"
@@ -250,10 +251,11 @@
             x:Name="SmokeGrid"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
+            RightTapped="SmokeGrid_RightTapped"
             SizeChanged="SmokeGrid_SizeChanged"
             Visibility="Collapsed">
             <Grid.Background>
-                <SolidColorBrush Opacity="0.8" Color="{ThemeResource SystemChromeAltHighColor}" />
+                <AcrylicBrush TintColor="{ThemeResource SystemChromeAltHighColor}" TintOpacity="0.1" />
             </Grid.Background>
             <Grid
                 x:Name="destinationElement"
@@ -272,9 +274,8 @@
                     </Button.Content>
                 </Button>
             </Grid>
-
         </Grid>
-        <controls:Loading x:Name="LoadingControl">
+        <controls:Loading x:Name="LoadingControl" RightTapped="SmokeGrid_RightTapped">
             <controls:Loading.Background>
                 <AcrylicBrush TintColor="Black" TintOpacity="0.2" />
             </controls:Loading.Background>
@@ -285,12 +286,23 @@
                 <ProgressBar
                     x:Name="LoadingProgressBar"
                     Width="130"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     IsIndeterminate="True" />
                 <TextBlock
                     x:Name="LoadingControlText"
-                    x:Uid="Xaml/TextBlock/ImportLoading"
+                    HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="16" />
+                <StackPanel
+                    x:Name="LoadingDetail"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <TextBlock Text="{x:Bind LoadingProgressBar.Value, Mode=OneWay}" />
+                    <TextBlock Text="/" />
+                    <TextBlock Text="{x:Bind LoadingProgressBar.Maximum, Mode=OneWay}" />
+                </StackPanel>
             </StackPanel>
         </controls:Loading>
     </Grid>

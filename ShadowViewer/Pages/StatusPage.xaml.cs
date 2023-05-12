@@ -29,7 +29,7 @@ namespace ShadowViewer.Pages
             if (file != null && file.DecodePath() != ViewModel.Comic.Img)
             {
                 ViewModel.Comic.Img = file.DecodePath();
-                MessageHelper.SendFilesReload();
+                
             }
         }
         /// <summary>
@@ -52,18 +52,18 @@ namespace ShadowViewer.Pages
                     if (!(file.IsPic()))
                     {
                         flag = true;
-                        message = I18nHelper.GetString("Error.Message.NotImage");
+                        message = I18nHelper.GetString("Shadow.Error.Message.NotImage");
                     }
                 }
                 catch (UriFormatException)
                 {
                     flag = true;
-                    message = I18nHelper.GetString("Error.Message.UriFormatException");
+                    message = I18nHelper.GetString("Shadow.Error.Message.UriFormatException");
                 }
                 catch (Exception exception) when (exception is System.Runtime.InteropServices.COMException || exception is FileNotFoundException)
                 {
                     flag = true;
-                    message = I18nHelper.GetString("Error.Message.NoFile");
+                    message = I18nHelper.GetString("Shadow.Error.Message.NoFile");
                 } 
                 if(flag)
                 {
@@ -72,7 +72,7 @@ namespace ShadowViewer.Pages
                     return;
                 }
                 ViewModel.Comic.Img = box.Text;
-                MessageHelper.SendFilesReload();
+                
         }
         /// <summary>
         /// 文件名回车
