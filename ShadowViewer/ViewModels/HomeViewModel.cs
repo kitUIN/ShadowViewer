@@ -5,7 +5,7 @@
         public LocalComic ConnectComic { get; set; }
         public string Path { get; private set; } = "local";
         public Uri OriginPath { get; private set; }
- 
+        public ShadowSorts Sorts { get; set; } = ShadowSorts.RZ;
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
         public HomeViewModel(Uri parameter)
         {
@@ -76,10 +76,30 @@
         public void RefreshLocalComic()
         {
             LocalComics.Clear();
-            foreach (LocalComic item in ComicDB.Get("Parent", Path))
+            var comics = ComicDB.Get("Parent", Path);
+            switch (Sorts)
+            {
+                case ShadowSorts.AZ:
+                    comics.Sort(ComicHelper.AZSort); break;
+                case ShadowSorts.ZA:
+                    comics.Sort(ComicHelper.ZASort); break;
+                case ShadowSorts.CA:
+                    comics.Sort(ComicHelper.CASort); break;
+                case ShadowSorts.CZ:
+                    comics.Sort(ComicHelper.CZSort); break;
+                case ShadowSorts.RA:
+                    comics.Sort(ComicHelper.RASort); break;
+                case ShadowSorts.RZ:
+                    comics.Sort(ComicHelper.RZSort); break;
+                case ShadowSorts.PA:
+                    comics.Sort(ComicHelper.PASort); break;
+                case ShadowSorts.PZ:
+                    comics.Sort(ComicHelper.PZSort); break;
+            } 
+            foreach (LocalComic item in comics)
             {
                 LocalComics.Add(item);
-                if(ConnectComic is LocalComic && item.Id== ConnectComic.Id)
+                if(ConnectComic is LocalComic && item.Id == ConnectComic.Id)
                 {
                     ConnectComic = item;
                 }

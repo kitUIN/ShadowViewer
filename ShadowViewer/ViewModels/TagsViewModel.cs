@@ -1,22 +1,15 @@
 ﻿namespace ShadowViewer.ViewModels
 {
-    public partial class StatusViewModel: ObservableRecipient, IRecipient<StatusMessage>
+    public class TagsViewModel
     {
-
         public LocalComic Comic { get; set; }
-        private Frame frame;
         public ObservableCollection<TokenItem> Tags = new ObservableCollection<TokenItem>();
-        public StatusViewModel(LocalComic comic, Frame frame)
+
+        public TagsViewModel(LocalComic comic)
         {
             Comic = comic;
-            IsActive = true;
-            this.frame = frame;
             LoadTags();
         }
-        public string GetComicType
-        {
-            get => I18nHelper.GetString(Comic.IsFolder ? "Shadow.FileType.ComicFolder" : "Shadow.FileType.Comic");
-        } 
         public void LoadTags()
         {
             Tags.Clear();
@@ -39,7 +32,7 @@
                         Content = shadowTag.name,
                         Foreground = shadowTag.foreground,
                         Background = shadowTag.background,
-                        IsRemoveable = false,
+                        IsRemoveable = true,
                         Tag = shadowTag.name,
                     };
                     tokenItem.Removing += ShowTagItem_Removing;
@@ -52,27 +45,12 @@
             var item = e.TokenItem;
             Comic.Tags.Remove(item.Tag.ToString());
         }
-        public void Reload()
+        public void AddNewTag(ShadowTag tag)
         {
-            Reload(Comic);
-        }
-        public void Reload(LocalComic comic)
-        {
-            frame.Navigate(typeof(StatusPage), comic);
-        }
-        public void Receive(StatusMessage message)
-        {
-            if (message.objects.Length >= 1 && message.objects[0] is string method)
-            {
-                if (method == "Reload")
-                {
-                    Reload(); 
-                }
-                else if (method == "ReloadDB")
-                {
-                    Reload(ComicDB.GetFirst(nameof(Comic.Name), Comic.Name));
-                }
-            }
+            TagDB.Add(tag);
+            TagsHelper.ShadowTags.Add(tag);
+            Comic.Tags.Add(tag.name);
+            LoadTags();
         }
     }
 }

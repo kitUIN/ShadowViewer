@@ -140,7 +140,7 @@ namespace ShadowViewer.Pages
             var window = WindowHelper.GetWindowForElement(this);
             if (selectedTheme != null)
             {
-                ThemeHelper.RootTheme = App.GetEnum<ElementTheme>(selectedTheme);
+                ThemeHelper.RootTheme = EnumHelper.GetEnum<ElementTheme>(selectedTheme);
                 UIHelper.AnnounceActionForAccessibility(sender as UIElement, $"Theme changed to {selectedTheme}",
                                                                                 "ThemeChangedNotificationActivityId");
             }

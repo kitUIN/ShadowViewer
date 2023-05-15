@@ -5,42 +5,120 @@
     x:Class="ShadowViewer.Pages.TagsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="NoOverButton" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter
+                            x:Name="ContentPresenter"
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            AutomationProperties.AccessibilityView="Raw"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            ContentTransitions="{TemplateBinding ContentTransitions}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
 
-    <Grid Padding="10,36,10,5">
-        <Button x:Name="colorPickerButton" Content="Pick a color">
-            <Button.Flyout>
-                <Flyout x:Name="ColorPickerFlyout">
-                    <RelativePanel>
-                        <ColorPicker
-                            x:Name="MainColorPicker"
-                            IsColorChannelTextInputVisible="False"
-                            IsHexInputVisible="False" />
-                        <Grid
-                            RelativePanel.AlignLeftWithPanel="True"
-                            RelativePanel.AlignRightWithPanel="True"
-                            RelativePanel.Below="MainColorPicker">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition />
-                            </Grid.ColumnDefinitions>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </ContentPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <ScrollViewer Padding="10">
+            <StackPanel Orientation="Vertical" Spacing="10">
+                <Border
+                    Padding="10"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="7">
+                    <labs:TokenView
+                        x:Name="MainTagsView"
+                        ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}"
+                        SelectionMode="None" />
+                </Border>
+                <Border
+                    Padding="20,10,20,10"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="7">
+                    <StackPanel Orientation="Vertical" Spacing="10">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock x:Uid="Xaml/TextBlock/TagPreview" VerticalAlignment="Center" />
                             <Button
-                                Margin="0,12,2,0"
-                                HorizontalAlignment="Stretch"
-                                Content="OK" />
-                            <Button
-                                Grid.Column="1"
-                                Margin="2,12,0,0"
-                                HorizontalAlignment="Stretch"
-                                Content="Cancel" />
-                        </Grid>
-                    </RelativePanel>
-                </Flyout>
-            </Button.Flyout>
-        </Button>
+                                Content="{x:Bind TagName.Text, Mode=OneWay}"
+                                CornerRadius="14"
+                                Style="{StaticResource NoOverButton}">
+                                <Button.Background>
+                                    <SolidColorBrush Color="{x:Bind BackgroundColorPicker.SelectedColor, Mode=OneWay}" />
+                                </Button.Background>
+                                <Button.Foreground>
+                                    <SolidColorBrush Color="{x:Bind ForegroundColorPicker.SelectedColor, Mode=OneWay}" />
+                                </Button.Foreground>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock x:Uid="Xaml/TextBlock/TagName" VerticalAlignment="Center" />
+                            <TextBox x:Name="TagName" MaxWidth="450" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock x:Uid="Xaml/TextBlock/BackgroundColor" />
+                            <controls:ColorPickerButton x:Name="BackgroundColorPicker" SelectedColor="Gold">
+                                <controls:ColorPickerButton.ColorPickerStyle>
+                                    <Style TargetType="controls:ColorPicker">
+                                        <Setter Property="ColorSpectrumShape" Value="Box" />
+                                        <Setter Property="IsAlphaEnabled" Value="False" />
+                                        <Setter Property="IsHexInputVisible" Value="True" />
+                                    </Style>
+                                </controls:ColorPickerButton.ColorPickerStyle>
+                            </controls:ColorPickerButton>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock x:Uid="Xaml/TextBlock/ForegroundColor" />
+                            <controls:ColorPickerButton x:Name="ForegroundColorPicker" SelectedColor="Black">
+                                <controls:ColorPickerButton.ColorPickerStyle>
+                                    <Style TargetType="controls:ColorPicker">
+                                        <Setter Property="ColorSpectrumShape" Value="Box" />
+                                        <Setter Property="IsAlphaEnabled" Value="False" />
+                                        <Setter Property="IsHexInputVisible" Value="True" />
+                                    </Style>
+                                </controls:ColorPickerButton.ColorPickerStyle>
+                            </controls:ColorPickerButton>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border
+                    Padding="20,10,20,10"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    CornerRadius="7">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button
+                            x:Name="AddTag"
+                            x:Uid="Xaml/Button/AddTag"
+                            Click="AddTag_Click" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

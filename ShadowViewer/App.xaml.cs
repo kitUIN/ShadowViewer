@@ -12,7 +12,7 @@ namespace ShadowViewer
             Config = new ShadowConfig();
             // 文件创建
             _ = Config.ComicsPath.ToStorageFolder();
-            _ = Path.Combine(ApplicationData.Current.LocalFolder.Path, "ShadowViewer.db").ToStorageFile();
+            _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
             // log
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
@@ -48,14 +48,7 @@ namespace ShadowViewer
             } 
             NavigateHelper.ShadowNavigate(firstUri);
         }
-        public static TEnum GetEnum<TEnum>(string text) where TEnum : struct
-        {
-            if (!typeof(TEnum).GetTypeInfo().IsEnum)
-            {
-                throw new InvalidOperationException("Generic parameter 'TEnum' must be an enum.");
-            }
-            return (TEnum)Enum.Parse(typeof(TEnum), text);
-        }
+        
         private static Window startupWindow;
         public static Window StartupWindow
         {
