@@ -17,23 +17,23 @@
             {
                 Tags.Add(new TokenItem
                 {
-                    Content = shadow.name,
-                    Foreground = shadow.foreground,
-                    Background = shadow.background,
+                    Content = shadow.Name,
+                    Foreground = shadow.Foreground,
+                    Background = shadow.Background,
                     IsRemoveable = false
                 });
             }
             foreach (var item in Comic.Tags)
             {
-                if (TagsHelper.ShadowTags.FirstOrDefault(x => x.name == item) is ShadowTag shadowTag)
+                if (TagsHelper.ShadowTags.FirstOrDefault(x => x.Name == item) is ShadowTag shadowTag)
                 {
                     TokenItem tokenItem = new TokenItem
                     {
-                        Content = shadowTag.name,
-                        Foreground = shadowTag.foreground,
-                        Background = shadowTag.background,
+                        Content = shadowTag.Name,
+                        Foreground = shadowTag.Foreground,
+                        Background = shadowTag.Background,
                         IsRemoveable = true,
-                        Tag = shadowTag.name,
+                        Tag = shadowTag.Name,
                     };
                     tokenItem.Removing += ShowTagItem_Removing;
                     Tags.Add(tokenItem);
@@ -47,9 +47,9 @@
         }
         public void AddNewTag(ShadowTag tag)
         {
-            TagDB.Add(tag);
+            DBHelper.Add(tag);
             TagsHelper.ShadowTags.Add(tag);
-            Comic.Tags.Add(tag.name);
+            Comic.Tags.Add(tag.Name);
             LoadTags();
         }
     }

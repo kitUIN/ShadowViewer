@@ -23,7 +23,7 @@ namespace ShadowViewer.Pages
                     I18nHelper.GetString("Shadow.Error.Message.NotEmpty")).ShowAsync();
                 return;
             }
-            if(TagDB.Contains("Name", TagName.Text))
+            if (DBHelper.GetClient().Queryable<ShadowTag>().Any(x => x.Name == TagName.Text))
             {
                 await XamlHelper.CreateMessageDialog(this.XamlRoot, I18nHelper.GetString("Shadow.Error.Title"),
                     I18nHelper.GetString("Shadow.Error.Message.TagExists")).ShowAsync();
