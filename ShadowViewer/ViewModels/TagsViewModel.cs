@@ -43,7 +43,10 @@
         private void ShowTagItem_Removing(object sender, TokenItemRemovingEventArgs e)
         {
             var item = e.TokenItem;
-            Comic.Tags.Remove(item.Tag.ToString());
+            var tag = item.Tag.ToString();
+            Comic.Tags.Remove(tag);
+            DBHelper.Remove(new ShadowTag() { Name = tag });
+            TagsHelper.ShadowTags.RemoveAll(x => x.Name == tag);
         }
         public void AddNewTag(ShadowTag tag)
         {

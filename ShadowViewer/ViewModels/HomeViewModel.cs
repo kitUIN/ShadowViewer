@@ -43,7 +43,7 @@
         public async Task<Tuple<StorageFolder, string>> ImportZipCompress(StorageFile storageFile)
         {
             string id = Guid.NewGuid().ToString("N");
-            while (DBHelper.GetClient().Queryable<LocalComic>().Any(x => x.Id == id))
+            while (DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == id))
             {
                 id = Guid.NewGuid().ToString("N");
             }
@@ -65,8 +65,11 @@
             {
                 foreach (LocalComic item in e.NewItems)
                 {
-                    if (DBHelper.GetClient().Queryable<LocalComic>().Any(x => x.Id == item.Id)) continue;
-                    DBHelper.Add(item);
+                    if (item.Id is null) continue;
+                    if (!DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == item.Id ))
+                    {
+                        DBHelper.Add(item);
+                    }
                 }
             } 
         }
@@ -74,7 +77,7 @@
         public void RefreshLocalComic()
         {
             LocalComics.Clear();
-            var comics = DBHelper.GetClient().Queryable<LocalComic>().Where(x => x.Parent == Path).ToList();
+            var comics = DBHelper.Db.Queryable<LocalComic>().Where(x => x.Parent == Path).ToList();
             switch (Sorts)
             {
                 case ShadowSorts.AZ:

@@ -4,7 +4,7 @@
     {
         private static void Navigate(string id,Uri url)
         {
-            var comic = DBHelper.GetClient().Queryable<LocalComic>().First(x=>x.Id==id);
+            var comic = DBHelper.Db.Queryable<LocalComic>().First(x=>x.Id==id);
             if (comic.IsFolder)
             {
                 MessageHelper.SendNavigationFrame(typeof(HomePage), url);
@@ -27,7 +27,7 @@
                         if (urls.Length == 0) { MessageHelper.SendNavigationFrame(typeof(HomePage), uri); return; }
                         for (int i = 0; i < urls.Length; i++)
                         {
-                            if (!DBHelper.GetClient().Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
+                            if (!DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
                             {
                                 var s = "shadow://local/" + string.Join("/", urls.Take(i + 1));
                                 Navigate(urls[i - 1], new Uri(s));
