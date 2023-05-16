@@ -1,12 +1,10 @@
-﻿using System.Linq;
-
-namespace ShadowViewer.Helpers
+﻿namespace ShadowViewer.Helpers
 {
     public static class NavigateHelper
     {
         private static void Navigate(string id,Uri url)
         {
-            var comic = ComicDB.GetFirst("id", id);
+            var comic = DBHelper.Db.Queryable<LocalComic>().First(x=>x.Id==id);
             if (comic.IsFolder)
             {
                 MessageHelper.SendNavigationFrame(typeof(HomePage), url);
@@ -29,7 +27,7 @@ namespace ShadowViewer.Helpers
                         if (urls.Length == 0) { MessageHelper.SendNavigationFrame(typeof(HomePage), uri); return; }
                         for (int i = 0; i < urls.Length; i++)
                         {
-                            if (!ComicDB.Contains("id", urls[i]))
+                            if (!DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
                             {
                                 var s = "shadow://local/" + string.Join("/", urls.Take(i + 1));
                                 Navigate(urls[i - 1], new Uri(s));

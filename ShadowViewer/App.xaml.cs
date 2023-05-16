@@ -21,8 +21,9 @@ namespace ShadowViewer
             
             
             // 数据库
-            ComicDB.Init();
-            TagDB.Init();
+            DBHelper.Init(nameof(LocalComic),typeof(LocalComic));
+            DBHelper.Init(nameof(ShadowTag), typeof(ShadowTag));
+             
             // 插件
             PluginHelper.Init();
             // 标签数据

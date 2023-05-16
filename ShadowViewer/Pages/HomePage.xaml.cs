@@ -241,7 +241,7 @@ namespace ShadowViewer.Pages
         /// <returns></returns>
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
         {
-            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.Dialog.CreateFolder.Title"), xamlRoot, "");
+            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.String.CreateFolder.Title"), xamlRoot, "");
             
             dialog.PrimaryButtonClick += (s, e) =>
             {

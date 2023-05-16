@@ -115,8 +115,8 @@
                         Padding="10,10,10,10"
                         Orientation="Vertical"
                         Spacing="10">
-                        <co:StatusBlock x:Uid="Xaml/StatusBlock/CreateTime" Text="{x:Bind ViewModel.Comic.CreateTime, Mode=OneWay}" />
-                        <co:StatusBlock x:Uid="Xaml/StatusBlock/LastReadTime" Text="{x:Bind ViewModel.Comic.LastReadTime, Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/CreateTime" Text="{x:Bind ViewModel.Comic.CreateTime.ToString(), Mode=OneWay}" />
+                        <co:StatusBlock x:Uid="Xaml/StatusBlock/LastReadTime" Text="{x:Bind ViewModel.Comic.LastReadTime.ToString(), Mode=OneWay}" />
                         <co:StatusBlock x:Uid="Xaml/StatusBlock/Size" Text="{x:Bind ViewModel.Comic.SizeString, Mode=OneWay}" />
                     </StackPanel>
                 </Border>
