@@ -78,8 +78,8 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource TextControlElevationBorderFocusedBrush}"
-            BorderThickness="1"
+            BorderBrush="{ThemeResource FocusStrokeColorOuterBrush}"
+            BorderThickness="2"
             Canvas.ZIndex="2"
             CornerRadius="8"
             Visibility="Collapsed">

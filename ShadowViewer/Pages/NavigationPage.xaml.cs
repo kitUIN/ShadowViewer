@@ -1,3 +1,5 @@
+using System.IO;
+
 namespace ShadowViewer.Pages
 {
     /// <summary>
@@ -87,45 +89,27 @@ namespace ShadowViewer.Pages
             OverBorder.Visibility = Visibility.Collapsed;
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
-                List<Task> tasks = new List<Task>();
-                List<Task> backgrounds = new List<Task>();
-                IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
-                foreach (IStorageItem item2 in items.Where(x => x is StorageFile file && file.IsZip()))
+                try
                 {
-                    tasks.Add(Task.Run(async () =>
+                    List<Task> backgrounds = new List<Task>();
+                    IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+                    IEnumerable<IStorageItem> item2s = items.Where(x => x is StorageFile file && file.IsZip());
+                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                    LoadingControl.IsLoading = true;
+                    foreach (IStorageItem item2 in item2s)
                     {
-                        ComicHelper.Entrys[item2.Path] = await CompressHelper.ZipDeCompress(item2.Path);
-                        ComicHelper.Entrys.Remove(item2.Path);
-                        Log.Information("111");
-                    }));
-                }
-                LoadingControl.IsLoading = true;
-                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                await Task.WhenAll(tasks);
-                LoadingControl.IsLoading = false;
-                /*IsBusy = true;
-                LoadingProgressBar.IsIndeterminate = false;
-                LoadingProgressBar.Maximum = items.Count;
-                LoadingDetail.Visibility = Visibility.Visible;
-                foreach (var item1 in items.Where(x => x is StorageFolder))
-                { 
-                    LoadingControl.IsLoading = true;
-                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                    await ViewModel.ImportComicsAsync(item1 as StorageFolder);
-                    LoadingProgressBar.Value++;
-                }
-                foreach (var item2 in items.Where(x => x is StorageFile file && file.IsZip()))
+                        var comic = await ComicHelper.ImportComicsFromZip(item2.Path, App.Config.TempPath);
+                        backgrounds.Add(new Task(()=> ComicHelper.EntryToComic(App.Config.ComicsPath, comic, item2.Path)));
+                    }
+                    MessageHelper.SendFilesReload();
+                    
+                    LoadingControl.IsLoading = false;
+                    //await Task.WhenAll(backgrounds).ConfigureAwait(false);
+                }catch (Exception ex)
                 {
-                    LoadingControl.IsLoading = true;
-                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
-                    var res = await ViewModel.ImportZipCompress(item2 as StorageFile);
-                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                    await ViewModel.ImportComicsAsync(res.Item1, res.Item2);
-                    LoadingProgressBar.Value++;
+                    Log.Error("外部文件拖入进行响应", ex);
                 }
-                LoadingProgressBar.Value = LoadingProgressBar.Maximum;
-                LoadingControl.IsLoading = false;
-                IsBusy = false;*/
+                
             }
         }
         /// <summary>

@@ -1,12 +1,8 @@
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Background;
-
 namespace ShadowViewer.Pages
 {
     public sealed partial class HomePage : Page
     {
         private HomeViewModel ViewModel { get; set; }
-        private bool IsBusy { get; set; } = false;
         public HomePage()
         {
             this.InitializeComponent(); 
@@ -70,13 +66,12 @@ namespace ShadowViewer.Pages
 
             var folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
             if (folder != null)
-            {
-                IsBusy = true;
+            { 
                 LoadingControl.IsLoading = true;
                 LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
                 await ViewModel.ImportComicsAsync(folder);
                 LoadingControl.IsLoading = false;
-                IsBusy = false;
+                 
             }
         }
         /// <summary>
@@ -86,18 +81,27 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private async void ShadowCommandAddFromZip_Click(object sender, RoutedEventArgs e)
         {
-
             var storageFile = await FileHelper.SelectFileAsync(this, ".zip",".rar",".7z");
             if (storageFile != null)
             {
-                IsBusy = true; 
-                LoadingControl.IsLoading = true;
-                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
-                var res = await ViewModel.ImportZipCompress(storageFile);
-                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                await ViewModel.ImportComicsAsync(res.Item1, res.Item2);
-                LoadingControl.IsLoading = false;
-                IsBusy = false;
+                try
+                {
+                    List<Task> backgrounds = new List<Task>();
+                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                    if (storageFile.IsZip())
+                    {
+                        LoadingControl.IsLoading = true;
+                        LocalComic comic = await ComicHelper.ImportComicsFromZip(storageFile.Path, App.Config.TempPath);
+                        backgrounds.Add(new Task(() => { ComicHelper.EntryToComic(App.Config.ComicsPath, comic, storageFile.Path); }));
+                    }
+                    ViewModel.RefreshLocalComic();
+                    LoadingControl.IsLoading = false;
+                    await Task.WhenAll(backgrounds).ConfigureAwait(false);
+                }
+                catch(Exception ex)
+                {
+                    Log.Error("右键菜单-新建漫画从压缩文件导入", ex);
+                }
             }
         }
         
@@ -130,7 +134,7 @@ namespace ShadowViewer.Pages
         private void ShadowCommandDelete_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide(); 
-            foreach (LocalComic comic in ContentGridView.SelectedItems)
+            foreach (LocalComic comic in ContentGridView.SelectedItems.ToList())
             {
                 ViewModel.LocalComics.Remove(comic);
             }
@@ -214,9 +218,23 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void ContentGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
-            if (e.OriginalSource is FrameworkElement element && element.DataContext is LocalComic comic && comic.IsFolder)
+            if (e.OriginalSource is FrameworkElement element && element.DataContext is LocalComic comic)
             {
-                Frame.Navigate(this.GetType(), new Uri(ViewModel.OriginPath, comic.Id));
+                if(comic.IsFolder)
+                {
+                    Frame.Navigate(this.GetType(), new Uri(ViewModel.OriginPath, comic.Id));
+                }
+                else
+                {
+                    if (comic.IsTemp)
+                    {
+                        Frame.Navigate(typeof(PicPage), ComicHelper.Entrys[comic.Link]);
+                    }
+                    else
+                    {
+
+                    }
+                }
             }
         }
         /// <summary>
@@ -377,14 +395,15 @@ namespace ShadowViewer.Pages
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            SortButton.Content = ((MenuFlyoutItem)sender).Text;
+            SortText.Text = ((MenuFlyoutItem)sender).Text;
             ViewModel.Sorts = EnumHelper.GetEnum<ShadowSorts>(((MenuFlyoutItem)sender).Tag.ToString());
             ViewModel.RefreshLocalComic();
         }
 
         private void SortButton_Loaded(object sender, RoutedEventArgs e)
         {
-            SortButton.Content = I18nHelper.GetString("Xaml/MenuFlyoutItem/RA/Text");
+            SortText.Text = I18nHelper.GetString("Xaml/MenuFlyoutItem/RZ/Text");
         }
+
     }
 }

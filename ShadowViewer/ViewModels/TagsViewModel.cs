@@ -50,7 +50,7 @@
         }
         public void AddNewTag(ShadowTag tag)
         {
-            DBHelper.Add(tag);
+            tag.Add();
             TagsHelper.ShadowTags.Add(tag);
             Comic.Tags.Add(tag.Name);
             LoadTags();

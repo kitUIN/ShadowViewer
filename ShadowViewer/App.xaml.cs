@@ -11,7 +11,6 @@ namespace ShadowViewer
             this.InitializeComponent();
             Config = Config.CreateConfig();
             // 文件创建
-            _ = Config.ComicsPath.ToStorageFolder();
             _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
             // log
             Log.Logger = new LoggerConfiguration()

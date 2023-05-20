@@ -30,6 +30,7 @@
     <None Remove="Pages\ComicPage.xaml" />
     <None Remove="Pages\HomePage.xaml" />
     <None Remove="Pages\NavigationPage.xaml" />
+    <None Remove="Pages\PicPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
     <None Remove="Pages\StatusPage.xaml" />
     <None Remove="Pages\TagsPage.xaml" />
@@ -68,6 +69,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
     <ProjectReference Include="..\..\ShadowViewer.Plguin.Bika\ShadowViewer.Plugin.Bika.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\PicPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ComicPage.xaml">

@@ -68,7 +68,7 @@
                     if (item.Id is null) continue;
                     if (!DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == item.Id ))
                     {
-                        DBHelper.Add(item);
+                        item.Add();
                     }
                 }
             } 

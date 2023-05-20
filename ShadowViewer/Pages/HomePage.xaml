@@ -229,16 +229,19 @@
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
-                <FontIcon FontSize="17" Glyph="&#xE8CB;">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Sort" />
-                    </ToolTipService.ToolTip>
-                </FontIcon>
+
                 <DropDownButton x:Name="SortButton" Loaded="SortButton_Loaded">
+                    <DropDownButton.Content>
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <FontIcon FontSize="17" Glyph="&#xE8CB;" />
+                            <TextBlock x:Name="SortText" />
+                        </StackPanel>
+                    </DropDownButton.Content>
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Sort" />
                     </ToolTipService.ToolTip>
                     <DropDownButton.Flyout>
+
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem
                                 x:Uid="Xaml/MenuFlyoutItem/PA"

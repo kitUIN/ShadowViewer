@@ -6,13 +6,19 @@
         [ObservableProperty]
         private string comicsPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Comics");
         [ObservableProperty]
+        private string tempPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Temps");
+        [ObservableProperty]
         private bool isDebug = false;
-        private Config(bool debug,string comicsPath)
+        private Config(bool debug,string comicsPath):base()
         {
             this.isDebug = debug;
             this.comicsPath = comicsPath;
         }
-        private Config() { }
+        private Config() 
+        {
+            ComicsPath.CreateDirectory();
+            TempPath.CreateDirectory();
+        }
         public static Config CreateConfig()
         {
             if(ConfigHelper.Contains(container, "IsDebug"))
