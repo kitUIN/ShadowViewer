@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer>
+        <ScrollViewer KeyDown="ScrollViewer_KeyDown">
             <ItemsRepeater x:Name="PicViewer" ItemsSource="{x:Bind Images}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="BitmapImage">

@@ -27,8 +27,8 @@
   <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
     <None Remove="MainPage.xaml" />
+    <None Remove="Pages\BookShelfPage.xaml" />
     <None Remove="Pages\ComicPage.xaml" />
-    <None Remove="Pages\HomePage.xaml" />
     <None Remove="Pages\NavigationPage.xaml" />
     <None Remove="Pages\PicPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
@@ -106,7 +106,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\HomePage.xaml">
+    <Page Update="Pages\BookShelfPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -46,7 +46,7 @@
             var tag = item.Tag.ToString();
             Comic.Tags.Remove(tag);
             DBHelper.Remove(new ShadowTag() { Name = tag });
-             Log.Information("删除ShadowTag:{Log}", tag);
+            Log.Information("删除ShadowTag:{Log}", tag);
             TagsHelper.ShadowTags.RemoveAll(x => x.Name == tag);
         }
         public void AddNewTag(ShadowTag tag)

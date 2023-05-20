@@ -1,3 +1,4 @@
+using Microsoft.UI.Xaml.Controls;
 using SharpCompress.Common;
 using System.Linq;
 
@@ -35,6 +36,15 @@ namespace ShadowViewer.Pages
                     await image.SetSourceAsync(item.Source.AsRandomAccessStream());
                     Images.Add(image);
                 }
+            }
+        }
+
+        private void ScrollViewer_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.PageDown)
+            {
+                ScrollViewer scrollViewer = sender as ScrollViewer;
+                scrollViewer.ChangeView(null, scrollViewer.VerticalOffset + scrollViewer.ViewportHeight, null);
             }
         }
     }

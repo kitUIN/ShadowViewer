@@ -47,7 +47,7 @@
                     x:Name="HomeItem"
                     x:Uid="Xaml/NavigationViewItem/Home"
                     Icon="Home"
-                    Tag="Home" />
+                    Tag="BookShelf" />
                 <NavigationViewItem
                     x:Name="PluginItem"
                     x:Uid="Xaml/NavigationViewItem/Plugin"

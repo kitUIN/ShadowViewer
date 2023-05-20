@@ -1,15 +1,15 @@
 namespace ShadowViewer.Pages
 {
-    public sealed partial class HomePage : Page
+    public sealed partial class BookShelfPage : Page
     {
-        private HomeViewModel ViewModel { get; set; }
-        public HomePage()
+        private BookShelfViewModel ViewModel { get; set; }
+        public BookShelfPage()
         {
             this.InitializeComponent(); 
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel = new HomeViewModel(e.Parameter as Uri);
+            ViewModel = new BookShelfViewModel(e.Parameter as Uri);
         }
         /// <summary>
         /// œ‘ æ”“º¸≤Àµ•

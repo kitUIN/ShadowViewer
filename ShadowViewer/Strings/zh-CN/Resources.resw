@@ -247,7 +247,7 @@
     <value>下载</value>
   </data>
   <data name="Xaml.NavigationViewItem.Home.Content" xml:space="preserve">
-    <value>主页</value>
+    <value>书架</value>
   </data>
   <data name="Xaml.NavigationViewItem.Plugin.Content" xml:space="preserve">
     <value>插件</value>

@@ -1,19 +1,19 @@
 ﻿namespace ShadowViewer.ViewModels
 {
-    public partial class HomeViewModel: ObservableRecipient, IRecipient<FilesMessage>
+    public partial class BookShelfViewModel: ObservableRecipient, IRecipient<FilesMessage>
     { 
         public LocalComic ConnectComic { get; set; }
         public string Path { get; private set; } = "local";
         public Uri OriginPath { get; private set; }
         public ShadowSorts Sorts { get; set; } = ShadowSorts.RZ;
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
-        public HomeViewModel(Uri parameter)
+        public BookShelfViewModel(Uri parameter)
         {
             IsActive = true;
             LocalComics.CollectionChanged += LocalComics_CollectionChanged;
             OriginPath = parameter;
             Path = parameter.AbsolutePath.Split(new char[] { '/', }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? parameter.Host;
-            Log.ForContext<HomePage>().Information("导航到{path},Path={p}", OriginPath, Path);
+            Log.ForContext<BookShelfPage>().Information("导航到{path},Path={p}", OriginPath, Path);
             RefreshLocalComic();
         }
         /// <summary>

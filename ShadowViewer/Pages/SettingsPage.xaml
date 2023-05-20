@@ -108,7 +108,8 @@
                                 <HyperlinkButton Content="Windows UI Library" NavigateUri="https://aka.ms/winui" />
                                 <HyperlinkButton Content="Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
                                 <HyperlinkButton Content="Serilog" NavigateUri="https://serilog.net" />
-                                <HyperlinkButton Content="Aspose.ZIP" NavigateUri="https://docs.aspose.com/zip/net" />
+                                <HyperlinkButton Content="SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
+                                <HyperlinkButton Content="SQLSugar" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
                             </StackPanel>
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>

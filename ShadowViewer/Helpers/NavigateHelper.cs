@@ -7,7 +7,7 @@
             var comic = DBHelper.Db.Queryable<LocalComic>().First(x=>x.Id==id);
             if (comic.IsFolder)
             {
-                MessageHelper.SendNavigationFrame(typeof(HomePage), url);
+                MessageHelper.SendNavigationFrame(typeof(BookShelfPage), url);
             }
             else
             {
@@ -24,7 +24,7 @@
                 switch (uri.Host.ToLower())
                 {
                     case "local":
-                        if (urls.Length == 0) { MessageHelper.SendNavigationFrame(typeof(HomePage), uri); return; }
+                        if (urls.Length == 0) { MessageHelper.SendNavigationFrame(typeof(BookShelfPage), uri); return; }
                         for (int i = 0; i < urls.Length; i++)
                         {
                             if (!DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
