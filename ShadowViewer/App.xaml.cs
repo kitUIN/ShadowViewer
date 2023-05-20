@@ -5,11 +5,11 @@ namespace ShadowViewer
 
     public partial class App : Application
     {
-        public static ShadowConfig Config { get; set; } 
+        public static Config Config { get; set; } 
         public App()
         {
             this.InitializeComponent();
-            Config = new ShadowConfig();
+            Config = Config.CreateConfig();
             // 文件创建
             _ = Config.ComicsPath.ToStorageFolder();
             _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");

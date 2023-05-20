@@ -5,6 +5,7 @@ namespace ShadowViewer.Pages
     /// </summary>
     public sealed partial class NavigationPage : Page
     {
+ 
         public NavigationViewModel ViewModel { get; set; }
         public NavigationPage()
         {
@@ -30,7 +31,7 @@ namespace ShadowViewer.Pages
                 }
                 else if (navItemTag == "Download")
                 {
-
+                    _page = typeof(DownloadPage);
                 }
                 else if (navItemTag == "User")
                 {
@@ -76,7 +77,88 @@ namespace ShadowViewer.Pages
                 ContentFrame.Content = page;
             } 
         }
-         
+        /// <summary>
+        /// 外部文件拖入进行响应
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
+        private async void Root_Drop(object sender, DragEventArgs e)
+        {
+            OverBorder.Visibility = Visibility.Collapsed;
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
+            {
+                List<Task> tasks = new List<Task>();
+                List<Task> backgrounds = new List<Task>();
+                IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+                foreach (IStorageItem item2 in items.Where(x => x is StorageFile file && file.IsZip()))
+                {
+                    tasks.Add(Task.Run(async () =>
+                    {
+                        ComicHelper.Entrys[item2.Path] = await CompressHelper.ZipDeCompress(item2.Path);
+                        ComicHelper.Entrys.Remove(item2.Path);
+                        Log.Information("111");
+                    }));
+                }
+                LoadingControl.IsLoading = true;
+                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                await Task.WhenAll(tasks);
+                LoadingControl.IsLoading = false;
+                /*IsBusy = true;
+                LoadingProgressBar.IsIndeterminate = false;
+                LoadingProgressBar.Maximum = items.Count;
+                LoadingDetail.Visibility = Visibility.Visible;
+                foreach (var item1 in items.Where(x => x is StorageFolder))
+                { 
+                    LoadingControl.IsLoading = true;
+                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                    await ViewModel.ImportComicsAsync(item1 as StorageFolder);
+                    LoadingProgressBar.Value++;
+                }
+                foreach (var item2 in items.Where(x => x is StorageFile file && file.IsZip()))
+                {
+                    LoadingControl.IsLoading = true;
+                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
+                    var res = await ViewModel.ImportZipCompress(item2 as StorageFile);
+                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                    await ViewModel.ImportComicsAsync(res.Item1, res.Item2);
+                    LoadingProgressBar.Value++;
+                }
+                LoadingProgressBar.Value = LoadingProgressBar.Maximum;
+                LoadingControl.IsLoading = false;
+                IsBusy = false;*/
+            }
+        }
+        /// <summary>
+        /// 外部文件拖动悬浮显示
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
+        private void Root_DragOver(object sender, DragEventArgs e)
+        {
+
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
+            {
+                e.AcceptedOperation = DataPackageOperation.Link;
+                e.DragUIOverride.Caption = I18nHelper.GetString("Shadow.String.Import");
+                OverBorder.Visibility = Visibility.Visible;
+                OverBorder.Width = Root.ActualWidth - 30;
+                OverBorder.Height = Root.ActualHeight - 30;
+                ImportText.Text = I18nHelper.GetString("Shadow.String.ImportText");
+            }
+        }
+        /// <summary>
+        /// 外部文件拖动离开
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
+        private void Root_DragLeave(object sender, DragEventArgs e)
+        {
+            OverBorder.Visibility = Visibility.Collapsed;
+        }
+        private void SmokeGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 
 }

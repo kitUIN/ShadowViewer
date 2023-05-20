@@ -145,13 +145,7 @@
         </TeachingTip>
     </Page.Resources>
 
-    <Grid
-        x:Name="Root"
-        AllowDrop="True"
-        DragLeave="Root_DragLeave"
-        DragOver="Root_DragOver"
-        Drop="Root_Drop"
-        RightTapped="Root_RightTapped">
+    <Grid x:Name="Root" RightTapped="Root_RightTapped">
         <ScrollViewer
             Margin="0,40,0,0"
             Padding="5"
@@ -284,26 +278,7 @@
             </StackPanel>
 
         </Grid>
-        <Border
-            x:Name="OverBorder"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-            CornerRadius="8"
-            Visibility="Collapsed">
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Vertical"
-                Spacing="20">
-                <FontIcon FontSize="100" Glyph="&#xE74B;" />
-                <TextBlock
-                    x:Name="ImportText"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    FontSize="30" />
-            </StackPanel>
-        </Border>
+
         <Grid
             x:Name="SmokeGrid"
             HorizontalAlignment="Stretch"
@@ -351,15 +326,6 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="16" />
-                <StackPanel
-                    x:Name="LoadingDetail"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <TextBlock Text="{x:Bind LoadingProgressBar.Value, Mode=OneWay}" />
-                    <TextBlock Text="/" />
-                    <TextBlock Text="{x:Bind LoadingProgressBar.Maximum, Mode=OneWay}" />
-                </StackPanel>
             </StackPanel>
         </controls:Loading>
     </Grid>
