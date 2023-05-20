@@ -171,7 +171,7 @@
                     <DataTemplate x:DataType="dv:LocalComic">
                         <Grid
                             Width="130"
-                            Height="150"
+                            Height="180"
                             Padding="6"
                             AllowDrop="True"
                             DragOver="GridViewItem_DragOverCustomized"
@@ -181,7 +181,7 @@
                                 <Image
                                     x:Name="connectedElement"
                                     Width="120"
-                                    Height="100"
+                                    Height="130"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
                                     Source="{x:Bind Img}" />
@@ -203,6 +203,21 @@
                                 FontSize="13"
                                 Foreground="Gray"
                                 Text="{x:Bind Percent}" />
+                            <StackPanel
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Spacing="2">
+                                <Button
+                                    x:Uid="Xaml/Button/Temp"
+                                    Padding="5"
+                                    Background="Orange"
+                                    CornerRadius="10"
+                                    FontSize="12"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    Style="{StaticResource NoOverButton}"
+                                    Visibility="{x:Bind IsTemp}" />
+                            </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>

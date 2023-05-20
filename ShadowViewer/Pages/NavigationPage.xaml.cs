@@ -99,15 +99,16 @@ namespace ShadowViewer.Pages
                     foreach (IStorageItem item2 in item2s)
                     {
                         var comic = await ComicHelper.ImportComicsFromZip(item2.Path, App.Config.TempPath);
-                        backgrounds.Add(new Task(()=> ComicHelper.EntryToComic(App.Config.ComicsPath, comic, item2.Path)));
+                        backgrounds.Add( Task.Run(()=> ComicHelper.EntryToComic(App.Config.ComicsPath, comic, item2.Path)));
                     }
                     MessageHelper.SendFilesReload();
-                    
                     LoadingControl.IsLoading = false;
-                    //await Task.WhenAll(backgrounds).ConfigureAwait(false);
-                }catch (Exception ex)
+                    await Task.WhenAll(backgrounds);
+                    MessageHelper.SendFilesReload();
+                }
+                catch (Exception ex)
                 {
-                    Log.Error("外部文件拖入进行响应", ex);
+                    Log.Error("外部文件拖入进行响应报错:{Ex}", ex);
                 }
                 
             }

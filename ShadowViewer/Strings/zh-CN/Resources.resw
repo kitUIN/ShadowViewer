@@ -183,6 +183,9 @@
   <data name="Xaml.Button.Log.Content" xml:space="preserve">
     <value>打开日志文件夹</value>
   </data>
+  <data name="Xaml.Button.Temp.Content" xml:space="preserve">
+    <value>临时</value>
+  </data>
   <data name="Xaml.ComboBoxItem.DarkTheme.Content" xml:space="preserve">
     <value>深色</value>
   </data>

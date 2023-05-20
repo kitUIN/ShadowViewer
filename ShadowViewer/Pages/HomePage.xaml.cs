@@ -92,15 +92,16 @@ namespace ShadowViewer.Pages
                     {
                         LoadingControl.IsLoading = true;
                         LocalComic comic = await ComicHelper.ImportComicsFromZip(storageFile.Path, App.Config.TempPath);
-                        backgrounds.Add(new Task(() => { ComicHelper.EntryToComic(App.Config.ComicsPath, comic, storageFile.Path); }));
-                    }
-                    ViewModel.RefreshLocalComic();
+                        backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(App.Config.ComicsPath, comic, storageFile.Path))); ;
+                        ViewModel.LocalComics.Add(comic);
+                    } 
                     LoadingControl.IsLoading = false;
-                    await Task.WhenAll(backgrounds).ConfigureAwait(false);
+                    await Task.WhenAll(backgrounds);
+                    ViewModel.RefreshLocalComic();
                 }
                 catch(Exception ex)
                 {
-                    Log.Error("右键菜单-新建漫画从压缩文件导入", ex);
+                    Log.Error("右键菜单-新建漫画从压缩文件导入报错:{Ex}", ex);
                 }
             }
         }
