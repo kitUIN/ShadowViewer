@@ -1,3 +1,5 @@
+using Windows.Storage;
+
 namespace ShadowViewer.Pages
 {
     public sealed partial class BookShelfPage : Page
@@ -92,7 +94,7 @@ namespace ShadowViewer.Pages
                     {
                         LoadingControl.IsLoading = true;
                         LocalComic comic = await ComicHelper.ImportComicsFromZip(storageFile.Path, Config.TempPath);
-                        backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(Config.ComicsPath, comic, storageFile.Path))); ;
+                        backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(Config.ComicsPath, comic, storageFile.Path)));
                         ViewModel.LocalComics.Add(comic);
                     } 
                     LoadingControl.IsLoading = false;
@@ -134,11 +136,15 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandDelete_Click(object sender, RoutedEventArgs e)
         {
-            HomeCommandBarFlyout.Hide(); 
-            foreach (LocalComic comic in ContentGridView.SelectedItems.ToList())
+            HomeCommandBarFlyout.Hide();
+            if (Config.IsRememberDeleteFilesWithComicDelete)
             {
-                ViewModel.LocalComics.Remove(comic);
+                DeleteComics();
             }
+            else
+            {
+                DeleteMessageDialog();
+            } 
         }
 
 
@@ -217,7 +223,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
-        private void ContentGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private async void ContentGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (e.OriginalSource is FrameworkElement element && element.DataContext is LocalComic comic)
             {
@@ -229,7 +235,14 @@ namespace ShadowViewer.Pages
                 {
                     if (comic.IsTemp)
                     {
+                        List<Task> backgrounds = new List<Task>();
+                        if (!ComicHelper.Entrys.ContainsKey(comic.Link))
+                        {
+                            LocalComic temp = await ComicHelper.ImportComicsFromZip(comic.Link, Config.TempPath);
+                            backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(Config.ComicsPath, comic, comic.Link)));
+                        } 
                         Frame.Navigate(typeof(PicPage), ComicHelper.Entrys[comic.Link]);
+                        await Task.WhenAll(backgrounds);
                     }
                     else
                     {
@@ -405,6 +418,63 @@ namespace ShadowViewer.Pages
         {
             SortText.Text = I18nHelper.GetString("Xaml/MenuFlyoutItem/RZ/Text");
         }
+        /// <summary>
+        /// 删除漫画二次确定
+        /// </summary>
+        public async void DeleteMessageDialog()
+        {
+            ContentDialog dialog = XamlHelper.CreateContentDialog(XamlRoot);
+            StackPanel stackPanel = new StackPanel();
+            dialog.Title = I18nHelper.GetString("Shadow.String.IsDelete");
+            CheckBox deleteFiles = new CheckBox()
+            {
+                Content = I18nHelper.GetString("Shadow.String.DeleteFiles"),
+                IsChecked = Config.IsDeleteFilesWithComicDelete,
+            };
+            deleteFiles.Checked += DeleteFiles_Checked;
+            deleteFiles.Unchecked += DeleteFiles_Checked;
+            CheckBox remember = new CheckBox()
+            {
+                Content = I18nHelper.GetString("Shadow.String.Remember"),
+                IsChecked = Config.IsRememberDeleteFilesWithComicDelete,
+            };
+            remember.Checked += Remember_Checked;
+            remember.Unchecked += Remember_Checked;
+            stackPanel.Children.Add(deleteFiles);
+            stackPanel.Children.Add(remember);
+            dialog.IsPrimaryButtonEnabled = true;
+            dialog.PrimaryButtonText = I18nHelper.GetString("Shadow.String.Confirm");
+            dialog.DefaultButton = ContentDialogButton.Close;
+            dialog.CloseButtonText = I18nHelper.GetString("Shadow.String.Canel");
+            dialog.Content = stackPanel;
+            dialog.PrimaryButtonClick += (s, e) =>
+            {
+                DeleteComics();
+            };
 
+            await dialog.ShowAsync();
+        }
+        private void DeleteComics()
+        { 
+            foreach (LocalComic comic in ContentGridView.SelectedItems.ToList())
+            {
+                if (Config.IsDeleteFilesWithComicDelete&& !comic.IsTemp)
+                {
+                    comic.Link.DeleteDirectory();
+                }
+                ViewModel.LocalComics.Remove(comic);
+            }
+        }
+        private void Remember_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox box = sender as CheckBox;
+            Config.IsRememberDeleteFilesWithComicDelete = (bool)box.IsChecked;
+        }
+
+        private void DeleteFiles_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox box = sender as CheckBox;
+            Config.IsDeleteFilesWithComicDelete = (bool)box.IsChecked;
+        }
     }
 }
