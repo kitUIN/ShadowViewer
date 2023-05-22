@@ -1,0 +1,67 @@
+name: 🐛Bug 报告
+description: 提交 Bug 以帮助我们提高ShadowViewer应用体验
+title: "[🐛Bug] 我的标题"
+assignees: kitUIN
+labels:
+  - "🐛Bug"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 写在开头
+        🚨 请务必完整填写下面的内容，如果缺少必要的信息，开发者可能会在未调查的情况下直接关闭问题 🚨
+
+  - type: textarea
+    id: description
+    validations:
+      required: true
+    attributes:
+      label: Bug 描述
+      description: 请简短的描述你遇到的问题
+  - type: textarea
+    id: repro-steps
+    validations:
+      required: true
+    attributes:
+      label: 复现问题的步骤
+      render: plain text
+      description: 请提供复现问题的步骤，如果不能，请写明原因
+      placeholder: |
+        干净清晰的复现步骤有助于开发者更快定位问题所在，你所遇到的问题也会获得更高的优先级.
+
+        示例步骤:
+        1. 打开应用
+        3. 点击 '....'
+        4. 滚动至 '....'
+        5. 发现问题
+
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: 日志记录
+      description: 请打开日志文件夹(设置页面->开发者工具->打开日志文件夹)，选取问题发生当日的日志记录(如ShadowViewer[当天日期].log)作为 Issue 的附件上传
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: ShadowViewer应用版本
+      description: 你发现问题的ShadowViewer应用版本(设置页面->关于 右侧为版本号)
+      placeholder: |
+         
+  - type: textarea
+    validations:
+      required: true
+    attributes:
+      label: 电脑系统
+      description: 你的电脑系统是?
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: 截图
+      description: 如果可以，提交截图更有助于我们分析问题
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 备注
+      description: 添加你认为有必要的信息

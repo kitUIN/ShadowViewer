@@ -1,0 +1,25 @@
+name: ⛏️Feature 功能建议
+description: 为ShadowViewer应用提供可行的新功能
+title: "[⛏️Feature] 我的标题"
+assignees: kitUIN
+labels:
+  - "⛏️Feature"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 写在开头
+        🚨 请务必完整填写下面的内容，如果缺少必要的信息，开发者可能会在未调查的情况下直接关闭问题 🚨
+
+  - type: textarea
+    id: description
+    validations:
+      required: true
+    attributes:
+      label: Feature描述
+      description: 请简短的描述你想要添加的功能
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: 备注
+      description: 添加你认为有必要的信息
