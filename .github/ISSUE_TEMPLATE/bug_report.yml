@@ -47,7 +47,6 @@ body:
     attributes:
       label: ShadowViewer应用版本
       description: 你发现问题的ShadowViewer应用版本(设置页面->关于 右侧为版本号)
-      placeholder: |
          
   - type: textarea
     validations:
