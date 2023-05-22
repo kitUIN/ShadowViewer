@@ -15,7 +15,7 @@ namespace ShadowViewer.Pages
             ViewModel = new BookShelfViewModel(e.Parameter as Uri);
         }
         /// <summary>
-        /// ÏÔÊ¾ÓÒ¼ü²Ëµ¥
+        /// ï¿½ï¿½Ê¾ï¿½Ò¼ï¿½ï¿½Ëµï¿½
         /// </summary>
         /// <param name="position">The position.</param>
         /// <param name="sender">The sender.</param>
@@ -40,7 +40,7 @@ namespace ShadowViewer.Pages
             HomeCommandBarFlyout.ShowAt(sender, myOption);
         } 
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RightTappedRoutedEventArgs"/> instance containing the event data.</param>
@@ -52,7 +52,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥-ÐÂ½¨Âþ»­´ÓÎÄ¼þ¼Ðµ¼Èë
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½-ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ðµï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -64,13 +64,13 @@ namespace ShadowViewer.Pages
             { 
                 LoadingControl.IsLoading = true;
                 LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                await ComicHelper.ImportComicsFromFolder(folder, parent);
+                await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path);
                 ViewModel.RefreshLocalComic();
                 LoadingControl.IsLoading = false;
             }
         }
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥-ÐÂ½¨Âþ»­´ÓÑ¹ËõÎÄ¼þµ¼Èë
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½-ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -96,13 +96,13 @@ namespace ShadowViewer.Pages
                 }
                 catch(Exception ex)
                 {
-                    Log.Error("ÓÒ¼ü²Ëµ¥-ÐÂ½¨Âþ»­´ÓÑ¹ËõÎÄ¼þµ¼Èë±¨´í:{Ex}", ex);
+                    Log.Error("ï¿½Ò¼ï¿½ï¿½Ëµï¿½-ï¿½Â½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ë±¨ï¿½ï¿½:{Ex}", ex);
                 }
             }
         }
         
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥-ÐÂ½¨ÎÄ¼þ¼Ð
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½-ï¿½Â½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -112,7 +112,7 @@ namespace ShadowViewer.Pages
             await CreateFolderDialog(XamlRoot, ViewModel.Path).ShowAsync();
         }
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥-ÖØÃüÃû
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -123,7 +123,7 @@ namespace ShadowViewer.Pages
             await CreateRenameDialog(I18nHelper.GetString("Xaml.ToolTip.Rename.Content"), XamlRoot, comic).ShowAsync();
         }
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥-É¾³ý
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½-É¾ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -135,7 +135,7 @@ namespace ShadowViewer.Pages
 
 
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥-ÒÆ¶¯µ½
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½-ï¿½Æ¶ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -148,7 +148,7 @@ namespace ShadowViewer.Pages
             MoveTeachingTip.IsOpen = true;
         }
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥-Ìí¼Ó±êÇ©
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½-ï¿½ï¿½ï¿½Ó±ï¿½Ç©
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -163,7 +163,7 @@ namespace ShadowViewer.Pages
             animation.TryStart(destinationElement);
         }
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥-²é¿´ÊôÐÔ
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½-ï¿½é¿´ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -179,7 +179,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// ÓÒ¼ü²Ëµ¥-Ë¢ÐÂ
+        /// ï¿½Ò¼ï¿½ï¿½Ëµï¿½-Ë¢ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -188,7 +188,7 @@ namespace ShadowViewer.Pages
             ViewModel.RefreshLocalComic();
         }
         /// <summary>
-        /// ÓÒ¼üÑ¡ÖÐGridViewItem
+        /// ï¿½Ò¼ï¿½Ñ¡ï¿½ï¿½GridViewItem
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RightTappedRoutedEventArgs"/> instance containing the event data.</param>
@@ -205,7 +205,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// Ë«»÷ÎÄ¼þ¼Ð»òÕßÂþ»­
+        /// Ë«ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
@@ -238,7 +238,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// ÖØÃüÃû¶Ô»°¿ò
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
         /// </summary>
         /// <returns></returns>
         private ContentDialog CreateRenameDialog(string title, XamlRoot xamlRoot, LocalComic comic)
@@ -253,7 +253,7 @@ namespace ShadowViewer.Pages
             return dialog;
         }
         /// <summary>
-        /// ÐÂ½¨ÎÄ¼þ¼Ð¶Ô»°¿ò
+        /// ï¿½Â½ï¿½ï¿½Ä¼ï¿½ï¿½Ð¶Ô»ï¿½ï¿½ï¿½
         /// </summary>
         /// <returns></returns>
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
@@ -268,7 +268,7 @@ namespace ShadowViewer.Pages
             return dialog;
         }
         /// <summary>
-        /// ÔÚÊ÷ÐÎ½á¹¹ÉÏË«»÷
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½Î½á¹¹ï¿½ï¿½Ë«ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
@@ -277,7 +277,7 @@ namespace ShadowViewer.Pages
             MoveToPath(MoveTreeView.SelectedItem as ShadowPath);
         }
         /// <summary>
-        /// ÒÆ¶¯µ½ ¶Ô»°¿òµÄ°´Å¥ÏìÓ¦
+        /// ï¿½Æ¶ï¿½ï¿½ï¿½ ï¿½Ô»ï¿½ï¿½ï¿½Ä°ï¿½Å¥ï¿½ï¿½Ó¦
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The arguments.</param>
@@ -286,7 +286,7 @@ namespace ShadowViewer.Pages
             MoveToPath(MoveTreeView.SelectedItem as ShadowPath);
         }
         /// <summary>
-        /// ÒÆ¶¯µ½±ðµÄÎÄ¼þ¼Ð
+        /// ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="path">The path.</param>
         private void MoveToPath(ShadowPath path)
@@ -304,7 +304,7 @@ namespace ShadowViewer.Pages
         }
         
         /// <summary>
-        /// ½ÓÊÕÍÏ¶¯
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½Ï¶ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -326,7 +326,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// ÍÏ¶¯Ðü¸¡ÏÔÊ¾
+        /// ï¿½Ï¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -346,7 +346,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// ÍÏ¶¯¿ªÊ¼²½Öè Ìí¼Óµ½GridViewÑ¡ÖÐ
+        /// ï¿½Ï¶ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Óµï¿½GridViewÑ¡ï¿½ï¿½
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DragItemsStartingEventArgs"/> instance containing the event data.</param>
@@ -392,7 +392,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// ½ûÖ¹´«µÝÓÒ¼üÊÂ¼þ
+        /// ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ï¿½Â¼ï¿½
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -401,7 +401,7 @@ namespace ShadowViewer.Pages
             e.Handled = true;
         }
         /// <summary>
-        /// ÅÅÐòµã»÷ÏìÓ¦
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -412,7 +412,7 @@ namespace ShadowViewer.Pages
             ViewModel.RefreshLocalComic();
         }
         /// <summary>
-        /// ÅÅÐò¿ò,²Ëµ¥¿ò,¹¤¾ßÀ¸ÏêÏ¸ÐÅÏ¢³õÊ¼»¯
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½Ëµï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ï¿½Ï¢ï¿½ï¿½Ê¼ï¿½ï¿½
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -425,7 +425,7 @@ namespace ShadowViewer.Pages
         }
         
         /// <summary>
-        /// É¾³ýÂþ»­¶þ´ÎÈ·¶¨
+        /// É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½
         /// </summary>
         public async void DeleteMessageDialog()
         {
@@ -461,7 +461,7 @@ namespace ShadowViewer.Pages
             await dialog.ShowAsync();
         }
         /// <summary>
-        /// É¾³ýÏìÓ¦(ÓÒ¼üÉ¾³ý,Detele¼üÉ¾³ý)
+        /// É¾ï¿½ï¿½ï¿½ï¿½Ó¦(ï¿½Ò¼ï¿½É¾ï¿½ï¿½,Deteleï¿½ï¿½É¾ï¿½ï¿½)
         /// </summary>
         private void Delete()
         { 
@@ -483,7 +483,7 @@ namespace ShadowViewer.Pages
             
         }
         /// <summary>
-        /// Ö´ÐÐÉ¾³ýÂþ»­²Ù×÷
+        /// Ö´ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         private void DeleteComics()
         {
@@ -497,7 +497,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// ¸´Ñ¡¿ò-¼Ç×¡Ñ¡Ôñ
+        /// ï¿½ï¿½Ñ¡ï¿½ï¿½-ï¿½ï¿½×¡Ñ¡ï¿½ï¿½
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -507,7 +507,7 @@ namespace ShadowViewer.Pages
             Config.IsRememberDeleteFilesWithComicDelete = (bool)box.IsChecked;
         }
         /// <summary>
-        /// ¸´Ñ¡¿ò-Ò»ÆðÉ¾³ý»º´æÎÄ¼þ
+        /// ï¿½ï¿½Ñ¡ï¿½ï¿½-Ò»ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -517,7 +517,7 @@ namespace ShadowViewer.Pages
             Config.IsDeleteFilesWithComicDelete = (bool)box.IsChecked;
         }
         /// <summary>
-        /// °´¼üÏìÓ¦
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -537,7 +537,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// ²Ëµ¥°´Å¥
+        /// ï¿½Ëµï¿½ï¿½ï¿½Å¥
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -546,7 +546,7 @@ namespace ShadowViewer.Pages
             ShowMenu(sender as UIElement);
         }
         /// <summary>
-        /// Êé¼ÜÉèÖÃ
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

@@ -8,17 +8,6 @@ namespace ShadowViewer.Pages
             this.InitializeComponent();
             ViewModel = new SettingsViewModel();
         }
-        /// <summary>
-        /// 为项目提交bug或者建议
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void BugRequestCard_Click(object sender, RoutedEventArgs e)
-        {
-            var uri = new Uri("https://github.com/kitUIN/ShadowViewer");
-            uri.LaunchUriAsync();
-        }
-
         private void PluginSettingsStackPanel_Loaded(object sender, RoutedEventArgs e)
         {
             var currentTheme = ThemeHelper.RootTheme;
@@ -148,9 +137,9 @@ namespace ShadowViewer.Pages
             }
         }
 
-        private void SponsorCard_Click(object sender, RoutedEventArgs e)
+        private void Uri_Click(object sender, RoutedEventArgs e)
         {
-            var uri = new Uri("https://afdian.net/@kituin");
+            var uri = new Uri((sender as SettingsCard).Tag.ToString());
             uri.LaunchUriAsync();
         }
 

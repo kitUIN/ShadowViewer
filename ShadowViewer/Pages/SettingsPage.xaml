@@ -146,18 +146,18 @@
                         Text="0.9.0.0" />
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
-                            x:Name="BugRequestCard"
+                            x:Name="BugRequestCard" Tag="https://github.com/kitUIN/ShadowViewer/issues/new/choose"
                             x:Uid="Xaml/SettingsCard/BugRequest"
-                            Click="BugRequestCard_Click"
+                            Click="Uri_Click"
                             IsClickEnabled="True">
                             <labs:SettingsCard.ActionIcon>
                                 <FontIcon Glyph="&#xE8A7;" />
                             </labs:SettingsCard.ActionIcon>
                         </labs:SettingsCard>
                         <labs:SettingsCard
-                            x:Name="SponsorCard"
+                            x:Name="SponsorCard" Tag="https://afdian.net/@kituin"
                             x:Uid="Xaml/SettingsCard/Sponsor"
-                            Click="SponsorCard_Click"
+                            Click="Uri_Click"
                             IsClickEnabled="True">
                             <labs:SettingsCard.ActionIcon>
                                 <FontIcon Glyph="&#xE8A7;" />
