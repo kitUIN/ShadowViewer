@@ -1,8 +1,5 @@
-<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
-<!--  Licensed under the MIT License.  -->
-
 <Page
-    x:Class="ShadowViewer.Pages.HomePage"
+    x:Class="ShadowViewer.Pages.BookShelfPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:co="using:ShadowViewer.Controls"
@@ -60,7 +57,7 @@
                                 Click="ShadowCommandAddNewFolder_Click"
                                 Icon="NewFolder">
                                 <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="ShadowCommandNewFolderToolTip" />
+                                    <ToolTip x:Uid="Xaml/ToolTip/NewFolder" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -145,13 +142,7 @@
         </TeachingTip>
     </Page.Resources>
 
-    <Grid
-        x:Name="Root"
-        AllowDrop="True"
-        DragLeave="Root_DragLeave"
-        DragOver="Root_DragOver"
-        Drop="Root_Drop"
-        RightTapped="Root_RightTapped">
+    <Grid x:Name="Root" RightTapped="Root_RightTapped">
         <ScrollViewer
             Margin="0,40,0,0"
             Padding="5"
@@ -171,13 +162,14 @@
                 FlowDirection="LeftToRight"
                 IsItemClickEnabled="False"
                 ItemsSource="{x:Bind ViewModel.LocalComics}"
+                KeyDown="GridViewOnKeyDown"
                 RightTapped="ContentGridView_RightTapped"
                 SelectionMode="Extended">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="dv:LocalComic">
                         <Grid
                             Width="130"
-                            Height="150"
+                            Height="180"
                             Padding="6"
                             AllowDrop="True"
                             DragOver="GridViewItem_DragOverCustomized"
@@ -187,7 +179,7 @@
                                 <Image
                                     x:Name="connectedElement"
                                     Width="120"
-                                    Height="100"
+                                    Height="130"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Bottom"
                                     Source="{x:Bind Img}" />
@@ -209,6 +201,21 @@
                                 FontSize="13"
                                 Foreground="Gray"
                                 Text="{x:Bind Percent}" />
+                            <StackPanel
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Spacing="2">
+                                <Button
+                                    x:Uid="Xaml/Button/Temp"
+                                    Padding="5"
+                                    Background="Orange"
+                                    CornerRadius="10"
+                                    FontSize="12"
+                                    FontWeight="Bold"
+                                    Foreground="Black"
+                                    Style="{StaticResource NoOverButton}"
+                                    Visibility="{x:Bind IsTemp}" />
+                            </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>
@@ -223,11 +230,36 @@
                 Margin="20,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <Button>
-                    <FontIcon FontSize="16" Glyph="&#xE71C;" />
-
+                Orientation="Horizontal"
+                Spacing="10">
+                <Button Height="32">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Filter" />
+                    </ToolTipService.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="17" Glyph="&#xE71C;" />
+                        <TextBlock
+                            x:Name="FilterText"
+                            x:Uid="Xaml/TextBlock/Filter"
+                            Margin="5,0,0,0" />
+                    </StackPanel>
                 </Button>
+                <Button
+                    x:Name="MenuButton"
+                    Height="32"
+                    Click="MenuButton_Click">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Menu" />
+                    </ToolTipService.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="17" Glyph="&#xEDE3;" />
+                        <TextBlock
+                            x:Name="MenuText"
+                            x:Uid="Xaml/TextBlock/Menu"
+                            Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+
             </StackPanel>
             <StackPanel
                 Margin="0,0,20,0"
@@ -235,12 +267,29 @@
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
-                <FontIcon FontSize="17" Glyph="&#xE8CB;">
+                <Button
+                    x:Name="SettingsButton"
+                    Height="32"
+                    Click="SettingsButton_Click">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Sort" />
+                        <ToolTip x:Uid="Xaml/ToolTip/Settings" />
                     </ToolTipService.ToolTip>
-                </FontIcon>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="17" Glyph="&#xE713;" />
+                        <TextBlock
+                            x:Name="SettingsText"
+                            x:Uid="Xaml/TextBlock/Settings"
+                            Margin="5,0,0,0" />
+                    </StackPanel>
+
+                </Button>
                 <DropDownButton x:Name="SortButton" Loaded="SortButton_Loaded">
+                    <DropDownButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontSize="17" Glyph="&#xE8CB;" />
+                            <TextBlock x:Name="SortText" Margin="5,0,0,0" />
+                        </StackPanel>
+                    </DropDownButton.Content>
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Sort" />
                     </ToolTipService.ToolTip>
@@ -284,26 +333,7 @@
             </StackPanel>
 
         </Grid>
-        <Border
-            x:Name="OverBorder"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-            CornerRadius="8"
-            Visibility="Collapsed">
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Vertical"
-                Spacing="20">
-                <FontIcon FontSize="100" Glyph="&#xE74B;" />
-                <TextBlock
-                    x:Name="ImportText"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    FontSize="30" />
-            </StackPanel>
-        </Border>
+
         <Grid
             x:Name="SmokeGrid"
             HorizontalAlignment="Stretch"
@@ -351,15 +381,6 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     FontSize="16" />
-                <StackPanel
-                    x:Name="LoadingDetail"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Orientation="Horizontal">
-                    <TextBlock Text="{x:Bind LoadingProgressBar.Value, Mode=OneWay}" />
-                    <TextBlock Text="/" />
-                    <TextBlock Text="{x:Bind LoadingProgressBar.Maximum, Mode=OneWay}" />
-                </StackPanel>
             </StackPanel>
         </controls:Loading>
     </Grid>

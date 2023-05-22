@@ -42,15 +42,16 @@
         }
         private void ShowTagItem_Removing(object sender, TokenItemRemovingEventArgs e)
         {
-            var item = e.TokenItem;
-            var tag = item.Tag.ToString();
+            TokenItem item = e.TokenItem;
+            string tag = item.Tag.ToString();
             Comic.Tags.Remove(tag);
-            DBHelper.Remove(new ShadowTag() { Name = tag });
+            ShadowTag.Remove(new ShadowTag() { Name = tag });
+            Log.Information("删除ShadowTag:{Log}", tag);
             TagsHelper.ShadowTags.RemoveAll(x => x.Name == tag);
         }
         public void AddNewTag(ShadowTag tag)
         {
-            DBHelper.Add(tag);
+            tag.Add();
             TagsHelper.ShadowTags.Add(tag);
             Comic.Tags.Add(tag.Name);
             LoadTags();

@@ -2,9 +2,11 @@ namespace ShadowViewer.Pages
 {
     public sealed partial class SettingsPage : Page
     {
+        public SettingsViewModel ViewModel { get; set; }
         public SettingsPage()
         {
             this.InitializeComponent();
+            ViewModel = new SettingsViewModel();
         }
         /// <summary>
         /// 为项目提交bug或者建议
@@ -150,6 +152,45 @@ namespace ShadowViewer.Pages
         {
             var uri = new Uri("https://afdian.net/@kituin");
             uri.LaunchUriAsync();
+        }
+
+        private async void TempPath_Click(object sender, RoutedEventArgs e)
+        {
+            string accessToken = "TempPath";
+            StorageFolder folder = await FileHelper.SelectFolderAsync(this, accessToken);
+            if (folder != null)
+            {
+                ViewModel.TempPath = folder.Path;
+            }
+        }
+
+        private async void ComicsPath_Click(object sender, RoutedEventArgs e)
+        { 
+            string accessToken = "ComicsPath";
+            StorageFolder folder = await FileHelper.SelectFolderAsync(this, accessToken);
+            if (folder != null)
+            {
+                ViewModel.ComicsPath = folder.Path;
+            }
+        }
+
+        private void Open_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            var uri = new Uri(button.Tag.ToString());
+            uri.LaunchUriAsync();
+        }
+
+        private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            StackPanel stack = sender as StackPanel;
+            TempPathText.Width = stack.ActualWidth - 400;
+            ComicsPathText.Width = stack.ActualWidth - 400;
+        }
+
+        private void HomeSettingCard_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(BookShelfSettingsPage) ,null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
     }
 }
