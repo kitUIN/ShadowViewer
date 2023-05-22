@@ -165,6 +165,7 @@
                 FlowDirection="LeftToRight"
                 IsItemClickEnabled="False"
                 ItemsSource="{x:Bind ViewModel.LocalComics}"
+                KeyDown="GridViewOnKeyDown"
                 RightTapped="ContentGridView_RightTapped"
                 SelectionMode="Extended">
                 <GridView.ItemTemplate>

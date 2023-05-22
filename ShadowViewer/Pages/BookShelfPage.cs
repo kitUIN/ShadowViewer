@@ -1,4 +1,5 @@
-using Windows.Storage;
+using System.Linq;
+using Windows.UI.Core;
 
 namespace ShadowViewer.Pages
 {
@@ -137,14 +138,8 @@ namespace ShadowViewer.Pages
         private void ShadowCommandDelete_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            if (Config.IsRememberDeleteFilesWithComicDelete)
-            {
-                DeleteComics();
-            }
-            else
-            {
-                DeleteMessageDialog();
-            } 
+            
+            Delete();
         }
 
 
@@ -392,7 +387,11 @@ namespace ShadowViewer.Pages
             SmokeGrid.Visibility = Visibility.Collapsed;
             SmokeGrid.Children.Add(destinationElement);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SmokeGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var grid = sender as Grid;
@@ -401,23 +400,36 @@ namespace ShadowViewer.Pages
                 destinationElement.Height = grid.ActualHeight - 50;
             }
         }
-
+        /// <summary>
+        /// ½ûÖ¹´«µÝÓÒ¼üÊÂ¼þ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SmokeGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             e.Handled = true;
         }
-
+        /// <summary>
+        /// ÅÅÐòµã»÷ÏìÓ¦
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             SortText.Text = ((MenuFlyoutItem)sender).Text;
             ViewModel.Sorts = EnumHelper.GetEnum<ShadowSorts>(((MenuFlyoutItem)sender).Tag.ToString());
             ViewModel.RefreshLocalComic();
         }
-
+        /// <summary>
+        /// ÅÅÐò¿ò³õÊ¼»¯
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SortButton_Loaded(object sender, RoutedEventArgs e)
         {
             SortText.Text = I18nHelper.GetString("Xaml/MenuFlyoutItem/RZ/Text");
         }
+        
         /// <summary>
         /// É¾³ýÂþ»­¶þ´ÎÈ·¶¨
         /// </summary>
@@ -451,30 +463,84 @@ namespace ShadowViewer.Pages
             {
                 DeleteComics();
             };
-
+            dialog.Focus(FocusState.Programmatic);
             await dialog.ShowAsync();
         }
-        private void DeleteComics()
+        /// <summary>
+        /// É¾³ýÏìÓ¦(ÓÒ¼üÉ¾³ý,Detele¼üÉ¾³ý)
+        /// </summary>
+        private void Delete()
         { 
+            if (ContentGridView.SelectedItems.ToList().Cast<LocalComic>().All(x => x.IsFolder))
+            {
+                DeleteComics();
+            }
+            else
+            {
+                if (Config.IsRememberDeleteFilesWithComicDelete)
+                {
+                    DeleteComics();
+                }
+                else
+                {
+                    DeleteMessageDialog();
+                }
+            }
+            
+        }
+        /// <summary>
+        /// Ö´ÐÐÉ¾³ýÂþ»­²Ù×÷
+        /// </summary>
+        private void DeleteComics()
+        {
             foreach (LocalComic comic in ContentGridView.SelectedItems.ToList())
             {
-                if (Config.IsDeleteFilesWithComicDelete&& !comic.IsTemp)
+                if (Config.IsDeleteFilesWithComicDelete && !comic.IsTemp && !comic.IsFolder)
                 {
                     comic.Link.DeleteDirectory();
                 }
                 ViewModel.LocalComics.Remove(comic);
             }
         }
+        /// <summary>
+        /// ¸´Ñ¡¿ò-¼Ç×¡Ñ¡Ôñ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Remember_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox box = sender as CheckBox;
             Config.IsRememberDeleteFilesWithComicDelete = (bool)box.IsChecked;
         }
-
+        /// <summary>
+        /// ¸´Ñ¡¿ò-Ò»ÆðÉ¾³ý»º´æÎÄ¼þ
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteFiles_Checked(object sender, RoutedEventArgs e)
         {
             CheckBox box = sender as CheckBox;
             Config.IsDeleteFilesWithComicDelete = (bool)box.IsChecked;
+        }
+        /// <summary>
+        /// °´¼üÏìÓ¦
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GridViewOnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            GridView view = sender as GridView;
+            if (e.Key == VirtualKey.A && WindowHelper.GetWindowForXamlRoot(XamlRoot).CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
+            {
+                foreach(LocalComic comic in view.ItemsSource as ObservableCollection<LocalComic>)
+                {
+                    view.SelectedItems.Add(comic);
+                }
+            }
+            else if(e.Key == VirtualKey.Delete)
+            {
+                Delete();
+            }
         }
     }
 }
