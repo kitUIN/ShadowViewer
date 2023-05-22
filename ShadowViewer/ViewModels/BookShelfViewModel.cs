@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="folder">The folder.</param>
         /// <param name="parent">The parent.</param>
-        public async Task ImportComicsAsync(StorageFolder folder, string id = null)
+        public async Task ImportComicsAsync(StorageFolder folder)
         {
             ShadowFile file = await ShadowFile.Create(folder);
             List<ShadowFile> two = ShadowFile.GetDepthFiles(file, 2);
@@ -36,7 +36,7 @@
                 img = file2.Children.FirstOrDefault(x => x.Self is StorageFile f && f.IsPic());
                 if (img != null) break;
             }
-            LocalComic comic = ComicHelper.CreateComic(((StorageFolder)file.Self).DisplayName, img?.Self.Path ?? @"ms-appx:///Assets/Default/picbroken.png", Path, file.Self.Path, id: id, size: file.Size);
+            LocalComic comic = LocalComic.Create(((StorageFolder)file.Self).DisplayName, file.Self.Path, img: img?.Self.Path, parent: Path, size: file.Size);
             LocalComics.Add(comic);
             ShadowFile.InitLocal(file, comic.Id);
             file.Dispose();

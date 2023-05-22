@@ -11,6 +11,7 @@
         <ScrollViewer KeyDown="ScrollViewer_KeyDown">
             <GridView
                 x:Name="PicViewer"
+                HorizontalAlignment="Center"
                 IsItemClickEnabled="False"
                 ItemsSource="{x:Bind ViewModel.Images, Mode=OneWay}"
                 SelectionMode="None">
@@ -21,7 +22,7 @@
                 </GridView.ItemTemplate>
                 <GridView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
+                        <ItemsWrapGrid MaximumRowsOrColumns="{Binding ViewModel.MaximumRows, Mode=OneWay}" Orientation="Horizontal" />
                     </ItemsPanelTemplate>
                 </GridView.ItemsPanel>
             </GridView>

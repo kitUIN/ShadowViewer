@@ -1,21 +1,27 @@
-﻿namespace ShadowViewer.ViewModels
+﻿using SharpCompress.Common;
+
+namespace ShadowViewer.ViewModels
 {
-    public class PicViewModel
+    public partial class PicViewModel : ObservableObject
     {
+        private static ILogger Logger = Log.ForContext<PicViewModel>();
         public ObservableCollection<BitmapImage> Images { get; set; } = new ObservableCollection<BitmapImage>();
         public LocalComic Comic { get; private set; }
         public List<LocalEpisode> Episodes { get; private set; }
-        private static ILogger Logger = Log.ForContext<PicViewModel>();
-        public PicViewModel(ShadowEntry entry)
+        [ObservableProperty]
+        private int maximumRows = 1;
+        [ObservableProperty]
+        private int imageWidth = 600; 
+        public PicViewModel(ShadowEntry entry) 
         {
             LoadImageFormEntry(entry);
-            Logger.Information("缓存流模式加载图片");
+            Logger.Information("缓存流模式加载图片 {Path}", entry.Path);
         }
-        public PicViewModel(LocalComic comic)
+        public PicViewModel(LocalComic comic) 
         {
             Comic = comic;
             LoadImageFormComic();
-            Logger.Information("本地图片流模式加载图片");
+            Logger.Information("本地图片流模式加载图片 {Path}", comic.Path);
         }
         /// <summary>
         /// 从本地漫画加载图片

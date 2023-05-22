@@ -51,8 +51,6 @@ namespace ShadowViewer.Pages
                 ShowMenu(sender as UIElement, e.GetPosition(sender as UIElement));
             }
         }
-        
-        
         /// <summary>
         /// 右键菜单-新建漫画从文件夹导入
         /// </summary>
@@ -61,7 +59,7 @@ namespace ShadowViewer.Pages
         private async void ShadowCommandAddFromFolder_Click(object sender, RoutedEventArgs e)
         {
 
-            var folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
+            StorageFolder folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
             if (folder != null)
             { 
                 LoadingControl.IsLoading = true;
@@ -78,7 +76,7 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private async void ShadowCommandAddFromZip_Click(object sender, RoutedEventArgs e)
         {
-            var storageFile = await FileHelper.SelectFileAsync(this, ".zip",".rar",".7z");
+            StorageFile storageFile = await FileHelper.SelectFileAsync(this, ".zip",".rar",".7z");
             if (storageFile != null)
             {
                 try
@@ -132,7 +130,6 @@ namespace ShadowViewer.Pages
         private void ShadowCommandDelete_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            
             Delete();
         }
 
@@ -262,11 +259,10 @@ namespace ShadowViewer.Pages
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
         {
             ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.String.CreateFolder.Title"), xamlRoot, "");
-            
             dialog.PrimaryButtonClick += (s, e) =>
             {
                 var name = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
-                ViewModel.LocalComics.Add(ComicHelper.CreateFolder(name, "", parent));
+                ViewModel.LocalComics.Add(ComicHelper.CreateFolder(name,   parent));
                 ViewModel.RefreshLocalComic();
             };
             return dialog;
@@ -493,7 +489,7 @@ namespace ShadowViewer.Pages
         {
             foreach (LocalComic comic in ContentGridView.SelectedItems.ToList())
             {
-                if (Config.IsDeleteFilesWithComicDelete && !comic.IsTemp && !comic.IsFolder)
+                if (Config.IsDeleteFilesWithComicDelete && !comic.IsTemp && !comic.IsFolder && comic.IsFromZip)
                 {
                     comic.Link.DeleteDirectory();
                 }
