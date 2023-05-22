@@ -14,7 +14,11 @@
     <img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer" alt="release">
   </a>
 </p> 
+<div align="center">
+  
 | 模块                                                             | 必须  | 类型      | 备注                    |
 |----------------------------------------------------------------|-----|---------|-----------------------|
 | [ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Core)   | 是   | Nuget  | 核心功能模块 |
 | [ShadowViewer.Plugin.Bika](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) | 否   | Nuget | 插件-哔咔漫画             |
+
+ </div>
