@@ -1,48 +1,85 @@
 ﻿namespace ShadowViewer.Configs
 {
-    public partial class Config: ObservableObject
+    public partial class Config
     {
         private static string container = "ShadowConfig";
-        [ObservableProperty]
-        private string comicsPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Comics");
-        [ObservableProperty]
-        private string tempPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Temps");
-        [ObservableProperty]
-        private bool isDebug = false;
-        private Config(bool debug,string comicsPath):base()
+        public static void ConfigInit()
         {
-            this.isDebug = debug;
-            this.comicsPath = comicsPath;
+            Config config = new Config();
         }
-        private Config() 
+        public Config() 
         {
+            if (!Contains("IsDebug"))
+            {
+                IsDebug = false;
+            }
+            if (!Contains("ComicsPath"))
+            {
+                ComicsPath= Path.Combine(ApplicationData.Current.LocalFolder.Path, "Comics");
+            }
+            if (!Contains("TempPath"))
+            {
+                TempPath=Path.Combine(ApplicationData.Current.LocalFolder.Path, "Temps");
+            }
+            IsDebugEvent();
             ComicsPath.CreateDirectory();
             TempPath.CreateDirectory();
-        }
-        public static Config CreateConfig()
+        } 
+        public static string ComicsPath
         {
-            if(ConfigHelper.Contains(container, "IsDebug"))
-            {
-                return new Config(GetBoolean("IsDebug"), GetString("ComicsPath"));
-            }
-            return new Config();
+            get => GetString("ComicsPath");
+            set => Set("ComicsPath", value);
         }
-        partial void OnComicsPathChanged(string oldValue, string newValue)
+        public static string TempPath
         {
-            if(newValue != oldValue)
-            {
-                Set(nameof(ComicsPath), newValue);
-            }
+            get => GetString("TempPath");
+            set => Set("TempPath", value);
         }
-        
-        partial void OnIsDebugChanged(bool oldValue, bool newValue)
+        public static bool IsDebug
         {
-            if (newValue != oldValue)
-            {
-                Set(nameof(IsDebug), newValue);
+            get =>  GetBoolean("IsDebug");
+            set
+            { 
+                if(IsDebug != value)
+                {
+                    Set("IsDebug", value);
+                    IsDebugEvent();
+                }
             }
         }
-
+        public static bool IsRememberDeleteFilesWithComicDelete
+        {
+            get => GetBoolean("IsRememberDeleteFilesWithComicDelete");
+            set => Set("IsRememberDeleteFilesWithComicDelete", value);
+        }
+        public static bool IsDeleteFilesWithComicDelete
+        {
+            get => GetBoolean("IsDeleteFilesWithComicDelete");
+            set => Set("IsDeleteFilesWithComicDelete", value);
+        }
+        private static void IsDebugEvent()
+        {
+            if(IsDebug)
+            {
+                Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.File(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "ShadowViewer.log"), outputTemplate: "{Timestamp:MM-dd HH:mm:ss.fff} [{Level:u4}] {SourceContext} | {Message:lj} {Exception}{NewLine}", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+                Log.ForContext<Config>().Debug("调试模式开启");
+            }
+            else
+            {
+                Log.ForContext<Config>().Debug("调试模式关闭");
+                Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.File(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "ShadowViewer.log"), outputTemplate: "{Timestamp:MM-dd HH:mm:ss.fff} [{Level:u4}] {SourceContext} | {Message:lj} {Exception}{NewLine}", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+            }
+        }
+        private static bool Contains(string key)
+        {
+            return ConfigHelper.Contains(container, key);
+        }
         private static void Set(string key,object value)
         {
             ConfigHelper.Set(container, key, value);
@@ -57,7 +94,12 @@
         }
         private static bool GetBoolean(string key)
         {
-            return (bool) Get(key);
+            object res = Get(key);
+            if (res== null)
+            {
+                return false;
+            }
+            return (bool)res;
         }
     }
 }

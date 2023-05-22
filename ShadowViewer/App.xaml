@@ -48,6 +48,19 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <!--  These styles can be referenced to create a consistent SettingsPage layout  -->
+            <!--  Spacing between cards  -->
+            <x:Double x:Key="SettingsCardSpacing">3</x:Double>
+
+            <!--  Style (inc. the correct spacing) of a section header  -->
+            <Style
+                x:Key="SettingsSectionHeaderTextBlockStyle"
+                BasedOn="{StaticResource BodyStrongTextBlockStyle}"
+                TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="Margin" Value="1,29,0,5" />
+                </Style.Setters>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

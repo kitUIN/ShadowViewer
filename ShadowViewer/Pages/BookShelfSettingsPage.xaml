@@ -1,0 +1,38 @@
+<Page
+    x:Class="ShadowViewer.Pages.BookShelfSettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:ShadowViewer.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    mc:Ignorable="d">
+
+    <ScrollViewer Padding="20,0,20,0">
+        <Grid>
+            <StackPanel
+                MaxWidth="1000"
+                HorizontalAlignment="Stretch" 
+                Spacing="{StaticResource SettingsCardSpacing}">
+                <win:StackPanel.ChildrenTransitions>
+                    <win:EntranceThemeTransition FromVerticalOffset="50" />
+                    <win:RepositionThemeTransition IsStaggeringEnabled="False" />
+                </win:StackPanel.ChildrenTransitions>
+                <TextBlock x:Uid="Xaml/TextBlock/MainSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <labs:SettingsCard x:Uid="Xaml/SettingCard/RememberDeleteWithFiles">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE80F;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsRememberDeleteFilesWithComicDelete, Mode=TwoWay}" />
+                </labs:SettingsCard>
+                <labs:SettingsCard x:Uid="Xaml/SettingCard/DeleteWithFiles">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE80F;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsDeleteFilesWithComicDelete, Mode=TwoWay}" />
+                </labs:SettingsCard>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

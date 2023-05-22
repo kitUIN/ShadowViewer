@@ -183,6 +183,12 @@
   <data name="Xaml.Button.Log.Content" xml:space="preserve">
     <value>打开日志文件夹</value>
   </data>
+  <data name="Xaml.Button.Open.Content" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="Xaml.Button.Revise.Content" xml:space="preserve">
+    <value>修改</value>
+  </data>
   <data name="Xaml.Button.Temp.Content" xml:space="preserve">
     <value>临时</value>
   </data>
@@ -255,11 +261,47 @@
   <data name="Xaml.NavigationViewItem.User.Content" xml:space="preserve">
     <value>用户</value>
   </data>
-  <data name="Xaml.SettingCard.Log.Description" xml:space="preserve">
-    <value>查看日志</value>
+  <data name="Xaml.SettingCard.Cache.Description" xml:space="preserve">
+    <value>缓存文件夹设置</value>
+  </data>
+  <data name="Xaml.SettingCard.Cache.Header" xml:space="preserve">
+    <value>缓存设置</value>
+  </data>
+  <data name="Xaml.SettingCard.ComicsPath.Description" xml:space="preserve">
+    <value>存放缓存的漫画</value>
+  </data>
+  <data name="Xaml.SettingCard.ComicsPath.Header" xml:space="preserve">
+    <value>漫画文件夹</value>
+  </data>
+  <data name="Xaml.SettingCard.Debug.Description" xml:space="preserve">
+    <value>将影响一些事件的运行</value>
+  </data>
+  <data name="Xaml.SettingCard.Debug.Header" xml:space="preserve">
+    <value>调试模式</value>
+  </data>
+  <data name="Xaml.SettingCard.DeleteWithFiles.Header" xml:space="preserve">
+    <value>删除漫画时是否删除缓存文件</value>
+  </data>
+  <data name="Xaml.SettingCard.Developer.Description" xml:space="preserve">
+    <value>开发或改进功能所需的部分设置</value>
+  </data>
+  <data name="Xaml.SettingCard.Developer.Header" xml:space="preserve">
+    <value>开发者工具</value>
+  </data>
+  <data name="Xaml.SettingCard.Home.Header" xml:space="preserve">
+    <value>书架设置</value>
   </data>
   <data name="Xaml.SettingCard.Log.Header" xml:space="preserve">
     <value>日志</value>
+  </data>
+  <data name="Xaml.SettingCard.RememberDeleteWithFiles.Header" xml:space="preserve">
+    <value>删除漫画时是否二次确定</value>
+  </data>
+  <data name="Xaml.SettingCard.TempPath.Description" xml:space="preserve">
+    <value>存放一些临时文件</value>
+  </data>
+  <data name="Xaml.SettingCard.TempPath.Header" xml:space="preserve">
+    <value>临时文件夹</value>
   </data>
   <data name="Xaml.SettingCard.Theme.Description" xml:space="preserve">
     <value>设置应用的主题</value>
@@ -333,6 +375,9 @@
   </data>
   <data name="Xaml.TextBlock.MainSettingTitle.Text" xml:space="preserve">
     <value>主要设置</value>
+  </data>
+  <data name="Xaml.TextBlock.PageSettingTitle.Text" xml:space="preserve">
+    <value>页面设置</value>
   </data>
   <data name="Xaml.TextBlock.PluginSettingTitle.Text" xml:space="preserve">
     <value>插件设置</value>

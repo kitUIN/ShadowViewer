@@ -28,6 +28,7 @@
     <None Remove="Assets\Default\folder.png" />
     <None Remove="MainPage.xaml" />
     <None Remove="Pages\BookShelfPage.xaml" />
+    <None Remove="Pages\BookShelfSettingsPage.xaml" />
     <None Remove="Pages\ComicPage.xaml" />
     <None Remove="Pages\NavigationPage.xaml" />
     <None Remove="Pages\PicPage.xaml" />
@@ -69,6 +70,11 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
     <ProjectReference Include="..\..\ShadowViewer.Plguin.Bika\ShadowViewer.Plugin.Bika.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\BookShelfSettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\PicPage.xaml">

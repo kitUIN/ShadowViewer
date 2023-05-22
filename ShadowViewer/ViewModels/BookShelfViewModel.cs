@@ -47,7 +47,7 @@
             {
                 id = Guid.NewGuid().ToString("N");
             }
-            string path = System.IO.Path.Combine(App.Config.ComicsPath, id, storageFile.DisplayName);
+            string path = System.IO.Path.Combine(Config.ComicsPath, id, storageFile.DisplayName);
             var folder = await path.ToStorageFolder();
             await Task.Run(() => {  CompressHelper.DeCompress(storageFile.Path, path); });
             return new Tuple<StorageFolder, string>(folder, id);

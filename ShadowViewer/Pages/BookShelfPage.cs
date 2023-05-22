@@ -91,8 +91,8 @@ namespace ShadowViewer.Pages
                     if (storageFile.IsZip())
                     {
                         LoadingControl.IsLoading = true;
-                        LocalComic comic = await ComicHelper.ImportComicsFromZip(storageFile.Path, App.Config.TempPath);
-                        backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(App.Config.ComicsPath, comic, storageFile.Path))); ;
+                        LocalComic comic = await ComicHelper.ImportComicsFromZip(storageFile.Path, Config.TempPath);
+                        backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(Config.ComicsPath, comic, storageFile.Path))); ;
                         ViewModel.LocalComics.Add(comic);
                     } 
                     LoadingControl.IsLoading = false;

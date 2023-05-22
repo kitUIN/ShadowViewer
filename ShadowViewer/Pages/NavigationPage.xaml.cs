@@ -93,8 +93,8 @@ namespace ShadowViewer.Pages
                     LoadingControl.IsLoading = true;
                     foreach (IStorageItem item2 in item2s)
                     {
-                        LocalComic comic = await ComicHelper.ImportComicsFromZip(item2.Path, App.Config.TempPath);
-                        backgrounds.Add( Task.Run(()=> ComicHelper.EntryToComic(App.Config.ComicsPath, comic, item2.Path)));
+                        LocalComic comic = await ComicHelper.ImportComicsFromZip(item2.Path, Config.TempPath);
+                        backgrounds.Add( Task.Run(()=> ComicHelper.EntryToComic(Config.ComicsPath, comic, item2.Path)));
                     }
                     MessageHelper.SendFilesReload();
                     LoadingControl.IsLoading = false;

@@ -4,25 +4,16 @@ namespace ShadowViewer
 {
 
     public partial class App : Application
-    {
-        public static Config Config { get; set; } 
+    { 
         public App()
         {
-            this.InitializeComponent();
-            Config = Config.CreateConfig();
+            this.InitializeComponent(); 
+            Config.ConfigInit();
             // 文件创建
             _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
-            // log
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .WriteTo.File(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "ShadowViewer.log"), outputTemplate: "{Timestamp:MM-dd HH:mm:ss.fff} [{Level:u4}] {SourceContext} | {Message:lj} {Exception}{NewLine}", rollingInterval: RollingInterval.Day)
-                .CreateLogger();
-            
-            
             // 数据库
             DBHelper.Init(nameof(LocalComic),typeof(LocalComic));
             DBHelper.Init(nameof(ShadowTag), typeof(ShadowTag));
-             
             // 插件
             PluginHelper.Init();
             // 标签数据
