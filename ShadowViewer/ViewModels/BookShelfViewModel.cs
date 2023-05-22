@@ -17,37 +17,14 @@
             Logger.Information("导航到{path},Path={p}", OriginPath, Path);
             RefreshLocalComic();
         }
-        /// <summary>
-        /// 从文件夹导入漫画
-        /// </summary>
-        /// <param name="folder">The folder.</param>
-        /// <param name="parent">The parent.</param>
-        public async Task ImportComicsAsync(StorageFolder folder)
-        {
-            ShadowFile file = await ShadowFile.Create(folder);
-            List<ShadowFile> two = ShadowFile.GetDepthFiles(file, 2);
-            ShadowFile img = null;
-            if (two == null || two.Count == 0)
-            {
-                two = ShadowFile.GetDepthFiles(file, 1);
-            } 
-            foreach (ShadowFile file2 in two)
-            {
-                img = file2.Children.FirstOrDefault(x => x.Self is StorageFile f && f.IsPic());
-                if (img != null) break;
-            }
-            LocalComic comic = LocalComic.Create(((StorageFolder)file.Self).DisplayName, file.Self.Path, img: img?.Self.Path, parent: Path, size: file.Size);
-            LocalComics.Add(comic);
-            ShadowFile.InitLocal(file, comic.Id);
-            file.Dispose();
-        } 
+        
         private void LocalComics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if(e.Action == NotifyCollectionChangedAction.Remove)
             {
                 foreach(LocalComic item in e.OldItems) 
                 {
-                    DBHelper.Remove(item);
+                    item.Remove();
                 }
             }
             else if(e.Action== NotifyCollectionChangedAction.Add)

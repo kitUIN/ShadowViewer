@@ -2,7 +2,6 @@ namespace ShadowViewer.Pages
 {
     public sealed partial class NavigationPage : Page
     {
- 
         public NavigationViewModel ViewModel { get; set; }
         public NavigationPage()
         {

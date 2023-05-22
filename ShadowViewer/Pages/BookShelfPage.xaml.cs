@@ -64,9 +64,9 @@ namespace ShadowViewer.Pages
             { 
                 LoadingControl.IsLoading = true;
                 LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                await ViewModel.ImportComicsAsync(folder);
+                await ComicHelper.ImportComicsFromFolder(folder, parent);
+                ViewModel.RefreshLocalComic();
                 LoadingControl.IsLoading = false;
-                 
             }
         }
         /// <summary>
@@ -88,8 +88,8 @@ namespace ShadowViewer.Pages
                         LoadingControl.IsLoading = true;
                         LocalComic comic = await ComicHelper.ImportComicsFromZip(storageFile.Path, Config.TempPath);
                         backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(Config.ComicsPath, comic, storageFile.Path)));
-                        ViewModel.LocalComics.Add(comic);
-                    } 
+                    }
+                    ViewModel.RefreshLocalComic();
                     LoadingControl.IsLoading = false;
                     await Task.WhenAll(backgrounds);
                     ViewModel.RefreshLocalComic();
@@ -215,7 +215,7 @@ namespace ShadowViewer.Pages
             {
                 if(comic.IsFolder)
                 {
-                    Frame.Navigate(this.GetType(), new Uri(ViewModel.OriginPath, comic.Id));
+                    Frame.Navigate(GetType(), new Uri(ViewModel.OriginPath, comic.Id));
                 }
                 else
                 {
