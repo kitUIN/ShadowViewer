@@ -7,13 +7,14 @@
         public Uri OriginPath { get; private set; }
         public ShadowSorts Sorts { get; set; } = ShadowSorts.RZ;
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
+        private static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
         public BookShelfViewModel(Uri parameter)
         {
             IsActive = true;
             LocalComics.CollectionChanged += LocalComics_CollectionChanged;
             OriginPath = parameter;
             Path = parameter.AbsolutePath.Split(new char[] { '/', }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? parameter.Host;
-            Log.ForContext<BookShelfPage>().Information("导航到{path},Path={p}", OriginPath, Path);
+            Logger.Information("导航到{path},Path={p}", OriginPath, Path);
             RefreshLocalComic();
         }
         /// <summary>
@@ -21,37 +22,25 @@
         /// </summary>
         /// <param name="folder">The folder.</param>
         /// <param name="parent">The parent.</param>
-        public async Task ImportComicsAsync(StorageFolder folder,   string id = null)
+        public async Task ImportComicsAsync(StorageFolder folder, string id = null)
         {
-            var file = await ShadowFile.Create(folder);
-            string img = null;
-            if (file.Depth > 2)
+            ShadowFile file = await ShadowFile.Create(folder);
+            List<ShadowFile> two = ShadowFile.GetDepthFiles(file, 2);
+            ShadowFile img = null;
+            if (two == null || two.Count == 0)
             {
-                while (file.Depth > 2)
-                {
-                    file = file.Children.FirstOrDefault(x => x.Self is StorageFolder);
-                }
-            }
-            img = file.Children.FirstOrDefault(x => x.Self is StorageFile f && f.IsPic())?.Self.Path ?? "";
-            LocalComics.Add(ComicHelper.CreateComic(((StorageFolder)file.Self).DisplayName, img, Path, file.Self.Path, id: id, size: file.Size));
-        }
-        /// <summary>
-        /// 导入前先解压
-        /// </summary>
-        /// <param name="storageFile">The storage file.</param>
-        /// <returns></returns>
-        public async Task<Tuple<StorageFolder, string>> ImportZipCompress(StorageFile storageFile)
-        {
-            string id = Guid.NewGuid().ToString("N");
-            while (DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == id))
+                two = ShadowFile.GetDepthFiles(file, 1);
+            } 
+            foreach (ShadowFile file2 in two)
             {
-                id = Guid.NewGuid().ToString("N");
+                img = file2.Children.FirstOrDefault(x => x.Self is StorageFile f && f.IsPic());
+                if (img != null) break;
             }
-            string path = System.IO.Path.Combine(Config.ComicsPath, id, storageFile.DisplayName);
-            var folder = await path.ToStorageFolder();
-            await Task.Run(() => {  CompressHelper.DeCompress(storageFile.Path, path); });
-            return new Tuple<StorageFolder, string>(folder, id);
-        }
+            LocalComic comic = ComicHelper.CreateComic(((StorageFolder)file.Self).DisplayName, img?.Self.Path ?? @"ms-appx:///Assets/Default/picbroken.png", Path, file.Self.Path, id: id, size: file.Size);
+            LocalComics.Add(comic);
+            ShadowFile.InitLocal(file, comic.Id);
+            file.Dispose();
+        } 
         private void LocalComics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if(e.Action == NotifyCollectionChangedAction.Remove)

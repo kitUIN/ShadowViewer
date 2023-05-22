@@ -13,6 +13,9 @@ namespace ShadowViewer
             _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
             // 数据库
             DBHelper.Init(nameof(LocalComic),typeof(LocalComic));
+            DBHelper.Init(nameof(LocalEpisode), typeof(LocalEpisode));
+            DBHelper.Init(nameof(LocalPicture), typeof(LocalPicture));
+            DBHelper.Init(nameof(ShadowTag), typeof(ShadowTag));
             DBHelper.Init(nameof(ShadowTag), typeof(ShadowTag));
             // 插件
             PluginHelper.Init();

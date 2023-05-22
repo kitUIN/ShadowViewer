@@ -230,12 +230,12 @@ namespace ShadowViewer.Pages
                             LocalComic temp = await ComicHelper.ImportComicsFromZip(comic.Link, Config.TempPath);
                             backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(Config.ComicsPath, comic, comic.Link)));
                         } 
-                        Frame.Navigate(typeof(PicPage), ComicHelper.Entrys[comic.Link]);
+                        Frame.Navigate(typeof(PicPage), ComicHelper.Entrys[comic.Link], new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                         await Task.WhenAll(backgrounds);
                     }
                     else
                     {
-
+                        Frame.Navigate(typeof(PicPage), comic, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                     }
                 }
             }
@@ -540,12 +540,20 @@ namespace ShadowViewer.Pages
                 Delete();
             }
         }
-
+        /// <summary>
+        /// 菜单按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             ShowMenu(sender as UIElement);
         }
-
+        /// <summary>
+        /// 书架设置
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });

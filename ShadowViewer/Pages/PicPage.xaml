@@ -9,18 +9,27 @@
 
     <Grid>
         <ScrollViewer KeyDown="ScrollViewer_KeyDown">
-            <ItemsRepeater x:Name="PicViewer" ItemsSource="{x:Bind Images}">
-                <ItemsRepeater.ItemTemplate>
+            <GridView
+                x:Name="PicViewer"
+                IsItemClickEnabled="False"
+                ItemsSource="{x:Bind ViewModel.Images, Mode=OneWay}"
+                SelectionMode="None">
+                <GridView.ItemTemplate>
                     <DataTemplate x:DataType="BitmapImage">
-                        <Image Width="500" Source="{x:Bind}" />
+                        <Image Width="600" Source="{x:Bind}" />
                     </DataTemplate>
-                </ItemsRepeater.ItemTemplate>
-            </ItemsRepeater>
+                </GridView.ItemTemplate>
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid MaximumRowsOrColumns="1" Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+            </GridView>
         </ScrollViewer>
         <Grid HorizontalAlignment="Center" VerticalAlignment="Bottom">
             <Slider
                 Width="500"
-                Maximum="{x:Bind Images.Count, Mode=OneWay}"
+                Maximum="{x:Bind ViewModel.Images.Count, Mode=OneWay}"
                 Minimum="1"
                 SmallChange="1"
                 StepFrequency="1"
