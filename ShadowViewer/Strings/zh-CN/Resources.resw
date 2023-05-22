@@ -418,6 +418,12 @@
   <data name="Xaml.TextBlock.TagPreview.Text" xml:space="preserve">
     <value>标签预览:</value>
   </data>
+  <data name="Xaml.TextBlock.Teaching.BookShelfDetailFalse.Text" xml:space="preserve">
+    <value>关闭时,按钮将只显示图标:</value>
+  </data>
+  <data name="Xaml.TextBlock.Teaching.BookShelfDetailTrue.Text" xml:space="preserve">
+    <value>开启时,按钮将显示具体名称:</value>
+  </data>
   <data name="Xaml.ToggleSwitch.BookShelfMenuShow.OffContent" xml:space="preserve">
     <value>右键显示菜单</value>
   </data>

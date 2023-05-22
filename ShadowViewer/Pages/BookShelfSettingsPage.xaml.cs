@@ -9,5 +9,10 @@ namespace ShadowViewer.Pages
             this.InitializeComponent();
             ViewModel = new BookShelfSettingsViewModel();
         }
+
+        private void BookShelfDetailButton_Click(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
     }
 }
