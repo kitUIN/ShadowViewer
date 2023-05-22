@@ -21,14 +21,16 @@ namespace ShadowViewer.Pages
         /// <param name="sender">The sender.</param>
         /// <param name="isComicBook">if set to <c>true</c> [is comic book].</param>
         /// <param name="isSingle">if set to <c>true</c> [is single].</param>
-        /// <param name="isFolder">if set to <c>true</c> [is folder].</param>
-        private void ShowMenu(Point position, UIElement sender, bool isComicBook, bool isSingle, bool isFolder)
+        private void ShowMenu(UIElement sender, Point position = default)
         {
+            bool isComicBook = ContentGridView.SelectedItems.Count > 0;
+            bool isSingle = ContentGridView.SelectedItems.Count == 1;
             FlyoutShowOptions myOption = new FlyoutShowOptions()
             {
                 ShowMode = FlyoutShowMode.Standard,
-                Position = position
+                
             };
+            if (position != default) myOption.Position = position;
             ShadowCommandRename.IsEnabled = isComicBook & isSingle;
             ShadowCommandDelete.IsEnabled = isComicBook;
             ShadowCommandMove.IsEnabled = isComicBook;
@@ -36,7 +38,7 @@ namespace ShadowViewer.Pages
             ShadowCommandNewFolder.IsEnabled = ViewModel.Path == "local";
             ShadowCommandStatus.IsEnabled = isComicBook & isSingle;
             HomeCommandBarFlyout.ShowAt(sender, myOption);
-        }
+        } 
         /// <summary>
         /// 右键菜单
         /// </summary>
@@ -44,18 +46,10 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="RightTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void Root_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            bool isComicBook = false;
-            bool isSingle = false;
-            bool isFolder = false;
-            if (ContentGridView.SelectedItems.Count > 0)
-            {
-                isComicBook = true;
+            if (!Config.IsBookShelfMenuShow)
+            { 
+                ShowMenu(sender as UIElement, e.GetPosition(sender as UIElement));
             }
-            if (ContentGridView.SelectedItems.Count == 1)
-            {
-                isSingle = true;
-            }
-            ShowMenu(e.GetPosition(sender as UIElement), sender as UIElement, isComicBook, isSingle, isFolder);
         }
         
         
@@ -273,6 +267,7 @@ namespace ShadowViewer.Pages
             {
                 var name = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
                 ViewModel.LocalComics.Add(ComicHelper.CreateFolder(name, "", parent));
+                ViewModel.RefreshLocalComic();
             };
             return dialog;
         }
@@ -421,13 +416,16 @@ namespace ShadowViewer.Pages
             ViewModel.RefreshLocalComic();
         }
         /// <summary>
-        /// 排序框初始化
+        /// 排序框,菜单框,工具栏详细信息初始化
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void SortButton_Loaded(object sender, RoutedEventArgs e)
         {
             SortText.Text = I18nHelper.GetString("Xaml/MenuFlyoutItem/RZ/Text");
+            MenuButton.Visibility = Config.IsBookShelfMenuShow ? Visibility.Visible : Visibility.Collapsed;
+            Visibility detail = Config.IsBookShelfDetailShow ? Visibility.Visible : Visibility.Collapsed;
+            MenuText.Visibility = FilterText.Visibility = SettingsText.Visibility =  detail;
         }
         
         /// <summary>
@@ -542,5 +540,16 @@ namespace ShadowViewer.Pages
                 Delete();
             }
         }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowMenu(sender as UIElement);
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+        }
     }
+
 }

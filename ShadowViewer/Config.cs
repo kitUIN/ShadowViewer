@@ -1,69 +1,80 @@
-﻿namespace ShadowViewer.Configs
+﻿using Microsoft.UI.Xaml.Shapes;
+
+namespace ShadowViewer.Configs
 {
-    public partial class Config
-    {
-        private static string container = "ShadowConfig";
+    public class Config
+    { 
         public static void ConfigInit()
         {
             Config config = new Config();
         }
         public Config() 
         {
-            if (!Contains("IsDebug"))
-            {
-                IsDebug = false;
-            }
-            if (!Contains("ComicsPath"))
+            if (!ConfigHelper.Contains("ComicsPath"))
             {
                 ComicsPath= Path.Combine(ApplicationData.Current.LocalFolder.Path, "Comics");
             }
-            if (!Contains("TempPath"))
+            if (!ConfigHelper.Contains("TempPath"))
             {
-                TempPath=Path.Combine(ApplicationData.Current.LocalFolder.Path, "Temps");
-            }
+                TempPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Temps");
+            } 
+            if (!ConfigHelper.Contains("IsBookShelfDetailShow"))
+            {
+                IsBookShelfDetailShow = true;
+            } 
             IsDebugEvent();
             ComicsPath.CreateDirectory();
             TempPath.CreateDirectory();
         } 
         public static string ComicsPath
         {
-            get => GetString("ComicsPath");
-            set => Set("ComicsPath", value);
+            get => ConfigHelper.GetString("ComicsPath");
+            set => ConfigHelper.Set("ComicsPath", value);
         }
         public static string TempPath
         {
-            get => GetString("TempPath");
-            set => Set("TempPath", value);
+            get => ConfigHelper.GetString("TempPath");
+            set => ConfigHelper.Set("TempPath", value);
         }
         public static bool IsDebug
         {
-            get =>  GetBoolean("IsDebug");
+            get => ConfigHelper.GetBoolean("IsDebug");
             set
             { 
                 if(IsDebug != value)
                 {
-                    Set("IsDebug", value);
+                    ConfigHelper.Set("IsDebug", value);
                     IsDebugEvent();
                 }
             }
         }
         public static bool IsRememberDeleteFilesWithComicDelete
         {
-            get => GetBoolean("IsRememberDeleteFilesWithComicDelete");
-            set => Set("IsRememberDeleteFilesWithComicDelete", value);
+            get => ConfigHelper.GetBoolean("IsRememberDeleteFilesWithComicDelete");
+            set => ConfigHelper.Set("IsRememberDeleteFilesWithComicDelete", value);
         }
         public static bool IsDeleteFilesWithComicDelete
         {
-            get => GetBoolean("IsDeleteFilesWithComicDelete");
-            set => Set("IsDeleteFilesWithComicDelete", value);
+            get => ConfigHelper.GetBoolean("IsDeleteFilesWithComicDelete");
+            set => ConfigHelper.Set("IsDeleteFilesWithComicDelete", value);
+        }
+        public static bool IsBookShelfMenuShow
+        {
+            get => ConfigHelper.GetBoolean("IsBookShelfMenuShow");
+            set => ConfigHelper.Set("IsBookShelfMenuShow", value);
+        }
+        public static bool IsBookShelfDetailShow
+        {
+            get => ConfigHelper.GetBoolean("IsBookShelfDetailShow");
+            set => ConfigHelper.Set("IsBookShelfDetailShow", value);
         }
         private static void IsDebugEvent()
         {
             if(IsDebug)
-            {
+            { 
                 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
-                .WriteTo.File(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "ShadowViewer.log"), outputTemplate: "{Timestamp:MM-dd HH:mm:ss.fff} [{Level:u4}] {SourceContext} | {Message:lj} {Exception}{NewLine}", rollingInterval: RollingInterval.Day)
+                .WriteTo.File(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "ShadowViewer.log"), outputTemplate: "{Timestamp:MM-dd HH:mm:ss.fff} [{Level:u4}] {SourceContext} | {Message:lj} {Exception}{NewLine}", rollingInterval: RollingInterval.Day, shared:true)
                 .CreateLogger();
                 Log.ForContext<Config>().Debug("调试模式开启");
             }
@@ -72,34 +83,10 @@
                 Log.ForContext<Config>().Debug("调试模式关闭");
                 Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
-                .WriteTo.File(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "ShadowViewer.log"), outputTemplate: "{Timestamp:MM-dd HH:mm:ss.fff} [{Level:u4}] {SourceContext} | {Message:lj} {Exception}{NewLine}", rollingInterval: RollingInterval.Day)
+                .WriteTo.File(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs", "ShadowViewer.log"), outputTemplate: "{Timestamp:MM-dd HH:mm:ss.fff} [{Level:u4}] {SourceContext} | {Message:lj} {Exception}{NewLine}", rollingInterval: RollingInterval.Day, shared: true)
                 .CreateLogger();
             }
-        }
-        private static bool Contains(string key)
-        {
-            return ConfigHelper.Contains(container, key);
-        }
-        private static void Set(string key,object value)
-        {
-            ConfigHelper.Set(container, key, value);
-        }
-        private static object Get(string key)
-        {
-            return ConfigHelper.Get(container, key);
-        }
-        private static string GetString(string key)
-        {
-            return (string) Get(key);
-        }
-        private static bool GetBoolean(string key)
-        {
-            object res = Get(key);
-            if (res== null)
-            {
-                return false;
-            }
-            return (bool)res;
-        }
+        } 
+        
     }
 }

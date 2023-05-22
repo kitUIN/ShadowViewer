@@ -1,6 +1,3 @@
-<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
-<!--  Licensed under the MIT License.  -->
-
 <Page
     x:Class="ShadowViewer.Pages.BookShelfPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -60,7 +57,7 @@
                                 Click="ShadowCommandAddNewFolder_Click"
                                 Icon="NewFolder">
                                 <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="ShadowCommandNewFolderToolTip" />
+                                    <ToolTip x:Uid="Xaml/ToolTip/NewFolder" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -233,11 +230,36 @@
                 Margin="20,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Orientation="Horizontal">
-                <Button>
-                    <FontIcon FontSize="16" Glyph="&#xE71C;" />
-
+                Orientation="Horizontal"
+                Spacing="10">
+                <Button Height="32">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Filter" />
+                    </ToolTipService.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="17" Glyph="&#xE71C;" />
+                        <TextBlock
+                            x:Name="FilterText"
+                            x:Uid="Xaml/TextBlock/Filter"
+                            Margin="5,0,0,0" />
+                    </StackPanel>
                 </Button>
+                <Button
+                    x:Name="MenuButton"
+                    Height="32"
+                    Click="MenuButton_Click">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Menu" />
+                    </ToolTipService.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="17" Glyph="&#xEDE3;" />
+                        <TextBlock
+                            x:Name="MenuText"
+                            x:Uid="Xaml/TextBlock/Menu"
+                            Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+
             </StackPanel>
             <StackPanel
                 Margin="0,0,20,0"
@@ -245,19 +267,33 @@
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
+                <Button
+                    x:Name="SettingsButton"
+                    Height="32"
+                    Click="SettingsButton_Click">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Settings" />
+                    </ToolTipService.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="17" Glyph="&#xE713;" />
+                        <TextBlock
+                            x:Name="SettingsText"
+                            x:Uid="Xaml/TextBlock/Settings"
+                            Margin="5,0,0,0" />
+                    </StackPanel>
 
+                </Button>
                 <DropDownButton x:Name="SortButton" Loaded="SortButton_Loaded">
                     <DropDownButton.Content>
-                        <StackPanel Orientation="Horizontal" Spacing="5">
+                        <StackPanel Orientation="Horizontal">
                             <FontIcon FontSize="17" Glyph="&#xE8CB;" />
-                            <TextBlock x:Name="SortText" />
+                            <TextBlock x:Name="SortText" Margin="5,0,0,0" />
                         </StackPanel>
                     </DropDownButton.Content>
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Sort" />
                     </ToolTipService.ToolTip>
                     <DropDownButton.Flyout>
-
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem
                                 x:Uid="Xaml/MenuFlyoutItem/PA"

@@ -32,6 +32,23 @@
                     </labs:SettingsCard.HeaderIcon>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsDeleteFilesWithComicDelete, Mode=TwoWay}" />
                 </labs:SettingsCard>
+                <labs:SettingsCard x:Uid="Xaml/SettingCard/BookShelfMenuShow">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEDE3;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/BookShelfMenuShow" IsOn="{x:Bind ViewModel.IsBookShelfMenuShow, Mode=TwoWay}" />
+                </labs:SettingsCard>
+                <labs:SettingsCard x:Uid="Xaml/SettingCard/BookShelfDetailShow">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE76F;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <HyperlinkButton VerticalAlignment="Center">
+                            <FontIcon VerticalAlignment="Center" Glyph="&#xE783;" />
+                        </HyperlinkButton>
+                        <ToggleSwitch IsOn="{x:Bind ViewModel.IsBookShelfDetailShow, Mode=TwoWay}" />
+                    </StackPanel>
+                </labs:SettingsCard>
             </StackPanel>
         </Grid>
     </ScrollViewer>

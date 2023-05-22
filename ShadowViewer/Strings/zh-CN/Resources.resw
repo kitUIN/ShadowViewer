@@ -270,6 +270,18 @@
   <data name="Xaml.NavigationViewItem.User.Content" xml:space="preserve">
     <value>用户</value>
   </data>
+  <data name="Xaml.SettingCard.BookShelfDetailShow.Description" xml:space="preserve">
+    <value>工具栏图标是否添加文字说明</value>
+  </data>
+  <data name="Xaml.SettingCard.BookShelfDetailShow.Header" xml:space="preserve">
+    <value>工具栏是否显示详细内容</value>
+  </data>
+  <data name="Xaml.SettingCard.BookShelfMenuShow.Description" xml:space="preserve">
+    <value>右键菜单/顶部菜单</value>
+  </data>
+  <data name="Xaml.SettingCard.BookShelfMenuShow.Header" xml:space="preserve">
+    <value>书架菜单显示方式</value>
+  </data>
   <data name="Xaml.SettingCard.Cache.Description" xml:space="preserve">
     <value>缓存文件夹设置</value>
   </data>
@@ -376,6 +388,9 @@
   <data name="Xaml.TextBlock.FileName.Text" xml:space="preserve">
     <value>名称:</value>
   </data>
+  <data name="Xaml.TextBlock.Filter.Text" xml:space="preserve">
+    <value>筛选</value>
+  </data>
   <data name="Xaml.TextBlock.ForegroundColor.Text" xml:space="preserve">
     <value>字体颜色:</value>
   </data>
@@ -385,17 +400,29 @@
   <data name="Xaml.TextBlock.MainSettingTitle.Text" xml:space="preserve">
     <value>主要设置</value>
   </data>
+  <data name="Xaml.TextBlock.Menu.Text" xml:space="preserve">
+    <value>菜单</value>
+  </data>
   <data name="Xaml.TextBlock.PageSettingTitle.Text" xml:space="preserve">
     <value>页面设置</value>
   </data>
   <data name="Xaml.TextBlock.PluginSettingTitle.Text" xml:space="preserve">
     <value>插件设置</value>
   </data>
+  <data name="Xaml.TextBlock.Settings.Text" xml:space="preserve">
+    <value>书架设置</value>
+  </data>
   <data name="Xaml.TextBlock.TagName.Text" xml:space="preserve">
     <value>标签名称:</value>
   </data>
   <data name="Xaml.TextBlock.TagPreview.Text" xml:space="preserve">
     <value>标签预览:</value>
+  </data>
+  <data name="Xaml.ToggleSwitch.BookShelfMenuShow.OffContent" xml:space="preserve">
+    <value>右键显示菜单</value>
+  </data>
+  <data name="Xaml.ToggleSwitch.BookShelfMenuShow.OnContent" xml:space="preserve">
+    <value>顶部显示菜单</value>
   </data>
   <data name="Xaml.ToolTip.Add.Content" xml:space="preserve">
     <value>新建</value>
@@ -412,6 +439,12 @@
   <data name="Xaml.ToolTip.Delete.Content" xml:space="preserve">
     <value>删除</value>
   </data>
+  <data name="Xaml.ToolTip.Filter.Content" xml:space="preserve">
+    <value>筛选</value>
+  </data>
+  <data name="Xaml.ToolTip.Menu.Content" xml:space="preserve">
+    <value>菜单</value>
+  </data>
   <data name="Xaml.ToolTip.Move.Content" xml:space="preserve">
     <value>移动到</value>
   </data>
@@ -423,6 +456,9 @@
   </data>
   <data name="Xaml.ToolTip.Rename.Content" xml:space="preserve">
     <value>重命名</value>
+  </data>
+  <data name="Xaml.ToolTip.Settings.Content" xml:space="preserve">
+    <value>设置</value>
   </data>
   <data name="Xaml.ToolTip.Sort.Content" xml:space="preserve">
     <value>排序</value>
