@@ -13,6 +13,7 @@ global using ShadowViewer.Messages;
 global using ShadowViewer.ViewModels;
 global using ShadowViewer.Models;
 global using ShadowViewer.Utils;
+global using ShadowViewer.Cache;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using System.Collections.ObjectModel;
 global using Microsoft.Windows.ApplicationModel.Resources;

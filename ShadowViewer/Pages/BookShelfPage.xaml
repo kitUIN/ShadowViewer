@@ -12,6 +12,8 @@
     mc:Ignorable="d">
     <Page.Resources>
         <x:Double x:Key="InfoTextSize">12</x:Double>
+        <x:Double x:Key="InfoIconSize">17</x:Double>
+        <x:Double x:Key="InfoButtonHeight">32</x:Double>
         <CommandBarFlyout
             x:Name="HomeCommandBarFlyout"
             AlwaysExpanded="True"
@@ -275,12 +277,12 @@
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
-                <Button Height="32">
+                <Button Height="{StaticResource InfoButtonHeight}">
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Filter" />
                     </ToolTipService.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <FontIcon FontSize="17" Glyph="&#xE71C;" />
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE71C;" />
                         <TextBlock
                             x:Name="FilterText"
                             x:Uid="Xaml/TextBlock/Filter"
@@ -289,13 +291,13 @@
                 </Button>
                 <Button
                     x:Name="HistoryButton"
-                    Height="32"
+                    Height="{StaticResource InfoButtonHeight}"
                     Click="HistoryButton_Click">
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/History" />
                     </ToolTipService.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <FontIcon FontSize="17" Glyph="&#xE81C;" />
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE81C;" />
                         <TextBlock
                             x:Name="HistoryText"
                             x:Uid="Xaml/TextBlock/History"
@@ -304,13 +306,13 @@
                 </Button>
                 <Button
                     x:Name="MenuButton"
-                    Height="32"
+                    Height="{StaticResource InfoButtonHeight}"
                     Click="MenuButton_Click">
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Menu" />
                     </ToolTipService.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <FontIcon FontSize="17" Glyph="&#xEDE3;" />
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xEDE3;" />
                         <TextBlock
                             x:Name="MenuText"
                             x:Uid="Xaml/TextBlock/Menu"
@@ -326,23 +328,26 @@
                 Spacing="10">
                 <Button
                     x:Name="SettingsButton"
-                    Height="32"
+                    Height="{StaticResource InfoButtonHeight}"
                     Click="SettingsButton_Click">
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Settings" />
                     </ToolTipService.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <FontIcon FontSize="17" Glyph="&#xE713;" />
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE713;" />
                         <TextBlock
                             x:Name="SettingsText"
                             x:Uid="Xaml/TextBlock/Settings"
                             Margin="5,0,0,0" />
                     </StackPanel>
                 </Button>
-                <DropDownButton x:Name="SortButton" Loaded="Controls_Loaded">
+                <DropDownButton
+                    x:Name="SortButton"
+                    Height="{StaticResource InfoButtonHeight}"
+                    Loaded="Controls_Loaded">
                     <DropDownButton.Content>
                         <StackPanel Orientation="Horizontal">
-                            <FontIcon FontSize="17" Glyph="&#xE8CB;" />
+                            <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE8CB;" />
                             <TextBlock x:Name="SortText" Margin="5,0,0,0" />
                         </StackPanel>
                     </DropDownButton.Content>
