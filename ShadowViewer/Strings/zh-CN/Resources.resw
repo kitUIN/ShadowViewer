@@ -397,6 +397,9 @@
   <data name="Xaml.TextBlock.GroupStatus.Text" xml:space="preserve">
     <value>汉化组:</value>
   </data>
+  <data name="Xaml.TextBlock.History.Text" xml:space="preserve">
+    <value>浏览记录</value>
+  </data>
   <data name="Xaml.TextBlock.MainSettingTitle.Text" xml:space="preserve">
     <value>主要设置</value>
   </data>
@@ -450,6 +453,9 @@
   </data>
   <data name="Xaml.ToolTip.Filter.Content" xml:space="preserve">
     <value>筛选</value>
+  </data>
+  <data name="Xaml.ToolTip.History.Content" xml:space="preserve">
+    <value>浏览记录</value>
   </data>
   <data name="Xaml.ToolTip.Menu.Content" xml:space="preserve">
     <value>菜单</value>

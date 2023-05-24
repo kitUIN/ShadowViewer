@@ -412,16 +412,16 @@ namespace ShadowViewer.Pages
             ViewModel.RefreshLocalComic();
         }
         /// <summary>
-        /// �����,�˵���,��������ϸ��Ϣ��ʼ��
+        /// 控件初始化
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SortButton_Loaded(object sender, RoutedEventArgs e)
+        private void Controls_Loaded(object sender, RoutedEventArgs e)
         {
             SortText.Text = I18nHelper.GetString("Xaml/MenuFlyoutItem/RZ/Text");
             MenuButton.Visibility = Config.IsBookShelfMenuShow ? Visibility.Visible : Visibility.Collapsed;
             Visibility detail = Config.IsBookShelfDetailShow ? Visibility.Visible : Visibility.Collapsed;
-            MenuText.Visibility = FilterText.Visibility = SettingsText.Visibility =  detail;
+            MenuText.Visibility = FilterText.Visibility = SettingsText.Visibility = HistoryText.Visibility = detail;
         }
         
         /// <summary>
@@ -553,6 +553,11 @@ namespace ShadowViewer.Pages
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+        }
+
+        private void HistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 
