@@ -1,3 +1,5 @@
+using Microsoft.UI.Xaml.Controls;
+using ShadowViewer.Helpers;
 using System.Linq;
 using Windows.UI.Core;
 
@@ -419,9 +421,10 @@ namespace ShadowViewer.Pages
         private void Controls_Loaded(object sender, RoutedEventArgs e)
         {
             SortText.Text = I18nHelper.GetString("Xaml/MenuFlyoutItem/RZ/Text");
-            MenuButton.Visibility = Config.IsBookShelfMenuShow ? Visibility.Visible : Visibility.Collapsed;
-            Visibility detail = Config.IsBookShelfDetailShow ? Visibility.Visible : Visibility.Collapsed;
-            MenuText.Visibility = FilterText.Visibility = SettingsText.Visibility = HistoryText.Visibility = detail;
+            MenuButton.Visibility = Config.IsBookShelfMenuShow.ToVisibility();
+            MenuText.Visibility = FilterText.Visibility = SettingsText.Visibility = HistoryText.Visibility = Config.IsBookShelfDetailShow.ToVisibility();
+            SelectionPanel.Visibility = Visibility.Collapsed;
+            ShelfInfo.Visibility = Config.IsBookShelfInfoBar.ToVisibility();
         }
         
         /// <summary>
@@ -558,6 +561,27 @@ namespace ShadowViewer.Pages
         private void HistoryButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+        /// <summary>
+        /// 选中响应更改信息栏
+        /// </summary> 
+        private void ContentGridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(ContentGridView.SelectedItems.Count > 0 )
+            {
+                SelectionPanel.Visibility = Visibility.Visible;
+                long size = 0;
+                foreach( LocalComic item in ContentGridView.SelectedItems)
+                {
+                    size += item.Size;
+                }
+                SelectionValue.Text = ContentGridView.SelectedItems.Count.ToString();
+                SizeValue.Text = ComicHelper.ShowSize(size);
+            }
+            else
+            {
+                SelectionPanel.Visibility = Visibility.Collapsed;
+            } 
         }
     }
 

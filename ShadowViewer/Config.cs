@@ -1,27 +1,21 @@
-﻿using Microsoft.UI.Xaml.Shapes;
-
-namespace ShadowViewer.Configs
+﻿namespace ShadowViewer.Configs
 {
     public class Config
     { 
         public static void ConfigInit()
         {
-            Config config = new Config();
-        }
-        public Config() 
-        {
             if (!ConfigHelper.Contains("ComicsPath"))
             {
-                ComicsPath= Path.Combine(ApplicationData.Current.LocalFolder.Path, "Comics");
+                ComicsPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Comics");
             }
             if (!ConfigHelper.Contains("TempPath"))
             {
                 TempPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Temps");
-            } 
-            if (!ConfigHelper.Contains("IsBookShelfDetailShow"))
+            }
+            if (!ConfigHelper.Contains("IsBookShelfInfoBar"))
             {
-                IsBookShelfDetailShow = true;
-            } 
+                IsBookShelfInfoBar = true;
+            }
             IsDebugEvent();
             ComicsPath.CreateDirectory();
             TempPath.CreateDirectory();
@@ -67,6 +61,11 @@ namespace ShadowViewer.Configs
         {
             get => ConfigHelper.GetBoolean("IsBookShelfDetailShow");
             set => ConfigHelper.Set("IsBookShelfDetailShow", value);
+        }
+        public static bool IsBookShelfInfoBar
+        {
+            get => ConfigHelper.GetBoolean("IsBookShelfInfoBar");
+            set => ConfigHelper.Set("IsBookShelfInfoBar", value);
         }
         private static void IsDebugEvent()
         {

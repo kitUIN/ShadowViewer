@@ -1,18 +1,24 @@
 ﻿namespace ShadowViewer.ViewModels
 {
     public partial class BookShelfViewModel: ObservableRecipient, IRecipient<FilesMessage>
-    { 
+    {
+        private bool isEmpty = true;
+        private int folderTotalCounts;
         public LocalComic ConnectComic { get; set; }
         public string Path { get; private set; } = "local";
         public Uri OriginPath { get; private set; }
         public ShadowSorts Sorts { get; set; } = ShadowSorts.RZ;
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
         private static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
-        private bool isEmpty = true;
         public bool IsEmpty
         {
             get => isEmpty;
             set => SetProperty(ref isEmpty, value, propertyName: nameof(IsEmpty));
+        }
+        public int FolderTotalCounts
+        {
+            get => folderTotalCounts;
+            set => SetProperty(ref folderTotalCounts, value, propertyName: nameof(FolderTotalCounts));
         }
         public BookShelfViewModel(Uri parameter)
         {
@@ -46,6 +52,7 @@
             }
 
             IsEmpty = LocalComics.Count == 0;
+            FolderTotalCounts = LocalComics.Count;
         }
          
         public void RefreshLocalComic()

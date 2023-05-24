@@ -69,6 +69,12 @@
                         <ToggleSwitch IsOn="{x:Bind ViewModel.IsBookShelfDetailShow, Mode=TwoWay}" />
                     </StackPanel>
                 </labs:SettingsCard>
+                <labs:SettingsCard x:Uid="Xaml/SettingCard/IsBookShelfInfoBar">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE946;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
+                </labs:SettingsCard>
             </StackPanel>
         </Grid>
     </ScrollViewer>

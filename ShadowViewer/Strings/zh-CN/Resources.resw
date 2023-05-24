@@ -271,10 +271,10 @@
     <value>用户</value>
   </data>
   <data name="Xaml.SettingCard.BookShelfDetailShow.Description" xml:space="preserve">
-    <value>工具栏图标是否添加文字说明</value>
+    <value>为工具栏按钮添加文字说明</value>
   </data>
   <data name="Xaml.SettingCard.BookShelfDetailShow.Header" xml:space="preserve">
-    <value>工具栏是否显示详细内容</value>
+    <value>工具栏按钮显示详细内容</value>
   </data>
   <data name="Xaml.SettingCard.BookShelfMenuShow.Description" xml:space="preserve">
     <value>右键菜单/顶部菜单</value>
@@ -312,8 +312,14 @@
   <data name="Xaml.SettingCard.Home.Header" xml:space="preserve">
     <value>书架设置</value>
   </data>
+  <data name="Xaml.SettingCard.IsBookShelfInfoBar.Header" xml:space="preserve">
+    <value>显示书架左下角信息栏</value>
+  </data>
   <data name="Xaml.SettingCard.Log.Header" xml:space="preserve">
     <value>日志</value>
+  </data>
+  <data name="Xaml.SettingCard.RememberDeleteWithFiles.Description" xml:space="preserve">
+    <value>删除漫画时没有弹窗</value>
   </data>
   <data name="Xaml.SettingCard.RememberDeleteWithFiles.Header" xml:space="preserve">
     <value>删除漫画时不需要二次确定</value>
@@ -391,6 +397,9 @@
   <data name="Xaml.TextBlock.Filter.Text" xml:space="preserve">
     <value>筛选</value>
   </data>
+  <data name="Xaml.TextBlock.FolderTotalHeader.Text" xml:space="preserve">
+    <value>个项目</value>
+  </data>
   <data name="Xaml.TextBlock.ForegroundColor.Text" xml:space="preserve">
     <value>字体颜色:</value>
   </data>
@@ -412,6 +421,9 @@
   <data name="Xaml.TextBlock.PluginSettingTitle.Text" xml:space="preserve">
     <value>插件设置</value>
   </data>
+  <data name="Xaml.TextBlock.SelectionHeader.Text" xml:space="preserve">
+    <value>选中</value>
+  </data>
   <data name="Xaml.TextBlock.Settings.Text" xml:space="preserve">
     <value>书架设置</value>
   </data>
@@ -422,10 +434,10 @@
     <value>标签预览:</value>
   </data>
   <data name="Xaml.TextBlock.Teaching.BookShelfDetailFalse.Text" xml:space="preserve">
-    <value>关闭时,按钮将只显示图标:</value>
+    <value>关闭时,顶部按钮将只显示图标:</value>
   </data>
   <data name="Xaml.TextBlock.Teaching.BookShelfDetailTrue.Text" xml:space="preserve">
-    <value>开启时,按钮将显示具体名称:</value>
+    <value>开启时,顶部按钮将显示具体名称:</value>
   </data>
   <data name="Xaml.TextBlock.TeachingShelf.Text" xml:space="preserve">
     <value>什么都没有呢,试试右键唤醒菜单吧</value>

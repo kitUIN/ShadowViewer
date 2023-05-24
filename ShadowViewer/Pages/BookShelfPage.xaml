@@ -11,7 +11,7 @@
     xmlns:model="using:ShadowViewer.Utils"
     mc:Ignorable="d">
     <Page.Resources>
-
+        <x:Double x:Key="InfoTextSize">12</x:Double>
         <CommandBarFlyout
             x:Name="HomeCommandBarFlyout"
             AlwaysExpanded="True"
@@ -164,6 +164,7 @@
                 ItemsSource="{x:Bind ViewModel.LocalComics}"
                 KeyDown="GridViewOnKeyDown"
                 RightTapped="ContentGridView_RightTapped"
+                SelectionChanged="ContentGridView_SelectionChanged"
                 SelectionMode="Extended">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="dv:LocalComic">
@@ -232,6 +233,39 @@
                 FontWeight="Bold" />
         </Grid>
         <Grid
+            x:Name="ShelfInfo"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Bottom">
+            <StackPanel
+                Margin="6,0,0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <StackPanel Orientation="Horizontal" Spacing="3">
+                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{x:Bind ViewModel.FolderTotalCounts, Mode=OneWay}" />
+                    <TextBlock x:Uid="Xaml/TextBlock/FolderTotalHeader" FontSize="{StaticResource InfoTextSize}" />
+                </StackPanel>
+                <TextBlock FontSize="{StaticResource InfoTextSize}" Text="|" />
+                <StackPanel
+                    x:Name="SelectionPanel"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <TextBlock x:Uid="Xaml/TextBlock/SelectionHeader" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock x:Name="SelectionValue" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock x:Uid="Xaml/TextBlock/FolderTotalHeader" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock
+                        x:Name="SizeValue"
+                        Margin="5,0,0,0"
+                        FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource InfoTextSize}"
+                        Text="|" />
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <Grid
             Height="50"
             Padding="5"
             VerticalAlignment="Top">
@@ -290,7 +324,6 @@
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
-
                 <Button
                     x:Name="SettingsButton"
                     Height="32"
