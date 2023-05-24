@@ -8,6 +8,12 @@
         public ShadowSorts Sorts { get; set; } = ShadowSorts.RZ;
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
         private static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
+        private bool isEmpty = true;
+        public bool IsEmpty
+        {
+            get => isEmpty;
+            set => SetProperty(ref isEmpty, value, propertyName: nameof(IsEmpty));
+        }
         public BookShelfViewModel(Uri parameter)
         {
             IsActive = true;
@@ -37,7 +43,9 @@
                         item.Add();
                     }
                 }
-            } 
+            }
+
+            IsEmpty = LocalComics.Count == 0;
         }
          
         public void RefreshLocalComic()
@@ -70,7 +78,7 @@
                 {
                     ConnectComic = item;
                 }
-            } 
+            }
         }
 
         public void Receive(FilesMessage message)

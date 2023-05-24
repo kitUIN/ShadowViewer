@@ -223,6 +223,15 @@
 
         </ScrollViewer>
         <Grid
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
+            <TextBlock
+                x:Uid="Xaml/TextBlock/TeachingShelf"
+                FontSize="17"
+                FontWeight="Bold" />
+        </Grid>
+        <Grid
             Height="50"
             Padding="5"
             VerticalAlignment="Top">
@@ -259,7 +268,6 @@
                             Margin="5,0,0,0" />
                     </StackPanel>
                 </Button>
-
             </StackPanel>
             <StackPanel
                 Margin="0,0,20,0"

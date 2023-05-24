@@ -424,6 +424,9 @@
   <data name="Xaml.TextBlock.Teaching.BookShelfDetailTrue.Text" xml:space="preserve">
     <value>开启时,按钮将显示具体名称:</value>
   </data>
+  <data name="Xaml.TextBlock.TeachingShelf.Text" xml:space="preserve">
+    <value>什么都没有呢,试试右键唤醒菜单吧</value>
+  </data>
   <data name="Xaml.ToggleSwitch.BookShelfMenuShow.OffContent" xml:space="preserve">
     <value>右键显示菜单</value>
   </data>
