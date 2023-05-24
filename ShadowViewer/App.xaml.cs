@@ -16,7 +16,7 @@ namespace ShadowViewer
             DBHelper.Init(nameof(LocalEpisode), typeof(LocalEpisode));
             DBHelper.Init(nameof(LocalPicture), typeof(LocalPicture));
             DBHelper.Init(nameof(ShadowTag), typeof(ShadowTag));
-            DBHelper.Init(nameof(CacheImage), typeof(CacheImage));
+            DBHelper.Init(nameof(CacheZip), typeof(CacheZip));
             // 插件
             PluginHelper.Init();
             // 标签数据

@@ -10,11 +10,7 @@ namespace ShadowViewer.Pages
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is ShadowEntry entry)
-            {
-                ViewModel = new PicViewModel(entry);
-            }
-            else if(e.Parameter is LocalComic comic)
+            if(e.Parameter is LocalComic comic)
             {
                 ViewModel = new PicViewModel(comic);
             }

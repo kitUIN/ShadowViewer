@@ -1,8 +1,3 @@
-using Microsoft.UI.Xaml.Controls;
-using ShadowViewer.Helpers;
-using System.Linq;
-using Windows.UI.Core;
-
 namespace ShadowViewer.Pages
 {
     public sealed partial class BookShelfPage : Page
@@ -72,34 +67,33 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// �Ҽ��˵�-�½�������ѹ���ļ�����
+        /// 右键菜单-从压缩包导入漫画
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private async void ShadowCommandAddFromZip_Click(object sender, RoutedEventArgs e)
         {
             StorageFile storageFile = await FileHelper.SelectFileAsync(this, ".zip",".rar",".7z");
             if (storageFile != null)
             {
-                try
+                
+                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                if (storageFile.IsZip())
                 {
-                    List<Task> backgrounds = new List<Task>();
-                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                    if (storageFile.IsZip())
+                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
+                    LoadingFileName.Text = storageFile.Name;
+                    await Task.Run(async () =>
                     {
-                        LoadingControl.IsLoading = true;
-                        LocalComic comic = await ComicHelper.ImportComicsFromZip(storageFile.Path, Config.TempPath);
-                        backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(Config.ComicsPath, comic, storageFile.Path)));
-                    }
-                    ViewModel.RefreshLocalComic();
-                    LoadingControl.IsLoading = false;
-                    await Task.WhenAll(backgrounds);
-                    ViewModel.RefreshLocalComic();
+                        /*BitmapImage bitmapImage = new BitmapImage();
+                        await ComicHelper.ImportComicsFromZip(storageFile.Path, Config.ComicsPath,
+                            (BitmapImage bitmapImage) => DispatcherQueue.TryEnqueue(() =>
+                            {
+                                ZipThumb.Source = bitmapImage;
+                            }),
+                            (double value) => DispatcherQueue.TryEnqueue(() => LoadingProgressBar.Value = value), XamlRoot
+                            );*/
+                    });
                 }
-                catch(Exception ex)
-                {
-                    Log.Error("�Ҽ��˵�-�½�������ѹ���ļ����뱨��:{Ex}", ex);
-                }
+                ViewModel.RefreshLocalComic();
+                LoadingControl.IsLoading = false;
             }
         }
         
@@ -211,7 +205,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
-        private async void ContentGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        private void ContentGridView_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (e.OriginalSource is FrameworkElement element && element.DataContext is LocalComic comic)
             {
@@ -221,21 +215,7 @@ namespace ShadowViewer.Pages
                 }
                 else
                 {
-                    if (comic.IsTemp)
-                    {
-                        List<Task> backgrounds = new List<Task>();
-                        if (!ComicHelper.Entrys.ContainsKey(comic.Link))
-                        {
-                            LocalComic temp = await ComicHelper.ImportComicsFromZip(comic.Link, Config.TempPath);
-                            backgrounds.Add(Task.Run(() => ComicHelper.EntryToComic(Config.ComicsPath, comic, comic.Link)));
-                        } 
-                        Frame.Navigate(typeof(PicPage), ComicHelper.Entrys[comic.Link], new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
-                        await Task.WhenAll(backgrounds);
-                    }
-                    else
-                    {
-                        Frame.Navigate(typeof(PicPage), comic, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
-                    }
+                    Frame.Navigate(typeof(PicPage), comic, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                 }
             }
         }
@@ -492,7 +472,7 @@ namespace ShadowViewer.Pages
         {
             foreach (LocalComic comic in ContentGridView.SelectedItems.ToList())
             {
-                if (Config.IsDeleteFilesWithComicDelete && !comic.IsTemp && !comic.IsFolder && comic.IsFromZip)
+                if (Config.IsDeleteFilesWithComicDelete && !comic.IsFolder)
                 {
                     comic.Link.DeleteDirectory();
                 }
@@ -527,7 +507,10 @@ namespace ShadowViewer.Pages
         private void GridViewOnKeyDown(object sender, KeyRoutedEventArgs e)
         {
             GridView view = sender as GridView;
-            if (e.Key == VirtualKey.A && WindowHelper.GetWindowForXamlRoot(XamlRoot).CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down))
+            if (e.Key == VirtualKey.A &&
+                WindowHelper.GetWindowForXamlRoot(XamlRoot)
+                .CoreWindow.GetKeyState(VirtualKey.Shift)
+                .HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down))
             {
                 foreach(LocalComic comic in view.ItemsSource as ObservableCollection<LocalComic>)
                 {

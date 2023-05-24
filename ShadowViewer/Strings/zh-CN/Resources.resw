@@ -183,6 +183,9 @@
   <data name="Shadow.String.Remember" xml:space="preserve">
     <value>记住我的选择,不再提示</value>
   </data>
+  <data name="Shadow.String.ZipPassword" xml:space="preserve">
+    <value>解压密码</value>
+  </data>
   <data name="Shadow.Tag.Local" xml:space="preserve">
     <value>本地</value>
   </data>

@@ -204,21 +204,6 @@
                                 FontSize="13"
                                 Foreground="Gray"
                                 Text="{x:Bind Percent}" />
-                            <StackPanel
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Spacing="2">
-                                <Button
-                                    x:Uid="Xaml/Button/Temp"
-                                    Padding="5"
-                                    Background="Orange"
-                                    CornerRadius="10"
-                                    FontSize="12"
-                                    FontWeight="Bold"
-                                    Foreground="Black"
-                                    Style="{StaticResource NoOverButton}"
-                                    Visibility="{x:Bind IsTemp}" />
-                            </StackPanel>
                         </Grid>
                     </DataTemplate>
                 </GridView.ItemTemplate>
@@ -429,19 +414,43 @@
             </controls:Loading.Background>
             <StackPanel
                 Padding="12"
-                Orientation="Vertical"
+                Orientation="Horizontal"
                 Spacing="10">
-                <ProgressBar
-                    x:Name="LoadingProgressBar"
-                    Width="130"
-                    HorizontalAlignment="Center"
+                <Image
+                    x:Name="ZipThumb"
+                    Width="250"
+                    Height="250" />
+                <StackPanel
                     VerticalAlignment="Center"
-                    IsIndeterminate="True" />
-                <TextBlock
-                    x:Name="LoadingControlText"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="16" />
+                    Orientation="Vertical"
+                    Spacing="20">
+                    <TextBlock
+                        x:Name="LoadingFileName"
+                        MaxWidth="200"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20" />
+                    <ProgressBar
+                        x:Name="LoadingProgressBar"
+                        Width="200"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsIndeterminate="False"
+                        Maximum="100"
+                        Minimum="0" />
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="5">
+                        <TextBlock Text="{x:Bind LoadingProgressBar.Value, Mode=OneWay}" />
+                        <TextBlock Text="%" />
+                    </StackPanel>
+                    <TextBlock
+                        x:Name="LoadingControlText"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="16" />
+                </StackPanel>
             </StackPanel>
         </controls:Loading>
     </Grid>
