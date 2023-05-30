@@ -94,83 +94,89 @@ namespace ShadowViewer.Pages
                 List<Task> backgrounds = new List<Task>();
                 IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
                 IEnumerable<IStorageItem> item2s = items.Where(x => x is StorageFile file && file.IsZip());
-                // LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                LoadingControl.IsLoading = true; 
-
+                LoadingControl.IsLoading = true;
                 foreach (IStorageItem item2 in item2s)
                 {
-                    ZipThumb.Source = null;
-                    LoadingProgressBar.IsIndeterminate = true;
-                    LoadingProgressBar.Value = 0;
-                    LoadingProgressText.Visibility = Visibility.Visible;
-                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
-                    LoadingFileName.Text = (item2 as StorageFile).Name;
-                    ReaderOptions options = null;
-                    bool skip = false;
-                    bool flag = false;
-
-                    await Task.Run(() => {
-                        flag = CompressHelper.CheckPassword(item2.Path, options);
-                    });
-                    while (!flag)
+                    if (item2 is StorageFile file)
                     {
-                        ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog("解压密码", XamlRoot, "", "密码", "解压密码");
-                        dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                        bool again = false;
+                        await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = await ComicHelper.ImportAgainDialog(XamlRoot, zip: file.Path)));
+                        if (again)
                         {
-                            string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
-                            options = new ReaderOptions() { Password = password };
-                        };
-                        dialog.CloseButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
-                        {
-                            skip = true;
-                            flag = true;
-                        };
-                        await dialog.ShowAsync();
-                       
-                        if (skip) break;
+                            continue;
+                        }
+                        ZipThumb.Source = null;
+                        LoadingProgressBar.IsIndeterminate = true;
+                        LoadingProgressBar.Value = 0;
+                        LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
+                        LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
+                        LoadingFileName.Text = file.Name;
+                        ReaderOptions options = null;
+                        bool skip = false;
+                        bool flag = false;
                         await Task.Run(() => {
-                            flag = CompressHelper.CheckPassword(item2.Path, options);
-                        }); 
-                    }
-                    if (skip) continue;
-                    string comicId = LocalComic.RandomId();
-                    await Task.Run(async () => {
-                        object res = await CompressHelper.DeCompressAsync(item2.Path, Config.ComicsPath, comicId,
-                        imgAction: new Progress<MemoryStream>(
-                            (MemoryStream ms) => DispatcherQueue.EnqueueAsync(async () => {
-                                BitmapImage bitmapImage = new BitmapImage();
-                                await bitmapImage.SetSourceAsync(ms.AsRandomAccessStream());
-                                ZipThumb.Source = bitmapImage;
-                            })),
-                        progress: new Progress<double>((value) => DispatcherQueue.TryEnqueue(() => LoadingProgressBar.Value = value)),
-                        () => { 
-                            DispatcherQueue.TryEnqueue(() => {
-                                LoadingProgressBar.IsIndeterminate = false;
-                        }); }, options);
-                        DispatcherQueue.TryEnqueue(() =>
-                        {
-                            LoadingProgressBar.IsIndeterminate = true;
-                            LoadingProgressText.Visibility = Visibility.Collapsed;
-                            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                            flag = CompressHelper.CheckPassword(file.Path, options);
                         });
-                        if (res is CacheZip cache)
+                        while (!flag)
                         {
-                            StorageFolder folder =  await cache.CachePath.ToStorageFolder();
-                            await ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId,
-                                cache.Name);
+                            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), I18nHelper.GetString("Shadow.String.ZipPasswordTitle"));
+                            dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                            {
+                                string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
+                                options = new ReaderOptions() { Password = password };
+                            };
+                            dialog.CloseButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                            {
+                                skip = true;
+                                flag = true;
+                            };
+                            await dialog.ShowAsync();
+                            if (skip) break;
+                            await Task.Run(() => {
+                                flag = CompressHelper.CheckPassword(file.Path, options);
+                            });
                         }
-                        else if(res is ShadowEntry root)
-                        {
-                            string path = Path.Combine(Config.ComicsPath, comicId);
-                            string fileName = Path.GetFileNameWithoutExtension(item2.Path).Split(new char[] { '\\', '/' },StringSplitOptions.RemoveEmptyEntries).Last();
-                            LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path),
-                                parent: "local", size: root.Size, id: comicId);
-                            comic.Add();
-                            ShadowEntry.ToLocalComic(root, path, comic.Id);
-                            // 销毁资源
-                            root.Dispose();
-                        }
-                    });
+                        if (skip) continue;
+                        string comicId = LocalComic.RandomId();
+                        await Task.Run(async () => {
+                            object res = await CompressHelper.DeCompressAsync(file.Path, Config.ComicsPath, comicId,
+                            imgAction: new Progress<MemoryStream>(
+                                (MemoryStream ms) => DispatcherQueue.EnqueueAsync(async () => {
+                                    BitmapImage bitmapImage = new BitmapImage();
+                                    await bitmapImage.SetSourceAsync(ms.AsRandomAccessStream());
+                                    ZipThumb.Source = bitmapImage;
+                                })),
+                            progress: new Progress<double>((value) => DispatcherQueue.TryEnqueue(() => LoadingProgressBar.Value = value)),
+                            () => {
+                                DispatcherQueue.TryEnqueue(() => {
+                                    LoadingProgressBar.IsIndeterminate = false;
+                                });
+                            }, options);
+                            DispatcherQueue.TryEnqueue(() =>
+                            {
+                                LoadingProgressBar.IsIndeterminate = true;
+                                LoadingProgressText.Visibility = Visibility.Collapsed;
+                                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                            });
+                            if (res is CacheZip cache)
+                            {
+                                StorageFolder folder = await cache.CachePath.ToStorageFolder();
+                                await ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId,
+                                    cache.Name);
+                            }
+                            else if (res is ShadowEntry root)
+                            {
+                                string path = Path.Combine(Config.ComicsPath, comicId);
+                                string fileName = Path.GetFileNameWithoutExtension(file.Path).Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
+                                LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path),
+                                    parent: "local", size: root.Size, id: comicId);
+                                comic.Add();
+                                ShadowEntry.ToLocalComic(root, path, comic.Id);
+                                // 销毁资源
+                                root.Dispose();
+                            }
+                        });
+                    }
                 }
                 MessageHelper.SendFilesReload();
                 LoadingControl.IsLoading = false;

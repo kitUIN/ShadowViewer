@@ -127,7 +127,8 @@
                         x:Name="LoadingProgressText"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
-                        Spacing="5">
+                        Spacing="5"
+                        Visibility="Collapsed">
                         <TextBlock Text="{x:Bind LoadingProgressBar.Value, Mode=OneWay}" />
                         <TextBlock Text="%" />
                     </StackPanel>

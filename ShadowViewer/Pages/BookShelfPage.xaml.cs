@@ -1,5 +1,7 @@
 using CommunityToolkit.WinUI;
 using SharpCompress.Readers;
+using SqlSugar;
+using Windows.Storage;
 
 namespace ShadowViewer.Pages
 {
@@ -61,11 +63,19 @@ namespace ShadowViewer.Pages
 
             StorageFolder folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
             if (folder != null)
-            { 
+            {
                 LoadingControl.IsLoading = true;
+                bool again = false;
+                await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = !Config.IsImportAgain&& await ComicHelper.ImportAgainDialog(XamlRoot, path: folder.Path)));
+                if (again)
+                {
+                    LoadingControl.IsLoading = false;
+                    return;
+                }
                 LoadingProgressBar.IsIndeterminate = true;
                 LoadingProgressText.Visibility = Visibility.Collapsed;
                 LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                LoadingFileName.Text = folder.Name;
                 await Task.Run(async () => await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path));
                 ViewModel.RefreshLocalComic();
                 LoadingControl.IsLoading = false;
@@ -79,10 +89,16 @@ namespace ShadowViewer.Pages
             StorageFile storageFile = await FileHelper.SelectFileAsync(this, ".zip",".rar",".7z");
             if (storageFile != null)
             {
-                
-                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
                 if (storageFile.IsZip())
                 {
+                    LoadingControl.IsLoading = true;
+                    bool again = false;
+                    await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = await ComicHelper.ImportAgainDialog(XamlRoot, zip: storageFile.Path)));
+                    if (again)
+                    {
+                        LoadingControl.IsLoading = false;
+                        return;
+                    }
                     ZipThumb.Source = null;
                     LoadingProgressBar.IsIndeterminate = true;
                     LoadingProgressBar.Value = 0;
@@ -92,13 +108,12 @@ namespace ShadowViewer.Pages
                     ReaderOptions options = null;
                     bool skip = false;
                     bool flag = false;
-
                     await Task.Run(() => {
                         flag = CompressHelper.CheckPassword(storageFile.Path, options);
                     });
                     while (!flag)
                     {
-                        ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog("解压密码", XamlRoot, "", "密码", "解压密码");
+                        ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), I18nHelper.GetString("Shadow.String.ZipPasswordTitle"));
                         dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
                         {
                             string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;

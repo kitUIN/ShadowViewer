@@ -75,6 +75,12 @@
                     </labs:SettingsCard.HeaderIcon>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
                 </labs:SettingsCard>
+                <labs:SettingsCard x:Uid="Xaml/SettingCard/IsImportAgain">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE8B5;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsImportAgain, Mode=TwoWay}" />
+                </labs:SettingsCard>
             </StackPanel>
         </Grid>
     </ScrollViewer>

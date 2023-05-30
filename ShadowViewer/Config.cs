@@ -67,6 +67,11 @@
             get => ConfigHelper.GetBoolean("IsBookShelfInfoBar");
             set => ConfigHelper.Set("IsBookShelfInfoBar", value);
         }
+        public static bool IsImportAgain
+        {
+            get => ConfigHelper.GetBoolean("IsImportAgain");
+            set => ConfigHelper.Set("IsImportAgain", value);
+        }
         private static void IsDebugEvent()
         {
             if(IsDebug)

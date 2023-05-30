@@ -168,6 +168,12 @@
   <data name="Shadow.String.Import" xml:space="preserve">
     <value>导入到</value>
   </data>
+  <data name="Shadow.String.ImportAgainMessage" xml:space="preserve">
+    <value>该漫画已经存在</value>
+  </data>
+  <data name="Shadow.String.ImportAgainTitle" xml:space="preserve">
+    <value>重复导入</value>
+  </data>
   <data name="Shadow.String.ImportDecompress" xml:space="preserve">
     <value>正在解压,请稍后...</value>
   </data>
@@ -184,6 +190,9 @@
     <value>记住我的选择,不再提示</value>
   </data>
   <data name="Shadow.String.ZipPassword" xml:space="preserve">
+    <value>解压密码</value>
+  </data>
+  <data name="Shadow.String.ZipPasswordTitle" xml:space="preserve">
     <value>解压密码</value>
   </data>
   <data name="Shadow.Tag.Local" xml:space="preserve">
@@ -303,6 +312,9 @@
   <data name="Xaml.SettingCard.Debug.Header" xml:space="preserve">
     <value>调试模式</value>
   </data>
+  <data name="Xaml.SettingCard.DeleteWithFiles.Description" xml:space="preserve">
+    <value>解压压缩文件产生的漫画文件</value>
+  </data>
   <data name="Xaml.SettingCard.DeleteWithFiles.Header" xml:space="preserve">
     <value>删除漫画时删除缓存文件</value>
   </data>
@@ -317,6 +329,12 @@
   </data>
   <data name="Xaml.SettingCard.IsBookShelfInfoBar.Header" xml:space="preserve">
     <value>显示书架左下角信息栏</value>
+  </data>
+  <data name="Xaml.SettingCard.IsImportAgain.Description" xml:space="preserve">
+    <value>开启后能导入相同文件夹的漫画</value>
+  </data>
+  <data name="Xaml.SettingCard.IsImportAgain.Header" xml:space="preserve">
+    <value>允许重复导入</value>
   </data>
   <data name="Xaml.SettingCard.Log.Header" xml:space="preserve">
     <value>日志</value>
