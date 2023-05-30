@@ -439,6 +439,7 @@
                         Maximum="100"
                         Minimum="0" />
                     <StackPanel
+                        x:Name="LoadingProgressText"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="5">

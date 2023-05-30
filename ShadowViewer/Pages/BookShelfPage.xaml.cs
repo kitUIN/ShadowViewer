@@ -1,3 +1,6 @@
+using CommunityToolkit.WinUI;
+using SharpCompress.Readers;
+
 namespace ShadowViewer.Pages
 {
     public sealed partial class BookShelfPage : Page
@@ -49,7 +52,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// �Ҽ��˵�-�½��������ļ��е���
+        /// 右键菜单-从文件夹导入漫画
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -60,8 +63,10 @@ namespace ShadowViewer.Pages
             if (folder != null)
             { 
                 LoadingControl.IsLoading = true;
+                LoadingProgressBar.IsIndeterminate = true;
+                LoadingProgressText.Visibility = Visibility.Collapsed;
                 LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path);
+                await Task.Run(async () => await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path));
                 ViewModel.RefreshLocalComic();
                 LoadingControl.IsLoading = false;
             }
@@ -78,18 +83,78 @@ namespace ShadowViewer.Pages
                 LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
                 if (storageFile.IsZip())
                 {
+                    ZipThumb.Source = null;
+                    LoadingProgressBar.IsIndeterminate = true;
+                    LoadingProgressBar.Value = 0;
+                    LoadingProgressText.Visibility = Visibility.Visible;
                     LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
                     LoadingFileName.Text = storageFile.Name;
-                    await Task.Run(async () =>
+                    ReaderOptions options = null;
+                    bool skip = false;
+                    bool flag = false;
+
+                    await Task.Run(() => {
+                        flag = CompressHelper.CheckPassword(storageFile.Path, options);
+                    });
+                    while (!flag)
                     {
-                        /*BitmapImage bitmapImage = new BitmapImage();
-                        await ComicHelper.ImportComicsFromZip(storageFile.Path, Config.ComicsPath,
-                            (BitmapImage bitmapImage) => DispatcherQueue.TryEnqueue(() =>
-                            {
+                        ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog("解压密码", XamlRoot, "", "密码", "解压密码");
+                        dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                        {
+                            string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
+                            options = new ReaderOptions() { Password = password };
+                        };
+                        dialog.CloseButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                        {
+                            skip = true;
+                            flag = true;
+                        };
+                        await dialog.ShowAsync();
+
+                        if (skip) break;
+                        await Task.Run(() => {
+                            flag = CompressHelper.CheckPassword(storageFile.Path, options);
+                        });
+                    }
+                    if (skip) return;
+                    string comicId = LocalComic.RandomId();
+                    await Task.Run(async () => {
+                        object res = await CompressHelper.DeCompressAsync(storageFile.Path, Config.ComicsPath, comicId,
+                        imgAction: new Progress<MemoryStream>(
+                            (MemoryStream ms) => DispatcherQueue.EnqueueAsync(async () => {
+                                BitmapImage bitmapImage = new BitmapImage();
+                                await bitmapImage.SetSourceAsync(ms.AsRandomAccessStream());
                                 ZipThumb.Source = bitmapImage;
-                            }),
-                            (double value) => DispatcherQueue.TryEnqueue(() => LoadingProgressBar.Value = value), XamlRoot
-                            );*/
+                            })),
+                        progress: new Progress<double>((value) => DispatcherQueue.TryEnqueue(() => LoadingProgressBar.Value = value)),
+                        () => {
+                            DispatcherQueue.TryEnqueue(() => {
+                                LoadingProgressBar.IsIndeterminate = false;
+                            });
+                        }, options);
+                        DispatcherQueue.TryEnqueue(() =>
+                        {
+                            LoadingProgressBar.IsIndeterminate = true;
+                            LoadingProgressText.Visibility = Visibility.Collapsed;
+                            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                        });
+                        if (res is CacheZip cache)
+                        {
+                            StorageFolder folder = await cache.CachePath.ToStorageFolder();
+                            await ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId,
+                                cache.Name);
+                        }
+                        else if (res is ShadowEntry root)
+                        {
+                            string path = Path.Combine(Config.ComicsPath, comicId);
+                            string fileName = Path.GetFileNameWithoutExtension(storageFile.Path).Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
+                            LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path),
+                                parent: "local", size: root.Size, id: comicId);
+                            comic.Add();
+                            ShadowEntry.ToLocalComic(root, path, comic.Id);
+                            // 销毁资源
+                            root.Dispose();
+                        }
                     });
                 }
                 ViewModel.RefreshLocalComic();
