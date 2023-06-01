@@ -452,6 +452,20 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="16" />
+                    <Button
+                        x:Name="CancelButton"
+                        x:Uid="Xaml/Button/Cancel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="CancelButton_Click" />
+                    <TextBlock
+                        x:Name="CompressTip"
+                        x:Uid="Xaml/TextBlock/CompressTip"
+                        Width="200"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        TextWrapping="WrapWholeWords" />
                 </StackPanel>
             </StackPanel>
         </controls:Loading>

@@ -1,12 +1,14 @@
 using CommunityToolkit.WinUI;
 using SharpCompress.Readers;
 using SqlSugar;
+using System.Threading;
 using Windows.Storage;
 
 namespace ShadowViewer.Pages
 {
     public sealed partial class BookShelfPage : Page
     {
+        private static CancellationTokenSource cancelTokenSource;
         private BookShelfViewModel ViewModel { get; set; }
         public BookShelfPage()
         {
@@ -64,6 +66,7 @@ namespace ShadowViewer.Pages
             StorageFolder folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
             if (folder != null)
             {
+                cancelTokenSource = new CancellationTokenSource();
                 LoadingControl.IsLoading = true;
                 bool again = false;
                 await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = !Config.IsImportAgain&& await ComicHelper.ImportAgainDialog(XamlRoot, path: folder.Path)));
@@ -76,7 +79,7 @@ namespace ShadowViewer.Pages
                 LoadingProgressText.Visibility = Visibility.Collapsed;
                 LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
                 LoadingFileName.Text = folder.Name;
-                await Task.Run(async () => await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path));
+                await Task.Run(async () => await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path), cancelTokenSource.Token);
                 ViewModel.RefreshLocalComic();
                 LoadingControl.IsLoading = false;
             }
@@ -91,9 +94,10 @@ namespace ShadowViewer.Pages
             {
                 if (storageFile.IsZip())
                 {
+                    cancelTokenSource = new CancellationTokenSource();
                     LoadingControl.IsLoading = true;
                     bool again = false;
-                    await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = await ComicHelper.ImportAgainDialog(XamlRoot, zip: storageFile.Path)));
+                    await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = await ComicHelper.ImportAgainDialog(XamlRoot, zip: storageFile.Path)), cancelTokenSource.Token);
                     if (again)
                     {
                         LoadingControl.IsLoading = false;
@@ -110,7 +114,7 @@ namespace ShadowViewer.Pages
                     bool flag = false;
                     await Task.Run(() => {
                         flag = CompressHelper.CheckPassword(storageFile.Path, options);
-                    });
+                    }, cancelTokenSource.Token);
                     while (!flag)
                     {
                         ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), I18nHelper.GetString("Shadow.String.ZipPasswordTitle"));
@@ -129,7 +133,7 @@ namespace ShadowViewer.Pages
                         if (skip) break;
                         await Task.Run(() => {
                             flag = CompressHelper.CheckPassword(storageFile.Path, options);
-                        });
+                        }, cancelTokenSource.Token);
                     }
                     if (skip) return;
                     string comicId = LocalComic.RandomId();
@@ -146,7 +150,7 @@ namespace ShadowViewer.Pages
                             DispatcherQueue.TryEnqueue(() => {
                                 LoadingProgressBar.IsIndeterminate = false;
                             });
-                        }, options);
+                        }, cancelTokenSource.Token, options);
                         DispatcherQueue.TryEnqueue(() =>
                         {
                             LoadingProgressBar.IsIndeterminate = true;
@@ -156,8 +160,8 @@ namespace ShadowViewer.Pages
                         if (res is CacheZip cache)
                         {
                             StorageFolder folder = await cache.CachePath.ToStorageFolder();
-                            await ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId,
-                                cache.Name);
+                            await Task.Run(async () => await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path, cache.ComicId,
+                                cache.Name), cancelTokenSource.Token);
                         }
                         else if (res is ShadowEntry root)
                         {
@@ -166,9 +170,7 @@ namespace ShadowViewer.Pages
                             LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path),
                                 parent: "local", size: root.Size, id: comicId);
                             comic.Add();
-                            ShadowEntry.ToLocalComic(root, path, comic.Id);
-                            // 销毁资源
-                            root.Dispose();
+                            await Task.Run(() =>  ShadowEntry.ToLocalComic(root, path, comic.Id), cancelTokenSource.Token);
                         }
                     });
                 }
@@ -645,6 +647,14 @@ namespace ShadowViewer.Pages
             {
                 SelectionPanel.Visibility = Visibility.Collapsed;
             } 
+        }
+
+        /// <summary>
+        /// 取消导入
+        /// </summary>
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            cancelTokenSource.Cancel();
         }
     }
 

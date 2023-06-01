@@ -201,6 +201,9 @@
   <data name="Xaml.Button.AddTag.Content" xml:space="preserve">
     <value>添加标签</value>
   </data>
+  <data name="Xaml.Button.Cancel.Content" xml:space="preserve">
+    <value>取消</value>
+  </data>
   <data name="Xaml.Button.Log.Content" xml:space="preserve">
     <value>打开日志文件夹</value>
   </data>
@@ -411,6 +414,9 @@
   </data>
   <data name="Xaml.TextBlock.BackgroundColor.Text" xml:space="preserve">
     <value>背景颜色:</value>
+  </data>
+  <data name="Xaml.TextBlock.CompressTip.Text" xml:space="preserve">
+    <value>Tips:若解压速度过慢,可以先在外部解压后用`从文件夹导入漫画`</value>
   </data>
   <data name="Xaml.TextBlock.FileName.Text" xml:space="preserve">
     <value>名称:</value>
