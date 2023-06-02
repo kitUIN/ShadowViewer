@@ -19,7 +19,21 @@
                     <win:EntranceThemeTransition FromVerticalOffset="50" />
                     <win:RepositionThemeTransition IsStaggeringEnabled="False" />
                 </win:StackPanel.ChildrenTransitions>
-                <TextBlock x:Uid="Xaml/TextBlock/MainSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <TextBlock x:Uid="Xaml/TextBlock/ShowSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <labs:SettingsCard x:Uid="Xaml/SettingCard/BookShelfMenuShow">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xEDE3;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/BookShelfMenuShow" IsOn="{x:Bind ViewModel.IsBookShelfMenuShow, Mode=TwoWay}" />
+                </labs:SettingsCard>
+                <labs:SettingsCard x:Uid="Xaml/SettingCard/IsBookShelfInfoBar">
+                    <labs:SettingsCard.HeaderIcon>
+                        <FontIcon Glyph="&#xE946;" />
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
+                </labs:SettingsCard>
+
+                <TextBlock x:Uid="Xaml/TextBlock/OperationSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <labs:SettingsCard x:Uid="Xaml/SettingCard/RememberDeleteWithFiles">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE73A;" />
@@ -31,49 +45,6 @@
                         <FontIcon Glyph="&#xE74D;" />
                     </labs:SettingsCard.HeaderIcon>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsDeleteFilesWithComicDelete, Mode=TwoWay}" />
-                </labs:SettingsCard>
-                <labs:SettingsCard x:Uid="Xaml/SettingCard/BookShelfMenuShow">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xEDE3;" />
-                    </labs:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/BookShelfMenuShow" IsOn="{x:Bind ViewModel.IsBookShelfMenuShow, Mode=TwoWay}" />
-                </labs:SettingsCard>
-                <labs:SettingsCard x:Uid="Xaml/SettingCard/BookShelfDetailShow">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE76F;" />
-                    </labs:SettingsCard.HeaderIcon>
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <HyperlinkButton VerticalAlignment="Center" Click="BookShelfDetailButton_Click">
-                            <FontIcon VerticalAlignment="Center" Glyph="&#xE783;" />
-                            <FlyoutBase.AttachedFlyout>
-                                <Flyout>
-                                    <StackPanel Orientation="Vertical">
-                                        <TextBlock x:Uid="Xaml/TextBlock/Teaching/BookShelfDetailTrue" Style="{ThemeResource BaseTextBlockStyle}" />
-                                        <Button Height="32" Margin="0,5,0,0">
-                                            <StackPanel Orientation="Horizontal">
-                                                <FontIcon FontSize="17" Glyph="&#xEDE3;" />
-                                                <TextBlock x:Uid="Xaml/TextBlock/Menu" Margin="5,0,0,0" />
-                                            </StackPanel>
-                                        </Button>
-                                        <TextBlock
-                                            x:Uid="Xaml/TextBlock/Teaching/BookShelfDetailFalse"
-                                            Margin="0,10,0,0"
-                                            Style="{ThemeResource BaseTextBlockStyle}" />
-                                        <Button Height="32" Margin="0,5,0,0">
-                                            <FontIcon FontSize="17" Glyph="&#xEDE3;" />
-                                        </Button>
-                                    </StackPanel>
-                                </Flyout>
-                            </FlyoutBase.AttachedFlyout>
-                        </HyperlinkButton>
-                        <ToggleSwitch IsOn="{x:Bind ViewModel.IsBookShelfDetailShow, Mode=TwoWay}" />
-                    </StackPanel>
-                </labs:SettingsCard>
-                <labs:SettingsCard x:Uid="Xaml/SettingCard/IsBookShelfInfoBar">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE946;" />
-                    </labs:SettingsCard.HeaderIcon>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
                 </labs:SettingsCard>
                 <labs:SettingsCard x:Uid="Xaml/SettingCard/IsImportAgain">
                     <labs:SettingsCard.HeaderIcon>

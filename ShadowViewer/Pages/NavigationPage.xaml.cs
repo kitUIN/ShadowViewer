@@ -3,6 +3,7 @@ using CommunityToolkit.WinUI;
 using System.Threading;
 using Windows.Storage;
 using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.WinUI.UI.Controls;
 
 namespace ShadowViewer.Pages
 {
@@ -89,17 +90,16 @@ namespace ShadowViewer.Pages
         {
             OverBorder.Visibility = Visibility.Collapsed;
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
-            {  
-                
+            {
+
                 IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
-                IEnumerable<IStorageItem> item2s = items.Where(x => x is StorageFile file && file.IsZip());
                 LoadingControl.IsLoading = true;
                 try
                 {
-                    foreach (IStorageItem item2 in item2s)
+                    foreach (IStorageItem item in items)
                     {
                         cancelTokenSource = new CancellationTokenSource();
-                        if (item2 is StorageFile file)
+                        if (item is StorageFile file && file.IsZip())
                         {
                             ZipThumb.Source = null;
                             LoadingProgressBar.IsIndeterminate = true;
@@ -113,11 +113,11 @@ namespace ShadowViewer.Pages
                             {
                                 continue;
                             }
-                            ReaderOptions options = null;
+                            ReaderOptions options = new ReaderOptions();
                             bool skip = false;
                             bool flag = false;
                             await Task.Run(() => {
-                                flag = CompressHelper.CheckPassword(file.Path, options);
+                                flag = CompressHelper.CheckPassword(file.Path, ref options);
                             });
                             while (!flag)
                             {
@@ -135,7 +135,7 @@ namespace ShadowViewer.Pages
                                 await dialog.ShowAsync();
                                 if (skip) break;
                                 await Task.Run(() => {
-                                    flag = CompressHelper.CheckPassword(file.Path, options);
+                                    flag = CompressHelper.CheckPassword(file.Path, ref options);
                                 });
                             }
                             if (skip) continue;
@@ -163,8 +163,16 @@ namespace ShadowViewer.Pages
                                 if (res is CacheZip cache)
                                 {
                                     StorageFolder folder = await cache.CachePath.ToStorageFolder();
-                                    await Task.Run(async () => await ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId,
-                                        cache.Name), cancelTokenSource.Token);
+                                    await Task.Run(async () => {
+                                        try
+                                        {
+                                            await ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId, cache.Name);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            Log.Error("无效文件夹{F},忽略", folder.Path);
+                                        }
+                                    }, cancelTokenSource.Token);
                                 }
                                 else if (res is ShadowEntry root)
                                 {
@@ -177,22 +185,33 @@ namespace ShadowViewer.Pages
                                 }
                             }, cancelTokenSource.Token);
                         }
-                        else if(item2 is StorageFolder folder)
+                        else if(item is StorageFolder folder)
                         {
-                            cancelTokenSource = new CancellationTokenSource();
-                            LoadingControl.IsLoading = true;
                             bool again = false;
                             await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = !Config.IsImportAgain && await ComicHelper.ImportAgainDialog(XamlRoot, path: folder.Path)));
                             if (again)
                             {
                                 LoadingControl.IsLoading = false;
-                                return;
+                                continue;
                             }
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressText.Visibility = Visibility.Collapsed;
                             LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
                             LoadingFileName.Text = folder.Name;
-                            await Task.Run(async () => await ComicHelper.ImportComicsFromFolder(folder, "local"), cancelTokenSource.Token);
+                            await Task.Run(async () => {
+                                try
+                                {
+                                    await ComicHelper.ImportComicsFromFolder(folder, "local");
+                                }
+                                catch (Exception)
+                                {
+                                    Log.Warning("导入无效文件夹:{F},忽略", folder.Path);
+                                }
+                            }, cancelTokenSource.Token);
+                        }
+                        else
+                        {
+                            Log.Warning("导入无效文件:{F},忽略", item.Path);
                         }
                     }
                 }

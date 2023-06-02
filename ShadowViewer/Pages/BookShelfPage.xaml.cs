@@ -1,4 +1,5 @@
 using CommunityToolkit.WinUI;
+using Microsoft.UI.Xaml.Controls;
 using SharpCompress.Readers;
 using SqlSugar;
 using System.Threading;
@@ -44,7 +45,7 @@ namespace ShadowViewer.Pages
             HomeCommandBarFlyout.ShowAt(sender, myOption);
         } 
         /// <summary>
-        /// �Ҽ��˵�
+        /// 右键
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RightTappedRoutedEventArgs"/> instance containing the event data.</param>
@@ -79,7 +80,16 @@ namespace ShadowViewer.Pages
                 LoadingProgressText.Visibility = Visibility.Collapsed;
                 LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
                 LoadingFileName.Text = folder.Name;
-                await Task.Run(async () => await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path), cancelTokenSource.Token);
+                await Task.Run(async () => {
+                    try
+                    {
+                        await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path);
+                    }
+                    catch (Exception)
+                    {
+                        Log.Warning("导入无效文件夹:{F},忽略", folder.Path);
+                    }
+                }, cancelTokenSource.Token);
                 ViewModel.RefreshLocalComic();
                 LoadingControl.IsLoading = false;
             }
@@ -113,7 +123,7 @@ namespace ShadowViewer.Pages
                     bool skip = false;
                     bool flag = false;
                     await Task.Run(() => {
-                        flag = CompressHelper.CheckPassword(storageFile.Path, options);
+                        flag = CompressHelper.CheckPassword(storageFile.Path, ref options);
                     }, cancelTokenSource.Token);
                     while (!flag)
                     {
@@ -132,7 +142,7 @@ namespace ShadowViewer.Pages
 
                         if (skip) break;
                         await Task.Run(() => {
-                            flag = CompressHelper.CheckPassword(storageFile.Path, options);
+                            flag = CompressHelper.CheckPassword(storageFile.Path, ref options);
                         }, cancelTokenSource.Token);
                     }
                     if (skip) return;
@@ -160,8 +170,16 @@ namespace ShadowViewer.Pages
                         if (res is CacheZip cache)
                         {
                             StorageFolder folder = await cache.CachePath.ToStorageFolder();
-                            await Task.Run(async () => await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path, cache.ComicId,
-                                cache.Name), cancelTokenSource.Token);
+                            await Task.Run(async () => {
+                                try
+                                {
+                                    await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path, cache.ComicId, cache.Name);
+                                }
+                                catch (Exception)
+                                {
+                                    Log.Warning("导入无效文件夹:{F},忽略", folder.Path);
+                                }
+                            }, cancelTokenSource.Token);
                         }
                         else if (res is ShadowEntry root)
                         {
@@ -174,13 +192,17 @@ namespace ShadowViewer.Pages
                         }
                     });
                 }
+                else
+                {
+                    Log.Warning("导入无效文件:{F},忽略", storageFile.Path);
+                }
                 ViewModel.RefreshLocalComic();
                 LoadingControl.IsLoading = false;
             }
         }
         
         /// <summary>
-        /// �Ҽ��˵�-�½��ļ���
+        /// 右键菜单-创建文件夹
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -190,7 +212,7 @@ namespace ShadowViewer.Pages
             await CreateFolderDialog(XamlRoot, ViewModel.Path).ShowAsync();
         }
         /// <summary>
-        /// �Ҽ��˵�-������
+        /// 右键菜单-重命名
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -350,7 +372,7 @@ namespace ShadowViewer.Pages
             MoveToPath(MoveTreeView.SelectedItem as ShadowPath);
         }
         /// <summary>
-        /// �ƶ�������ļ���
+        /// 移动到路径树
         /// </summary>
         /// <param name="path">The path.</param>
         private void MoveToPath(ShadowPath path)
@@ -368,7 +390,7 @@ namespace ShadowViewer.Pages
         }
         
         /// <summary>
-        /// �����϶�
+        /// 拖动响应
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -390,7 +412,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// �϶�������ʾ
+        /// 拖动悬浮显示
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
@@ -410,13 +432,12 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// �϶���ʼ���� ���ӵ�GridViewѡ��
+        /// 拖动初始化
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="DragItemsStartingEventArgs"/> instance containing the event data.</param>
         private void ContentGridView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
-             
             foreach(var item in e.Items)
             {
                 if(!ContentGridView.SelectedItems.Contains(item))
@@ -445,8 +466,6 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void SmokeGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var grid = sender as Grid;
@@ -465,10 +484,8 @@ namespace ShadowViewer.Pages
             e.Handled = true;
         }
         /// <summary>
-        /// ��������Ӧ
+        /// 修改排序
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             SortText.Text = ((MenuFlyoutItem)sender).Text;
@@ -484,16 +501,25 @@ namespace ShadowViewer.Pages
         {
             SortText.Text = I18nHelper.GetString("Xaml/MenuFlyoutItem/RZ/Text");
             MenuButton.Visibility = Config.IsBookShelfMenuShow.ToVisibility();
-            MenuText.Visibility = FilterText.Visibility = SettingsText.Visibility = HistoryText.Visibility = Config.IsBookShelfDetailShow.ToVisibility();
             SelectionPanel.Visibility = Visibility.Collapsed;
+            TeachingShelfBlock2.Visibility = Config.IsBookShelfMenuShow.ToVisibility();
+            TeachingShelfBlock1.Visibility = (!Config.IsBookShelfMenuShow).ToVisibility();
             ShelfInfo.Visibility = Config.IsBookShelfInfoBar.ToVisibility();
         }
         
         /// <summary>
-        /// ɾ����������ȷ��
+        /// 删除二次确定框
         /// </summary>
         public async void DeleteMessageDialog()
         {
+            void Remember_Checked(object sender, RoutedEventArgs e)
+            {
+                Config.IsRememberDeleteFilesWithComicDelete = (sender as CheckBox)?.IsChecked ?? false;
+            }
+            void DeleteFiles_Checked(object sender, RoutedEventArgs e)
+            {
+                Config.IsDeleteFilesWithComicDelete = (sender as CheckBox)?.IsChecked ?? false;
+            }
             ContentDialog dialog = XamlHelper.CreateContentDialog(XamlRoot);
             StackPanel stackPanel = new StackPanel();
             dialog.Title = I18nHelper.GetString("Shadow.String.IsDelete");
@@ -518,7 +544,7 @@ namespace ShadowViewer.Pages
             dialog.DefaultButton = ContentDialogButton.Close;
             dialog.CloseButtonText = I18nHelper.GetString("Shadow.String.Canel");
             dialog.Content = stackPanel;
-            dialog.PrimaryButtonClick += (s, e) =>
+            dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
             {
                 DeleteComics();
             };
@@ -526,7 +552,7 @@ namespace ShadowViewer.Pages
             await dialog.ShowAsync();
         }
         /// <summary>
-        /// ɾ����Ӧ(�Ҽ�ɾ��,Detele��ɾ��)
+        /// 删除
         /// </summary>
         private void Delete()
         { 
@@ -548,44 +574,23 @@ namespace ShadowViewer.Pages
             
         }
         /// <summary>
-        /// ִ��ɾ����������
+        /// 删除选中的漫画
         /// </summary>
         private void DeleteComics()
         {
-            foreach (LocalComic comic in ContentGridView.SelectedItems.ToList())
+            foreach (LocalComic comic in ContentGridView.SelectedItems.ToList().Cast<LocalComic>())
             {
-                if (Config.IsDeleteFilesWithComicDelete && !comic.IsFolder)
+                if (Config.IsDeleteFilesWithComicDelete && !comic.IsFolder && DBHelper.Db.Queryable<CacheZip>().Any(x=>x.ComicId==comic.Id))
                 {
                     comic.Link.DeleteDirectory();
                 }
                 ViewModel.LocalComics.Remove(comic);
             }
-        }
+        } 
+        
         /// <summary>
-        /// ��ѡ��-��סѡ��
+        /// 检测按键
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Remember_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckBox box = sender as CheckBox;
-            Config.IsRememberDeleteFilesWithComicDelete = (bool)box.IsChecked;
-        }
-        /// <summary>
-        /// ��ѡ��-һ��ɾ�������ļ�
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DeleteFiles_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckBox box = sender as CheckBox;
-            Config.IsDeleteFilesWithComicDelete = (bool)box.IsChecked;
-        }
-        /// <summary>
-        /// ������Ӧ
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void GridViewOnKeyDown(object sender, KeyRoutedEventArgs e)
         {
             GridView view = sender as GridView;
@@ -605,19 +610,15 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// �˵���ť
+        /// 顶部-菜单按钮
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             ShowMenu(sender as UIElement);
         }
         /// <summary>
-        /// �������
+        /// 右键菜单-设置按钮
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
@@ -655,6 +656,21 @@ namespace ShadowViewer.Pages
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             cancelTokenSource.Cancel();
+        }
+        /// <summary>
+        /// 简约与详细视图切换
+        /// </summary> 
+        private void Segmented_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Segmented se = sender as Segmented;
+            if(se.SelectedIndex == 0)
+            {
+                ContentGridView.ItemTemplate = this.Resources["SimpleLocalComicItem"] as DataTemplate;
+            }
+            else
+            {
+                ContentGridView.ItemTemplate = this.Resources["DetailLocalComicItem"] as DataTemplate;
+            }
         }
     }
 

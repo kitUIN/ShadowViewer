@@ -57,11 +57,6 @@
             get => ConfigHelper.GetBoolean("IsBookShelfMenuShow");
             set => ConfigHelper.Set("IsBookShelfMenuShow", value);
         }
-        public static bool IsBookShelfDetailShow
-        {
-            get => ConfigHelper.GetBoolean("IsBookShelfDetailShow");
-            set => ConfigHelper.Set("IsBookShelfDetailShow", value);
-        }
         public static bool IsBookShelfInfoBar
         {
             get => ConfigHelper.GetBoolean("IsBookShelfInfoBar");

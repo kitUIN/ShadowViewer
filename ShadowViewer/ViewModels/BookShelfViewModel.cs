@@ -10,6 +10,7 @@
         public ShadowSorts Sorts { get; set; } = ShadowSorts.RZ;
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
         private static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
+
         public bool IsEmpty
         {
             get => isEmpty;
@@ -50,7 +51,6 @@
                     }
                 }
             }
-
             IsEmpty = LocalComics.Count == 0;
             FolderTotalCounts = LocalComics.Count;
         }

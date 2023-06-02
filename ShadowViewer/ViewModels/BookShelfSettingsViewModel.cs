@@ -10,8 +10,6 @@
         [ObservableProperty]
         private bool isBookShelfMenuShow = Config.IsBookShelfMenuShow;
         [ObservableProperty]
-        private bool isBookShelfDetailShow = Config.IsBookShelfDetailShow;
-        [ObservableProperty]
         private bool isBookShelfInfoBar = Config.IsBookShelfInfoBar;
         [ObservableProperty]
         private bool isImportAgain = Config.IsImportAgain;
@@ -27,13 +25,6 @@
             if (oldValue != newValue)
             {
                 Config.IsBookShelfInfoBar = IsBookShelfInfoBar;
-            }
-        }
-        partial void OnIsBookShelfDetailShowChanged(bool oldValue, bool newValue)
-        {
-            if (oldValue != newValue)
-            {
-                Config.IsBookShelfDetailShow = IsBookShelfDetailShow;
             }
         }
         partial void OnIsBookShelfMenuShowChanged(bool oldValue, bool newValue)

@@ -246,6 +246,9 @@
   <data name="Xaml.Command.Refresh.Label" xml:space="preserve">
     <value>刷新</value>
   </data>
+  <data name="Xaml.Command.Settings.Label" xml:space="preserve">
+    <value>书架设置</value>
+  </data>
   <data name="Xaml.Command.Status.Label" xml:space="preserve">
     <value>属性</value>
   </data>
@@ -442,6 +445,9 @@
   <data name="Xaml.TextBlock.Menu.Text" xml:space="preserve">
     <value>菜单</value>
   </data>
+  <data name="Xaml.TextBlock.OperationSettingTitle.Text" xml:space="preserve">
+    <value>操作设置</value>
+  </data>
   <data name="Xaml.TextBlock.PageSettingTitle.Text" xml:space="preserve">
     <value>页面设置</value>
   </data>
@@ -451,8 +457,8 @@
   <data name="Xaml.TextBlock.SelectionHeader.Text" xml:space="preserve">
     <value>选中</value>
   </data>
-  <data name="Xaml.TextBlock.Settings.Text" xml:space="preserve">
-    <value>书架设置</value>
+  <data name="Xaml.TextBlock.ShowSettingTitle.Text" xml:space="preserve">
+    <value>显示设置</value>
   </data>
   <data name="Xaml.TextBlock.TagName.Text" xml:space="preserve">
     <value>标签名称:</value>
@@ -466,8 +472,14 @@
   <data name="Xaml.TextBlock.Teaching.BookShelfDetailTrue.Text" xml:space="preserve">
     <value>开启时,顶部按钮将显示具体名称:</value>
   </data>
-  <data name="Xaml.TextBlock.TeachingShelf.Text" xml:space="preserve">
-    <value>什么都没有呢,试试右键唤醒菜单吧</value>
+  <data name="Xaml.TextBlock.TeachingShelf1.Text" xml:space="preserve">
+    <value>什么都没有呢,试试</value>
+  </data>
+  <data name="Xaml.TextBlock.TeachingShelf2.Text" xml:space="preserve">
+    <value>唤醒菜单吧</value>
+  </data>
+  <data name="Xaml.TextBlock.TeachingShelf3.Text" xml:space="preserve">
+    <value>右键</value>
   </data>
   <data name="Xaml.ToggleSwitch.BookShelfMenuShow.OffContent" xml:space="preserve">
     <value>右键显示菜单</value>
