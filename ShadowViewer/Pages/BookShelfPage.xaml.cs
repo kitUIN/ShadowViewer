@@ -19,7 +19,7 @@ namespace ShadowViewer.Pages
             ViewModel = new BookShelfViewModel(e.Parameter as Uri);
         }
         /// <summary>
-        /// ��ʾ�Ҽ��˵�
+        /// 显示右键菜单
         /// </summary>
         /// <param name="position">The position.</param>
         /// <param name="sender">The sender.</param>

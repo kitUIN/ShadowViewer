@@ -146,7 +146,7 @@
 
     <Grid x:Name="Root" RightTapped="Root_RightTapped">
         <ScrollViewer
-            Margin="0,40,0,0"
+            Margin="0,40,0,15"
             Padding="5"
             HorizontalScrollBarVisibility="Disabled"
             HorizontalScrollMode="Disabled"
@@ -208,7 +208,6 @@
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
-
         </ScrollViewer>
         <Grid
             HorizontalAlignment="Center"
