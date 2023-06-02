@@ -30,7 +30,7 @@ namespace ShadowViewer.Pages
                     I18nHelper.GetString("Shadow.Error.Message.TagExists")).ShowAsync();
                 return;
             }
-            var tag = new ShadowTag(TagName.Text, ForegroundColorPicker.SelectedColor, BackgroundColorPicker.SelectedColor);
+            ShadowTag tag = new ShadowTag(TagName.Text, ForegroundColorPicker.SelectedColor, BackgroundColorPicker.SelectedColor);
             ViewModel.AddNewTag(tag);
         }
     }

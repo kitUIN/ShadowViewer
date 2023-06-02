@@ -18,6 +18,7 @@ namespace ShadowViewer.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             ViewModel = new BookShelfViewModel(e.Parameter as Uri);
+            DataContext = false;
         }
         /// <summary>
         /// 显示右键菜单
@@ -279,7 +280,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// �Ҽ��˵�-ˢ��
+        /// 右键菜单-刷新
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -288,7 +289,7 @@ namespace ShadowViewer.Pages
             ViewModel.RefreshLocalComic();
         }
         /// <summary>
-        /// �Ҽ�ѡ��GridViewItem
+        /// 漫画项右键选中
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RightTappedRoutedEventArgs"/> instance containing the event data.</param>
@@ -621,6 +622,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
+            HomeCommandBarFlyout.Hide();
             this.Frame.Navigate(typeof(BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
 

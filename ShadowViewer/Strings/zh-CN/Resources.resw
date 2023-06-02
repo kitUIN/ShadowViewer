@@ -499,8 +499,14 @@
   <data name="Xaml.ToolTip.AddTag.Content" xml:space="preserve">
     <value>添加标签</value>
   </data>
+  <data name="Xaml.ToolTip.BookSettings.Content" xml:space="preserve">
+    <value>书架设置</value>
+  </data>
   <data name="Xaml.ToolTip.Delete.Content" xml:space="preserve">
     <value>删除</value>
+  </data>
+  <data name="Xaml.ToolTip.Detail.Content" xml:space="preserve">
+    <value>详细视图</value>
   </data>
   <data name="Xaml.ToolTip.Filter.Content" xml:space="preserve">
     <value>筛选</value>
@@ -523,8 +529,8 @@
   <data name="Xaml.ToolTip.Rename.Content" xml:space="preserve">
     <value>重命名</value>
   </data>
-  <data name="Xaml.ToolTip.Settings.Content" xml:space="preserve">
-    <value>设置</value>
+  <data name="Xaml.ToolTip.Simple.Content" xml:space="preserve">
+    <value>简略视图</value>
   </data>
   <data name="Xaml.ToolTip.Sort.Content" xml:space="preserve">
     <value>排序</value>

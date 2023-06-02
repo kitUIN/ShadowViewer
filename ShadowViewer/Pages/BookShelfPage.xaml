@@ -10,6 +10,7 @@
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ShadowViewer.Utils"
+    x:Name="RootPage"
     mc:Ignorable="d">
     <Page.Resources>
         <x:Double x:Key="InfoTextSize">12</x:Double>
@@ -24,7 +25,7 @@
                 DragOver="GridViewItem_DragOverCustomized"
                 Drop="GridViewItem_Drop"
                 Tag="{x:Bind}">
-                <StackPanel>
+                <StackPanel VerticalAlignment="Top">
                     <Image
                         x:Name="connectedElement"
                         Width="120"
@@ -54,51 +55,71 @@
         </DataTemplate>
         <DataTemplate x:Key="DetailLocalComicItem" x:DataType="dv:LocalComic">
             <Grid
-                Width="250"
-                Height="160"
-                Padding="6"
+                Width="290"
+                Height="150"
+                Padding="10"
                 AllowDrop="True"
                 DragOver="GridViewItem_DragOverCustomized"
                 Drop="GridViewItem_Drop"
                 Tag="{x:Bind}">
-                <StackPanel Orientation="Horizontal" Spacing="5">
-                    <Grid Width="100" Padding="5">
-                        <Image
-                            Name="ConnectedElement2"
-                            Width="90"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Source="{x:Bind Img, Mode=OneWay}" />
-                    </Grid>
-                    <Grid Width="130" >
+                <StackPanel
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal"
+                    Spacing="10">
+                    <Image
+                        Height="130"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Source="{x:Bind Img, Mode=OneWay}" />
+                    <Grid>
                         <StackPanel
-                            Height="100"
+                            Width="160"
+                            Height="130"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top">
-                            <StackPanel>
-                                <TextBlock
-                                    Width="120"
-                                    FontSize="15"
-                                    FontWeight="Bold"
-                                    MaxLines="3"
-                                    Text="{x:Bind Name, Mode=OneWay}"
-                                    TextWrapping="Wrap" />
-                                <TextBlock
-                                    FontSize="15"
-                                    Foreground="{ThemeResource SystemAccentColorDark2}"
-                                    Text="{x:Bind Author, Mode=OneWay}" />
-                            </StackPanel>
-                        </StackPanel>
-                        <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
                             <TextBlock
-                                Width="120"
-                                FontSize="13"
-                                FontWeight="Black"
-                                Foreground="Gray"
-                                MaxLines="5"
-                                Text="{x:Bind TagsString, Mode=OneWay}"
+                                Width="150"
+                                HorizontalAlignment="Left"
+                                FontSize="18"
+                                FontWeight="Bold"
+                                MaxLines="2"
+                                Text="{x:Bind Name, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis"
                                 TextWrapping="Wrap" />
-                            <StackPanel Margin="0,0,0,15" Orientation="Horizontal">
+                            <TextBlock
+                                Width="150"
+                                HorizontalAlignment="Left"
+                                FontSize="15"
+                                MaxLines="1"
+                                Text="{x:Bind Author, Mode=OneWay}"
+                                TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                        <StackPanel
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Orientation="Vertical">
+                            <StackPanel
+                                Margin="0,5,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Orientation="Horizontal"
+                                Spacing="10">
+                                <TextBlock
+                                    MaxWidth="60"
+                                    HorizontalAlignment="Left"
+                                    FontSize="15"
+                                    Foreground="Gray"
+                                    Text="{x:Bind Percent, Mode=OneWay}" />
+                                <TextBlock
+                                    Width="70"
+                                    HorizontalAlignment="Left"
+                                    FontSize="15"
+                                    Foreground="Gray"
+                                    MaxLines="1"
+                                    Text="{x:Bind SizeString, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
                                 <FontIcon
                                     FontSize="15"
                                     Foreground="Gray"
@@ -130,6 +151,16 @@
                         </StackPanel>
                     </Grid>
                 </StackPanel>
+                <Button
+                    Padding="8,6,8,6"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="Gold"
+                    Content="{x:Bind AffiliationString, Mode=OneWay}"
+                    CornerRadius="15"
+                    FontSize="12"
+                    Style="{StaticResource NoOverButton}"
+                    Visibility="{Binding ElementName=RootPage, Path=DataContext, Mode=OneWay}" />
             </Grid>
         </DataTemplate>
         <CommandBarFlyout
@@ -155,10 +186,19 @@
             <AppBarButton
                 x:Name="ShadowCommandAddTag"
                 x:Uid="Xaml/Command/AddTag"
-                Icon="Tag"
-                Tapped="ShadowCommandAddTag_Click">
+                Click="ShadowCommandAddTag_Click"
+                Icon="Tag">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="Xaml/ToolTip/AddTag" />
+                </ToolTipService.ToolTip>
+            </AppBarButton>
+            <AppBarButton
+                x:Name="ShadowCommandSettings"
+                x:Uid="Xaml/Command/Settings"
+                Click="SettingsButton_Click"
+                Icon="Setting">
+                <ToolTipService.ToolTip>
+                    <ToolTip x:Uid="Xaml/ToolTip/BookSettings" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
             <CommandBarFlyout.SecondaryCommands>
@@ -232,15 +272,6 @@
                         <ToolTip x:Uid="Xaml/ToolTip/Status" />
                     </ToolTipService.ToolTip>
                 </AppBarButton>
-                <AppBarButton
-                    x:Name="ShadowCommandSettings"
-                    x:Uid="Xaml/Command/Settings"
-                    Click="SettingsButton_Click"
-                    Icon="Setting">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Settings" />
-                    </ToolTipService.ToolTip>
-                </AppBarButton>
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
         <TeachingTip
@@ -283,7 +314,6 @@
             <GridView
                 x:Name="ContentGridView"
                 Padding="6"
-                HorizontalAlignment="Center"
                 AllowDrop="False"
                 CanDragItems="True"
                 CanReorderItems="False"
@@ -398,11 +428,17 @@
                 SelectionChanged="Segmented_SelectionChanged"
                 SelectionMode="Single">
                 <labs:SegmentedItem Width="75">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Simple" />
+                    </ToolTipService.ToolTip>
                     <labs:SegmentedItem.Icon>
                         <FontIcon Glyph="&#xE163;" />
                     </labs:SegmentedItem.Icon>
                 </labs:SegmentedItem>
                 <labs:SegmentedItem Width="75">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Detail" />
+                    </ToolTipService.ToolTip>
                     <labs:SegmentedItem.Icon>
                         <FontIcon Glyph="&#xE161;" />
                     </labs:SegmentedItem.Icon>
