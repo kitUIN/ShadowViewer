@@ -1,6 +1,6 @@
 name: 🐛Bug 报告
 description: 提交 Bug 以帮助我们提高ShadowViewer应用体验
-title: "[🐛Bug] 我的标题"
+title: "[Bug] 我的标题"
 assignees: kitUIN
 labels:
   - "🐛Bug"
