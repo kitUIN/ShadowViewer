@@ -11,12 +11,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
-    <ScrollViewer Padding="20">
+    <ScrollViewer Padding="20,0,20,20">
         <Grid>
             <StackPanel
                 MaxWidth="1000"
-                HorizontalAlignment="Stretch"
-                SizeChanged="StackPanel_SizeChanged"
+                HorizontalAlignment="Stretch" 
                 Spacing="{StaticResource SettingsCardSpacing}">
                 <win:StackPanel.ChildrenTransitions>
                     <win:EntranceThemeTransition FromVerticalOffset="50" />
@@ -40,16 +39,6 @@
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard x:Name="ComicsPathCard" x:Uid="Xaml/SettingCard/ComicsPath">
                             <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBlock
-                                    x:Name="ComicsPathText"
-                                    VerticalAlignment="Center"
-                                    win:IsTextSelectionEnabled="True"
-                                    FontSize="12"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    MaxLines="1"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind ViewModel.ComicsPath, Mode=OneWay}"
-                                    ToolTipService.ToolTip="{x:Bind ViewModel.ComicsPath, Mode=OneWay}" />
                                 <Button
                                     x:Uid="Xaml/Button/Open"
                                     Click="Open_Click"
@@ -59,16 +48,6 @@
                         </labs:SettingsCard>
                         <labs:SettingsCard x:Name="TempPathCard" x:Uid="Xaml/SettingCard/TempPath">
                             <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBlock
-                                    x:Name="TempPathText"
-                                    VerticalAlignment="Center"
-                                    win:IsTextSelectionEnabled="True"
-                                    FontSize="12"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                    MaxLines="1"
-                                    Style="{StaticResource CaptionTextBlockStyle}"
-                                    Text="{x:Bind ViewModel.TempPath, Mode=OneWay}"
-                                    ToolTipService.ToolTip="{x:Bind ViewModel.TempPath, Mode=OneWay}" />
                                 <Button
                                     x:Uid="Xaml/Button/Open"
                                     Click="Open_Click"
@@ -135,7 +114,7 @@
                         FontSize="16"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                         Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="0.9.0.0" />
+                        Text="{x:Bind ViewModel.Version}" />
                     <labs:SettingsExpander.Items>
                         <labs:SettingsCard
                             x:Name="BugRequestCard"
@@ -161,12 +140,13 @@
                             x:Uid="Xaml/SettingsCard/Dependencies"
                             HorizontalContentAlignment="Left"
                             ContentAlignment="Vertical">
-                            <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
-                                <HyperlinkButton Content="Windows UI Library" NavigateUri="https://aka.ms/winui" />
-                                <HyperlinkButton Content="Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
-                                <HyperlinkButton Content="Serilog" NavigateUri="https://serilog.net" />
-                                <HyperlinkButton Content="SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
-                                <HyperlinkButton Content="SQLSugar" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
+                            <StackPanel Orientation="Vertical">
+                                <HyperlinkButton Content="🎨Windows UI Library" NavigateUri="https://aka.ms/winui" />
+                                <HyperlinkButton Content="🎨FluentIcon" NavigateUri="https://github.com/KitUIN/FluentIcon" />
+                                <HyperlinkButton Content="🔧Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
+                                <HyperlinkButton Content="🔧SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
+                                <HyperlinkButton Content="📃Serilog" NavigateUri="https://serilog.net" />
+                                <HyperlinkButton Content="💾SQLSugar" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
                             </StackPanel>
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>

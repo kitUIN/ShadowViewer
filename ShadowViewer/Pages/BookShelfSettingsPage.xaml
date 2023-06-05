@@ -4,12 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
-    xmlns:local="using:ShadowViewer.Pages"
+    xmlns:local="using:ShadowViewer.Controls"
     xmlns:icons="using:FluentIcon"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
-    <ScrollViewer Padding="20">
+    <ScrollViewer Padding="20,0,20,20">
         <Grid>
             <StackPanel
                 MaxWidth="1000"
@@ -20,37 +20,37 @@
                     <win:RepositionThemeTransition IsStaggeringEnabled="False" />
                 </win:StackPanel.ChildrenTransitions>
                 <TextBlock x:Uid="Xaml/TextBlock/ShowSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <labs:SettingsCard x:Uid="Xaml/SettingCard/IsBookShelfInfoBar">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE946;" />
-                    </labs:SettingsCard.HeaderIcon>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
+                <labs:SettingsCard >
+                    <labs:SettingsCard.Header>
+                        <local:SettingsHeader x:Uid="Xaml/SettingCard/IsBookShelfInfoBar" Symbol="CalendarInfoRegular"/>
+                    </labs:SettingsCard.Header>
+                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Show" IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard x:Uid="Xaml/SettingCard/IsTopBarDetail">
-                    <labs:SettingsCard.HeaderIcon>
-                        <icons:FluentIcon Symbol="AppGenericRegular"/>
-                    </labs:SettingsCard.HeaderIcon>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsTopBarDetail, Mode=TwoWay}" />
+                <labs:SettingsCard>
+                    <labs:SettingsCard.Header>
+                        <local:SettingsHeader x:Uid="Xaml/SettingCard/IsTopBarDetail" Symbol="AppGenericRegular"/>
+                    </labs:SettingsCard.Header>
+                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Show" IsOn="{x:Bind ViewModel.IsTopBarDetail, Mode=TwoWay}" />
                 </labs:SettingsCard>
 
                 <TextBlock x:Uid="Xaml/TextBlock/OperationSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <labs:SettingsCard x:Uid="Xaml/SettingCard/RememberDeleteWithFiles">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE73A;" />
-                    </labs:SettingsCard.HeaderIcon>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsRememberDeleteFilesWithComicDelete, Mode=TwoWay}" />
+                <labs:SettingsCard>
+                    <labs:SettingsCard.Header>
+                        <local:SettingsHeader x:Uid="Xaml/SettingCard/RememberDeleteWithFiles" Symbol="Checkbox2Regular"/>
+                    </labs:SettingsCard.Header>
+                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Need" IsOn="{x:Bind ViewModel.IsRememberDeleteFilesWithComicDelete, Mode=TwoWay}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard x:Uid="Xaml/SettingCard/DeleteWithFiles">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE74D;" />
-                    </labs:SettingsCard.HeaderIcon>
+                <labs:SettingsCard>
+                    <labs:SettingsCard.Header>
+                        <local:SettingsHeader x:Uid="Xaml/SettingCard/DeleteWithFiles" Symbol="DeleteLinesRegular"/>
+                    </labs:SettingsCard.Header>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsDeleteFilesWithComicDelete, Mode=TwoWay}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard x:Uid="Xaml/SettingCard/IsImportAgain">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE8B5;" />
-                    </labs:SettingsCard.HeaderIcon>
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsImportAgain, Mode=TwoWay}" />
+                <labs:SettingsCard>
+                    <labs:SettingsCard.Header>
+                        <local:SettingsHeader x:Uid="Xaml/SettingCard/IsImportAgain" Symbol="CubeArrowCurveDownRegular"/>
+                    </labs:SettingsCard.Header>
+                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Allow" IsOn="{x:Bind ViewModel.IsImportAgain, Mode=TwoWay}" />
                 </labs:SettingsCard>
             </StackPanel>
         </Grid>

@@ -9,7 +9,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-   
     <Grid
         x:Name="Root"
         AllowDrop="True"

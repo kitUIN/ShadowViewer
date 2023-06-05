@@ -24,8 +24,7 @@
             <SwipeItem Text="Status" IconSource="{StaticResource StatusIcon}"/>
         </SwipeItems>
         <DataTemplate x:Key="SimpleLocalComicItem" x:DataType="dv:LocalComic">
-            <Border   CornerRadius="10" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}">
-
+            <Border   CornerRadius="10" Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
                 <Grid
                 Width="130"
                 Height="180"
@@ -64,7 +63,7 @@
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="DetailLocalComicItem" x:DataType="dv:LocalComic">
-            <Border BorderThickness="1.5" CornerRadius="10" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}">
+            <Border BorderThickness="1.5" CornerRadius="10" Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
                 <Grid
                 Width="330"
                 Height="150"
@@ -74,7 +73,7 @@
                 Drop="GridViewItem_Drop"
                 Tag="{x:Bind}">
                 <SwipeControl
-                          RightItems="{StaticResource RevealOptions}" 
+                          RightItems="{StaticResource RevealOptions}"
                           Height="150">
                     <StackPanel
                     VerticalAlignment="Top"

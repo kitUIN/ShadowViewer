@@ -170,13 +170,6 @@ namespace ShadowViewer.Pages
             uri.LaunchUriAsync();
         }
 
-        private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            StackPanel stack = sender as StackPanel;
-            TempPathText.Width = stack.ActualWidth - 400;
-            ComicsPathText.Width = stack.ActualWidth - 400;
-        }
-
         private void HomeSettingCard_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(BookShelfSettingsPage) ,null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });

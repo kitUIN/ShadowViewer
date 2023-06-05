@@ -288,12 +288,6 @@
   <data name="Xaml.NavigationViewItem.User.Content" xml:space="preserve">
     <value>用户</value>
   </data>
-  <data name="Xaml.SettingCard.BookShelfDetailShow.Description" xml:space="preserve">
-    <value>为工具栏按钮添加文字说明</value>
-  </data>
-  <data name="Xaml.SettingCard.BookShelfDetailShow.Header" xml:space="preserve">
-    <value>工具栏按钮显示详细内容</value>
-  </data>
   <data name="Xaml.SettingCard.Cache.Description" xml:space="preserve">
     <value>缓存文件夹设置</value>
   </data>
@@ -313,10 +307,10 @@
     <value>调试模式</value>
   </data>
   <data name="Xaml.SettingCard.DeleteWithFiles.Description" xml:space="preserve">
-    <value>解压压缩文件产生的漫画文件</value>
+    <value>删除解压压缩文件产生的漫画文件</value>
   </data>
   <data name="Xaml.SettingCard.DeleteWithFiles.Header" xml:space="preserve">
-    <value>删除漫画时删除缓存文件</value>
+    <value>删除漫画的同时删除缓存文件</value>
   </data>
   <data name="Xaml.SettingCard.Developer.Description" xml:space="preserve">
     <value>开发或改进功能所需的部分设置</value>
@@ -326,6 +320,9 @@
   </data>
   <data name="Xaml.SettingCard.Home.Header" xml:space="preserve">
     <value>书架设置</value>
+  </data>
+  <data name="Xaml.SettingCard.IsBookShelfInfoBar.Description" xml:space="preserve">
+    <value>显示:总项目,当前选择,大小</value>
   </data>
   <data name="Xaml.SettingCard.IsBookShelfInfoBar.Header" xml:space="preserve">
     <value>显示书架左下角信息栏</value>
@@ -337,16 +334,16 @@
     <value>允许重复导入</value>
   </data>
   <data name="Xaml.SettingCard.IsTopBarDetail.Header" xml:space="preserve">
-    <value>顶部按钮显示名称</value>
+    <value>显示顶部按钮名称</value>
   </data>
   <data name="Xaml.SettingCard.Log.Header" xml:space="preserve">
     <value>日志</value>
   </data>
   <data name="Xaml.SettingCard.RememberDeleteWithFiles.Description" xml:space="preserve">
-    <value>删除漫画时没有弹窗</value>
+    <value>删除漫画时出现弹窗</value>
   </data>
   <data name="Xaml.SettingCard.RememberDeleteWithFiles.Header" xml:space="preserve">
-    <value>删除漫画时不需要二次确定</value>
+    <value>删除漫画时需要二次确定</value>
   </data>
   <data name="Xaml.SettingCard.TempPath.Description" xml:space="preserve">
     <value>存放一些临时文件</value>
@@ -480,6 +477,24 @@
   </data>
   <data name="Xaml.TextBlock.TeachingShelf.Text" xml:space="preserve">
     <value>什么都没有呢,可以点击右下角❓查看帮助</value>
+  </data>
+  <data name="Xaml.ToggleSwitch.Allow.OffContent" xml:space="preserve">
+    <value>不允许</value>
+  </data>
+  <data name="Xaml.ToggleSwitch.Allow.OnContent" xml:space="preserve">
+    <value>允许</value>
+  </data>
+  <data name="Xaml.ToggleSwitch.Need.OffContent" xml:space="preserve">
+    <value>不需要</value>
+  </data>
+  <data name="Xaml.ToggleSwitch.Need.OnContent" xml:space="preserve">
+    <value>需要</value>
+  </data>
+  <data name="Xaml.ToggleSwitch.Show.OffContent" xml:space="preserve">
+    <value>隐藏</value>
+  </data>
+  <data name="Xaml.ToggleSwitch.Show.OnContent" xml:space="preserve">
+    <value>显示</value>
   </data>
   <data name="Xaml.ToolTip.Add.Content" xml:space="preserve">
     <value>新建</value>

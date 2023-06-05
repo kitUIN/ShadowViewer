@@ -4,7 +4,7 @@
     {
         public BookShelfSettingsViewModel() { }
         [ObservableProperty]
-        private bool isRememberDeleteFilesWithComicDelete = Config.IsRememberDeleteFilesWithComicDelete; 
+        private bool isRememberDeleteFilesWithComicDelete = !Config.IsRememberDeleteFilesWithComicDelete; 
         [ObservableProperty]
         private bool isDeleteFilesWithComicDelete = Config.IsDeleteFilesWithComicDelete;
         [ObservableProperty]
@@ -46,7 +46,7 @@
         {
             if (oldValue != newValue)
             {
-                Config.IsRememberDeleteFilesWithComicDelete = IsRememberDeleteFilesWithComicDelete;
+                Config.IsRememberDeleteFilesWithComicDelete = !IsRememberDeleteFilesWithComicDelete;
             }
         }
     }
