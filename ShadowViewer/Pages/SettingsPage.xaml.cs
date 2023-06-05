@@ -127,8 +127,8 @@ namespace ShadowViewer.Pages
         }
         private void ThemeModeSetting_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            var selectedTheme = ((ComboBoxItem)((ComboBox)sender).SelectedItem)?.Tag?.ToString();
-            var window = WindowHelper.GetWindowForElement(this);
+            string selectedTheme = ((ComboBoxItem)((ComboBox)sender).SelectedItem)?.Tag?.ToString();
+            Window window = WindowHelper.GetWindowForElement(this);
             if (selectedTheme != null)
             {
                 ThemeHelper.RootTheme = EnumHelper.GetEnum<ElementTheme>(selectedTheme);

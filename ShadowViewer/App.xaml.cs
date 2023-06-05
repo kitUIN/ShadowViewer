@@ -1,13 +1,10 @@
-﻿
-
-namespace ShadowViewer
+﻿namespace ShadowViewer
 {
-
     public partial class App : Application
-    { 
+    {
         public App()
         {
-            this.InitializeComponent(); 
+            this.InitializeComponent();
             Config.ConfigInit();
             // 文件创建
             _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
@@ -30,19 +27,19 @@ namespace ShadowViewer
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             startupWindow = new MainWindow();
-            ThemeHelper.Initialize();
+            startupWindow.ExtendsContentIntoTitleBar = true;
             WindowHelper.TrackWindow(startupWindow);
-            startupWindow.Activate();
+            ThemeHelper.Initialize();
             Uri firstUri = new Uri("shadow://local/");
-            var actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+            AppActivationArguments actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
             if (actEventArgs.Kind == ExtendedActivationKind.Protocol
                 && actEventArgs.Data is IProtocolActivatedEventArgs data && data != null)
             {
                 firstUri = data.Uri;
-            } 
+            }
             NavigateHelper.ShadowNavigate(firstUri);
+            startupWindow.Activate();
         }
-        
         private static Window startupWindow;
         public static Window StartupWindow
         {
@@ -51,6 +48,5 @@ namespace ShadowViewer
                 return startupWindow;
             }
         }
-         
     }
 }
