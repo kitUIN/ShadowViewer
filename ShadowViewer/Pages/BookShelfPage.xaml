@@ -17,8 +17,23 @@
         <x:Double x:Key="InfoTextSize">13</x:Double>
         <x:Double x:Key="InfoIconSize">17</x:Double>
         <x:Double x:Key="InfoButtonHeight">32</x:Double>
+        <SymbolIconSource x:Key="ReplyIcon" Symbol="MailReply"/>
+        <SymbolIconSource x:Key="DeleteIcon" Symbol="Delete"/>
+        <SymbolIconSource x:Key="PinIcon" Symbol="Pin"/>
+
+        <SwipeItems x:Key="RevealOptions" Mode="Reveal">
+            <SwipeItem Text="Reply" IconSource="{StaticResource ReplyIcon}"/>
+            <SwipeItem Text="Pin" IconSource="{StaticResource PinIcon}"/>
+        </SwipeItems>
+
+        <SwipeItems x:Key="ExecuteDelete" Mode="Execute">
+            <SwipeItem Text="Delete" IconSource="{StaticResource DeleteIcon}"
+                   Background="Red"/>
+        </SwipeItems>
         <DataTemplate x:Key="SimpleLocalComicItem" x:DataType="dv:LocalComic">
-            <Grid
+            <Border BorderThickness="1.5" CornerRadius="10" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}">
+
+                <Grid
                 Width="130"
                 Height="180"
                 Padding="6"
@@ -26,15 +41,15 @@
                 DragOver="GridViewItem_DragOverCustomized"
                 Drop="GridViewItem_Drop"
                 Tag="{x:Bind}">
-                <StackPanel VerticalAlignment="Top">
-                    <Image
+                    <StackPanel VerticalAlignment="Top">
+                        <Image
                         x:Name="connectedElement"
                         Width="120"
                         Height="130"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Bottom"
                         Source="{x:Bind Img}" />
-                    <TextBlock
+                        <TextBlock
                         MaxWidth="100"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -44,18 +59,20 @@
                         TextTrimming="CharacterEllipsis"
                         TextWrapping="Wrap"
                         ToolTipService.ToolTip="{x:Bind Name}" />
-                </StackPanel>
-                <TextBlock
+                    </StackPanel>
+                    <TextBlock
                     MaxWidth="100"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Bottom"
                     FontSize="13"
                     Foreground="Gray"
                     Text="{x:Bind Percent}" />
-            </Grid>
+                </Grid>
+            </Border>
         </DataTemplate>
         <DataTemplate x:Key="DetailLocalComicItem" x:DataType="dv:LocalComic">
-            <Grid
+            <Border BorderThickness="1.5" CornerRadius="10" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}">
+                <Grid
                 Width="290"
                 Height="150"
                 Padding="10"
@@ -63,22 +80,25 @@
                 DragOver="GridViewItem_DragOverCustomized"
                 Drop="GridViewItem_Drop"
                 Tag="{x:Bind}">
-                <StackPanel
+                <SwipeControl
+                          RightItems="{StaticResource RevealOptions}" 
+                          Height="150">
+                    <StackPanel
                     VerticalAlignment="Top"
                     Orientation="Horizontal"
                     Spacing="10">
-                    <Image
+                        <Image
                         Height="130"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Source="{x:Bind Img, Mode=OneWay}" />
-                    <Grid>
-                        <StackPanel
+                        <Grid>
+                            <StackPanel
                             Width="160"
                             Height="130"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top">
-                            <TextBlock
+                                <TextBlock
                                 Width="150"
                                 HorizontalAlignment="Left"
                                 FontSize="18"
@@ -87,31 +107,31 @@
                                 Text="{x:Bind Name, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="Wrap" />
-                            <TextBlock
+                                <TextBlock
                                 Width="150"
                                 HorizontalAlignment="Left"
                                 FontSize="15"
                                 MaxLines="1"
                                 Text="{x:Bind Author, Mode=OneWay}"
                                 TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                        <StackPanel
+                            </StackPanel>
+                            <StackPanel
                             HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             Orientation="Vertical">
-                            <StackPanel
+                                <StackPanel
                                 Margin="0,5,0,0"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Orientation="Horizontal"
                                 Spacing="10">
-                                <TextBlock
+                                    <TextBlock
                                     MaxWidth="60"
                                     HorizontalAlignment="Left"
                                     FontSize="15"
                                     Foreground="Gray"
                                     Text="{x:Bind Percent, Mode=OneWay}" />
-                                <TextBlock
+                                    <TextBlock
                                     Width="70"
                                     HorizontalAlignment="Left"
                                     FontSize="15"
@@ -119,39 +139,40 @@
                                     MaxLines="1"
                                     Text="{x:Bind SizeString, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis" />
-                            </StackPanel>
-                            <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsEpsDetailShow}">
-                                <FontIcon
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsEpsDetailShow}">
+                                    <FontIcon
                                     FontSize="15"
                                     Foreground="Gray"
                                     Glyph="&#xe7b8;" />
-                                <TextBlock
+                                    <TextBlock
                                     Margin="10,0,0,0"
                                     FontSize="15"
                                     Foreground="Gray"
                                     Text="{x:Bind EpisodeCounts, Mode=OneWay}" />
-                                <TextBlock
+                                    <TextBlock
                                     FontSize="15"
                                     Foreground="Gray"
                                     Text="E" />
-                                <TextBlock
+                                    <TextBlock
                                     Margin="4,0,0,0"
                                     FontSize="15"
                                     Foreground="Gray"
                                     Text="/" />
-                                <TextBlock
+                                    <TextBlock
                                     Margin="4,0,0,0"
                                     FontSize="15"
                                     Foreground="Gray"
                                     Text="{x:Bind Counts, Mode=OneWay}" />
-                                <TextBlock
+                                    <TextBlock
                                     FontSize="15"
                                     Foreground="Gray"
                                     Text="P" />
+                                </StackPanel>
                             </StackPanel>
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
+                        </Grid>
+                    </StackPanel> 
+                </SwipeControl>
                 <Button
                     Padding="8,6,8,6"
                     HorizontalAlignment="Left"
@@ -162,7 +183,8 @@
                     FontSize="12"
                     Style="{StaticResource NoOverButton}"
                     Visibility="{Binding ElementName=RootPage, Path=DataContext, Mode=OneWay}" />
-            </Grid>
+                </Grid>
+            </Border>
         </DataTemplate>
         <CommandBarFlyout
             x:Name="HomeCommandBarFlyout"
@@ -429,14 +451,14 @@
                 </DropDownButton>
             </StackPanel>
         </Grid>
-        <RefreshContainer Margin="0,40,0,15">
-            <ScrollViewer
-                Padding="5"
+        <ScrollViewer
+                Padding="5" Margin="0,40,0,15" 
                 HorizontalScrollBarVisibility="Disabled"
                 HorizontalScrollMode="Disabled"
                 IsVerticalScrollChainingEnabled="True"
                 VerticalScrollBarVisibility="Auto"
                 VerticalScrollMode="Enabled">
+            <RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
                 <GridView
                     x:Name="ContentGridView"
                     Padding="5"
@@ -452,9 +474,16 @@
                     KeyDown="GridViewOnKeyDown"
                     RightTapped="ContentGridView_RightTapped"
                     SelectionChanged="ContentGridView_SelectionChanged"
-                    SelectionMode="Extended" />
-            </ScrollViewer>
-        </RefreshContainer>
+                    SelectionMode="Extended" >
+                    <GridView.Transitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition IsStaggeringEnabled="True" />
+                        </TransitionCollection>
+                    </GridView.Transitions>
+                     
+                </GridView>
+            </RefreshContainer>
+        </ScrollViewer>
         <Grid
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -525,7 +554,6 @@
                 </HyperlinkButton>
             </StackPanel>
         </Grid>
-
 
         <Grid
             x:Name="SmokeGrid"

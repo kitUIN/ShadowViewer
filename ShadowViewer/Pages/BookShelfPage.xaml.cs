@@ -235,7 +235,6 @@ namespace ShadowViewer.Pages
             Delete();
         }
 
-
         /// <summary>
         /// �Ҽ��˵�-�ƶ���
         /// </summary>
@@ -682,6 +681,14 @@ namespace ShadowViewer.Pages
             else
             {
                 ContentGridView.ItemTemplate = this.Resources["DetailLocalComicItem"] as DataTemplate;
+            }
+        }
+
+        private void RefreshContainer_RefreshRequested(RefreshContainer sender, RefreshRequestedEventArgs args)
+        {
+            using (var RefreshCompletionDeferral = args.GetDeferral())
+            {
+                this.ViewModel.RefreshLocalComic();
             }
         }
     }
