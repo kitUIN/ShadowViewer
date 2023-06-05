@@ -1,5 +1,6 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
+using ShadowViewer.Core.Enums;
 using SharpCompress.Readers;
 using SqlSugar;
 using System.Threading;

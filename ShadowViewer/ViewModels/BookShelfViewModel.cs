@@ -1,4 +1,6 @@
-﻿namespace ShadowViewer.ViewModels
+﻿using ShadowViewer.Core.Enums;
+
+namespace ShadowViewer.ViewModels
 {
     public partial class BookShelfViewModel: ObservableRecipient, IRecipient<FilesMessage>
     {
