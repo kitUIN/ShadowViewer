@@ -17,21 +17,14 @@
         <x:Double x:Key="InfoTextSize">13</x:Double>
         <x:Double x:Key="InfoIconSize">17</x:Double>
         <x:Double x:Key="InfoButtonHeight">32</x:Double>
-        <SymbolIconSource x:Key="ReplyIcon" Symbol="MailReply"/>
+        <SymbolIconSource x:Key="StatusIcon" Symbol="Repair"/>
         <SymbolIconSource x:Key="DeleteIcon" Symbol="Delete"/>
-        <SymbolIconSource x:Key="PinIcon" Symbol="Pin"/>
-
         <SwipeItems x:Key="RevealOptions" Mode="Reveal">
-            <SwipeItem Text="Reply" IconSource="{StaticResource ReplyIcon}"/>
-            <SwipeItem Text="Pin" IconSource="{StaticResource PinIcon}"/>
-        </SwipeItems>
-
-        <SwipeItems x:Key="ExecuteDelete" Mode="Execute">
-            <SwipeItem Text="Delete" IconSource="{StaticResource DeleteIcon}"
-                   Background="Red"/>
+            <SwipeItem Text="Delete" IconSource="{StaticResource DeleteIcon}"/>
+            <SwipeItem Text="Status" IconSource="{StaticResource StatusIcon}"/>
         </SwipeItems>
         <DataTemplate x:Key="SimpleLocalComicItem" x:DataType="dv:LocalComic">
-            <Border BorderThickness="1.5" CornerRadius="10" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}">
+            <Border   CornerRadius="10" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}">
 
                 <Grid
                 Width="130"
