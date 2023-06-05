@@ -67,6 +67,11 @@
             get => ConfigHelper.GetBoolean("IsImportAgain");
             set => ConfigHelper.Set("IsImportAgain", value);
         }
+        public static bool IsTopBarDetail
+        {
+            get => ConfigHelper.GetBoolean("IsTopBarDetail");
+            set => ConfigHelper.Set("IsTopBarDetail", value);
+        }
         private static void IsDebugEvent()
         {
             if(IsDebug)

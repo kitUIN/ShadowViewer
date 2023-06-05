@@ -245,7 +245,7 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             MoveTreeView.ItemsSource = new List<ShadowPath> { 
-                new ShadowPath(ContentGridView.SelectedItems.Cast<LocalComic>().Select(c => c.Id)) 
+                new ShadowPath(ContentGridView.SelectedItems.Cast<LocalComic>().Select(c => c.Id).ToList()) 
             };
             MoveTeachingTip.IsOpen = true;
         }
@@ -490,7 +490,11 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            SortText.Text = ((MenuFlyoutItem)sender).Text;
+            string text = ((MenuFlyoutItem)sender).Tag.ToString();
+            foreach (MenuFlyoutItem item in SortFlyout.Items)
+            {
+                item.Text = (item.Tag.ToString() == text ? "⁜ " : "    ") + I18nHelper.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
+            }
             ViewModel.Sorts = EnumHelper.GetEnum<ShadowSorts>(((MenuFlyoutItem)sender).Tag.ToString());
             ViewModel.RefreshLocalComic();
         }
@@ -501,12 +505,16 @@ namespace ShadowViewer.Pages
         /// <param name="e"></param>
         private void Controls_Loaded(object sender, RoutedEventArgs e)
         {
-            SortText.Text = I18nHelper.GetString("Xaml/MenuFlyoutItem/RZ/Text");
+            foreach(MenuFlyoutItem item in SortFlyout.Items)
+            {
+                item.Text = (item.Tag.ToString() == "RZ" ? "⁜ "  : "    ") + I18nHelper.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
+            }
             MenuButton.Visibility = Config.IsBookShelfMenuShow.ToVisibility();
             SelectionPanel.Visibility = Visibility.Collapsed;
             TeachingShelfBlock2.Visibility = Config.IsBookShelfMenuShow.ToVisibility();
             TeachingShelfBlock1.Visibility = (!Config.IsBookShelfMenuShow).ToVisibility();
             ShelfInfo.Visibility = Config.IsBookShelfInfoBar.ToVisibility();
+            SortDetail.Visibility = AddDetail.Visibility = SimpleDetail.Visibility = DetailDetail.Visibility = FilterDetail.Visibility = Config.IsTopBarDetail.ToVisibility();
         }
         
         /// <summary>
@@ -666,6 +674,7 @@ namespace ShadowViewer.Pages
         private void Segmented_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Segmented se = sender as Segmented;
+            if (ContentGridView is null) return;
             if(se.SelectedIndex == 0)
             {
                 ContentGridView.ItemTemplate = this.Resources["SimpleLocalComicItem"] as DataTemplate;

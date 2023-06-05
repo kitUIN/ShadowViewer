@@ -6,6 +6,7 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dv="using:ShadowViewer.Models"
+    xmlns:icons="using:FluentIcon"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +14,7 @@
     x:Name="RootPage"
     mc:Ignorable="d">
     <Page.Resources>
-        <x:Double x:Key="InfoTextSize">12</x:Double>
+        <x:Double x:Key="InfoTextSize">13</x:Double>
         <x:Double x:Key="InfoIconSize">17</x:Double>
         <x:Double x:Key="InfoButtonHeight">32</x:Double>
         <DataTemplate x:Key="SimpleLocalComicItem" x:DataType="dv:LocalComic">
@@ -119,7 +120,7 @@
                                     Text="{x:Bind SizeString, Mode=OneWay}"
                                     TextTrimming="CharacterEllipsis" />
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsEpsDetailShow}">
                                 <FontIcon
                                     FontSize="15"
                                     Foreground="Gray"
@@ -190,15 +191,6 @@
                 Icon="Tag">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="Xaml/ToolTip/AddTag" />
-                </ToolTipService.ToolTip>
-            </AppBarButton>
-            <AppBarButton
-                x:Name="ShadowCommandSettings"
-                x:Uid="Xaml/Command/Settings"
-                Click="SettingsButton_Click"
-                Icon="Setting">
-                <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="Xaml/ToolTip/BookSettings" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
             <CommandBarFlyout.SecondaryCommands>
@@ -301,33 +293,168 @@
             </TreeView>
         </TeachingTip>
     </Page.Resources>
-
     <Grid x:Name="Root" RightTapped="Root_RightTapped">
-        <ScrollViewer
-            Margin="0,40,0,15"
+        <Grid
+            Height="50"
             Padding="5"
-            HorizontalScrollBarVisibility="Disabled"
-            HorizontalScrollMode="Disabled"
-            IsVerticalScrollChainingEnabled="True"
-            VerticalScrollBarVisibility="Auto"
-            VerticalScrollMode="Enabled">
-            <GridView
-                x:Name="ContentGridView"
-                Padding="6"
-                AllowDrop="False"
-                CanDragItems="True"
-                CanReorderItems="False"
-                DoubleTapped="ContentGridView_DoubleTapped"
-                DragItemsStarting="ContentGridView_DragItemsStarting"
-                FlowDirection="LeftToRight"
-                IsItemClickEnabled="False"
-                ItemTemplate="{StaticResource SimpleLocalComicItem}"
-                ItemsSource="{x:Bind ViewModel.LocalComics}"
-                KeyDown="GridViewOnKeyDown"
-                RightTapped="ContentGridView_RightTapped"
-                SelectionChanged="ContentGridView_SelectionChanged"
-                SelectionMode="Extended" />
-        </ScrollViewer>
+            VerticalAlignment="Top">
+            <StackPanel
+                Margin="20,0,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <DropDownButton x:Name="AddButton" Height="{StaticResource InfoButtonHeight}">
+                    <DropDownButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xECC8;" />
+                            <TextBlock
+                                x:Name="AddDetail"
+                                x:Uid="Xaml/TextBlock/Add"
+                                Margin="5,0,0,0" />
+                        </StackPanel>
+                    </DropDownButton.Content>
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Add" />
+                    </ToolTipService.ToolTip>
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem
+                                x:Uid="Xaml/Command/NewFolder"
+                                Click="ShadowCommandAddNewFolder_Click"
+                                Icon="NewFolder">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="Xaml/ToolTip/NewFolder" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Uid="Xaml/Command/AddFromFolder" Click="ShadowCommandAddFromFolder_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE82E;" />
+                                </MenuFlyoutItem.Icon>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromFolder" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Uid="Xaml/Command/AddFromZip" Click="ShadowCommandAddFromZip_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xF012;" />
+                                </MenuFlyoutItem.Icon>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromZip" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+                <Button
+                    x:Name="MenuButton"
+                    Height="{StaticResource InfoButtonHeight}"
+                    Click="MenuButton_Click">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Menu" />
+                    </ToolTipService.ToolTip>
+                    <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xEDE3;" />
+                </Button>
+            </StackPanel>
+            <labs:Segmented
+                HorizontalAlignment="Center"
+                SelectedIndex="0"
+                SelectionChanged="Segmented_SelectionChanged"
+                SelectionMode="Single">
+                <labs:SegmentedItem Width="75">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Simple" />
+                    </ToolTipService.ToolTip>
+                    <labs:SegmentedItem.Icon>
+                        <FontIcon Glyph="&#xE163;" />
+                    </labs:SegmentedItem.Icon>
+                    <TextBlock x:Name="SimpleDetail" />
+                </labs:SegmentedItem>
+                <labs:SegmentedItem Width="75">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Detail" />
+                    </ToolTipService.ToolTip>
+                    <labs:SegmentedItem.Icon>
+                        <FontIcon Glyph="&#xE161;" />
+                    </labs:SegmentedItem.Icon>
+                    <TextBlock x:Name="DetailDetail" />
+                </labs:SegmentedItem>
+            </labs:Segmented>
+            <StackPanel
+                Margin="0,0,20,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal"
+                Spacing="10">
+                <Button Height="{StaticResource InfoButtonHeight}">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Filter" />
+                    </ToolTipService.ToolTip>
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE71C;" />
+                        <TextBlock
+                            x:Name="FilterDetail"
+                            x:Uid="Xaml/TextBlock/Filter"
+                            Margin="5,0,0,0" />
+                    </StackPanel>
+                </Button>
+                <DropDownButton
+                    x:Name="SortButton"
+                    Height="{StaticResource InfoButtonHeight}"
+                    Loaded="Controls_Loaded">
+                    <DropDownButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE8CB;" />
+                            <TextBlock
+                                x:Name="SortDetail"
+                                x:Uid="Xaml/TextBlock/Sort"
+                                Margin="5,0,0,0" />
+                        </StackPanel>
+                    </DropDownButton.Content>
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Sort" />
+                    </ToolTipService.ToolTip>
+                    <DropDownButton.Flyout>
+                        <MenuFlyout x:Name="SortFlyout" Placement="Bottom">
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="PA" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="PZ" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="AZ" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="ZA" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="RA" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="RZ" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="CA" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="CZ" />
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
+            </StackPanel>
+        </Grid>
+        <RefreshContainer Margin="0,40,0,15">
+            <ScrollViewer
+                Padding="5"
+                HorizontalScrollBarVisibility="Disabled"
+                HorizontalScrollMode="Disabled"
+                IsVerticalScrollChainingEnabled="True"
+                VerticalScrollBarVisibility="Auto"
+                VerticalScrollMode="Enabled">
+                <GridView
+                    x:Name="ContentGridView"
+                    Padding="5"
+                    AllowDrop="False"
+                    CanDragItems="True"
+                    CanReorderItems="False"
+                    DoubleTapped="ContentGridView_DoubleTapped"
+                    DragItemsStarting="ContentGridView_DragItemsStarting"
+                    FlowDirection="LeftToRight"
+                    IsItemClickEnabled="False"
+                    ItemTemplate="{StaticResource SimpleLocalComicItem}"
+                    ItemsSource="{x:Bind ViewModel.LocalComics}"
+                    KeyDown="GridViewOnKeyDown"
+                    RightTapped="ContentGridView_RightTapped"
+                    SelectionChanged="ContentGridView_SelectionChanged"
+                    SelectionMode="Extended" />
+            </ScrollViewer>
+        </RefreshContainer>
         <Grid
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -350,16 +477,15 @@
                     x:Uid="Xaml/TextBlock/TeachingShelf2"
                     FontSize="17"
                     FontWeight="Bold" />
+
             </StackPanel>
+
         </Grid>
-        <Grid
-            x:Name="ShelfInfo"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom">
+        <Grid x:Name="ShelfInfo" VerticalAlignment="Bottom">
             <StackPanel
                 Margin="6,0,0,2"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Center"
+                VerticalAlignment="Bottom"
                 Orientation="Horizontal"
                 Spacing="10">
                 <StackPanel Orientation="Horizontal" Spacing="3">
@@ -384,125 +510,22 @@
                         Text="|" />
                 </StackPanel>
             </StackPanel>
-        </Grid>
 
+        </Grid>
         <Grid
-            Height="50"
-            Padding="5"
-            VerticalAlignment="Top">
-            <StackPanel
-                Margin="20,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="10">
-                <Button Height="{StaticResource InfoButtonHeight}">
+            Padding="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <HyperlinkButton Height="28" Click="SettingsButton_Click">
+                    <FontIcon FontSize="14" Glyph="&#xE713;" />
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Filter" />
+                        <ToolTip x:Uid="Xaml/ToolTip/BookSettings" />
                     </ToolTipService.ToolTip>
-                    <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE71C;" />
-                </Button>
-                <Button
-                    x:Name="HistoryButton"
-                    Height="{StaticResource InfoButtonHeight}"
-                    Click="HistoryButton_Click">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/History" />
-                    </ToolTipService.ToolTip>
-                    <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE81C;" />
-                </Button>
-
-                <Button
-                    x:Name="MenuButton"
-                    Height="{StaticResource InfoButtonHeight}"
-                    Click="MenuButton_Click">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Menu" />
-                    </ToolTipService.ToolTip>
-                    <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xEDE3;" />
-                </Button>
+                </HyperlinkButton>
             </StackPanel>
-            <labs:Segmented
-                HorizontalAlignment="Center"
-                SelectedIndex="0"
-                SelectionChanged="Segmented_SelectionChanged"
-                SelectionMode="Single">
-                <labs:SegmentedItem Width="75">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Simple" />
-                    </ToolTipService.ToolTip>
-                    <labs:SegmentedItem.Icon>
-                        <FontIcon Glyph="&#xE163;" />
-                    </labs:SegmentedItem.Icon>
-                </labs:SegmentedItem>
-                <labs:SegmentedItem Width="75">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Detail" />
-                    </ToolTipService.ToolTip>
-                    <labs:SegmentedItem.Icon>
-                        <FontIcon Glyph="&#xE161;" />
-                    </labs:SegmentedItem.Icon>
-                </labs:SegmentedItem>
-            </labs:Segmented>
-            <StackPanel
-                Margin="0,0,20,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="10">
-                <DropDownButton
-                    x:Name="SortButton"
-                    Height="{StaticResource InfoButtonHeight}"
-                    Loaded="Controls_Loaded">
-                    <DropDownButton.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE8CB;" />
-                            <TextBlock x:Name="SortText" Margin="5,0,0,0" />
-                        </StackPanel>
-                    </DropDownButton.Content>
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Sort" />
-                    </ToolTipService.ToolTip>
-                    <DropDownButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/PA"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="PA" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/PZ"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="PZ" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/AZ"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="AZ" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/ZA"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="ZA" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/RA"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="RA" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/RZ"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="RZ" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/CA"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="CA" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/CZ"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="CZ" />
-                        </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
-            </StackPanel>
-
         </Grid>
+
 
         <Grid
             x:Name="SmokeGrid"

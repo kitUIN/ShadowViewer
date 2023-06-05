@@ -8,7 +8,15 @@
         private string comicsPath = Config.ComicsPath;
         [ObservableProperty]
         private string tempPath = Config.TempPath;
-
+        [ObservableProperty]
+        private bool isTopBarDetail = Config.IsTopBarDetail;
+        partial void OnIsTopBarDetailChanged(bool oldValue, bool newValue)
+        {
+            if (oldValue != newValue)
+            {
+                Config.IsTopBarDetail = IsTopBarDetail;
+            }
+        }
         partial void OnComicsPathChanged(string oldValue, string newValue)
         {
             if(oldValue != newValue)
@@ -30,9 +38,6 @@
                 Config.TempPath = TempPath;
             }
         }
-        public SettingsViewModel()
-        {
-             
-        }
+        public SettingsViewModel() { }
     }
 }

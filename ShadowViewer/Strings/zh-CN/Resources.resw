@@ -408,6 +408,9 @@
   <data name="Xaml.TextBlock.AboutSettingTitle.Text" xml:space="preserve">
     <value>关于</value>
   </data>
+  <data name="Xaml.TextBlock.Add.Text" xml:space="preserve">
+    <value>新建</value>
+  </data>
   <data name="Xaml.TextBlock.AppTitle.Text" xml:space="preserve">
     <value>ShadowReader</value>
     <comment>ShadowReader</comment>
@@ -459,6 +462,9 @@
   </data>
   <data name="Xaml.TextBlock.ShowSettingTitle.Text" xml:space="preserve">
     <value>显示设置</value>
+  </data>
+  <data name="Xaml.TextBlock.Sort.Text" xml:space="preserve">
+    <value>排序</value>
   </data>
   <data name="Xaml.TextBlock.TagName.Text" xml:space="preserve">
     <value>标签名称:</value>
