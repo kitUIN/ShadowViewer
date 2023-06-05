@@ -234,15 +234,15 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// �Ҽ��˵�-�ƶ���
+        /// 
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandMove_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            MoveTreeView.ItemsSource = new List<ShadowPath> { 
-                new ShadowPath(ContentGridView.SelectedItems.Cast<LocalComic>().Select(c => c.Id).ToList()) 
+            MoveTreeView.ItemsSource = new List<ShadowPath> {
+                new ShadowPath(ContentGridView.SelectedItems.Cast<LocalComic>().ToList().Select(c => c.Id))
             };
             MoveTeachingTip.IsOpen = true;
         }

@@ -24,7 +24,10 @@
             <SwipeItem Text="Status" IconSource="{StaticResource StatusIcon}"/>
         </SwipeItems>
         <DataTemplate x:Key="SimpleLocalComicItem" x:DataType="dv:LocalComic">
-            <Border   CornerRadius="10" Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
+            <Border   CornerRadius="4"
+                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                      Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                 <Grid
                 Width="130"
                 Height="180"
@@ -63,7 +66,8 @@
             </Border>
         </DataTemplate>
         <DataTemplate x:Key="DetailLocalComicItem" x:DataType="dv:LocalComic">
-            <Border BorderThickness="1.5" CornerRadius="10" Background="{StaticResource CardBackgroundFillColorDefaultBrush}">
+            <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"  CornerRadius="4" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
                 <Grid
                 Width="330"
                 Height="150"
