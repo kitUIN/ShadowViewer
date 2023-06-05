@@ -66,7 +66,7 @@
         <DataTemplate x:Key="DetailLocalComicItem" x:DataType="dv:LocalComic">
             <Border BorderThickness="1.5" CornerRadius="10" Background="{StaticResource CardBackgroundFillColorSecondaryBrush}">
                 <Grid
-                Width="290"
+                Width="330"
                 Height="150"
                 Padding="10"
                 AllowDrop="True"
@@ -308,13 +308,12 @@
             </TreeView>
         </TeachingTip>
     </Page.Resources>
-    <Grid x:Name="Root" RightTapped="Root_RightTapped">
+    <Grid MinWidth="700" x:Name="Root" RightTapped="Root_RightTapped">
         <Grid
             Height="50"
-            Padding="5"
+            Padding="5" Margin="20,0,20,0"
             VerticalAlignment="Top">
-            <StackPanel
-                Margin="20,0,0,0"
+            <StackPanel 
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
@@ -362,28 +361,33 @@
                     </DropDownButton.Flyout>
                 </DropDownButton>
                 <Button
-                    x:Name="MenuButton"
+                    x:Name="RefreshButton"
                     Height="{StaticResource InfoButtonHeight}"
-                    Click="MenuButton_Click">
+                    Click="ShadowCommandRefresh_Click">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Menu" />
+                        <ToolTip x:Uid="Xaml/ToolTip/Refresh" />
                     </ToolTipService.ToolTip>
-                    <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xEDE3;" />
+                    <StackPanel Orientation="Horizontal">
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE72C;" />
+                        <TextBlock
+                            x:Name="RefreshDetail"
+                            x:Uid="Xaml/TextBlock/Refresh"
+                            Margin="5,0,0,0" />
+                    </StackPanel> 
                 </Button>
             </StackPanel>
             <labs:Segmented
                 HorizontalAlignment="Center"
-                SelectedIndex="0"
+                x:Name="StyleSegmented"
                 SelectionChanged="Segmented_SelectionChanged"
                 SelectionMode="Single">
-                <labs:SegmentedItem Width="75">
+                <labs:SegmentedItem   Width="75">
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Simple" />
                     </ToolTipService.ToolTip>
                     <labs:SegmentedItem.Icon>
                         <FontIcon Glyph="&#xE163;" />
-                    </labs:SegmentedItem.Icon>
-                    <TextBlock x:Name="SimpleDetail" />
+                    </labs:SegmentedItem.Icon> 
                 </labs:SegmentedItem>
                 <labs:SegmentedItem Width="75">
                     <ToolTipService.ToolTip>
@@ -391,12 +395,10 @@
                     </ToolTipService.ToolTip>
                     <labs:SegmentedItem.Icon>
                         <FontIcon Glyph="&#xE161;" />
-                    </labs:SegmentedItem.Icon>
-                    <TextBlock x:Name="DetailDetail" />
+                    </labs:SegmentedItem.Icon> 
                 </labs:SegmentedItem>
             </labs:Segmented>
-            <StackPanel
-                Margin="0,0,20,0"
+            <StackPanel 
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
@@ -468,12 +470,6 @@
                     RightTapped="ContentGridView_RightTapped"
                     SelectionChanged="ContentGridView_SelectionChanged"
                     SelectionMode="Extended" >
-                    <GridView.Transitions>
-                        <TransitionCollection>
-                            <EntranceThemeTransition IsStaggeringEnabled="True" />
-                        </TransitionCollection>
-                    </GridView.Transitions>
-                     
                 </GridView>
             </RefreshContainer>
         </ScrollViewer>
@@ -481,27 +477,10 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock
-                    x:Uid="Xaml/TextBlock/TeachingShelf1"
-                    FontSize="17"
+            <TextBlock MaxWidth="500"
+                    x:Uid="Xaml/TextBlock/TeachingShelf"
+                    FontSize="17" TextWrapping="Wrap"
                     FontWeight="Bold" />
-                <TextBlock
-                    x:Name="TeachingShelfBlock1"
-                    x:Uid="Xaml/TextBlock/TeachingShelf3"
-                    FontSize="17"
-                    FontWeight="Bold" />
-                <FontIcon
-                    x:Name="TeachingShelfBlock2"
-                    FontSize="{StaticResource InfoIconSize}"
-                    Glyph="&#xEDE3;" />
-                <TextBlock
-                    x:Uid="Xaml/TextBlock/TeachingShelf2"
-                    FontSize="17"
-                    FontWeight="Bold" />
-
-            </StackPanel>
-
         </Grid>
         <Grid x:Name="ShelfInfo" VerticalAlignment="Bottom">
             <StackPanel
@@ -539,6 +518,12 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom">
             <StackPanel Orientation="Horizontal">
+                <HyperlinkButton Height="28">
+                    <FontIcon FontSize="14" Glyph="&#xE897;" />
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Help" />
+                    </ToolTipService.ToolTip>
+                </HyperlinkButton>
                 <HyperlinkButton Height="28" Click="SettingsButton_Click">
                     <FontIcon FontSize="14" Glyph="&#xE713;" />
                     <ToolTipService.ToolTip>

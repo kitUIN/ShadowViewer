@@ -53,10 +53,8 @@ namespace ShadowViewer.Pages
         /// <param name="e">The <see cref="RightTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void Root_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            if (!Config.IsBookShelfMenuShow)
-            { 
-                ShowMenu(sender as UIElement, e.GetPosition(sender as UIElement));
-            }
+            ShowMenu(sender as UIElement, e.GetPosition(sender as UIElement));
+
         }
         /// <summary>
         /// 右键菜单-从文件夹导入漫画
@@ -508,14 +506,11 @@ namespace ShadowViewer.Pages
             {
                 item.Text = (item.Tag.ToString() == "RZ" ? "⁜ "  : "    ") + I18nHelper.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
             }
-            MenuButton.Visibility = Config.IsBookShelfMenuShow.ToVisibility();
             SelectionPanel.Visibility = Visibility.Collapsed;
-            TeachingShelfBlock2.Visibility = Config.IsBookShelfMenuShow.ToVisibility();
-            TeachingShelfBlock1.Visibility = (!Config.IsBookShelfMenuShow).ToVisibility();
             ShelfInfo.Visibility = Config.IsBookShelfInfoBar.ToVisibility();
-            SortDetail.Visibility = AddDetail.Visibility = SimpleDetail.Visibility = DetailDetail.Visibility = FilterDetail.Visibility = Config.IsTopBarDetail.ToVisibility();
-        }
-        
+            SortDetail.Visibility = AddDetail.Visibility =  FilterDetail.Visibility= RefreshDetail.Visibility = Config.IsTopBarDetail.ToVisibility();
+            StyleSegmented.SelectedIndex = Config.BookStyleDetail ? 1 : 0;
+        } 
         /// <summary>
         /// 删除二次确定框
         /// </summary>
@@ -676,10 +671,12 @@ namespace ShadowViewer.Pages
             if (ContentGridView is null) return;
             if(se.SelectedIndex == 0)
             {
+                Config.BookStyleDetail = false;
                 ContentGridView.ItemTemplate = this.Resources["SimpleLocalComicItem"] as DataTemplate;
             }
             else
             {
+                Config.BookStyleDetail = true;
                 ContentGridView.ItemTemplate = this.Resources["DetailLocalComicItem"] as DataTemplate;
             }
         }

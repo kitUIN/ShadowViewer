@@ -52,11 +52,6 @@
             get => ConfigHelper.GetBoolean("IsDeleteFilesWithComicDelete");
             set => ConfigHelper.Set("IsDeleteFilesWithComicDelete", value);
         }
-        public static bool IsBookShelfMenuShow
-        {
-            get => ConfigHelper.GetBoolean("IsBookShelfMenuShow");
-            set => ConfigHelper.Set("IsBookShelfMenuShow", value);
-        }
         public static bool IsBookShelfInfoBar
         {
             get => ConfigHelper.GetBoolean("IsBookShelfInfoBar");
@@ -71,6 +66,11 @@
         {
             get => ConfigHelper.GetBoolean("IsTopBarDetail");
             set => ConfigHelper.Set("IsTopBarDetail", value);
+        }
+        public static bool BookStyleDetail
+        {
+            get => ConfigHelper.GetBoolean("BookStyleDetail");
+            set => ConfigHelper.Set("BookStyleDetail", value);
         }
         private static void IsDebugEvent()
         {

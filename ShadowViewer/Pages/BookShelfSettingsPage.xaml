@@ -5,11 +5,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
+    xmlns:icons="using:FluentIcon"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
-
-    <ScrollViewer Padding="20,0,20,0">
+    <ScrollViewer Padding="20">
         <Grid>
             <StackPanel
                 MaxWidth="1000"
@@ -20,17 +20,17 @@
                     <win:RepositionThemeTransition IsStaggeringEnabled="False" />
                 </win:StackPanel.ChildrenTransitions>
                 <TextBlock x:Uid="Xaml/TextBlock/ShowSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-                <labs:SettingsCard x:Uid="Xaml/SettingCard/BookShelfMenuShow">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xEDE3;" />
-                    </labs:SettingsCard.HeaderIcon>
-                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/BookShelfMenuShow" IsOn="{x:Bind ViewModel.IsBookShelfMenuShow, Mode=TwoWay}" />
-                </labs:SettingsCard>
                 <labs:SettingsCard x:Uid="Xaml/SettingCard/IsBookShelfInfoBar">
                     <labs:SettingsCard.HeaderIcon>
                         <FontIcon Glyph="&#xE946;" />
                     </labs:SettingsCard.HeaderIcon>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
+                </labs:SettingsCard>
+                <labs:SettingsCard x:Uid="Xaml/SettingCard/IsTopBarDetail">
+                    <labs:SettingsCard.HeaderIcon>
+                        <icons:FluentIcon Symbol="AppGenericRegular"/>
+                    </labs:SettingsCard.HeaderIcon>
+                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsTopBarDetail, Mode=TwoWay}" />
                 </labs:SettingsCard>
 
                 <TextBlock x:Uid="Xaml/TextBlock/OperationSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />

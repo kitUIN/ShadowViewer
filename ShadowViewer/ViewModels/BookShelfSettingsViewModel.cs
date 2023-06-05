@@ -8,11 +8,18 @@
         [ObservableProperty]
         private bool isDeleteFilesWithComicDelete = Config.IsDeleteFilesWithComicDelete;
         [ObservableProperty]
-        private bool isBookShelfMenuShow = Config.IsBookShelfMenuShow;
-        [ObservableProperty]
         private bool isBookShelfInfoBar = Config.IsBookShelfInfoBar;
         [ObservableProperty]
         private bool isImportAgain = Config.IsImportAgain;
+        [ObservableProperty]
+        private bool isTopBarDetail = Config.IsTopBarDetail;
+        partial void OnIsTopBarDetailChanged(bool oldValue, bool newValue)
+        {
+            if (oldValue != newValue)
+            {
+                Config.IsTopBarDetail = IsTopBarDetail;
+            }
+        }
         partial void OnIsImportAgainChanged(bool oldValue, bool newValue)
         {
             if (oldValue != newValue)
@@ -27,13 +34,7 @@
                 Config.IsBookShelfInfoBar = IsBookShelfInfoBar;
             }
         }
-        partial void OnIsBookShelfMenuShowChanged(bool oldValue, bool newValue)
-        {
-            if (oldValue != newValue)
-            {
-                Config.IsBookShelfMenuShow = IsBookShelfMenuShow;
-            }
-        }
+
         partial void OnIsDeleteFilesWithComicDeleteChanged(bool oldValue, bool newValue)
         {
             if (oldValue != newValue)

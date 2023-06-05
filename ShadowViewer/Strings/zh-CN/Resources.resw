@@ -294,12 +294,6 @@
   <data name="Xaml.SettingCard.BookShelfDetailShow.Header" xml:space="preserve">
     <value>工具栏按钮显示详细内容</value>
   </data>
-  <data name="Xaml.SettingCard.BookShelfMenuShow.Description" xml:space="preserve">
-    <value>右键菜单/顶部菜单</value>
-  </data>
-  <data name="Xaml.SettingCard.BookShelfMenuShow.Header" xml:space="preserve">
-    <value>书架菜单显示方式</value>
-  </data>
   <data name="Xaml.SettingCard.Cache.Description" xml:space="preserve">
     <value>缓存文件夹设置</value>
   </data>
@@ -341,6 +335,9 @@
   </data>
   <data name="Xaml.SettingCard.IsImportAgain.Header" xml:space="preserve">
     <value>允许重复导入</value>
+  </data>
+  <data name="Xaml.SettingCard.IsTopBarDetail.Header" xml:space="preserve">
+    <value>顶部按钮显示名称</value>
   </data>
   <data name="Xaml.SettingCard.Log.Header" xml:space="preserve">
     <value>日志</value>
@@ -457,6 +454,9 @@
   <data name="Xaml.TextBlock.PluginSettingTitle.Text" xml:space="preserve">
     <value>插件设置</value>
   </data>
+  <data name="Xaml.TextBlock.Refresh.Text" xml:space="preserve">
+    <value>刷新</value>
+  </data>
   <data name="Xaml.TextBlock.SelectionHeader.Text" xml:space="preserve">
     <value>选中</value>
   </data>
@@ -478,20 +478,8 @@
   <data name="Xaml.TextBlock.Teaching.BookShelfDetailTrue.Text" xml:space="preserve">
     <value>开启时,顶部按钮将显示具体名称:</value>
   </data>
-  <data name="Xaml.TextBlock.TeachingShelf1.Text" xml:space="preserve">
-    <value>什么都没有呢,试试</value>
-  </data>
-  <data name="Xaml.TextBlock.TeachingShelf2.Text" xml:space="preserve">
-    <value>唤醒菜单吧</value>
-  </data>
-  <data name="Xaml.TextBlock.TeachingShelf3.Text" xml:space="preserve">
-    <value>右键</value>
-  </data>
-  <data name="Xaml.ToggleSwitch.BookShelfMenuShow.OffContent" xml:space="preserve">
-    <value>右键显示菜单</value>
-  </data>
-  <data name="Xaml.ToggleSwitch.BookShelfMenuShow.OnContent" xml:space="preserve">
-    <value>顶部显示菜单</value>
+  <data name="Xaml.TextBlock.TeachingShelf.Text" xml:space="preserve">
+    <value>什么都没有呢,可以点击右下角❓查看帮助</value>
   </data>
   <data name="Xaml.ToolTip.Add.Content" xml:space="preserve">
     <value>新建</value>
@@ -516,6 +504,9 @@
   </data>
   <data name="Xaml.ToolTip.Filter.Content" xml:space="preserve">
     <value>筛选</value>
+  </data>
+  <data name="Xaml.ToolTip.Help.Content" xml:space="preserve">
+    <value>帮助</value>
   </data>
   <data name="Xaml.ToolTip.History.Content" xml:space="preserve">
     <value>浏览记录</value>
