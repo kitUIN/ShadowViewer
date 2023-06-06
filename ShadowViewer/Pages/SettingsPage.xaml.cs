@@ -104,11 +104,11 @@ namespace ShadowViewer.Pages
         /// <param name="panel">The panel.</param>
         public void LoadSettingsStackPanel()
         {
-            foreach (SettingsExpander expander in PluginSettingsStackPanel.Children)
+            foreach (SettingsExpander expander in PluginSettingsStackPanel.Children.Cast<SettingsExpander>())
             {
                 if (expander.Tag is string name)
                 {
-                    foreach (SettingsCard item in expander.Items)
+                    foreach (SettingsCard item in expander.Items.Cast<SettingsCard>())
                     {
                         item.IsEnabled = PluginHelper.EnabledPlugins.Contains(name);
                         if (item.Tag is bool arg)
