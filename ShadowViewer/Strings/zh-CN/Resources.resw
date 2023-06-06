@@ -442,6 +442,9 @@
   <data name="Xaml.TextBlock.Menu.Text" xml:space="preserve">
     <value>菜单</value>
   </data>
+  <data name="Xaml.TextBlock.NowFolder.Text" xml:space="preserve">
+    <value>当前文件夹:</value>
+  </data>
   <data name="Xaml.TextBlock.OperationSettingTitle.Text" xml:space="preserve">
     <value>操作设置</value>
   </data>

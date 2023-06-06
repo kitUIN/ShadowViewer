@@ -301,7 +301,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// �������Ի���
+        /// 弹出框-重命名
         /// </summary>
         private ContentDialog CreateRenameDialog(string title, XamlRoot xamlRoot, LocalComic comic)
         {
@@ -315,7 +315,7 @@ namespace ShadowViewer.Pages
             return dialog;
         }
         /// <summary>
-        /// �½��ļ��жԻ���
+        /// 弹出框-新建文件夹
         /// </summary>
         /// <returns></returns>
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
@@ -330,16 +330,14 @@ namespace ShadowViewer.Pages
             return dialog;
         }
         /// <summary>
-        /// �����νṹ��˫��
+        /// 路径树-双击
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DoubleTappedRoutedEventArgs"/> instance containing the event data.</param>
         private void TreeViewItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
             MoveToPath(MoveTreeView.SelectedItem as ShadowPath);
         }
         /// <summary>
-        /// �ƶ��� �Ի���İ�ť��Ӧ
+        /// 路径树-确定移动
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="args">The arguments.</param>
@@ -411,12 +409,12 @@ namespace ShadowViewer.Pages
         private void ContentGridView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            foreach (var item in e.Items)
+            foreach (LocalComic item in e.Items)
             {
-                if (!ContentGridView.SelectedItems.Contains(item)
-                    && ContentGridView.SelectionMode == ListViewSelectionMode.Multiple)
+                GridViewItem container = (GridViewItem)ContentGridView.ContainerFromItem(item);
+                if (container != null && !container.IsSelected)
                 {
-                    ContentGridView.SelectedItems.Add(item);
+                    container.IsSelected = true;
                 }
             }
         }

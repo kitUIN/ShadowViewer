@@ -7,6 +7,7 @@ namespace ShadowViewer.ViewModels
         private bool isEmpty = true;
         private int folderTotalCounts;
         public LocalComic ConnectComic { get; set; }
+        public string CurrentName { get; set; }
         public string Path { get; private set; } = "local";
         public Uri OriginPath { get; private set; }
         public ShadowSorts Sorts { get; set; } = ShadowSorts.RZ;
@@ -31,8 +32,15 @@ namespace ShadowViewer.ViewModels
             Path = parameter.AbsolutePath.Split(new char[] { '/', }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? parameter.Host;
             Logger.Information("导航到{path},Path={p}", OriginPath, Path);
             RefreshLocalComic();
+            if(Path == "local")
+            {
+                CurrentName = I18nHelper.GetString("Shadow.Tag.Local");
+            }
+            else
+            {
+                CurrentName = DBHelper.Db.Queryable<LocalComic>().First(x => x.Id == Path).Name;
+            }
         }
-        
         private void LocalComics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if(e.Action == NotifyCollectionChangedAction.Remove)
@@ -56,7 +64,9 @@ namespace ShadowViewer.ViewModels
             IsEmpty = LocalComics.Count == 0;
             FolderTotalCounts = LocalComics.Count;
         }
-         
+        /// <summary>
+        /// 刷新
+        /// </summary>
         public void RefreshLocalComic()
         {
             LocalComics.Clear();

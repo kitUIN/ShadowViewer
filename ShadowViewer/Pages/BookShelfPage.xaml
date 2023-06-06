@@ -17,12 +17,7 @@
         <x:Double x:Key="InfoTextSize">13</x:Double>
         <x:Double x:Key="InfoIconSize">17</x:Double>
         <x:Double x:Key="InfoButtonHeight">32</x:Double>
-        <SymbolIconSource x:Key="StatusIcon" Symbol="Repair" />
-        <SymbolIconSource x:Key="DeleteIcon" Symbol="Delete" />
-        <SwipeItems x:Key="RevealOptions" Mode="Reveal">
-            <SwipeItem IconSource="{StaticResource DeleteIcon}" Text="Delete" />
-            <SwipeItem IconSource="{StaticResource StatusIcon}" Text="Status" />
-        </SwipeItems>
+
         <!--#region 简单视图-->
         <DataTemplate x:Key="SimpleLocalComicItem" x:DataType="dv:LocalComic">
             <Border
@@ -69,6 +64,7 @@
             </Border>
         </DataTemplate>
         <!--#endregion-->
+
         <!--#region 详细视图-->
         <DataTemplate x:Key="DetailLocalComicItem" x:DataType="dv:LocalComic">
             <Border
@@ -178,6 +174,7 @@
             </Border>
         </DataTemplate>
         <!--#endregion-->
+
         <!--#region 右键浮出栏-->
         <CommandBarFlyout
             x:Name="HomeCommandBarFlyout"
@@ -461,6 +458,8 @@
                     SelectionMode="Single" />
             </RefreshContainer>
         </ScrollViewer>
+
+        <!--#region 中部指导-->
         <Grid
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -472,20 +471,29 @@
                 FontWeight="Bold"
                 TextWrapping="Wrap" />
         </Grid>
+        <!--#endregion-->
+
+        <!--#region 左下角信息栏-->
         <Grid x:Name="ShelfInfo" VerticalAlignment="Bottom">
             <StackPanel
                 Margin="6,0,0,2"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Bottom"
-                Orientation="Horizontal"
-                Spacing="10">
-                <StackPanel Orientation="Horizontal" Spacing="3">
+                Orientation="Horizontal">
+                <StackPanel
+                    Margin="10,0,0,0"
+                    Orientation="Horizontal"
+                    Spacing="3">
                     <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{x:Bind ViewModel.FolderTotalCounts, Mode=OneWay}" />
                     <TextBlock x:Uid="Xaml/TextBlock/FolderTotalHeader" FontSize="{StaticResource InfoTextSize}" />
                 </StackPanel>
-                <TextBlock FontSize="{StaticResource InfoTextSize}" Text="|" />
+                <TextBlock
+                    Margin="10,0,0,0"
+                    FontSize="{StaticResource InfoTextSize}"
+                    Text="|" />
                 <StackPanel
                     x:Name="SelectionPanel"
+                    Margin="10,0,0,0"
                     Orientation="Horizontal"
                     Spacing="5">
                     <TextBlock x:Uid="Xaml/TextBlock/SelectionHeader" FontSize="{StaticResource InfoTextSize}" />
@@ -500,9 +508,22 @@
                         FontSize="{StaticResource InfoTextSize}"
                         Text="|" />
                 </StackPanel>
+                <StackPanel
+                    Margin="10,0,0,0"
+                    Orientation="Horizontal"
+                    Spacing="3">
+                    <TextBlock x:Uid="Xaml/TextBlock/NowFolder" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{x:Bind ViewModel.CurrentName, Mode=OneWay}" />
+                </StackPanel>
+                <TextBlock
+                    Margin="10,0,0,0"
+                    FontSize="{StaticResource InfoTextSize}"
+                    Text="|" />
             </StackPanel>
-
         </Grid>
+        <!--#endregion-->
+
+        <!--#region 右下角按钮-->
         <Grid
             Padding="2"
             HorizontalAlignment="Right"
@@ -522,7 +543,7 @@
                 </HyperlinkButton>
             </StackPanel>
         </Grid>
-
+        <!--#endregion-->
         <Grid
             x:Name="SmokeGrid"
             HorizontalAlignment="Stretch"
