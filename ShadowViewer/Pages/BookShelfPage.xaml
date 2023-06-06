@@ -17,171 +17,168 @@
         <x:Double x:Key="InfoTextSize">13</x:Double>
         <x:Double x:Key="InfoIconSize">17</x:Double>
         <x:Double x:Key="InfoButtonHeight">32</x:Double>
-        <SymbolIconSource x:Key="StatusIcon" Symbol="Repair"/>
-        <SymbolIconSource x:Key="DeleteIcon" Symbol="Delete"/>
+        <SymbolIconSource x:Key="StatusIcon" Symbol="Repair" />
+        <SymbolIconSource x:Key="DeleteIcon" Symbol="Delete" />
         <SwipeItems x:Key="RevealOptions" Mode="Reveal">
-            <SwipeItem Text="Delete" IconSource="{StaticResource DeleteIcon}"/>
-            <SwipeItem Text="Status" IconSource="{StaticResource StatusIcon}"/>
+            <SwipeItem IconSource="{StaticResource DeleteIcon}" Text="Delete" />
+            <SwipeItem IconSource="{StaticResource StatusIcon}" Text="Status" />
         </SwipeItems>
+        <!--#region ¼òµ¥ÊÓÍ¼-->
         <DataTemplate x:Key="SimpleLocalComicItem" x:DataType="dv:LocalComic">
-            <Border   CornerRadius="4"
-                      BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                      Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                <Grid
-                Width="130"
-                Height="180"
-                Padding="6"
+            <Border
                 AllowDrop="True"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
                 DragOver="GridViewItem_DragOverCustomized"
                 Drop="GridViewItem_Drop"
+                RightTapped="ContentGridView_RightTapped"
                 Tag="{x:Bind}">
+                <Grid
+                    Width="130"
+                    Height="180"
+                    Padding="6">
                     <StackPanel VerticalAlignment="Top">
                         <Image
-                        x:Name="connectedElement"
-                        Width="120"
-                        Height="130"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Source="{x:Bind Img}" />
+                            x:Name="connectedElement"
+                            Width="120"
+                            Height="130"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Source="{x:Bind Img}" />
                         <TextBlock
-                        MaxWidth="100"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        MaxLines="1"
-                        Text="{x:Bind Name}"
-                        TextTrimming="CharacterEllipsis"
-                        TextWrapping="Wrap"
-                        ToolTipService.ToolTip="{x:Bind Name}" />
+                            MaxWidth="100"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            MaxLines="1"
+                            Text="{x:Bind Name}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap"
+                            ToolTipService.ToolTip="{x:Bind Name}" />
                     </StackPanel>
                     <TextBlock
-                    MaxWidth="100"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Bottom"
-                    FontSize="13"
-                    Foreground="Gray"
-                    Text="{x:Bind Percent}" />
+                        MaxWidth="100"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        FontSize="13"
+                        Foreground="Gray"
+                        Text="{x:Bind Percent}" />
                 </Grid>
             </Border>
         </DataTemplate>
+        <!--#endregion-->
+        <!--#region ÏêÏ¸ÊÓÍ¼-->
         <DataTemplate x:Key="DetailLocalComicItem" x:DataType="dv:LocalComic">
-            <Border BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"  CornerRadius="4" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}">
-                <Grid
-                Width="330"
-                Height="150"
-                Padding="10"
+            <Border
                 AllowDrop="True"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
                 DragOver="GridViewItem_DragOverCustomized"
                 Drop="GridViewItem_Drop"
+                RightTapped="ContentGridView_RightTapped"
                 Tag="{x:Bind}">
-                <SwipeControl
-                          RightItems="{StaticResource RevealOptions}"
-                          Height="150">
+                <Grid
+                    Width="330"
+                    Height="150"
+                    Padding="10">
                     <StackPanel
-                    VerticalAlignment="Top"
-                    Orientation="Horizontal"
-                    Spacing="10">
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal"
+                        Spacing="10">
                         <Image
-                        Height="130"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Source="{x:Bind Img, Mode=OneWay}" />
+                            Height="130"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Source="{x:Bind Img, Mode=OneWay}" />
                         <Grid>
                             <StackPanel
-                            Width="160"
-                            Height="130"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top">
-                                <TextBlock
-                                Width="150"
+                                Width="160"
+                                Height="130"
                                 HorizontalAlignment="Left"
-                                FontSize="18"
-                                FontWeight="Bold"
-                                MaxLines="2"
-                                Text="{x:Bind Name, Mode=OneWay}"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="Wrap" />
+                                VerticalAlignment="Top">
                                 <TextBlock
-                                Width="150"
-                                HorizontalAlignment="Left"
-                                FontSize="15"
-                                MaxLines="1"
-                                Text="{x:Bind Author, Mode=OneWay}"
-                                TextTrimming="CharacterEllipsis" />
+                                    Width="150"
+                                    HorizontalAlignment="Left"
+                                    FontSize="18"
+                                    FontWeight="Bold"
+                                    MaxLines="2"
+                                    Text="{x:Bind Name, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Width="150"
+                                    HorizontalAlignment="Left"
+                                    FontSize="15"
+                                    MaxLines="1"
+                                    Text="{x:Bind Author, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
                             </StackPanel>
                             <StackPanel
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            Orientation="Vertical">
-                                <StackPanel
-                                Margin="0,5,0,0"
                                 HorizontalAlignment="Left"
-                                VerticalAlignment="Top"
-                                Orientation="Horizontal"
-                                Spacing="10">
-                                    <TextBlock
-                                    MaxWidth="60"
+                                VerticalAlignment="Bottom"
+                                Orientation="Vertical">
+                                <StackPanel
+                                    Margin="0,5,0,0"
                                     HorizontalAlignment="Left"
-                                    FontSize="15"
-                                    Foreground="Gray"
-                                    Text="{x:Bind Percent, Mode=OneWay}" />
+                                    VerticalAlignment="Top"
+                                    Orientation="Horizontal"
+                                    Spacing="10">
                                     <TextBlock
-                                    Width="70"
-                                    HorizontalAlignment="Left"
-                                    FontSize="15"
-                                    Foreground="Gray"
-                                    MaxLines="1"
-                                    Text="{x:Bind SizeString, Mode=OneWay}"
-                                    TextTrimming="CharacterEllipsis" />
+                                        MaxWidth="60"
+                                        HorizontalAlignment="Left"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="{x:Bind Percent, Mode=OneWay}" />
+                                    <TextBlock
+                                        Width="70"
+                                        HorizontalAlignment="Left"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        MaxLines="1"
+                                        Text="{x:Bind SizeString, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsEpsDetailShow}">
                                     <FontIcon
-                                    FontSize="15"
-                                    Foreground="Gray"
-                                    Glyph="&#xe7b8;" />
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Glyph="&#xe7b8;" />
                                     <TextBlock
-                                    Margin="10,0,0,0"
-                                    FontSize="15"
-                                    Foreground="Gray"
-                                    Text="{x:Bind EpisodeCounts, Mode=OneWay}" />
+                                        Margin="10,0,0,0"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="{x:Bind EpisodeCounts, Mode=OneWay}" />
                                     <TextBlock
-                                    FontSize="15"
-                                    Foreground="Gray"
-                                    Text="E" />
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="E" />
                                     <TextBlock
-                                    Margin="4,0,0,0"
-                                    FontSize="15"
-                                    Foreground="Gray"
-                                    Text="/" />
+                                        Margin="4,0,0,0"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="/" />
                                     <TextBlock
-                                    Margin="4,0,0,0"
-                                    FontSize="15"
-                                    Foreground="Gray"
-                                    Text="{x:Bind Counts, Mode=OneWay}" />
+                                        Margin="4,0,0,0"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="{x:Bind Counts, Mode=OneWay}" />
                                     <TextBlock
-                                    FontSize="15"
-                                    Foreground="Gray"
-                                    Text="P" />
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="P" />
                                 </StackPanel>
                             </StackPanel>
                         </Grid>
-                    </StackPanel> 
-                </SwipeControl>
-                <Button
-                    Padding="8,6,8,6"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Top"
-                    Background="Gold"
-                    Content="{x:Bind AffiliationString, Mode=OneWay}"
-                    CornerRadius="15"
-                    FontSize="12"
-                    Style="{StaticResource NoOverButton}"
-                    Visibility="{Binding ElementName=RootPage, Path=DataContext, Mode=OneWay}" />
+                    </StackPanel>
                 </Grid>
             </Border>
         </DataTemplate>
+        <!--#endregion-->
+        <!--#region ÓÒ¼ü¸¡³öÀ¸-->
         <CommandBarFlyout
             x:Name="HomeCommandBarFlyout"
             AlwaysExpanded="True"
@@ -222,15 +219,6 @@
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem
-                                x:Name="ShadowCommandNewFolder"
-                                x:Uid="Xaml/Command/NewFolder"
-                                Click="ShadowCommandAddNewFolder_Click"
-                                Icon="NewFolder">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="Xaml/ToolTip/NewFolder" />
-                                </ToolTipService.ToolTip>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem
                                 x:Name="ShadowCommandAddFromFolder"
                                 x:Uid="Xaml/Command/AddFromFolder"
                                 Click="ShadowCommandAddFromFolder_Click">
@@ -256,15 +244,6 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton
-                    x:Name="ShadowCommandRefresh"
-                    x:Uid="Xaml/Command/Refresh"
-                    Click="ShadowCommandRefresh_Click"
-                    Icon="Refresh">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Refresh" />
-                    </ToolTipService.ToolTip>
-                </AppBarButton>
-                <AppBarButton
                     x:Name="ShadowCommandMove"
                     x:Uid="Xaml/Command/Move"
                     Click="ShadowCommandMove_Click"
@@ -284,6 +263,7 @@
                 </AppBarButton>
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
+        <!--#endregion-->
         <TeachingTip
             x:Name="MoveTeachingTip"
             x:Uid="Xaml/TeachingTip/Move"
@@ -311,12 +291,15 @@
             </TreeView>
         </TeachingTip>
     </Page.Resources>
-    <Grid MinWidth="700" x:Name="Root" RightTapped="Root_RightTapped">
+    <Grid x:Name="Root" MinWidth="700">
+
+        <!--#region ¶¥²¿¹¤¾ßÀ¸-->
         <Grid
             Height="50"
-            Padding="5" Margin="20,0,20,0"
+            Margin="20,0,20,0"
+            Padding="5"
             VerticalAlignment="Top">
-            <StackPanel 
+            <StackPanel
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
@@ -337,6 +320,7 @@
                     <DropDownButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem
+                                x:Name="ShadowCommandAddNewFolder"
                                 x:Uid="Xaml/Command/NewFolder"
                                 Click="ShadowCommandAddNewFolder_Click"
                                 Icon="NewFolder">
@@ -376,21 +360,21 @@
                             x:Name="RefreshDetail"
                             x:Uid="Xaml/TextBlock/Refresh"
                             Margin="5,0,0,0" />
-                    </StackPanel> 
+                    </StackPanel>
                 </Button>
             </StackPanel>
             <labs:Segmented
-                HorizontalAlignment="Center"
                 x:Name="StyleSegmented"
+                HorizontalAlignment="Center"
                 SelectionChanged="Segmented_SelectionChanged"
                 SelectionMode="Single">
-                <labs:SegmentedItem   Width="75">
+                <labs:SegmentedItem Width="75">
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Simple" />
                     </ToolTipService.ToolTip>
                     <labs:SegmentedItem.Icon>
                         <FontIcon Glyph="&#xE163;" />
-                    </labs:SegmentedItem.Icon> 
+                    </labs:SegmentedItem.Icon>
                 </labs:SegmentedItem>
                 <labs:SegmentedItem Width="75">
                     <ToolTipService.ToolTip>
@@ -398,10 +382,10 @@
                     </ToolTipService.ToolTip>
                     <labs:SegmentedItem.Icon>
                         <FontIcon Glyph="&#xE161;" />
-                    </labs:SegmentedItem.Icon> 
+                    </labs:SegmentedItem.Icon>
                 </labs:SegmentedItem>
             </labs:Segmented>
-            <StackPanel 
+            <StackPanel
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
@@ -449,13 +433,15 @@
                 </DropDownButton>
             </StackPanel>
         </Grid>
+        <!--#endregion-->
         <ScrollViewer
-                Padding="5" Margin="0,40,0,15" 
-                HorizontalScrollBarVisibility="Disabled"
-                HorizontalScrollMode="Disabled"
-                IsVerticalScrollChainingEnabled="True"
-                VerticalScrollBarVisibility="Auto"
-                VerticalScrollMode="Enabled">
+            Margin="0,40,0,15"
+            Padding="5"
+            HorizontalScrollBarVisibility="Disabled"
+            HorizontalScrollMode="Disabled"
+            IsVerticalScrollChainingEnabled="True"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Enabled">
             <RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
                 <GridView
                     x:Name="ContentGridView"
@@ -463,27 +449,28 @@
                     AllowDrop="False"
                     CanDragItems="True"
                     CanReorderItems="False"
-                    DoubleTapped="ContentGridView_DoubleTapped"
                     DragItemsStarting="ContentGridView_DragItemsStarting"
                     FlowDirection="LeftToRight"
-                    IsItemClickEnabled="False"
+                    IsDoubleTapEnabled="False"
+                    IsItemClickEnabled="True"
+                    ItemClick="ContentGridView_ItemClick"
                     ItemTemplate="{StaticResource SimpleLocalComicItem}"
                     ItemsSource="{x:Bind ViewModel.LocalComics}"
                     KeyDown="GridViewOnKeyDown"
-                    RightTapped="ContentGridView_RightTapped"
                     SelectionChanged="ContentGridView_SelectionChanged"
-                    SelectionMode="Extended" >
-                </GridView>
+                    SelectionMode="Single" />
             </RefreshContainer>
         </ScrollViewer>
         <Grid
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
-            <TextBlock MaxWidth="500"
-                    x:Uid="Xaml/TextBlock/TeachingShelf"
-                    FontSize="17" TextWrapping="Wrap"
-                    FontWeight="Bold" />
+            <TextBlock
+                x:Uid="Xaml/TextBlock/TeachingShelf"
+                MaxWidth="500"
+                FontSize="17"
+                FontWeight="Bold"
+                TextWrapping="Wrap" />
         </Grid>
         <Grid x:Name="ShelfInfo" VerticalAlignment="Bottom">
             <StackPanel
