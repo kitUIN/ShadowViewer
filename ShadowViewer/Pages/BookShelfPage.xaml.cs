@@ -252,7 +252,6 @@ namespace ShadowViewer.Pages
         private void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            
         }
         /// <summary>
         /// �Ҽ��˵�-�鿴����
@@ -648,6 +647,7 @@ namespace ShadowViewer.Pages
         {
             if (e.ClickedItem is LocalComic comic)
             {
+                comic.LastReadTime = DateTime.Now;
                 if (comic.IsFolder)
                 {
                     Frame.Navigate(GetType(), new Uri(ViewModel.OriginPath, comic.Id));

@@ -577,4 +577,22 @@
   <data name="Xaml.TextBlock.Delete.Text" xml:space="preserve">
     <value>删除</value>
   </data>
+  <data name="Xaml.TextBlock.ClickToRead.Text" xml:space="preserve">
+    <value>点击阅读</value>
+  </data>
+  <data name="Xaml.ToolTip.ClickToRevise.Content" xml:space="preserve">
+    <value>点击修改</value>
+  </data>
+  <data name="Shadow.String.Tag" xml:space="preserve">
+    <value>标签</value>
+  </data>
+  <data name="Shadow.String.Affiliation" xml:space="preserve">
+    <value>所属</value>
+  </data>
+  <data name="Xaml.ToolTip.Copy.Content" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Xaml.ToolTip.More.Content" xml:space="preserve">
+    <value>更多</value>
+  </data>
 </root>

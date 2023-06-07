@@ -1,7 +1,10 @@
-using System;
+using System.Diagnostics;
 
 namespace ShadowViewer.Pages
 {
+    /// <summary>
+    /// 漫画属性页
+    /// </summary>
     public sealed partial class AttributesPage : Page
     {
         public AttributesViewModel ViewModel { get; set; }
@@ -16,7 +19,20 @@ namespace ShadowViewer.Pages
                 ViewModel = new AttributesViewModel(comic);
             }
         }
-
+        /// <summary>
+        /// 点击图片
+        /// </summary>
+        private async void Image_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            StorageFile file = await FileHelper.SelectPicFileAsync(XamlRoot);
+            if (file != null)
+            {
+                ViewModel.CurrentComic.Img = file.DecodePath();
+            }
+        }
+        /// <summary>
+        /// 修改作者
+        /// </summary>
         private async void AuthorButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
@@ -29,7 +45,9 @@ namespace ShadowViewer.Pages
             });
             await dialog.ShowAsync();
         }
-
+        /// <summary>
+        /// 修改漫画名称
+        /// </summary>
         private async void FileNameButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
@@ -42,7 +60,9 @@ namespace ShadowViewer.Pages
       });
             await dialog.ShowAsync();
         }
-
+        /// <summary>
+        /// 修改汉化组
+        /// </summary>
         private async void GrouprButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
@@ -55,22 +75,20 @@ namespace ShadowViewer.Pages
       });
             await dialog.ShowAsync();
         }
-
-        private void TopBorder_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ViewModel.TextBlockMaxWidth = ((Border)sender).ActualWidth - 330;
-            TagBorder.Width = InfoBorder.ActualWidth + 205;
-        }
-
+        
+        /// <summary>
+        /// 点击标签
+        /// </summary>
         private void Tag_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            ShadowTag tag = (ShadowTag)button.Tag; 
-            if (tag.IsIcon)
+            ShadowTag tag = (ShadowTag)button.Tag;
+            if (ViewModel.IsLastTag(tag))
             {
                 TagName.Text = "";
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagFilled;
                 YesText.Text = I18nHelper.GetString("Shadow.String.AddNew");
+                RemoveTagButton.Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -79,8 +97,8 @@ namespace ShadowViewer.Pages
                 TagName.Text = ((TextBlock)((StackPanel)button.Content).Children[1]).Text;
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagResetFilled;
                 YesText.Text = I18nHelper.GetString("Shadow.String.Update");
+                RemoveTagButton.Visibility = Visibility.Visible;
             }
-            RemoveTagButton.Visibility = (!tag.IsIcon).ToVisibility();
             YesToolTip.Content = YesText.Text;
             if (tag.IsEnable)
             {
@@ -89,9 +107,13 @@ namespace ShadowViewer.Pages
         }
         private void Yes_Click(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrEmpty(TagName.Text)) return;
             ViewModel.AddNewTag(new ShadowTag(TagName.Text, background: BackgroundColorPicker.SelectedColor, foreground: ForegroundColorPicker.SelectedColor));
+            TagName_TextChanged(TagName,null); // 手动刷新按钮状态
         }
-
+        /// <summary>
+        /// 浮出-标签名称修改
+        /// </summary>
         private void TagName_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox box = sender as TextBox;
@@ -106,10 +128,61 @@ namespace ShadowViewer.Pages
                 YesText.Text = I18nHelper.GetString("Shadow.String.AddNew");
             }
         }
-
+        /// <summary>
+        /// 浮出-删除
+        /// </summary>
         private void RemoveTagButton_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.RemoveTag(TagName.Text);
+            TagSelectFlyout.Hide();
+        }
+
+        /// <summary>
+        /// 控件初始化
+        /// </summary>
+        private void TopBorder_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+        /// <summary>
+        /// 跳转到看漫画
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Episode_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void TagName_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if(e.Key == VirtualKey.Enter)
+            {
+                Yes_Click(null, null);
+            }
+        }
+
+        private void IDButton_Click(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout((FrameworkElement)sender);
+        }
+        /// <summary>
+        /// 大小适应计算
+        /// </summary>
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double width = ((FrameworkElement)sender).ActualWidth;
+            InfoStackPanel1.Width = width - 200;
+            ViewModel.TextBlockMaxWidth = width - 330;
+
+        }
+
+        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        {
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.SetText(((FrameworkElement)sender).Tag.ToString());
+            Clipboard.SetContent(dataPackage);
+            Clipboard.Flush();
         }
     }
 }

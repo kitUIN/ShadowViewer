@@ -496,6 +496,17 @@
                     FontSize="{StaticResource InfoTextSize}"
                     Text="|" />
                 <StackPanel
+                    Margin="10,0,0,0"
+                    Orientation="Horizontal"
+                    Spacing="3">
+                    <TextBlock x:Uid="Xaml/TextBlock/NowFolder" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{x:Bind ViewModel.CurrentName, Mode=OneWay}" />
+                </StackPanel>
+                <TextBlock
+                    Margin="10,0,0,0"
+                    FontSize="{StaticResource InfoTextSize}"
+                    Text="|" />
+                <StackPanel
                     x:Name="SelectionPanel"
                     Margin="10,0,0,0"
                     Orientation="Horizontal"
@@ -512,17 +523,7 @@
                         FontSize="{StaticResource InfoTextSize}"
                         Text="|" />
                 </StackPanel>
-                <StackPanel
-                    Margin="10,0,0,0"
-                    Orientation="Horizontal"
-                    Spacing="3">
-                    <TextBlock x:Uid="Xaml/TextBlock/NowFolder" FontSize="{StaticResource InfoTextSize}" />
-                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{x:Bind ViewModel.CurrentName, Mode=OneWay}" />
-                </StackPanel>
-                <TextBlock
-                    Margin="10,0,0,0"
-                    FontSize="{StaticResource InfoTextSize}"
-                    Text="|" />
+
             </StackPanel>
         </Grid>
         <!--#endregion-->
