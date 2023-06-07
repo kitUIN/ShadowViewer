@@ -138,12 +138,13 @@
                                         TextTrimming="CharacterEllipsis" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsEpsDetailShow}">
-                                    <FontIcon
+                                    <icons:FluentIcon
+                                        Margin="0,2,0,0"
                                         FontSize="15"
                                         Foreground="Gray"
-                                        Glyph="&#xe7b8;" />
+                                        Symbol="ArchiveRegular" />
                                     <TextBlock
-                                        Margin="10,0,0,0"
+                                        Margin="3,0,0,0"
                                         FontSize="15"
                                         Foreground="Gray"
                                         Text="{x:Bind EpisodeCounts, Mode=OneWay}" />
@@ -151,13 +152,13 @@
                                         FontSize="15"
                                         Foreground="Gray"
                                         Text="E" />
-                                    <TextBlock
-                                        Margin="4,0,0,0"
+                                    <icons:FluentIcon
+                                        Margin="5,2,0,0"
                                         FontSize="15"
                                         Foreground="Gray"
-                                        Text="/" />
+                                        Symbol="DocumentOnePageRegular" />
                                     <TextBlock
-                                        Margin="4,0,0,0"
+                                        Margin="1,0,0,0"
                                         FontSize="15"
                                         Foreground="Gray"
                                         Text="{x:Bind Counts, Mode=OneWay}" />
@@ -193,15 +194,6 @@
                 Icon="Delete">
                 <ToolTipService.ToolTip>
                     <ToolTip x:Uid="Xaml/ToolTip/Delete" />
-                </ToolTipService.ToolTip>
-            </AppBarButton>
-            <AppBarButton
-                x:Name="ShadowCommandAddTag"
-                x:Uid="Xaml/Command/AddTag"
-                Click="ShadowCommandAddTag_Click"
-                Icon="Tag">
-                <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="Xaml/ToolTip/AddTag" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
             <CommandBarFlyout.SecondaryCommands>
@@ -549,34 +541,6 @@
             </StackPanel>
         </Grid>
         <!--#endregion-->
-
-        <Grid
-            x:Name="SmokeGrid"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            RightTapped="SmokeGrid_RightTapped"
-            Visibility="Collapsed">
-            <Grid.Background>
-                <AcrylicBrush TintColor="{ThemeResource SystemChromeAltHighColor}" TintOpacity="0.1" />
-            </Grid.Background>
-            <Grid
-                x:Name="destinationElement"
-                Width="520"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                CornerRadius="5">
-                <Frame x:Name="SmokeFrame" />
-                <Button
-                    Margin="5"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Click="BackButton_Click">
-                    <Button.Content>
-                        <FontIcon FontSize="11" Glyph="&#xE894;" />
-                    </Button.Content>
-                </Button>
-            </Grid>
-        </Grid>
 
         <!--#region ╪сть-->
         <controls:Loading x:Name="LoadingControl" RightTapped="SmokeGrid_RightTapped">

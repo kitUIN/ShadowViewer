@@ -41,7 +41,6 @@ namespace ShadowViewer.Pages
             ShadowCommandRename.IsEnabled = isComicBook & isSingle;
             ShadowCommandDelete.IsEnabled = isComicBook;
             ShadowCommandMove.IsEnabled = isComicBook;
-            ShadowCommandAddTag.IsEnabled = isComicBook & isSingle;
             ShadowCommandAdd.IsEnabled = isFolder;
             ShadowCommandStatus.IsEnabled = isComicBook & isSingle;
             HomeCommandBarFlyout.ShowAt(sender, myOption);
@@ -221,7 +220,7 @@ namespace ShadowViewer.Pages
             await CreateRenameDialog(I18nHelper.GetString("Xaml.ToolTip.Rename.Content"), XamlRoot, comic).ShowAsync();
         }
         /// <summary>
-        /// �Ҽ��˵�-ɾ��
+        /// 右键菜单-删除
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
@@ -234,8 +233,6 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandMove_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
@@ -243,15 +240,6 @@ namespace ShadowViewer.Pages
                 new ShadowPath(ContentGridView.SelectedItems.Cast<LocalComic>().ToList().Select(c => c.Id))
             };
             MoveTeachingTip.IsOpen = true;
-        }
-        /// <summary>
-        /// �Ҽ��˵�-���ӱ�ǩ
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
-        {
-            HomeCommandBarFlyout.Hide();
         }
         /// <summary>
         /// �Ҽ��˵�-�鿴����
@@ -342,13 +330,14 @@ namespace ShadowViewer.Pages
         private void MoveToPath(ShadowPath path)
         {
             if (path == null) { return; }
-            foreach (LocalComic comic in ContentGridView.SelectedItems)
+            foreach (LocalComic comic in ContentGridView.SelectedItems.Cast<LocalComic>().ToList())
             {
                 if (comic.Id != path.Id && path.IsFolder)
                 {
                     comic.Parent = path.Id;
                 }
             }
+            LocalComic.Query().Where(x => x.Parent == path.Id).ToList().ForEach(x => path.SetSize(x.Size));
             MoveTeachingTip.IsOpen = false;
             ViewModel.RefreshLocalComic();
         }
@@ -356,12 +345,9 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 拖动响应
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void GridViewItem_Drop(object sender, DragEventArgs e)
         {
-            if (sender is FrameworkElement frame && frame.Tag is LocalComic comic
-                && comic.IsFolder && ContentGridView.SelectionMode == ListViewSelectionMode.Multiple)
+            if (sender is FrameworkElement frame && frame.Tag is LocalComic comic && comic.IsFolder )
             {
                 foreach (LocalComic item in ContentGridView.SelectedItems.Cast<LocalComic>().ToList())
                 {
@@ -370,6 +356,8 @@ namespace ShadowViewer.Pages
                         item.Parent = comic.Id;
                     }
                 }
+                comic.Size = 0;
+                LocalComic.Query().Where(x => x.Parent == comic.Id).ToList().ForEach(x => comic.Size+=x.Size);
                 ViewModel.RefreshLocalComic();
             }
         }
@@ -406,33 +394,6 @@ namespace ShadowViewer.Pages
                 {
                     container.IsSelected = true;
                 }
-            }
-        }
-        private async void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            ConnectedAnimation animation = ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("backwardsComicStatusAnimation", destinationElement);
-            SmokeGrid.Children.Remove(destinationElement);
-            animation.Completed += Animation_Completed;
-            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 7))
-            {
-                animation.Configuration = new DirectConnectedAnimationConfiguration();
-            }
-            await ContentGridView.TryStartConnectedAnimationAsync(animation, ViewModel.ConnectComic, "connectedElement");
-        }
-        private void Animation_Completed(ConnectedAnimation sender, object args)
-        {
-            SmokeGrid.Visibility = Visibility.Collapsed;
-            SmokeGrid.Children.Add(destinationElement);
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        private void SmokeGrid_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var grid = sender as Grid;
-            if (grid.ActualHeight > 50)
-            {
-                destinationElement.Height = grid.ActualHeight - 50;
             }
         }
         /// <summary>

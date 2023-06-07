@@ -324,7 +324,7 @@
                                             VerticalAlignment="Bottom"
                                             Click="IDButton_Click">
                                             <ToolTipService.ToolTip>
-                                                <ToolTip x:Uid="Xaml/ToolTip/Copy" />
+                                                <ToolTip x:Uid="Xaml/ToolTip/More" />
                                             </ToolTipService.ToolTip>
                                             <FlyoutBase.AttachedFlyout>
                                                 <Flyout Placement="Left">
