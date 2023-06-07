@@ -366,28 +366,28 @@
   <data name="Xaml.SettingsCard.Sponsor.Header" xml:space="preserve">
     <value>❤️赞助开发者</value>
   </data>
-  <data name="Xaml.StatusBlock.CreateTime.Title" xml:space="preserve">
+  <data name="Xaml.TextBlock.CreateTime.Text" xml:space="preserve">
     <value>创建时间:</value>
   </data>
-  <data name="Xaml.StatusBlock.LastReadTime.Title" xml:space="preserve">
-    <value>最后查看时间:</value>
+  <data name="Xaml.TextBlock.LastReadTime.Text" xml:space="preserve">
+    <value>最后查看:</value>
   </data>
-  <data name="Xaml.StatusBlock.Link.Title" xml:space="preserve">
+  <data name="Xaml.TextBlock.Link.Text" xml:space="preserve">
     <value>指向:</value>
   </data>
-  <data name="Xaml.StatusBlock.Parent.Title" xml:space="preserve">
+  <data name="Xaml.TextBlock.Parent.Text" xml:space="preserve">
     <value>上一级:</value>
   </data>
-  <data name="Xaml.StatusBlock.Path.Title" xml:space="preserve">
-    <value>Shadow地址:</value>
+  <data name="Xaml.TextBlock.Path.Text" xml:space="preserve">
+    <value>地址:</value>
   </data>
-  <data name="Xaml.StatusBlock.Percent.Title" xml:space="preserve">
-    <value>阅读进度:</value>
+  <data name="Xaml.TextBlock.Percent.Text" xml:space="preserve">
+    <value>进度:</value>
   </data>
-  <data name="Xaml.StatusBlock.Size.Title" xml:space="preserve">
+  <data name="Xaml.TextBlock.Size.Text" xml:space="preserve">
     <value>大小:</value>
   </data>
-  <data name="Xaml.StatusBlock.Type.Title" xml:space="preserve">
+  <data name="Xaml.TextBlock.Type.Text" xml:space="preserve">
     <value>类型:</value>
   </data>
   <data name="Xaml.TeachingTip.Move.ActionButtonContent" xml:space="preserve">
@@ -429,9 +429,6 @@
   </data>
   <data name="Xaml.TextBlock.ForegroundColor.Text" xml:space="preserve">
     <value>字体颜色:</value>
-  </data>
-  <data name="Xaml.TextBlock.GroupStatus.Text" xml:space="preserve">
-    <value>汉化组:</value>
   </data>
   <data name="Xaml.TextBlock.History.Text" xml:space="preserve">
     <value>浏览记录</value>
@@ -552,5 +549,32 @@
   </data>
   <data name="Xaml.ToolTip.Status.Content" xml:space="preserve">
     <value>属性</value>
+  </data>
+  <data name="Shadow.String.Set" xml:space="preserve">
+    <value>修改</value>
+  </data>
+  <data name="Xaml.TextBlock.Group.Text" xml:space="preserve">
+    <value>翻译组:</value>
+  </data>
+  <data name="Xaml.TextBlock.ID.Text" xml:space="preserve">
+    <value>标识符:</value>
+  </data>
+  <data name="Xaml.TextBlock.Episode.Text" xml:space="preserve">
+    <value>话</value>
+  </data>
+  <data name="Xaml.TextBlock.Page.Text" xml:space="preserve">
+    <value>页</value>
+  </data>
+  <data name="Xaml.TextBlock.Pages.Text" xml:space="preserve">
+    <value>页数:</value>
+  </data>
+  <data name="Shadow.String.AddNew" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="Shadow.String.Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Xaml.TextBlock.Delete.Text" xml:space="preserve">
+    <value>删除</value>
   </data>
 </root>

@@ -252,12 +252,7 @@ namespace ShadowViewer.Pages
         private void ShadowCommandAddTag_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            ConnectedAnimation animation = null;
-            ViewModel.ConnectComic = ContentGridView.SelectedItems[0] as LocalComic;
-            animation = ContentGridView.PrepareConnectedAnimation("forwardComicStatusAnimation", ViewModel.ConnectComic, "connectedElement");
-            SmokeFrame.Navigate(typeof(TagsPage), ViewModel.ConnectComic);
-            SmokeGrid.Visibility = Visibility.Visible;
-            animation.TryStart(destinationElement);
+            
         }
         /// <summary>
         /// �Ҽ��˵�-�鿴����
@@ -267,12 +262,8 @@ namespace ShadowViewer.Pages
         private void ShadowCommandStatus_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            ConnectedAnimation animation = null;
             ViewModel.ConnectComic = ContentGridView.SelectedItems[0] as LocalComic;
-            animation = ContentGridView.PrepareConnectedAnimation("forwardComicStatusAnimation", ViewModel.ConnectComic, "connectedElement");
-            SmokeFrame.Navigate(typeof(StatusPage), ViewModel.ConnectComic);
-            SmokeGrid.Visibility = Visibility.Visible;
-            animation.TryStart(destinationElement);
+            Frame.Navigate(typeof(AttributesPage), ViewModel.ConnectComic);
         }
 
         /// <summary>

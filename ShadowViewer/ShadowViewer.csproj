@@ -28,14 +28,13 @@
     <None Remove="Assets\Default\folder.png" />
     <None Remove="Controls\SettingsHeader.xaml" />
     <None Remove="MainPage.xaml" />
+    <None Remove="Pages\AttributesPage.xaml" />
     <None Remove="Pages\BookShelfPage.xaml" />
     <None Remove="Pages\BookShelfSettingsPage.xaml" />
     <None Remove="Pages\ComicPage.xaml" />
     <None Remove="Pages\NavigationPage.xaml" />
     <None Remove="Pages\PicPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
-    <None Remove="Pages\StatusPage.xaml" />
-    <None Remove="Pages\TagsPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +75,11 @@
     <ProjectReference Include="..\..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Pages\AttributesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Controls\SettingsHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -92,16 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ComicPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\TagsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\StatusPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

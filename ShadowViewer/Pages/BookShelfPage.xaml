@@ -17,7 +17,6 @@
         <x:Double x:Key="InfoTextSize">13</x:Double>
         <x:Double x:Key="InfoIconSize">17</x:Double>
         <x:Double x:Key="InfoButtonHeight">32</x:Double>
-
         <!--#region 简单视图-->
         <DataTemplate x:Key="SimpleLocalComicItem" x:DataType="dv:LocalComic">
             <Border
@@ -261,6 +260,8 @@
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
         <!--#endregion-->
+
+        <!--#region 路径树-->
         <TeachingTip
             x:Name="MoveTeachingTip"
             x:Uid="Xaml/TeachingTip/Move"
@@ -287,9 +288,9 @@
                 </TreeView.ItemTemplate>
             </TreeView>
         </TeachingTip>
+        <!--#endregion-->
     </Page.Resources>
     <Grid x:Name="Root" MinWidth="700">
-
         <!--#region 顶部工具栏-->
         <Grid
             Height="50"
@@ -431,6 +432,8 @@
             </StackPanel>
         </Grid>
         <!--#endregion-->
+
+        <!--#region 漫画-->
         <ScrollViewer
             Margin="0,40,0,15"
             Padding="5"
@@ -458,6 +461,7 @@
                     SelectionMode="Single" />
             </RefreshContainer>
         </ScrollViewer>
+        <!--#endregion-->
 
         <!--#region 中部指导-->
         <Grid
@@ -544,6 +548,7 @@
             </StackPanel>
         </Grid>
         <!--#endregion-->
+
         <Grid
             x:Name="SmokeGrid"
             HorizontalAlignment="Stretch"
@@ -571,6 +576,8 @@
                 </Button>
             </Grid>
         </Grid>
+
+        <!--#region 加载-->
         <controls:Loading x:Name="LoadingControl" RightTapped="SmokeGrid_RightTapped">
             <controls:Loading.Background>
                 <AcrylicBrush TintColor="Black" TintOpacity="0.2" />
@@ -632,5 +639,6 @@
                 </StackPanel>
             </StackPanel>
         </controls:Loading>
+        <!--#endregion-->
     </Grid>
 </Page>
