@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Page
+    x:Class="ShadowViewer.Pages.AttributesPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:icons="using:FluentIcon"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:local="using:ShadowViewer.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:ShadowViewer.Models"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <x:Double x:Key="AttributesFontSize">16</x:Double>
+        <x:Double x:Key="AttributesTitleWidth">70</x:Double>
+        <!--#region 标签弹出-->
+        <Flyout x:Name="TagSelectFlyout">
+            <StackPanel Orientation="Vertical" Spacing="10">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock x:Uid="Xaml/TextBlock/TagName" VerticalAlignment="Center" />
+                    <TextBox
+                        x:Name="TagName"
+                        MaxWidth="450"
+                        KeyDown="TagName_KeyDown"
+                        TextChanged="TagName_TextChanged" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock x:Uid="Xaml/TextBlock/BackgroundColor" />
+                    <controls:ColorPickerButton x:Name="BackgroundColorPicker" SelectedColor="Gold">
+                        <controls:ColorPickerButton.ColorPickerStyle>
+                            <Style TargetType="controls:ColorPicker">
+                                <Setter Property="ColorSpectrumShape" Value="Box" />
+                                <Setter Property="IsAlphaEnabled" Value="False" />
+                                <Setter Property="IsHexInputVisible" Value="True" />
+                            </Style>
+                        </controls:ColorPickerButton.ColorPickerStyle>
+                    </controls:ColorPickerButton>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <TextBlock x:Uid="Xaml/TextBlock/ForegroundColor" />
+                    <controls:ColorPickerButton x:Name="ForegroundColorPicker" SelectedColor="Black">
+                        <controls:ColorPickerButton.ColorPickerStyle>
+                            <Style TargetType="controls:ColorPicker">
+                                <Setter Property="ColorSpectrumShape" Value="Box" />
+                                <Setter Property="IsAlphaEnabled" Value="False" />
+                                <Setter Property="IsHexInputVisible" Value="True" />
+                            </Style>
+                        </controls:ColorPickerButton.ColorPickerStyle>
+                    </controls:ColorPickerButton>
+                </StackPanel>
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <Button
+                        x:Name="RemoveTagButton"
+                        HorizontalAlignment="Center"
+                        Click="RemoveTagButton_Click"
+                        CornerRadius="10"
+                        Visibility="Collapsed">
+                        <ToolTipService.ToolTip>
+                            <ToolTip x:Uid="Xaml/ToolTip/Delete" />
+                        </ToolTipService.ToolTip>
+                        <StackPanel Orientation="Horizontal">
+                            <icons:FluentIcon
+                                Margin="0,1,5,0"
+                                VerticalAlignment="Center"
+                                FontSize="18"
+                                Symbol="TagDismissFilled" />
+                            <TextBlock x:Uid="Xaml/TextBlock/Delete" />
+                        </StackPanel>
+                    </Button>
+                    <Button
+                        HorizontalAlignment="Center"
+                        Click="Yes_Click"
+                        CornerRadius="10">
+                        <ToolTipService.ToolTip>
+                            <ToolTip x:Name="YesToolTip" />
+                        </ToolTipService.ToolTip>
+                        <StackPanel Orientation="Horizontal">
+                            <icons:FluentIcon
+                                x:Name="YesIcon"
+                                Margin="0,1,5,0"
+                                FontSize="18" />
+                            <TextBlock x:Name="YesText" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </Flyout>
+        <!--#endregion-->
+    </Page.Resources>
+    <Grid x:Name="Root" MinWidth="700">
+        <ScrollViewer Padding="10" VerticalAlignment="Top">
+            <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
+                <StackPanel Orientation="Vertical" Spacing="2">
+                    <Border
+                        x:Name="TopBorder"
+                        Padding="10"
+                        VerticalAlignment="Top"
+                        Loaded="TopBorder_Loaded">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <Image
+                                Width="170"
+                                Height="260"
+                                VerticalAlignment="Center"
+                                Source="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}"
+                                Tapped="Image_Tapped">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="Xaml/ToolTip/ClickToRevise" />
+                                </ToolTipService.ToolTip>
+                            </Image>
+                            <StackPanel
+                                x:Name="InfoStackPanel1"
+                                Orientation="Vertical"
+                                Spacing="3">
+                                <Border
+                                    x:Name="InfoBorder"
+                                    Padding="10"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="10">
+                                    <Grid>
+                                        <StackPanel
+                                            x:Name="InfoStackPanel"
+                                            Orientation="Vertical"
+                                            Spacing="3">
+                                            <!--#region 名称-->
+                                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <TextBlock
+                                                    x:Uid="Xaml/TextBlock/FileName"
+                                                    Width="{StaticResource AttributesTitleWidth}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    FontWeight="Bold"
+                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock
+                                                    MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    FontWeight="Bold"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ViewModel.CurrentComic.Name, Mode=OneWay}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                                <HyperlinkButton
+                                                    x:Name="FileNameButton"
+                                                    Padding="3"
+                                                    VerticalAlignment="Bottom"
+                                                    Click="FileNameButton_Click">
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip x:Uid="Xaml/ToolTip/ClickToRevise" />
+                                                    </ToolTipService.ToolTip>
+                                                    <icons:FluentIcon FontSize="15" Symbol="EditFilled" />
+                                                </HyperlinkButton>
+                                            </StackPanel>
+                                            <!--#endregion-->
+                                            <!--#region 作者-->
+                                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <TextBlock
+                                                    x:Uid="Xaml/TextBlock/Author"
+                                                    Width="{StaticResource AttributesTitleWidth}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock
+                                                    MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ViewModel.CurrentComic.Author, Mode=OneWay}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                                <HyperlinkButton
+                                                    x:Name="AuthorButton"
+                                                    Padding="3"
+                                                    VerticalAlignment="Bottom"
+                                                    Click="AuthorButton_Click">
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip x:Uid="Xaml/ToolTip/ClickToRevise" />
+                                                    </ToolTipService.ToolTip>
+                                                    <icons:FluentIcon FontSize="15" Symbol="EditFilled" />
+                                                </HyperlinkButton>
+                                            </StackPanel>
+                                            <!--#endregion-->
+                                            <!--#region 翻译组-->
+                                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <TextBlock
+                                                    x:Uid="Xaml/TextBlock/Group"
+                                                    Width="{StaticResource AttributesTitleWidth}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock
+                                                    MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ViewModel.CurrentComic.Group, Mode=OneWay}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                                <HyperlinkButton
+                                                    x:Name="GroupButton"
+                                                    Padding="3"
+                                                    VerticalAlignment="Bottom"
+                                                    Click="GrouprButton_Click">
+                                                    <ToolTipService.ToolTip>
+                                                        <ToolTip x:Uid="Xaml/ToolTip/ClickToRevise" />
+                                                    </ToolTipService.ToolTip>
+                                                    <icons:FluentIcon FontSize="15" Symbol="EditFilled" />
+                                                </HyperlinkButton>
+                                            </StackPanel>
+                                            <!--#endregion-->
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <Border
+                                    Padding="10"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="10">
+                                    <StackPanel Orientation="Vertical" Spacing="3">
+                                        <!--#region 进度-->
+                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                            <TextBlock
+                                                x:Uid="Xaml/TextBlock/Percent"
+                                                Width="{StaticResource AttributesTitleWidth}"
+                                                FontSize="{StaticResource AttributesFontSize}"
+                                                IsTextSelectionEnabled="True" />
+                                            <TextBlock
+                                                MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
+                                                FontSize="{StaticResource AttributesFontSize}"
+                                                IsTextSelectionEnabled="True"
+                                                Text="{x:Bind ViewModel.CurrentComic.Percent, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                        <!--#endregion-->
+                                        <!--#region 话,页-->
+                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                            <TextBlock
+                                                x:Uid="Xaml/TextBlock/Pages"
+                                                Width="{StaticResource AttributesTitleWidth}"
+                                                FontSize="{StaticResource AttributesFontSize}"
+                                                IsTextSelectionEnabled="True" />
+                                            <StackPanel
+                                                MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
+                                                Orientation="Horizontal"
+                                                Spacing="5">
+                                                <TextBlock
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ViewModel.CurrentComic.EpisodeCounts, Mode=OneWay}" />
+                                                <TextBlock
+                                                    x:Uid="Xaml/TextBlock/Episode"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock
+                                                    Margin="5,0,0,0"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True"
+                                                    Text="{x:Bind ViewModel.CurrentComic.Counts, Mode=OneWay}" />
+                                                <TextBlock
+                                                    x:Uid="Xaml/TextBlock/Page"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <!--#endregion-->
+                                        <!--#region 大小-->
+                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                            <TextBlock
+                                                x:Uid="Xaml/TextBlock/Size"
+                                                Width="{StaticResource AttributesTitleWidth}"
+                                                FontSize="{StaticResource AttributesFontSize}"
+                                                IsTextSelectionEnabled="True" />
+                                            <TextBlock
+                                                MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
+                                                FontSize="{StaticResource AttributesFontSize}"
+                                                IsTextSelectionEnabled="True"
+                                                Text="{x:Bind ViewModel.CurrentComic.SizeString, Mode=OneWay}"
+                                                TextTrimming="CharacterEllipsis" />
+                                        </StackPanel>
+                                        <!--#endregion-->
+                                    </StackPanel>
+                                </Border>
+                                <Border
+                                    Padding="10"
+                                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="10">
+                                    <Grid>
+                                        <StackPanel Orientation="Vertical" Spacing="3">
+                                            <!--#region 创建时间-->
+                                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <TextBlock
+                                                    x:Uid="Xaml/TextBlock/CreateTime"
+                                                    Width="{StaticResource AttributesTitleWidth}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock
+                                                    MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True"
+                                                    MaxLines="1"
+                                                    Text="{x:Bind ViewModel.CurrentComic.CreateTime, Mode=OneWay}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                            </StackPanel>
+                                            <!--#endregion-->
+                                            <!--#region 最后查看-->
+                                            <StackPanel Orientation="Horizontal" Spacing="6">
+                                                <TextBlock
+                                                    x:Uid="Xaml/TextBlock/LastReadTime"
+                                                    Width="{StaticResource AttributesTitleWidth}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock
+                                                    MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
+                                                    FontSize="{StaticResource AttributesFontSize}"
+                                                    IsTextSelectionEnabled="True"
+                                                    MaxLines="1"
+                                                    Text="{x:Bind ViewModel.CurrentComic.LastReadTime, Mode=OneWay}"
+                                                    TextTrimming="CharacterEllipsis" />
+                                            </StackPanel>
+                                            <!--#endregion-->
+                                        </StackPanel>
+                                        <HyperlinkButton
+                                            Padding="6,4,3,4"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Click="IDButton_Click">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip x:Uid="Xaml/ToolTip/More" />
+                                            </ToolTipService.ToolTip>
+                                            <FlyoutBase.AttachedFlyout>
+                                                <Flyout Placement="Left">
+                                                    <StackPanel Orientation="Vertical" Spacing="4">
+                                                        <!--#region ID-->
+                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                            <TextBlock
+                                                                x:Uid="Xaml/TextBlock/ID"
+                                                                FontSize="15"
+                                                                IsTextSelectionEnabled="True" />
+                                                            <TextBlock
+                                                                FontSize="15"
+                                                                IsTextSelectionEnabled="True"
+                                                                MaxLines="1"
+                                                                Text="{x:Bind ViewModel.CurrentComic.Id, Mode=OneWay}"
+                                                                TextTrimming="CharacterEllipsis" />
+                                                            <HyperlinkButton
+                                                                Padding="4"
+                                                                VerticalAlignment="Bottom"
+                                                                Click="CopyButton_Click"
+                                                                Tag="{x:Bind ViewModel.CurrentComic.Id, Mode=OneWay}">
+                                                                <ToolTipService.ToolTip>
+                                                                    <ToolTip x:Uid="Xaml/ToolTip/Copy" />
+                                                                </ToolTipService.ToolTip>
+                                                                <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
+                                                            </HyperlinkButton>
+                                                        </StackPanel>
+                                                        <!--#endregion-->
+                                                        <!--#region 缩略图地址-->
+                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                            <TextBlock
+                                                                x:Uid="Xaml/TextBlock/Thumb"
+                                                                FontSize="{StaticResource AttributesFontSize}"
+                                                                IsTextSelectionEnabled="True" />
+                                                            <TextBlock
+                                                                MaxWidth="300"
+                                                                FontSize="{StaticResource AttributesFontSize}"
+                                                                IsTextSelectionEnabled="True"
+                                                                Text="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}"
+                                                                TextTrimming="CharacterEllipsis" />
+                                                            <HyperlinkButton
+                                                                Padding="4"
+                                                                VerticalAlignment="Bottom"
+                                                                Click="CopyButton_Click"
+                                                                Tag="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}">
+                                                                <ToolTipService.ToolTip>
+                                                                    <ToolTip x:Uid="Xaml/ToolTip/Copy" />
+                                                                </ToolTipService.ToolTip>
+                                                                <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
+                                                            </HyperlinkButton>
+                                                        </StackPanel>
+                                                        <!--#endregion-->
+                                                        <!--#region Shadow地址-->
+                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                            <TextBlock
+                                                                x:Uid="Xaml/TextBlock/Path"
+                                                                FontSize="{StaticResource AttributesFontSize}"
+                                                                IsTextSelectionEnabled="True" />
+                                                            <TextBlock
+                                                                MaxWidth="300"
+                                                                FontSize="{StaticResource AttributesFontSize}"
+                                                                IsTextSelectionEnabled="True"
+                                                                Text="{x:Bind ViewModel.CurrentComic.Path, Mode=OneWay}"
+                                                                TextTrimming="CharacterEllipsis" />
+                                                            <HyperlinkButton
+                                                                Padding="4"
+                                                                VerticalAlignment="Bottom"
+                                                                Click="CopyButton_Click"
+                                                                Tag="{x:Bind ViewModel.CurrentComic.Path, Mode=OneWay}">
+                                                                <ToolTipService.ToolTip>
+                                                                    <ToolTip x:Uid="Xaml/ToolTip/Copy" />
+                                                                </ToolTipService.ToolTip>
+                                                                <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
+                                                            </HyperlinkButton>
+                                                        </StackPanel>
+                                                        <!--#endregion-->
+                                                        <!--#region 指向地址-->
+                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                            <TextBlock
+                                                                x:Uid="Xaml/TextBlock/Link"
+                                                                FontSize="{StaticResource AttributesFontSize}"
+                                                                IsTextSelectionEnabled="True" />
+                                                            <TextBlock
+                                                                MaxWidth="300"
+                                                                FontSize="{StaticResource AttributesFontSize}"
+                                                                IsTextSelectionEnabled="True"
+                                                                Text="{x:Bind ViewModel.CurrentComic.Link, Mode=OneWay}"
+                                                                TextTrimming="CharacterEllipsis" />
+                                                            <HyperlinkButton
+                                                                Padding="4"
+                                                                VerticalAlignment="Bottom"
+                                                                Click="CopyButton_Click"
+                                                                Tag="{x:Bind ViewModel.CurrentComic.Link, Mode=OneWay}">
+                                                                <ToolTipService.ToolTip>
+                                                                    <ToolTip x:Uid="Xaml/ToolTip/Copy" />
+                                                                </ToolTipService.ToolTip>
+                                                                <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
+                                                            </HyperlinkButton>
+                                                        </StackPanel>
+                                                        <!--#endregion-->
+                                                    </StackPanel>
+                                                </Flyout>
+                                            </FlyoutBase.AttachedFlyout>
+                                            <icons:FluentIcon Symbol="ErrorCircleFilled" />
+                                        </HyperlinkButton>
+                                    </Grid>
+                                </Border>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                    <!--#region 列表-标签-->
+                    <Border
+                        x:Name="TagBorder"
+                        Margin="10,0,10,0"
+                        Padding="10"
+                        HorizontalAlignment="Left"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="10">
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="model:ShadowTag">
+                                    <Button
+                                        Background="{x:Bind Background}"
+                                        Click="Tag_Click"
+                                        CornerRadius="10"
+                                        Foreground="{x:Bind Foreground}"
+                                        Style="{ThemeResource NoOverButton}"
+                                        Tag="{x:Bind}">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="{x:Bind ToolTip}" />
+                                        </ToolTipService.ToolTip>
+                                        <StackPanel Orientation="Horizontal">
+                                            <icons:FluentIcon
+                                                Margin="0,1,5,0"
+                                                FontSize="18"
+                                                Glyph="{x:Bind Icon}" />
+                                            <TextBlock Text="{x:Bind Name}" />
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                            <ItemsRepeater.Layout>
+                                <controls:WrapLayout HorizontalSpacing="5" VerticalSpacing="5" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Border>
+                    <!--#endregion-->
+                    <!--#region 列表-话-->
+                    <Border
+                        x:Name="EpsBorder"
+                        Margin="10,5,10,0"
+                        Padding="10"
+                        HorizontalAlignment="Left"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Visibility="{x:Bind ViewModel.IsHaveEpisodes}">
+                        <ItemsRepeater ItemsSource="{x:Bind ViewModel.Episodes, Mode=OneWay}">
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="model:LocalEpisode">
+                                    <Button
+                                        Click="Episode_Click"
+                                        CornerRadius="10"
+                                        Style="{ThemeResource DefaultButtonStyle}"
+                                        Tag="{x:Bind}">
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock x:Uid="Xaml/TextBlock/ClickToRead" FontSize="12" />
+                                                    <TextBlock FontSize="12" Text="(" />
+                                                    <icons:FluentIcon
+                                                        Margin="0,2,0,0"
+                                                        FontSize="14"
+                                                        Symbol="DocumentOnePageRegular" />
+                                                    <TextBlock FontSize="12" Text="{x:Bind PageCounts}" />
+                                                    <TextBlock FontSize="12" Text="P" />
+                                                    <TextBlock FontSize="12" Text=")" />
+                                                </StackPanel>
+                                            </ToolTip>
+                                        </ToolTipService.ToolTip>
+                                        <StackPanel Orientation="Horizontal" Spacing="3">
+                                            <StackPanel Orientation="Horizontal" Spacing="5">
+                                                <icons:FluentIcon
+                                                    Margin="0,1,0,0"
+                                                    FontSize="18"
+                                                    Symbol="ArchiveRegular" />
+                                                <TextBlock Text="{x:Bind Name}" />
+                                                <InfoBadge Value="{x:Bind PageCounts}" />
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                            <ItemsRepeater.Layout>
+                                <controls:WrapLayout HorizontalSpacing="5" VerticalSpacing="5" />
+                            </ItemsRepeater.Layout>
+                        </ItemsRepeater>
+                    </Border>
+                    <!--#endregion-->
+                </StackPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

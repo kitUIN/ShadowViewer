@@ -26,15 +26,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
+    <None Remove="Controls\SettingsHeader.xaml" />
     <None Remove="MainPage.xaml" />
+    <None Remove="Pages\AttributesPage.xaml" />
     <None Remove="Pages\BookShelfPage.xaml" />
     <None Remove="Pages\BookShelfSettingsPage.xaml" />
     <None Remove="Pages\ComicPage.xaml" />
     <None Remove="Pages\NavigationPage.xaml" />
     <None Remove="Pages\PicPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
-    <None Remove="Pages\StatusPage.xaml" />
-    <None Remove="Pages\TagsPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,10 +48,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Labs.WinUI.SegmentedControl" Version="0.0.3" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.SettingsControls" Version="0.0.18" />
     <PackageReference Include="CommunityToolkit.Labs.WinUI.TokenView" Version="0.0.6" />
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
+    <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls" Version="7.1.2" />
+    <PackageReference Include="KitUIN.FluentIcon" Version="1.1.203" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230502000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
     <PackageReference Include="Serilog" Version="2.12.0" />
@@ -69,7 +72,17 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
-    <ProjectReference Include="..\..\ShadowViewer.Plguin.Bika\ShadowViewer.Plugin.Bika.csproj" />
+    <ProjectReference Include="..\..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\AttributesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\SettingsHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\BookShelfSettingsPage.xaml">
@@ -83,16 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\ComicPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\TagsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\StatusPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

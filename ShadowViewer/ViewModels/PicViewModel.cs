@@ -12,11 +12,6 @@ namespace ShadowViewer.ViewModels
         private int maximumRows = 1;
         [ObservableProperty]
         private int imageWidth = 600; 
-        public PicViewModel(ShadowEntry entry) 
-        {
-            LoadImageFormEntry(entry);
-            Logger.Information("缓存流模式加载图片 {Path}", entry.Path);
-        }
         public PicViewModel(LocalComic comic) 
         {
             Comic = comic;
@@ -38,26 +33,6 @@ namespace ShadowViewer.ViewModels
                     Images.Add(image);
                 } 
             }
-        }
-        /// <summary>
-        /// 从缓存的数据流中加载漫画
-        /// </summary>
-        private async void LoadImageFormEntry(ShadowEntry entry)
-        {
-            foreach (ShadowEntry item in entry.Children.OrderBy(x => x.Name))
-            {
-                if (item.IsDirectory)
-                {
-                    LoadImageFormEntry(item);
-                }
-                else if (item.Source != null)
-                {
-                    BitmapImage image = new BitmapImage();
-                    item.Source.Seek(0, SeekOrigin.Begin);
-                    await image.SetSourceAsync(item.Source.AsRandomAccessStream());
-                    Images.Add(image);
-                }
-            }
-        }
+        } 
     }
 }

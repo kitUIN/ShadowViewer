@@ -8,17 +8,6 @@ namespace ShadowViewer.Pages
             this.InitializeComponent();
             ViewModel = new SettingsViewModel();
         }
-        /// <summary>
-        /// 为项目提交bug或者建议
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
-        private void BugRequestCard_Click(object sender, RoutedEventArgs e)
-        {
-            var uri = new Uri("https://github.com/kitUIN/ShadowViewer");
-            uri.LaunchUriAsync();
-        }
-
         private void PluginSettingsStackPanel_Loaded(object sender, RoutedEventArgs e)
         {
             var currentTheme = ThemeHelper.RootTheme;
@@ -115,11 +104,11 @@ namespace ShadowViewer.Pages
         /// <param name="panel">The panel.</param>
         public void LoadSettingsStackPanel()
         {
-            foreach (SettingsExpander expander in PluginSettingsStackPanel.Children)
+            foreach (SettingsExpander expander in PluginSettingsStackPanel.Children.Cast<SettingsExpander>())
             {
                 if (expander.Tag is string name)
                 {
-                    foreach (SettingsCard item in expander.Items)
+                    foreach (SettingsCard item in expander.Items.Cast<SettingsCard>())
                     {
                         item.IsEnabled = PluginHelper.EnabledPlugins.Contains(name);
                         if (item.Tag is bool arg)
@@ -138,8 +127,8 @@ namespace ShadowViewer.Pages
         }
         private void ThemeModeSetting_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            var selectedTheme = ((ComboBoxItem)((ComboBox)sender).SelectedItem)?.Tag?.ToString();
-            var window = WindowHelper.GetWindowForElement(this);
+            string selectedTheme = ((ComboBoxItem)((ComboBox)sender).SelectedItem)?.Tag?.ToString();
+            Window window = WindowHelper.GetWindowForElement(this);
             if (selectedTheme != null)
             {
                 ThemeHelper.RootTheme = EnumHelper.GetEnum<ElementTheme>(selectedTheme);
@@ -148,9 +137,9 @@ namespace ShadowViewer.Pages
             }
         }
 
-        private void SponsorCard_Click(object sender, RoutedEventArgs e)
+        private void Uri_Click(object sender, RoutedEventArgs e)
         {
-            var uri = new Uri("https://afdian.net/@kituin");
+            var uri = new Uri((sender as SettingsCard).Tag.ToString());
             uri.LaunchUriAsync();
         }
 
@@ -179,13 +168,6 @@ namespace ShadowViewer.Pages
             Button button = sender as Button;
             var uri = new Uri(button.Tag.ToString());
             uri.LaunchUriAsync();
-        }
-
-        private void StackPanel_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            StackPanel stack = sender as StackPanel;
-            TempPathText.Width = stack.ActualWidth - 400;
-            ComicsPathText.Width = stack.ActualWidth - 400;
         }
 
         private void HomeSettingCard_Click(object sender, RoutedEventArgs e)

@@ -1,7 +1,15 @@
+using SharpCompress.Readers;
+using CommunityToolkit.WinUI;
+using System.Threading;
+using Windows.Storage;
+using Microsoft.UI.Xaml.Controls;
+using CommunityToolkit.WinUI.UI.Controls;
+
 namespace ShadowViewer.Pages
 {
     public sealed partial class NavigationPage : Page
     {
+        private static CancellationTokenSource cancelTokenSource;
         public NavigationViewModel ViewModel { get; set; }
         public NavigationPage()
         {
@@ -83,35 +91,141 @@ namespace ShadowViewer.Pages
             OverBorder.Visibility = Visibility.Collapsed;
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
+
+                IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+                LoadingControl.IsLoading = true;
                 try
                 {
-                    List<Task> backgrounds = new List<Task>();
-                    IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
-                    IEnumerable<IStorageItem> item2s = items.Where(x => x is StorageFile file && file.IsZip());
-                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
-                    LoadingControl.IsLoading = true;
-                    foreach (IStorageItem item2 in item2s)
+                    foreach (IStorageItem item in items)
                     {
-                        LocalComic comic = await ComicHelper.ImportComicsFromZip(item2.Path, Config.TempPath);
-                        backgrounds.Add( Task.Run(()=> ComicHelper.EntryToComic(Config.ComicsPath, comic, item2.Path)));
+                        cancelTokenSource = new CancellationTokenSource();
+                        ZipThumb.Source = null;
+                        if (item is StorageFile file && file.IsZip())
+                        {
+                            LoadingProgressBar.IsIndeterminate = true;
+                            LoadingProgressBar.Value = 0;
+                            LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
+                            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
+                            LoadingFileName.Text = file.Name;
+                            bool again = false;
+                            await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = await ComicHelper.ImportAgainDialog(XamlRoot, zip: file.Path)));
+                            if (again)
+                            {
+                                continue;
+                            }
+                            ReaderOptions options = new ReaderOptions();
+                            bool skip = false;
+                            bool flag = false;
+                            await Task.Run(() => {
+                                flag = CompressHelper.CheckPassword(file.Path, ref options);
+                            });
+                            while (!flag)
+                            {
+                                ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), I18nHelper.GetString("Shadow.String.ZipPasswordTitle"));
+                                dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                                {
+                                    string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
+                                    options = new ReaderOptions() { Password = password };
+                                };
+                                dialog.CloseButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                                {
+                                    skip = true;
+                                    flag = true;
+                                };
+                                await dialog.ShowAsync();
+                                if (skip) break;
+                                await Task.Run(() => {
+                                    flag = CompressHelper.CheckPassword(file.Path, ref options);
+                                });
+                            }
+                            if (skip) continue;
+                            string comicId = LocalComic.RandomId();
+                            await Task.Run(async () => {
+                                object res = await CompressHelper.DeCompressAsync(file.Path, Config.ComicsPath, comicId,
+                                imgAction: new Progress<MemoryStream>(
+                                    (MemoryStream ms) => DispatcherQueue.EnqueueAsync(async () => {
+                                        BitmapImage bitmapImage = new BitmapImage();
+                                        await bitmapImage.SetSourceAsync(ms.AsRandomAccessStream());
+                                        ZipThumb.Source = bitmapImage;
+                                    })),
+                                progress: new Progress<double>((value) => DispatcherQueue.TryEnqueue(() => LoadingProgressBar.Value = value)),
+                                () => {
+                                    DispatcherQueue.TryEnqueue(() => {
+                                        LoadingProgressBar.IsIndeterminate = false;
+                                    });
+                                }, cancelTokenSource.Token, options);
+                                DispatcherQueue.TryEnqueue(() =>
+                                {
+                                    LoadingProgressBar.IsIndeterminate = true;
+                                    LoadingProgressText.Visibility = Visibility.Collapsed;
+                                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                                });
+                                if (res is CacheZip cache)
+                                {
+                                    StorageFolder folder = await cache.CachePath.ToStorageFolder();
+                                    await Task.Run(async () => {
+                                        try
+                                        {
+                                            await ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId, cache.Name);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            Log.Error("无效文件夹{F},忽略", folder.Path);
+                                        }
+                                    }, cancelTokenSource.Token);
+                                }
+                                else if (res is ShadowEntry root)
+                                {
+                                    string path = Path.Combine(Config.ComicsPath, comicId);
+                                    string fileName = Path.GetFileNameWithoutExtension(file.Path).Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
+                                    LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path, comicId),
+                                        parent: "local", size: root.Size, id: comicId);
+                                    comic.Add();
+                                    await Task.Run(() => ShadowEntry.ToLocalComic(root, path, comic.Id), cancelTokenSource.Token);
+                                }
+                            }, cancelTokenSource.Token);
+                        }
+                        else if(item is StorageFolder folder)
+                        {
+                            bool again = false;
+                            await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = !Config.IsImportAgain && await ComicHelper.ImportAgainDialog(XamlRoot, path: folder.Path)));
+                            if (again)
+                            {
+                                LoadingControl.IsLoading = false;
+                                continue;
+                            }
+                            LoadingProgressBar.IsIndeterminate = true;
+                            LoadingProgressText.Visibility = Visibility.Collapsed;
+                            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                            LoadingFileName.Text = folder.Name;
+                            await Task.Run(async () => {
+                                try
+                                {
+                                    await ComicHelper.ImportComicsFromFolder(folder, "local");
+                                }
+                                catch (Exception)
+                                {
+                                    Log.Warning("导入无效文件夹:{F},忽略", folder.Path);
+                                }
+                            }, cancelTokenSource.Token);
+                        }
+                        else
+                        {
+                            Log.Warning("导入无效文件:{F},忽略", item.Path);
+                        }
                     }
-                    MessageHelper.SendFilesReload();
-                    LoadingControl.IsLoading = false;
-                    await Task.WhenAll(backgrounds);
-                    MessageHelper.SendFilesReload();
                 }
-                catch (Exception ex)
+                catch (TaskCanceledException)
                 {
-                    Log.Error("外部文件拖入进行响应报错:{Ex}", ex);
+                    Log.ForContext<NavigationPage>().Information("中断导入");
                 }
-                
+                MessageHelper.SendFilesReload();
+                LoadingControl.IsLoading = false;
             }
         }
         /// <summary>
         /// 外部文件拖动悬浮显示
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void Root_DragOver(object sender, DragEventArgs e)
         {
 
@@ -128,8 +242,6 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 外部文件拖动离开
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private void Root_DragLeave(object sender, DragEventArgs e)
         {
             OverBorder.Visibility = Visibility.Collapsed;
@@ -137,6 +249,13 @@ namespace ShadowViewer.Pages
         private void SmokeGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             e.Handled = true;
+        }
+        /// <summary>
+        /// 取消导入
+        /// </summary>
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            cancelTokenSource.Cancel();
         }
     }
 

@@ -1,27 +1,21 @@
-﻿using Microsoft.UI.Xaml.Shapes;
-
-namespace ShadowViewer.Configs
+﻿namespace ShadowViewer.Configs
 {
     public class Config
     { 
         public static void ConfigInit()
         {
-            Config config = new Config();
-        }
-        public Config() 
-        {
             if (!ConfigHelper.Contains("ComicsPath"))
             {
-                ComicsPath= Path.Combine(ApplicationData.Current.LocalFolder.Path, "Comics");
+                ComicsPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Comics");
             }
             if (!ConfigHelper.Contains("TempPath"))
             {
                 TempPath = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Temps");
-            } 
-            if (!ConfigHelper.Contains("IsBookShelfDetailShow"))
+            }
+            if (!ConfigHelper.Contains("IsBookShelfInfoBar"))
             {
-                IsBookShelfDetailShow = true;
-            } 
+                IsBookShelfInfoBar = true;
+            }
             IsDebugEvent();
             ComicsPath.CreateDirectory();
             TempPath.CreateDirectory();
@@ -58,15 +52,25 @@ namespace ShadowViewer.Configs
             get => ConfigHelper.GetBoolean("IsDeleteFilesWithComicDelete");
             set => ConfigHelper.Set("IsDeleteFilesWithComicDelete", value);
         }
-        public static bool IsBookShelfMenuShow
+        public static bool IsBookShelfInfoBar
         {
-            get => ConfigHelper.GetBoolean("IsBookShelfMenuShow");
-            set => ConfigHelper.Set("IsBookShelfMenuShow", value);
+            get => ConfigHelper.GetBoolean("IsBookShelfInfoBar");
+            set => ConfigHelper.Set("IsBookShelfInfoBar", value);
         }
-        public static bool IsBookShelfDetailShow
+        public static bool IsImportAgain
         {
-            get => ConfigHelper.GetBoolean("IsBookShelfDetailShow");
-            set => ConfigHelper.Set("IsBookShelfDetailShow", value);
+            get => ConfigHelper.GetBoolean("IsImportAgain");
+            set => ConfigHelper.Set("IsImportAgain", value);
+        }
+        public static bool IsTopBarDetail
+        {
+            get => ConfigHelper.GetBoolean("IsTopBarDetail");
+            set => ConfigHelper.Set("IsTopBarDetail", value);
+        }
+        public static bool BookStyleDetail
+        {
+            get => ConfigHelper.GetBoolean("BookStyleDetail");
+            set => ConfigHelper.Set("BookStyleDetail", value);
         }
         private static void IsDebugEvent()
         {

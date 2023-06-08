@@ -6,12 +6,176 @@
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dv="using:ShadowViewer.Models"
+    xmlns:icons="using:FluentIcon"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ShadowViewer.Utils"
+    x:Name="RootPage"
     mc:Ignorable="d">
     <Page.Resources>
+        <x:Double x:Key="InfoTextSize">13</x:Double>
+        <x:Double x:Key="InfoIconSize">17</x:Double>
+        <x:Double x:Key="InfoButtonHeight">32</x:Double>
+        <!--#region 简单视图-->
+        <DataTemplate x:Key="SimpleLocalComicItem" x:DataType="dv:LocalComic">
+            <Border
+                AllowDrop="True"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
+                DragOver="GridViewItem_DragOverCustomized"
+                Drop="GridViewItem_Drop"
+                RightTapped="ContentGridView_RightTapped"
+                Tag="{x:Bind}">
+                <Grid
+                    Width="130"
+                    Height="180"
+                    Padding="6">
+                    <StackPanel VerticalAlignment="Top">
+                        <Image
+                            x:Name="connectedElement"
+                            Width="120"
+                            Height="130"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Bottom"
+                            Source="{x:Bind Img}" />
+                        <TextBlock
+                            MaxWidth="100"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            MaxLines="1"
+                            Text="{x:Bind Name}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap"
+                            ToolTipService.ToolTip="{x:Bind Name}" />
+                    </StackPanel>
+                    <TextBlock
+                        MaxWidth="100"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        FontSize="13"
+                        Foreground="Gray"
+                        Text="{x:Bind Percent}" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <!--#endregion-->
 
+        <!--#region 详细视图-->
+        <DataTemplate x:Key="DetailLocalComicItem" x:DataType="dv:LocalComic">
+            <Border
+                AllowDrop="True"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="4"
+                DragOver="GridViewItem_DragOverCustomized"
+                Drop="GridViewItem_Drop"
+                RightTapped="ContentGridView_RightTapped"
+                Tag="{x:Bind}">
+                <Grid
+                    Width="330"
+                    Height="150"
+                    Padding="10">
+                    <StackPanel
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal"
+                        Spacing="10">
+                        <Image
+                            Height="130"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Source="{x:Bind Img, Mode=OneWay}" />
+                        <Grid>
+                            <StackPanel
+                                Width="160"
+                                Height="130"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top">
+                                <TextBlock
+                                    Width="150"
+                                    HorizontalAlignment="Left"
+                                    FontSize="18"
+                                    FontWeight="Bold"
+                                    MaxLines="2"
+                                    Text="{x:Bind Name, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="Wrap" />
+                                <TextBlock
+                                    Width="150"
+                                    HorizontalAlignment="Left"
+                                    FontSize="15"
+                                    MaxLines="1"
+                                    Text="{x:Bind Author, Mode=OneWay}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <StackPanel
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Orientation="Vertical">
+                                <StackPanel
+                                    Margin="0,5,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Orientation="Horizontal"
+                                    Spacing="10">
+                                    <TextBlock
+                                        MaxWidth="60"
+                                        HorizontalAlignment="Left"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="{x:Bind Percent, Mode=OneWay}" />
+                                    <TextBlock
+                                        Width="70"
+                                        HorizontalAlignment="Left"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        MaxLines="1"
+                                        Text="{x:Bind SizeString, Mode=OneWay}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal" Visibility="{x:Bind IsEpsDetailShow}">
+                                    <icons:FluentIcon
+                                        Margin="0,2,0,0"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Symbol="ArchiveRegular" />
+                                    <TextBlock
+                                        Margin="3,0,0,0"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="{x:Bind EpisodeCounts, Mode=OneWay}" />
+                                    <TextBlock
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="E" />
+                                    <icons:FluentIcon
+                                        Margin="5,2,0,0"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Symbol="DocumentOnePageRegular" />
+                                    <TextBlock
+                                        Margin="1,0,0,0"
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="{x:Bind Counts, Mode=OneWay}" />
+                                    <TextBlock
+                                        FontSize="15"
+                                        Foreground="Gray"
+                                        Text="P" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </DataTemplate>
+        <!--#endregion-->
+
+        <!--#region 右键浮出栏-->
         <CommandBarFlyout
             x:Name="HomeCommandBarFlyout"
             AlwaysExpanded="True"
@@ -32,15 +196,6 @@
                     <ToolTip x:Uid="Xaml/ToolTip/Delete" />
                 </ToolTipService.ToolTip>
             </AppBarButton>
-            <AppBarButton
-                x:Name="ShadowCommandAddTag"
-                x:Uid="Xaml/Command/AddTag"
-                Icon="Tag"
-                Tapped="ShadowCommandAddTag_Click">
-                <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="Xaml/ToolTip/AddTag" />
-                </ToolTipService.ToolTip>
-            </AppBarButton>
             <CommandBarFlyout.SecondaryCommands>
                 <AppBarButton x:Name="ShadowCommandAdd" x:Uid="Xaml/Command/Add">
                     <AppBarButton.Icon>
@@ -51,15 +206,6 @@
                     </ToolTipService.ToolTip>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem
-                                x:Name="ShadowCommandNewFolder"
-                                x:Uid="Xaml/Command/NewFolder"
-                                Click="ShadowCommandAddNewFolder_Click"
-                                Icon="NewFolder">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="Xaml/ToolTip/NewFolder" />
-                                </ToolTipService.ToolTip>
-                            </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="ShadowCommandAddFromFolder"
                                 x:Uid="Xaml/Command/AddFromFolder"
@@ -86,15 +232,6 @@
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton
-                    x:Name="ShadowCommandRefresh"
-                    x:Uid="Xaml/Command/Refresh"
-                    Click="ShadowCommandRefresh_Click"
-                    Icon="Refresh">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Refresh" />
-                    </ToolTipService.ToolTip>
-                </AppBarButton>
-                <AppBarButton
                     x:Name="ShadowCommandMove"
                     x:Uid="Xaml/Command/Move"
                     Click="ShadowCommandMove_Click"
@@ -114,6 +251,9 @@
                 </AppBarButton>
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
+        <!--#endregion-->
+
+        <!--#region 路径树-->
         <TeachingTip
             x:Name="MoveTeachingTip"
             x:Uid="Xaml/TeachingTip/Move"
@@ -140,248 +280,330 @@
                 </TreeView.ItemTemplate>
             </TreeView>
         </TeachingTip>
+        <!--#endregion-->
     </Page.Resources>
-
-    <Grid x:Name="Root" RightTapped="Root_RightTapped">
-        <ScrollViewer
-            Margin="0,40,0,0"
-            Padding="5"
-            HorizontalScrollBarVisibility="Disabled"
-            HorizontalScrollMode="Disabled"
-            IsVerticalScrollChainingEnabled="True"
-            VerticalScrollBarVisibility="Auto"
-            VerticalScrollMode="Enabled">
-            <GridView
-                x:Name="ContentGridView"
-                Padding="6"
-                AllowDrop="False"
-                CanDragItems="True"
-                CanReorderItems="False"
-                DoubleTapped="ContentGridView_DoubleTapped"
-                DragItemsStarting="ContentGridView_DragItemsStarting"
-                FlowDirection="LeftToRight"
-                IsItemClickEnabled="False"
-                ItemsSource="{x:Bind ViewModel.LocalComics}"
-                KeyDown="GridViewOnKeyDown"
-                RightTapped="ContentGridView_RightTapped"
-                SelectionMode="Extended">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="dv:LocalComic">
-                        <Grid
-                            Width="130"
-                            Height="180"
-                            Padding="6"
-                            AllowDrop="True"
-                            DragOver="GridViewItem_DragOverCustomized"
-                            Drop="GridViewItem_Drop"
-                            Tag="{x:Bind}">
-                            <StackPanel>
-                                <Image
-                                    x:Name="connectedElement"
-                                    Width="120"
-                                    Height="130"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Bottom"
-                                    Source="{x:Bind Img}" />
-                                <TextBlock
-                                    MaxWidth="100"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontSize="16"
-                                    MaxLines="1"
-                                    Text="{x:Bind Name}"
-                                    TextTrimming="CharacterEllipsis"
-                                    TextWrapping="Wrap"
-                                    ToolTipService.ToolTip="{x:Bind Name}" />
-                            </StackPanel>
-                            <TextBlock
-                                MaxWidth="100"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Bottom"
-                                FontSize="13"
-                                Foreground="Gray"
-                                Text="{x:Bind Percent}" />
-                            <StackPanel
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Top"
-                                Spacing="2">
-                                <Button
-                                    x:Uid="Xaml/Button/Temp"
-                                    Padding="5"
-                                    Background="Orange"
-                                    CornerRadius="10"
-                                    FontSize="12"
-                                    FontWeight="Bold"
-                                    Foreground="Black"
-                                    Style="{StaticResource NoOverButton}"
-                                    Visibility="{x:Bind IsTemp}" />
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-
-        </ScrollViewer>
+    <Grid x:Name="Root" MinWidth="700">
+        <!--#region 顶部工具栏-->
         <Grid
             Height="50"
+            Margin="20,0,20,0"
             Padding="5"
             VerticalAlignment="Top">
             <StackPanel
-                Margin="20,0,0,0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
-                <Button Height="32">
+                <DropDownButton x:Name="AddButton" Height="{StaticResource InfoButtonHeight}">
+                    <DropDownButton.Content>
+                        <StackPanel Orientation="Horizontal">
+                            <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xECC8;" />
+                            <TextBlock
+                                x:Name="AddDetail"
+                                x:Uid="Xaml/TextBlock/Add"
+                                Margin="5,0,0,0" />
+                        </StackPanel>
+                    </DropDownButton.Content>
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Filter" />
+                        <ToolTip x:Uid="Xaml/ToolTip/Add" />
                     </ToolTipService.ToolTip>
-                    <StackPanel Orientation="Horizontal">
-                        <FontIcon FontSize="17" Glyph="&#xE71C;" />
-                        <TextBlock
-                            x:Name="FilterText"
-                            x:Uid="Xaml/TextBlock/Filter"
-                            Margin="5,0,0,0" />
-                    </StackPanel>
-                </Button>
+                    <DropDownButton.Flyout>
+                        <MenuFlyout Placement="Bottom">
+                            <MenuFlyoutItem
+                                x:Name="ShadowCommandAddNewFolder"
+                                x:Uid="Xaml/Command/NewFolder"
+                                Click="ShadowCommandAddNewFolder_Click"
+                                Icon="NewFolder">
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="Xaml/ToolTip/NewFolder" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Uid="Xaml/Command/AddFromFolder" Click="ShadowCommandAddFromFolder_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE82E;" />
+                                </MenuFlyoutItem.Icon>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromFolder" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Uid="Xaml/Command/AddFromZip" Click="ShadowCommandAddFromZip_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xF012;" />
+                                </MenuFlyoutItem.Icon>
+                                <ToolTipService.ToolTip>
+                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromZip" />
+                                </ToolTipService.ToolTip>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </DropDownButton.Flyout>
+                </DropDownButton>
                 <Button
-                    x:Name="MenuButton"
-                    Height="32"
-                    Click="MenuButton_Click">
+                    x:Name="RefreshButton"
+                    Height="{StaticResource InfoButtonHeight}"
+                    Click="ShadowCommandRefresh_Click">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Menu" />
+                        <ToolTip x:Uid="Xaml/ToolTip/Refresh" />
                     </ToolTipService.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <FontIcon FontSize="17" Glyph="&#xEDE3;" />
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE72C;" />
                         <TextBlock
-                            x:Name="MenuText"
-                            x:Uid="Xaml/TextBlock/Menu"
+                            x:Name="RefreshDetail"
+                            x:Uid="Xaml/TextBlock/Refresh"
                             Margin="5,0,0,0" />
                     </StackPanel>
                 </Button>
-
             </StackPanel>
+            <labs:Segmented
+                x:Name="StyleSegmented"
+                HorizontalAlignment="Center"
+                SelectionChanged="Segmented_SelectionChanged"
+                SelectionMode="Single">
+                <labs:SegmentedItem Width="75">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Simple" />
+                    </ToolTipService.ToolTip>
+                    <labs:SegmentedItem.Icon>
+                        <FontIcon Glyph="&#xE163;" />
+                    </labs:SegmentedItem.Icon>
+                </labs:SegmentedItem>
+                <labs:SegmentedItem Width="75">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Detail" />
+                    </ToolTipService.ToolTip>
+                    <labs:SegmentedItem.Icon>
+                        <FontIcon Glyph="&#xE161;" />
+                    </labs:SegmentedItem.Icon>
+                </labs:SegmentedItem>
+            </labs:Segmented>
             <StackPanel
-                Margin="0,0,20,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Orientation="Horizontal"
                 Spacing="10">
-                <Button
-                    x:Name="SettingsButton"
-                    Height="32"
-                    Click="SettingsButton_Click">
+                <Button Height="{StaticResource InfoButtonHeight}">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Settings" />
+                        <ToolTip x:Uid="Xaml/ToolTip/Filter" />
                     </ToolTipService.ToolTip>
                     <StackPanel Orientation="Horizontal">
-                        <FontIcon FontSize="17" Glyph="&#xE713;" />
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE71C;" />
                         <TextBlock
-                            x:Name="SettingsText"
-                            x:Uid="Xaml/TextBlock/Settings"
+                            x:Name="FilterDetail"
+                            x:Uid="Xaml/TextBlock/Filter"
                             Margin="5,0,0,0" />
                     </StackPanel>
-
                 </Button>
-                <DropDownButton x:Name="SortButton" Loaded="SortButton_Loaded">
+                <DropDownButton
+                    x:Name="SortButton"
+                    Height="{StaticResource InfoButtonHeight}"
+                    Loaded="Controls_Loaded">
                     <DropDownButton.Content>
                         <StackPanel Orientation="Horizontal">
-                            <FontIcon FontSize="17" Glyph="&#xE8CB;" />
-                            <TextBlock x:Name="SortText" Margin="5,0,0,0" />
+                            <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE8CB;" />
+                            <TextBlock
+                                x:Name="SortDetail"
+                                x:Uid="Xaml/TextBlock/Sort"
+                                Margin="5,0,0,0" />
                         </StackPanel>
                     </DropDownButton.Content>
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Sort" />
                     </ToolTipService.ToolTip>
                     <DropDownButton.Flyout>
-                        <MenuFlyout Placement="Bottom">
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/PA"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="PA" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/PZ"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="PZ" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/AZ"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="AZ" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/ZA"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="ZA" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/RA"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="RA" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/RZ"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="RZ" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/CA"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="CA" />
-                            <MenuFlyoutItem
-                                x:Uid="Xaml/MenuFlyoutItem/CZ"
-                                Click="MenuFlyoutItem_Click"
-                                Tag="CZ" />
+                        <MenuFlyout x:Name="SortFlyout" Placement="Bottom">
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="PA" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="PZ" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="AZ" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="ZA" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="RA" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="RZ" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="CA" />
+                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="CZ" />
                         </MenuFlyout>
                     </DropDownButton.Flyout>
                 </DropDownButton>
             </StackPanel>
-
         </Grid>
+        <!--#endregion-->
 
+        <!--#region 漫画-->
+        <ScrollViewer
+            Margin="0,40,0,15"
+            Padding="5"
+            HorizontalScrollBarVisibility="Disabled"
+            HorizontalScrollMode="Disabled"
+            IsVerticalScrollChainingEnabled="True"
+            VerticalScrollBarVisibility="Auto"
+            VerticalScrollMode="Enabled">
+            <RefreshContainer RefreshRequested="RefreshContainer_RefreshRequested">
+                <GridView
+                    x:Name="ContentGridView"
+                    Padding="5"
+                    AllowDrop="False"
+                    CanDragItems="True"
+                    CanReorderItems="False"
+                    DragItemsStarting="ContentGridView_DragItemsStarting"
+                    FlowDirection="LeftToRight"
+                    IsDoubleTapEnabled="False"
+                    IsItemClickEnabled="True"
+                    ItemClick="ContentGridView_ItemClick"
+                    ItemTemplate="{StaticResource SimpleLocalComicItem}"
+                    ItemsSource="{x:Bind ViewModel.LocalComics}"
+                    KeyDown="GridViewOnKeyDown"
+                    SelectionChanged="ContentGridView_SelectionChanged"
+                    SelectionMode="Single" />
+            </RefreshContainer>
+        </ScrollViewer>
+        <!--#endregion-->
+
+        <!--#region 中部指导-->
         <Grid
-            x:Name="SmokeGrid"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            RightTapped="SmokeGrid_RightTapped"
-            SizeChanged="SmokeGrid_SizeChanged"
-            Visibility="Collapsed">
-            <Grid.Background>
-                <AcrylicBrush TintColor="{ThemeResource SystemChromeAltHighColor}" TintOpacity="0.1" />
-            </Grid.Background>
-            <Grid
-                x:Name="destinationElement"
-                Width="520"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                CornerRadius="5">
-                <Frame x:Name="SmokeFrame" />
-                <Button
-                    Margin="5"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Click="BackButton_Click">
-                    <Button.Content>
-                        <FontIcon FontSize="11" Glyph="&#xE894;" />
-                    </Button.Content>
-                </Button>
-            </Grid>
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
+            <TextBlock
+                x:Uid="Xaml/TextBlock/TeachingShelf"
+                MaxWidth="500"
+                FontSize="17"
+                FontWeight="Bold"
+                TextWrapping="Wrap" />
         </Grid>
+        <!--#endregion-->
+
+        <!--#region 左下角信息栏-->
+        <Grid x:Name="ShelfInfo" VerticalAlignment="Bottom">
+            <StackPanel
+                Margin="6,0,0,2"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Orientation="Horizontal">
+                <StackPanel
+                    Margin="10,0,0,0"
+                    Orientation="Horizontal"
+                    Spacing="3">
+                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{x:Bind ViewModel.FolderTotalCounts, Mode=OneWay}" />
+                    <TextBlock x:Uid="Xaml/TextBlock/FolderTotalHeader" FontSize="{StaticResource InfoTextSize}" />
+                </StackPanel>
+                <TextBlock
+                    Margin="10,0,0,0"
+                    FontSize="{StaticResource InfoTextSize}"
+                    Text="|" />
+                <StackPanel
+                    Margin="10,0,0,0"
+                    Orientation="Horizontal"
+                    Spacing="3">
+                    <TextBlock x:Uid="Xaml/TextBlock/NowFolder" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{x:Bind ViewModel.CurrentName, Mode=OneWay}" />
+                </StackPanel>
+                <TextBlock
+                    Margin="10,0,0,0"
+                    FontSize="{StaticResource InfoTextSize}"
+                    Text="|" />
+                <StackPanel
+                    x:Name="SelectionPanel"
+                    Margin="10,0,0,0"
+                    Orientation="Horizontal"
+                    Spacing="5">
+                    <TextBlock x:Uid="Xaml/TextBlock/SelectionHeader" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock x:Name="SelectionValue" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock x:Uid="Xaml/TextBlock/FolderTotalHeader" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock
+                        x:Name="SizeValue"
+                        Margin="5,0,0,0"
+                        FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock
+                        Margin="10,0,0,0"
+                        FontSize="{StaticResource InfoTextSize}"
+                        Text="|" />
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region 右下角按钮-->
+        <Grid
+            Padding="2"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal">
+                <HyperlinkButton Height="28">
+                    <FontIcon FontSize="14" Glyph="&#xE897;" />
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Help" />
+                    </ToolTipService.ToolTip>
+                </HyperlinkButton>
+                <HyperlinkButton Height="28" Click="SettingsButton_Click">
+                    <FontIcon FontSize="14" Glyph="&#xE713;" />
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/BookSettings" />
+                    </ToolTipService.ToolTip>
+                </HyperlinkButton>
+            </StackPanel>
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region 加载-->
         <controls:Loading x:Name="LoadingControl" RightTapped="SmokeGrid_RightTapped">
             <controls:Loading.Background>
                 <AcrylicBrush TintColor="Black" TintOpacity="0.2" />
             </controls:Loading.Background>
             <StackPanel
                 Padding="12"
-                Orientation="Vertical"
+                Orientation="Horizontal"
                 Spacing="10">
-                <ProgressBar
-                    x:Name="LoadingProgressBar"
-                    Width="130"
-                    HorizontalAlignment="Center"
+                <Image
+                    x:Name="ZipThumb"
+                    Width="250"
+                    Height="250" />
+                <StackPanel
                     VerticalAlignment="Center"
-                    IsIndeterminate="True" />
-                <TextBlock
-                    x:Name="LoadingControlText"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="16" />
+                    Orientation="Vertical"
+                    Spacing="20">
+                    <TextBlock
+                        x:Name="LoadingFileName"
+                        MaxWidth="200"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="20" />
+                    <ProgressBar
+                        x:Name="LoadingProgressBar"
+                        Width="200"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsIndeterminate="False"
+                        Maximum="100"
+                        Minimum="0" />
+                    <StackPanel
+                        x:Name="LoadingProgressText"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal"
+                        Spacing="5"
+                        Visibility="Collapsed">
+                        <TextBlock Text="{x:Bind LoadingProgressBar.Value, Mode=OneWay}" />
+                        <TextBlock Text="%" />
+                    </StackPanel>
+                    <TextBlock
+                        x:Name="LoadingControlText"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="16" />
+                    <Button
+                        x:Name="CancelButton"
+                        x:Uid="Xaml/Button/Cancel"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="CancelButton_Click" />
+                    <TextBlock
+                        x:Name="CompressTip"
+                        x:Uid="Xaml/TextBlock/CompressTip"
+                        Width="200"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="12"
+                        TextWrapping="WrapWholeWords" />
+                </StackPanel>
             </StackPanel>
         </controls:Loading>
+        <!--#endregion-->
     </Grid>
 </Page>

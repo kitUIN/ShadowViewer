@@ -1,13 +1,29 @@
-﻿namespace ShadowViewer.ViewModels
+﻿using ShadowViewer.Core.Enums;
+
+namespace ShadowViewer.ViewModels
 {
     public partial class BookShelfViewModel: ObservableRecipient, IRecipient<FilesMessage>
-    { 
+    {
+        private bool isEmpty = true;
+        private int folderTotalCounts;
         public LocalComic ConnectComic { get; set; }
+        public string CurrentName { get; set; }
         public string Path { get; private set; } = "local";
         public Uri OriginPath { get; private set; }
         public ShadowSorts Sorts { get; set; } = ShadowSorts.RZ;
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
         private static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
+
+        public bool IsEmpty
+        {
+            get => isEmpty;
+            set => SetProperty(ref isEmpty, value, propertyName: nameof(IsEmpty));
+        }
+        public int FolderTotalCounts
+        {
+            get => folderTotalCounts;
+            set => SetProperty(ref folderTotalCounts, value, propertyName: nameof(FolderTotalCounts));
+        }
         public BookShelfViewModel(Uri parameter)
         {
             IsActive = true;
@@ -16,8 +32,15 @@
             Path = parameter.AbsolutePath.Split(new char[] { '/', }, StringSplitOptions.RemoveEmptyEntries).LastOrDefault() ?? parameter.Host;
             Logger.Information("导航到{path},Path={p}", OriginPath, Path);
             RefreshLocalComic();
+            if(Path == "local")
+            {
+                CurrentName = I18nHelper.GetString("Shadow.Tag.Local");
+            }
+            else
+            {
+                CurrentName = DBHelper.Db.Queryable<LocalComic>().First(x => x.Id == Path).Name;
+            }
         }
-        
         private void LocalComics_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if(e.Action == NotifyCollectionChangedAction.Remove)
@@ -37,9 +60,13 @@
                         item.Add();
                     }
                 }
-            } 
+            }
+            IsEmpty = LocalComics.Count == 0;
+            FolderTotalCounts = LocalComics.Count;
         }
-         
+        /// <summary>
+        /// 刷新
+        /// </summary>
         public void RefreshLocalComic()
         {
             LocalComics.Clear();
@@ -70,7 +97,7 @@
                 {
                     ConnectComic = item;
                 }
-            } 
+            }
         }
 
         public void Receive(FilesMessage message)

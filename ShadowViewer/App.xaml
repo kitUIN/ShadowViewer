@@ -17,6 +17,7 @@
             <SolidColorBrush x:Key="WindowCaptionBackground">Transparent</SolidColorBrush>
             <SolidColorBrush x:Key="WindowCaptionBackgroundDisabled">Transparent</SolidColorBrush>
             <!--  Style  -->
+            <!--#region Tag Button-->
             <Style x:Key="NoOverButton" TargetType="Button">
                 <Setter Property="Template">
                     <Setter.Value>
@@ -48,6 +49,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <!--#endregion-->
             <!--  These styles can be referenced to create a consistent SettingsPage layout  -->
             <!--  Spacing between cards  -->
             <x:Double x:Key="SettingsCardSpacing">3</x:Double>
