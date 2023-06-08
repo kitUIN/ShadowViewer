@@ -337,7 +337,9 @@ namespace ShadowViewer.Pages
                     comic.Parent = path.Id;
                 }
             }
-            LocalComic.Query().Where(x => x.Parent == path.Id).ToList().ForEach(x => path.SetSize(x.Size));
+            long size = 0;
+            LocalComic.Query().Where(x => x.Parent == path.Id).ToList().ForEach(x => size += x.Size);
+            path.SetSize(size);
             MoveTeachingTip.IsOpen = false;
             ViewModel.RefreshLocalComic();
         }
@@ -356,8 +358,11 @@ namespace ShadowViewer.Pages
                         item.Parent = comic.Id;
                     }
                 }
-                comic.Size = 0;
-                LocalComic.Query().Where(x => x.Parent == comic.Id).ToList().ForEach(x => comic.Size+=x.Size);
+                long size = 0;
+                LocalComic.Query().Where(x => x.Parent == comic.Id).ToList().ForEach(x => size+=x.Size);
+                comic.Size = size;
+                comic.Update();
+                Log.Information(size.ToString());
                 ViewModel.RefreshLocalComic();
             }
         }
@@ -559,7 +564,7 @@ namespace ShadowViewer.Pages
             {
                 SelectionPanel.Visibility = Visibility.Visible;
                 long size = 0;
-                foreach (LocalComic item in ContentGridView.SelectedItems)
+                foreach (LocalComic item in ContentGridView.SelectedItems.Cast<LocalComic>().ToList())
                 {
                     size += item.Size;
                 }
