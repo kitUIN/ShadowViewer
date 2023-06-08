@@ -99,9 +99,9 @@ namespace ShadowViewer.Pages
                     foreach (IStorageItem item in items)
                     {
                         cancelTokenSource = new CancellationTokenSource();
+                        ZipThumb.Source = null;
                         if (item is StorageFile file && file.IsZip())
                         {
-                            ZipThumb.Source = null;
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressBar.Value = 0;
                             LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
@@ -178,7 +178,7 @@ namespace ShadowViewer.Pages
                                 {
                                     string path = Path.Combine(Config.ComicsPath, comicId);
                                     string fileName = Path.GetFileNameWithoutExtension(file.Path).Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
-                                    LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path),
+                                    LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path, comicId),
                                         parent: "local", size: root.Size, id: comicId);
                                     comic.Add();
                                     await Task.Run(() => ShadowEntry.ToLocalComic(root, path, comic.Id), cancelTokenSource.Token);
@@ -222,7 +222,7 @@ namespace ShadowViewer.Pages
                 MessageHelper.SendFilesReload();
                 LoadingControl.IsLoading = false;
             }
-        } 
+        }
         /// <summary>
         /// 外部文件拖动悬浮显示
         /// </summary>

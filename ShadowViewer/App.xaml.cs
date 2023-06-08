@@ -9,11 +9,7 @@
             // 文件创建
             _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
             // 数据库
-            DBHelper.Init(nameof(LocalComic),typeof(LocalComic));
-            DBHelper.Init(nameof(LocalEpisode), typeof(LocalEpisode));
-            DBHelper.Init(nameof(LocalPicture), typeof(LocalPicture));
-            DBHelper.Init(nameof(ShadowTag), typeof(ShadowTag));
-            DBHelper.Init(nameof(CacheZip), typeof(CacheZip));
+            DBHelper.Init();
             // 插件
             PluginHelper.Init();
             // 标签数据

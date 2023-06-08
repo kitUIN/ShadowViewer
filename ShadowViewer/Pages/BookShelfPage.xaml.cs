@@ -59,6 +59,7 @@ namespace ShadowViewer.Pages
                 cancelTokenSource = new CancellationTokenSource();
                 LoadingControl.IsLoading = true;
                 bool again = false;
+                ZipThumb.Source = null;
                 await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = !Config.IsImportAgain && await ComicHelper.ImportAgainDialog(XamlRoot, path: folder.Path)));
                 if (again)
                 {
@@ -182,7 +183,7 @@ namespace ShadowViewer.Pages
                         {
                             string path = Path.Combine(Config.ComicsPath, comicId);
                             string fileName = Path.GetFileNameWithoutExtension(storageFile.Path).Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
-                            LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path),
+                            LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path, comicId),
                                 parent: "local", size: root.Size, id: comicId);
                             comic.Add();
                             await Task.Run(() => ShadowEntry.ToLocalComic(root, path, comic.Id), cancelTokenSource.Token);

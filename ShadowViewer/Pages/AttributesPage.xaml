@@ -353,6 +353,30 @@
                                                             </HyperlinkButton>
                                                         </StackPanel>
                                                         <!--#endregion-->
+                                                        <!--#region 缩略图地址-->
+                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                            <TextBlock
+                                                                x:Uid="Xaml/TextBlock/Thumb"
+                                                                FontSize="{StaticResource AttributesFontSize}"
+                                                                IsTextSelectionEnabled="True" />
+                                                            <TextBlock
+                                                                MaxWidth="300"
+                                                                FontSize="{StaticResource AttributesFontSize}"
+                                                                IsTextSelectionEnabled="True"
+                                                                Text="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}"
+                                                                TextTrimming="CharacterEllipsis" />
+                                                            <HyperlinkButton
+                                                                Padding="4"
+                                                                VerticalAlignment="Bottom"
+                                                                Click="CopyButton_Click"
+                                                                Tag="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}">
+                                                                <ToolTipService.ToolTip>
+                                                                    <ToolTip x:Uid="Xaml/ToolTip/Copy" />
+                                                                </ToolTipService.ToolTip>
+                                                                <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
+                                                            </HyperlinkButton>
+                                                        </StackPanel>
+                                                        <!--#endregion-->
                                                         <!--#region Shadow地址-->
                                                         <StackPanel Orientation="Horizontal" Spacing="6">
                                                             <TextBlock

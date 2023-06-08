@@ -595,4 +595,7 @@
   <data name="Xaml.ToolTip.More.Content" xml:space="preserve">
     <value>更多</value>
   </data>
+  <data name="Xaml.TextBlock.Thumb.Text" xml:space="preserve">
+    <value>缩略图:</value>
+  </data>
 </root>
