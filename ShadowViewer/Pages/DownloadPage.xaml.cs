@@ -34,7 +34,6 @@ namespace ShadowViewer.Pages
 
         private  void Button_Click(object sender, RoutedEventArgs e)
         {
-            Log.Debug(DIFactory.Current.Services.GetService<INavigationToolKit>().A());
         }
     }
 }

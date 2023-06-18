@@ -11,7 +11,7 @@ namespace ShadowViewer.Helpers
             // 本应用协议
             if (uri.Scheme == "shadow")
             {
-                INavigationToolKit _navigationToolKit = DIFactory.Current.Services.GetService<INavigationToolKit>();
+                ICallableToolKit _navigationToolKit = DIFactory.Current.Services.GetService<ICallableToolKit>();
                 string[] urls = uri.AbsolutePath.Split(new char[] { '/',}, StringSplitOptions.RemoveEmptyEntries);
                 // 本地
                 switch (uri.Host.ToLower())
@@ -19,7 +19,7 @@ namespace ShadowViewer.Helpers
                     case "local":
                         if (urls.Length == 0) 
                         {
-                            _navigationToolKit.NavigateToPage(Enums.NavigateMode.Page,typeof(BookShelfPage),null, uri); 
+                            _navigationToolKit.NavigateTo(Enums.NavigateMode.Page,typeof(BookShelfPage),null, uri); 
                             return; 
                         }
                         for (int i = 0; i < urls.Length; i++)
@@ -27,14 +27,14 @@ namespace ShadowViewer.Helpers
                             if (!DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
                             {
                                 string s = "shadow://local/" + string.Join("/", urls.Take(i + 1));
-                                _navigationToolKit.NavigateToPage(Enums.NavigateMode.URL,null, urls[i - 1], new Uri(s));
+                                _navigationToolKit.NavigateTo(Enums.NavigateMode.URL,null, urls[i - 1], new Uri(s));
                                 return;
                             }
                         }
-                        _navigationToolKit.NavigateToPage(Enums.NavigateMode.URL, null, urls.Last(), uri);
+                        _navigationToolKit.NavigateTo(Enums.NavigateMode.URL, null, urls.Last(), uri);
                         break;
                     case "settings":
-                        _navigationToolKit.NavigateToPage(Enums.NavigateMode.Page, typeof(SettingsPage), null, null);
+                        _navigationToolKit.NavigateTo(Enums.NavigateMode.Page, typeof(SettingsPage), null, null);
                         break;
                     case "download":
                         break;

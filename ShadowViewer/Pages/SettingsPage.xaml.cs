@@ -87,7 +87,7 @@ namespace ShadowViewer.Pages
             {
                 PluginsTool.PluginDisabled(id);
             }
-            MessageHelper.SendNavigationReloadPlugin();
+            //TODO MessageHelper.SendNavigationReloadPlugin();
             LoadSettingsStackPanel();
         }
         /// <summary>

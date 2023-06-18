@@ -25,10 +25,12 @@ namespace ShadowViewer.DI
             #region ToolKit
             services.AddSingleton<IResourcesToolKit, BikaResourcesToolKit>();
             services.AddSingleton<IPluginsToolKit, PluginsToolKit>();
-            services.AddSingleton<INavigationToolKit, NavigationToolKit>();
+            services.AddSingleton<ICallableToolKit, CallableToolKit>();
             #endregion
             #region ViewModel
             services.AddSingleton<SettingsViewModel>();
+            services.AddScoped<BookShelfViewModel>();
+            services.AddSingleton<NavigationViewModel>();
             #endregion
             return services.BuildServiceProvider();
         }

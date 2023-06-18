@@ -14,21 +14,21 @@ namespace ShadowViewer.Pages
     {
         public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
         private static CancellationTokenSource cancelTokenSource;
-        public NavigationViewModel ViewModel { get; set; }
+        public NavigationViewModel ViewModel { get; }
         private ICallableToolKit _navigationToolKit;
         public NavigationPage()
         {
             this.InitializeComponent();
             _navigationToolKit = DIFactory.Current.Services.GetService<ICallableToolKit>();
-            _navigationToolKit.NavigateTo += _navigationToolKit_NavigateTo;
+            _navigationToolKit.NavigateToEvent += _navigationToolKit_NavigateTo;
             Logger.Debug("加载NavigateTo事件");
-            ViewModel = new NavigationViewModel();
+            ViewModel = DIFactory.Current.Services.GetService<NavigationViewModel>();
             NavView.SelectedItem = NavView.MenuItems[0];
         }
 
         private void _navigationToolKit_NavigateTo(object sender, NavigateToEventArgs e)
         {
-            if (e.Mode == Enums.NavigateMode.URL)
+            if (e.Mode == NavigateMode.URL)
             {
                 LocalComic comic = DBHelper.Db.Queryable<LocalComic>().First(x => x.Id == e.Id);
                 if (comic.IsFolder)
@@ -247,7 +247,7 @@ namespace ShadowViewer.Pages
                 {
                     Log.ForContext<NavigationPage>().Information("中断导入");
                 }
-                MessageHelper.SendFilesReload();
+                _navigationToolKit.RefreshBook();
                 LoadingControl.IsLoading = false;
             }
         }

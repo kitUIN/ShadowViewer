@@ -11,6 +11,7 @@ global using ShadowViewer.Configs;
 global using ShadowViewer.Converters;
 // global using ShadowViewer.Controls;
 global using ShadowViewer.Helpers;
+global using ShadowViewer.Enums;
 global using ShadowViewer.Messages;
 global using ShadowViewer.ViewModels;
 global using ShadowViewer.Models;

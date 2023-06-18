@@ -1,8 +1,6 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
-using ShadowViewer.Converters;
-using ShadowViewer.Core.Enums;
-using ShadowViewer.ToolKits;
+using Serilog.Core;
 using SharpCompress.Readers;
 using SqlSugar;
 using System.Linq;
@@ -13,6 +11,7 @@ namespace ShadowViewer.Pages
 {
     public sealed partial class BookShelfPage : Page
     {
+        public static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
         private static CancellationTokenSource cancelTokenSource;
         public BookShelfViewModel ViewModel { get; set; }
         public BookShelfPage()
@@ -21,7 +20,8 @@ namespace ShadowViewer.Pages
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel = new BookShelfViewModel(e.Parameter as Uri);
+            ViewModel = DIFactory.Current.Services.GetService<BookShelfViewModel>();
+            ViewModel.Init(e.Parameter as Uri);
         }
         /// <summary>
         /// 显示悬浮菜单
@@ -245,22 +245,17 @@ namespace ShadowViewer.Pages
             MoveTeachingTip.IsOpen = true;
         }
         /// <summary>
-        /// �Ҽ��˵�-�鿴����
+        /// 菜单-查看属性
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandStatus_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            ViewModel.ConnectComic = ContentGridView.SelectedItems[0] as LocalComic;
-            Frame.Navigate(typeof(AttributesPage), ViewModel.ConnectComic);
+            Frame.Navigate(typeof(AttributesPage), ContentGridView.SelectedItems[0] as LocalComic);
         }
 
         /// <summary>
-        /// 右键菜单-刷新
+        /// 菜单-刷新
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void ShadowCommandRefresh_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.RefreshLocalComic();
