@@ -133,7 +133,7 @@ namespace ShadowViewer.Pages
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressBar.Value = 0;
                             LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
-                            LoadingControlText.Text = ResourcesToolKit.GetString("Shadow.String.ImportDecompress");
+                            LoadingControlText.Text = AppResourcesToolKit.GetString("Shadow.String.ImportDecompress");
                             LoadingFileName.Text = file.Name;
                             bool again = false;
                             await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = await ComicHelper.ImportAgainDialog(XamlRoot, zip: file.Path)));
@@ -149,7 +149,7 @@ namespace ShadowViewer.Pages
                             });
                             while (!flag)
                             {
-                                ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(ResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", ResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"), ResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"));
+                                ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(AppResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", AppResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"), AppResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"));
                                 dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
                                 {
                                     string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
@@ -186,7 +186,7 @@ namespace ShadowViewer.Pages
                                 {
                                     LoadingProgressBar.IsIndeterminate = true;
                                     LoadingProgressText.Visibility = Visibility.Collapsed;
-                                    LoadingControlText.Text = ResourcesToolKit.GetString("Shadow.String.ImportLoading");
+                                    LoadingControlText.Text = AppResourcesToolKit.GetString("Shadow.String.ImportLoading");
                                 });
                                 if (res is CacheZip cache)
                                 {
@@ -224,7 +224,7 @@ namespace ShadowViewer.Pages
                             }
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressText.Visibility = Visibility.Collapsed;
-                            LoadingControlText.Text = ResourcesToolKit.GetString("Shadow.String.ImportLoading");
+                            LoadingControlText.Text = AppResourcesToolKit.GetString("Shadow.String.ImportLoading");
                             LoadingFileName.Text = folder.Name;
                             await Task.Run(async () => {
                                 try
@@ -260,11 +260,11 @@ namespace ShadowViewer.Pages
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
                 e.AcceptedOperation = DataPackageOperation.Link;
-                e.DragUIOverride.Caption = ResourcesToolKit.GetString("Shadow.String.Import");
+                e.DragUIOverride.Caption = AppResourcesToolKit.GetString("Shadow.String.Import");
                 OverBorder.Visibility = Visibility.Visible;
                 OverBorder.Width = Root.ActualWidth - 30;
                 OverBorder.Height = Root.ActualHeight - 30;
-                ImportText.Text = ResourcesToolKit.GetString("Shadow.String.ImportText");
+                ImportText.Text = AppResourcesToolKit.GetString("Shadow.String.ImportText");
             }
         }
         /// <summary>

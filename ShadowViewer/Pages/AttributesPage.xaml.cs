@@ -37,8 +37,8 @@ namespace ShadowViewer.Pages
         private async void AuthorButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
-                ResourcesToolKit.GetString("Shadow.String.Set"),
-                ResourcesToolKit.GetString("Xaml.TextBlock.Author.Text"),
+                AppResourcesToolKit.GetString("Shadow.String.Set"),
+                AppResourcesToolKit.GetString("Xaml.TextBlock.Author.Text"),
       "", ViewModel.CurrentComic.Author,
       (s, e, t) =>
             {
@@ -52,8 +52,8 @@ namespace ShadowViewer.Pages
         private async void FileNameButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
-                ResourcesToolKit.GetString("Shadow.String.Set"),
-                ResourcesToolKit.GetString("Xaml.TextBlock.FileName.Text"),
+                AppResourcesToolKit.GetString("Shadow.String.Set"),
+                AppResourcesToolKit.GetString("Xaml.TextBlock.FileName.Text"),
       "", ViewModel.CurrentComic.Name,
       (s, e, t) =>
       {
@@ -67,8 +67,8 @@ namespace ShadowViewer.Pages
         private async void GrouprButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
-                ResourcesToolKit.GetString("Shadow.String.Set"),
-                ResourcesToolKit.GetString("Xaml.TextBlock.Group.Text"),
+                AppResourcesToolKit.GetString("Shadow.String.Set"),
+                AppResourcesToolKit.GetString("Xaml.TextBlock.Group.Text"),
       "", ViewModel.CurrentComic.Group,
       (s, e, t) =>
       {
@@ -88,7 +88,7 @@ namespace ShadowViewer.Pages
             {
                 TagName.Text = "";
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagFilled;
-                YesText.Text = ResourcesToolKit.GetString("Shadow.String.AddNew");
+                YesText.Text = AppResourcesToolKit.GetString("Shadow.String.AddNew");
                 RemoveTagButton.Visibility = Visibility.Collapsed;
             }
             else
@@ -97,7 +97,7 @@ namespace ShadowViewer.Pages
                 ForegroundColorPicker.SelectedColor = ((SolidColorBrush)button.Foreground).Color;
                 TagName.Text = ((TextBlock)((StackPanel)button.Content).Children[1]).Text;
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagResetFilled;
-                YesText.Text = ResourcesToolKit.GetString("Shadow.String.Update");
+                YesText.Text = AppResourcesToolKit.GetString("Shadow.String.Update");
                 RemoveTagButton.Visibility = Visibility.Visible;
             }
             YesToolTip.Content = YesText.Text;
@@ -121,12 +121,12 @@ namespace ShadowViewer.Pages
             if (ShadowTag.Query().Any(x => x.Name == box.Text))
             {
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagResetFilled;
-                YesText.Text = ResourcesToolKit.GetString("Shadow.String.Update");
+                YesText.Text = AppResourcesToolKit.GetString("Shadow.String.Update");
             }
             else
             {
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagFilled;
-                YesText.Text = ResourcesToolKit.GetString("Shadow.String.AddNew");
+                YesText.Text = AppResourcesToolKit.GetString("Shadow.String.AddNew");
             }
         }
         /// <summary>

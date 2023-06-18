@@ -10,18 +10,16 @@ namespace ShadowViewer
         public App()
         {
             this.InitializeComponent();
+            // 依赖注入
             DIFactory.Current = new DIFactory();
+            // 配置文件
             Config.Init();
             // 文件创建
             _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
             // 数据库
             DBHelper.Init();
-            // 插件
-            // PluginHelper.Init();
             // 标签数据
             TagsHelper.Init();
-            var bika = DIFactory.Current.Services.GetService<IPlugin>();
-            Log.Information(bika.MetaData().ID);
         }
 
         /// <summary>
@@ -33,7 +31,7 @@ namespace ShadowViewer
             startupWindow = new MainWindow();
             startupWindow.ExtendsContentIntoTitleBar = true;
             WindowHelper.TrackWindow(startupWindow);
-            ThemeHelper.Initialize();
+            ThemeHelper.Initialize(startupWindow);
             Uri firstUri = new Uri("shadow://local/");
             AppActivationArguments actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
             if (actEventArgs.Kind == ExtendedActivationKind.Protocol
@@ -57,7 +55,7 @@ namespace ShadowViewer
                     case "local":
                         if (urls.Length == 0)
                         {
-                            _navigationToolKit.NavigateTo(Enums.NavigateMode.Page, typeof(BookShelfPage), null, uri);
+                            _navigationToolKit.NavigateTo(NavigateMode.Page, typeof(BookShelfPage), null, uri);
                             return;
                         }
                         for (int i = 0; i < urls.Length; i++)
@@ -65,14 +63,14 @@ namespace ShadowViewer
                             if (!DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == urls[i]))
                             {
                                 string s = "shadow://local/" + string.Join("/", urls.Take(i + 1));
-                                _navigationToolKit.NavigateTo(Enums.NavigateMode.URL, null, urls[i - 1], new Uri(s));
+                                _navigationToolKit.NavigateTo(NavigateMode.URL, null, urls[i - 1], new Uri(s));
                                 return;
                             }
                         }
-                        _navigationToolKit.NavigateTo(Enums.NavigateMode.URL, null, urls.Last(), uri);
+                        _navigationToolKit.NavigateTo(NavigateMode.URL, null, urls.Last(), uri);
                         break;
                     case "settings":
-                        _navigationToolKit.NavigateTo(Enums.NavigateMode.Page, typeof(SettingsPage), null, null);
+                        _navigationToolKit.NavigateTo(NavigateMode.Page, typeof(SettingsPage), null, null);
                         break;
                     case "download":
                         break;
