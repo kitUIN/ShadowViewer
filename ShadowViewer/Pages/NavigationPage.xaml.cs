@@ -5,21 +5,53 @@ using Windows.Storage;
 using Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.WinUI.UI.Controls;
 using ShadowViewer.ToolKits;
+using ShadowViewer.Interfaces;
+using System.Security.Policy;
 
 namespace ShadowViewer.Pages
 {
     public sealed partial class NavigationPage : Page
     {
+        public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
         private static CancellationTokenSource cancelTokenSource;
         public NavigationViewModel ViewModel { get; set; }
-        private ResourcesToolKit ResourcesTool { get; }
+        private ICallableToolKit _navigationToolKit;
         public NavigationPage()
         {
             this.InitializeComponent();
-            ViewModel= new NavigationViewModel(ContentFrame, TopGrid);
-            ResourcesTool = DIFactory.Current.Services.GetService<ResourcesToolKit>();
-            NavView.SelectedItem = NavView.MenuItems[0]; 
+            _navigationToolKit = DIFactory.Current.Services.GetService<ICallableToolKit>();
+            _navigationToolKit.NavigateTo += _navigationToolKit_NavigateTo;
+            Logger.Debug("加载NavigateTo事件");
+            ViewModel = new NavigationViewModel();
+            NavView.SelectedItem = NavView.MenuItems[0];
         }
+
+        private void _navigationToolKit_NavigateTo(object sender, NavigateToEventArgs e)
+        {
+            if (e.Mode == Enums.NavigateMode.URL)
+            {
+                LocalComic comic = DBHelper.Db.Queryable<LocalComic>().First(x => x.Id == e.Id);
+                if (comic.IsFolder)
+                {
+                    DispatcherQueue.EnqueueAsync(() =>
+                    {
+                        ContentFrame.Navigate(typeof(BookShelfPage), e.Url);
+                    });
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+                DispatcherQueue.EnqueueAsync(() =>
+                {
+                    ContentFrame.Navigate(e.Page, e.Url);
+                });
+            };
+        }
+
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             Type _page = null;
@@ -77,13 +109,6 @@ namespace ShadowViewer.Pages
         {
             ViewModel.LoadPluginItems(PluginItem);
         }
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            if(e.Parameter is Page page)
-            {
-                ContentFrame.Content = page;
-            } 
-        }
         /// <summary>
         /// 外部文件拖入进行响应
         /// </summary>
@@ -108,7 +133,7 @@ namespace ShadowViewer.Pages
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressBar.Value = 0;
                             LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
-                            LoadingControlText.Text = ResourcesTool.GetString("Shadow.String.ImportDecompress");
+                            LoadingControlText.Text = ResourcesToolKit.GetString("Shadow.String.ImportDecompress");
                             LoadingFileName.Text = file.Name;
                             bool again = false;
                             await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = await ComicHelper.ImportAgainDialog(XamlRoot, zip: file.Path)));
@@ -124,7 +149,7 @@ namespace ShadowViewer.Pages
                             });
                             while (!flag)
                             {
-                                ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(ResourcesTool.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", ResourcesTool.GetString("Shadow.String.ZipPasswordTitle"), ResourcesTool.GetString("Shadow.String.ZipPasswordTitle"));
+                                ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(ResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", ResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"), ResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"));
                                 dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
                                 {
                                     string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
@@ -161,7 +186,7 @@ namespace ShadowViewer.Pages
                                 {
                                     LoadingProgressBar.IsIndeterminate = true;
                                     LoadingProgressText.Visibility = Visibility.Collapsed;
-                                    LoadingControlText.Text = ResourcesTool.GetString("Shadow.String.ImportLoading");
+                                    LoadingControlText.Text = ResourcesToolKit.GetString("Shadow.String.ImportLoading");
                                 });
                                 if (res is CacheZip cache)
                                 {
@@ -199,7 +224,7 @@ namespace ShadowViewer.Pages
                             }
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressText.Visibility = Visibility.Collapsed;
-                            LoadingControlText.Text = ResourcesTool.GetString("Shadow.String.ImportLoading");
+                            LoadingControlText.Text = ResourcesToolKit.GetString("Shadow.String.ImportLoading");
                             LoadingFileName.Text = folder.Name;
                             await Task.Run(async () => {
                                 try
@@ -235,11 +260,11 @@ namespace ShadowViewer.Pages
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
                 e.AcceptedOperation = DataPackageOperation.Link;
-                e.DragUIOverride.Caption = ResourcesTool.GetString("Shadow.String.Import");
+                e.DragUIOverride.Caption = ResourcesToolKit.GetString("Shadow.String.Import");
                 OverBorder.Visibility = Visibility.Visible;
                 OverBorder.Width = Root.ActualWidth - 30;
                 OverBorder.Height = Root.ActualHeight - 30;
-                ImportText.Text = ResourcesTool.GetString("Shadow.String.ImportText");
+                ImportText.Text = ResourcesToolKit.GetString("Shadow.String.ImportText");
             }
         }
         /// <summary>

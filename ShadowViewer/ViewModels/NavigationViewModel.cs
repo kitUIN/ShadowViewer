@@ -1,4 +1,6 @@
-﻿namespace ShadowViewer.ViewModels
+﻿using ShadowViewer.Interfaces;
+
+namespace ShadowViewer.ViewModels
 {
     public class NavigationViewModel: ObservableRecipient, IRecipient<NavigationMessage>
     {
@@ -6,12 +8,10 @@
         private NavigationViewItem pluginItem;
         private DispatcherTimer timer = new DispatcherTimer();
         private Grid topGrid;
-        public NavigationViewModel(Frame frame, Grid topGrid)
+        
+        public NavigationViewModel()
         {
-            IsActive = true;
-            this.frame = frame; 
-            this.topGrid = topGrid; 
-            timer.Tick += Timer_Tick;
+             
         }
 
         private void Timer_Tick(object sender, object e)
@@ -57,7 +57,6 @@
                     topGrid.Children.Add(infoBar);
                     infoBar.IsOpen = true;
                 }
-                
             }
         }
     } 

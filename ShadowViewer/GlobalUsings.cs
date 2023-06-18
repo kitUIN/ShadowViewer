@@ -17,6 +17,7 @@ global using ShadowViewer.Models;
 global using ShadowViewer.Utils;
 global using ShadowViewer.Cache;
 global using ShadowViewer.ToolKits;
+global using ShadowViewer.Interfaces;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using System.Collections.ObjectModel;
 global using Microsoft.Windows.ApplicationModel.Resources;

@@ -13,7 +13,7 @@ namespace ShadowViewer.DI
         {
             Services = ConfigureServices();
         }
-        public static DIFactory Current => new DIFactory();
+        public static DIFactory Current;
         public IServiceProvider Services { get; }
 
         private static IServiceProvider ConfigureServices()
@@ -25,6 +25,7 @@ namespace ShadowViewer.DI
             #region ToolKit
             services.AddSingleton<IResourcesToolKit, BikaResourcesToolKit>();
             services.AddSingleton<IPluginsToolKit, PluginsToolKit>();
+            services.AddSingleton<INavigationToolKit, NavigationToolKit>();
             #endregion
             #region ViewModel
             services.AddSingleton<SettingsViewModel>();
