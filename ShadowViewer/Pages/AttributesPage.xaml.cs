@@ -1,6 +1,3 @@
-using ShadowViewer.ToolKits;
-using System.Diagnostics;
-
 namespace ShadowViewer.Pages
 {
     /// <summary>
@@ -9,6 +6,7 @@ namespace ShadowViewer.Pages
     public sealed partial class AttributesPage : Page
     {
         public AttributesViewModel ViewModel { get; set; }
+        private string TagId { get; set; }
         public AttributesPage()
         {
             this.InitializeComponent();
@@ -17,7 +15,8 @@ namespace ShadowViewer.Pages
         {
             if (e.Parameter is LocalComic comic)
             {
-                ViewModel = new AttributesViewModel(comic);
+                ViewModel = DIFactory.Current.Services.GetService<AttributesViewModel>();
+                ViewModel.Init(comic.Id);
             }
         }
         /// <summary>
@@ -76,14 +75,13 @@ namespace ShadowViewer.Pages
       });
             await dialog.ShowAsync();
         }
-        
         /// <summary>
         /// 点击标签
         /// </summary>
         private void Tag_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            ShadowTag tag = (ShadowTag)button.Tag;
+            LocalTag tag = (LocalTag)button.Tag;
             if (ViewModel.IsLastTag(tag))
             {
                 TagName.Text = "";
@@ -103,38 +101,22 @@ namespace ShadowViewer.Pages
             YesToolTip.Content = YesText.Text;
             if (tag.IsEnable)
             {
+                TagId = tag.Id;
                 TagSelectFlyout.ShowAt(sender as FrameworkElement);
             }
         }
         private void Yes_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(TagName.Text)) return;
-            ViewModel.AddNewTag(new ShadowTag(TagName.Text, background: BackgroundColorPicker.SelectedColor, foreground: ForegroundColorPicker.SelectedColor));
-            TagName_TextChanged(TagName,null); // 手动刷新按钮状态
-        }
-        /// <summary>
-        /// 浮出-标签名称修改
-        /// </summary>
-        private void TagName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox box = sender as TextBox;
-            if (ShadowTag.Query().Any(x => x.Name == box.Text))
-            {
-                YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagResetFilled;
-                YesText.Text = AppResourcesToolKit.GetString("Shadow.String.Update");
-            }
-            else
-            {
-                YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagFilled;
-                YesText.Text = AppResourcesToolKit.GetString("Shadow.String.AddNew");
-            }
+            ViewModel.AddNewTag(new LocalTag(TagName.Text, background: BackgroundColorPicker.SelectedColor, foreground: ForegroundColorPicker.SelectedColor) { Id= TagId });
+            TagSelectFlyout.Hide();
         }
         /// <summary>
         /// 浮出-删除
         /// </summary>
         private void RemoveTagButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.RemoveTag(TagName.Text);
+            ViewModel.RemoveTag(TagId);
             TagSelectFlyout.Hide();
         }
 

@@ -31,7 +31,7 @@ namespace ShadowViewer.Pages
             }
             foreach (IPlugin plugin in PluginsTool.GetEnabledPlugins())
             {
-                var meta = plugin.MetaData();
+                var meta = plugin.MetaData;
                 var expander = new SettingsExpander
                 {
                     Tag = meta.ID,
@@ -67,7 +67,7 @@ namespace ShadowViewer.Pages
                 (expander.Content as StackPanel).Children.Add(switchButton);
                 plugin.PluginSettingsExpander(expander);
                 Log.ForContext<SettingsPage>().Information("[{name}]插件设置注入成功",
-                    plugin.MetaData().Name);
+                    plugin.MetaData.Name);
                 PluginSettingsStackPanel.Children.Add(expander);
             }
             LoadSettingsStackPanel();

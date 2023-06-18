@@ -24,8 +24,7 @@
                     <TextBox
                         x:Name="TagName"
                         MaxWidth="450"
-                        KeyDown="TagName_KeyDown"
-                        TextChanged="TagName_TextChanged" />
+                        KeyDown="TagName_KeyDown" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="10">
                     <TextBlock x:Uid="Xaml/TextBlock/BackgroundColor" />
@@ -462,7 +461,7 @@
                         CornerRadius="10">
                         <ItemsRepeater ItemsSource="{x:Bind ViewModel.Tags, Mode=OneWay}">
                             <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="model:ShadowTag">
+                                <DataTemplate x:DataType="model:LocalTag">
                                     <Button
                                         Background="{x:Bind Background}"
                                         Click="Tag_Click"

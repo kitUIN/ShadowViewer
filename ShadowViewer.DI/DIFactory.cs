@@ -31,6 +31,7 @@ namespace ShadowViewer.DI
             services.AddSingleton<SettingsViewModel>();
             services.AddScoped<BookShelfViewModel>();
             services.AddSingleton<NavigationViewModel>();
+            services.AddScoped<AttributesViewModel>();
             #endregion
             return services.BuildServiceProvider();
         }

@@ -18,8 +18,6 @@ namespace ShadowViewer
             _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
             // 数据库
             DBHelper.Init();
-            // 标签数据
-            TagsHelper.Init();
         }
 
         /// <summary>
