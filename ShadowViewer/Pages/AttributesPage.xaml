@@ -339,18 +339,27 @@
                                                 <Flyout Placement="Left">
                                                     <StackPanel Orientation="Vertical" Spacing="4">
                                                         <!--#region ID-->
-                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="50" />
+                                                                <ColumnDefinition Width="260" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
                                                             <TextBlock
                                                                 x:Uid="Xaml/TextBlock/ID"
-                                                                FontSize="15"
+                                                                Grid.Column="0"
+                                                                FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True" />
                                                             <TextBlock
-                                                                FontSize="15"
+                                                                Grid.Column="1"
+                                                                MaxWidth="250"
+                                                                FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True"
                                                                 MaxLines="1"
                                                                 Text="{x:Bind ViewModel.CurrentComic.Id, Mode=OneWay}"
                                                                 TextTrimming="CharacterEllipsis" />
                                                             <HyperlinkButton
+                                                                Grid.Column="2"
                                                                 Padding="4"
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
@@ -360,22 +369,30 @@
                                                                 </ToolTipService.ToolTip>
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
                                                             </HyperlinkButton>
-                                                        </StackPanel>
+                                                        </Grid>
                                                         <!--#endregion-->
 
                                                         <!--#region 缩略图地址-->
-                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="50" />
+                                                                <ColumnDefinition Width="260" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
                                                             <TextBlock
                                                                 x:Uid="Xaml/TextBlock/Thumb"
+                                                                Grid.Column="0"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True" />
                                                             <TextBlock
-                                                                MaxWidth="300"
+                                                                Grid.Column="1"
+                                                                MaxWidth="250"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True"
                                                                 Text="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}"
                                                                 TextTrimming="CharacterEllipsis" />
                                                             <HyperlinkButton
+                                                                Grid.Column="2"
                                                                 Padding="4"
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
@@ -385,22 +402,30 @@
                                                                 </ToolTipService.ToolTip>
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
                                                             </HyperlinkButton>
-                                                        </StackPanel>
+                                                        </Grid>
                                                         <!--#endregion-->
 
                                                         <!--#region Shadow地址-->
-                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="50" />
+                                                                <ColumnDefinition Width="260" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
                                                             <TextBlock
                                                                 x:Uid="Xaml/TextBlock/Path"
+                                                                Grid.Column="0"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True" />
                                                             <TextBlock
-                                                                MaxWidth="300"
+                                                                Grid.Column="1"
+                                                                MaxWidth="250"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True"
                                                                 Text="{x:Bind ViewModel.CurrentComic.Path, Mode=OneWay}"
                                                                 TextTrimming="CharacterEllipsis" />
                                                             <HyperlinkButton
+                                                                Grid.Column="2"
                                                                 Padding="4"
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
@@ -410,22 +435,30 @@
                                                                 </ToolTipService.ToolTip>
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
                                                             </HyperlinkButton>
-                                                        </StackPanel>
+                                                        </Grid>
                                                         <!--#endregion-->
 
                                                         <!--#region 指向地址-->
-                                                        <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="50" />
+                                                                <ColumnDefinition Width="260" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
                                                             <TextBlock
                                                                 x:Uid="Xaml/TextBlock/Link"
+                                                                Grid.Column="0"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True" />
                                                             <TextBlock
-                                                                MaxWidth="300"
+                                                                Grid.Column="1"
+                                                                MaxWidth="250"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True"
                                                                 Text="{x:Bind ViewModel.CurrentComic.Link, Mode=OneWay}"
                                                                 TextTrimming="CharacterEllipsis" />
                                                             <HyperlinkButton
+                                                                Grid.Column="2"
                                                                 Padding="4"
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
@@ -435,7 +468,7 @@
                                                                 </ToolTipService.ToolTip>
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
                                                             </HyperlinkButton>
-                                                        </StackPanel>
+                                                        </Grid>
                                                         <!--#endregion-->
 
                                                     </StackPanel>
