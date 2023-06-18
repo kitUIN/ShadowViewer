@@ -4,6 +4,7 @@ using System.Threading;
 using Windows.Storage;
 using Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.WinUI.UI.Controls;
+using ShadowViewer.ToolKits;
 
 namespace ShadowViewer.Pages
 {
@@ -11,10 +12,12 @@ namespace ShadowViewer.Pages
     {
         private static CancellationTokenSource cancelTokenSource;
         public NavigationViewModel ViewModel { get; set; }
+        private ResourcesToolKit ResourcesTool { get; }
         public NavigationPage()
         {
             this.InitializeComponent();
             ViewModel= new NavigationViewModel(ContentFrame, TopGrid);
+            ResourcesTool = DIFactory.Current.Services.GetService<ResourcesToolKit>();
             NavView.SelectedItem = NavView.MenuItems[0]; 
         }
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
@@ -43,11 +46,11 @@ namespace ShadowViewer.Pages
                 }
                 else
                 {
-                    foreach (string name in PluginHelper.EnabledPlugins)
+                    /*foreach (string name in PluginHelper.EnabledPlugins)
                     {
                         PluginHelper.PluginInstances[name].NavigationViewItemInvokedHandler(navItemTag, out _page,out parameter);
                         if (_page != null) break;
-                    }
+                    }*/
                 }
             }
             var preNavPageType = ContentFrame.CurrentSourcePageType;
@@ -105,7 +108,7 @@ namespace ShadowViewer.Pages
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressBar.Value = 0;
                             LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
-                            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
+                            LoadingControlText.Text = ResourcesTool.GetString("Shadow.String.ImportDecompress");
                             LoadingFileName.Text = file.Name;
                             bool again = false;
                             await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = await ComicHelper.ImportAgainDialog(XamlRoot, zip: file.Path)));
@@ -121,7 +124,7 @@ namespace ShadowViewer.Pages
                             });
                             while (!flag)
                             {
-                                ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), I18nHelper.GetString("Shadow.String.ZipPasswordTitle"));
+                                ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(ResourcesTool.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", ResourcesTool.GetString("Shadow.String.ZipPasswordTitle"), ResourcesTool.GetString("Shadow.String.ZipPasswordTitle"));
                                 dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
                                 {
                                     string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
@@ -158,7 +161,7 @@ namespace ShadowViewer.Pages
                                 {
                                     LoadingProgressBar.IsIndeterminate = true;
                                     LoadingProgressText.Visibility = Visibility.Collapsed;
-                                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                                    LoadingControlText.Text = ResourcesTool.GetString("Shadow.String.ImportLoading");
                                 });
                                 if (res is CacheZip cache)
                                 {
@@ -196,7 +199,7 @@ namespace ShadowViewer.Pages
                             }
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressText.Visibility = Visibility.Collapsed;
-                            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                            LoadingControlText.Text = ResourcesTool.GetString("Shadow.String.ImportLoading");
                             LoadingFileName.Text = folder.Name;
                             await Task.Run(async () => {
                                 try
@@ -232,11 +235,11 @@ namespace ShadowViewer.Pages
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
                 e.AcceptedOperation = DataPackageOperation.Link;
-                e.DragUIOverride.Caption = I18nHelper.GetString("Shadow.String.Import");
+                e.DragUIOverride.Caption = ResourcesTool.GetString("Shadow.String.Import");
                 OverBorder.Visibility = Visibility.Visible;
                 OverBorder.Width = Root.ActualWidth - 30;
                 OverBorder.Height = Root.ActualHeight - 30;
-                ImportText.Text = I18nHelper.GetString("Shadow.String.ImportText");
+                ImportText.Text = ResourcesTool.GetString("Shadow.String.ImportText");
             }
         }
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.WinUI.Helpers;
 using ShadowViewer.Models;
+using ShadowViewer.ToolKits;
 
 namespace ShadowViewer.ViewModels
 {
@@ -52,7 +53,7 @@ namespace ShadowViewer.ViewModels
             {
                 shadow.IsEnable = false;
                 shadow.Icon = "\uE23F";
-                shadow.ToolTip = I18nHelper.GetString("Shadow.String.Affiliation") + ": " + shadow.Name;
+                shadow.ToolTip = ResourcesToolKit.GetString("Shadow.String.Affiliation") + ": " + shadow.Name;
                 Tags.Add(shadow);
             }
             foreach (string item in CurrentComic.Tags)
@@ -60,7 +61,7 @@ namespace ShadowViewer.ViewModels
                 if (ShadowTag.Query().First(x => x.Name == item) is ShadowTag shadowTag)
                 {
                     shadowTag.Icon = "\uEEDB";
-                    shadowTag.ToolTip = I18nHelper.GetString("Shadow.String.Tag") + ": " + shadowTag.Name;
+                    shadowTag.ToolTip = ResourcesToolKit.GetString("Shadow.String.Tag") + ": " + shadowTag.Name;
                     Tags.Add(shadowTag);
                 }
             }
@@ -70,8 +71,8 @@ namespace ShadowViewer.ViewModels
                 // Background = (SolidColorBrush)Application.Current.Resources["SystemControlBackgroundBaseMediumLowBrush"],
                 Foreground = new SolidColorBrush((ThemeHelper.IsDarkTheme() ? "#FFFFFFFF" : "#FF000000").ToColor()),
                 IsEnable = true,
-                Name = I18nHelper.GetString("Xaml.ToolTip.AddTag.Content"),
-                ToolTip = I18nHelper.GetString("Xaml.ToolTip.AddTag.Content"),
+                Name = ResourcesToolKit.GetString("Xaml.ToolTip.AddTag.Content"),
+                ToolTip = ResourcesToolKit.GetString("Xaml.ToolTip.AddTag.Content"),
         });
         }
         /// <summary>

@@ -1,19 +1,25 @@
-﻿namespace ShadowViewer
+﻿using Serilog;
+using ShadowViewer.Plugin.Bika;
+using ShadowViewer.Plugins;
+
+namespace ShadowViewer
 {
     public partial class App : Application
     {
         public App()
         {
             this.InitializeComponent();
-            Config.ConfigInit();
+            Config.Init();
             // 文件创建
             _ = ApplicationData.Current.LocalFolder.CreateFileAsync("ShadowViewer.db");
             // 数据库
             DBHelper.Init();
             // 插件
-            PluginHelper.Init();
+            // PluginHelper.Init();
             // 标签数据
             TagsHelper.Init();
+            var bika = DIFactory.Current.Services.GetService<IPlugin>();
+            Log.Information(bika.MetaData().ID);
         }
 
         /// <summary>

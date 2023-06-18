@@ -1,6 +1,8 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
+using ShadowViewer.Converters;
 using ShadowViewer.Core.Enums;
+using ShadowViewer.ToolKits;
 using SharpCompress.Readers;
 using SqlSugar;
 using System.Linq;
@@ -12,10 +14,12 @@ namespace ShadowViewer.Pages
     public sealed partial class BookShelfPage : Page
     {
         private static CancellationTokenSource cancelTokenSource;
-        private BookShelfViewModel ViewModel { get; set; }
+        public BookShelfViewModel ViewModel { get; set; }
+        private ResourcesToolKit ResourcesTool { get; }
         public BookShelfPage()
         {
             this.InitializeComponent();
+            ResourcesTool = DIFactory.Current.Services.GetService<ResourcesToolKit>();
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -68,7 +72,7 @@ namespace ShadowViewer.Pages
                 }
                 LoadingProgressBar.IsIndeterminate = true;
                 LoadingProgressText.Visibility = Visibility.Collapsed;
-                LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                LoadingControlText.Text = ResourcesTool.GetString("Shadow.String.ImportLoading");
                 LoadingFileName.Text = folder.Name;
                 await Task.Run(async () =>
                 {
@@ -108,7 +112,7 @@ namespace ShadowViewer.Pages
                     LoadingProgressBar.IsIndeterminate = true;
                     LoadingProgressBar.Value = 0;
                     LoadingProgressText.Visibility = Visibility.Visible;
-                    LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportDecompress");
+                    LoadingControlText.Text = ResourcesTool.GetString("Shadow.String.ImportDecompress");
                     LoadingFileName.Text = storageFile.Name;
                     ReaderOptions options = null;
                     bool skip = false;
@@ -119,7 +123,7 @@ namespace ShadowViewer.Pages
                     }, cancelTokenSource.Token);
                     while (!flag)
                     {
-                        ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", I18nHelper.GetString("Shadow.String.ZipPasswordTitle"), I18nHelper.GetString("Shadow.String.ZipPasswordTitle"));
+                        ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(ResourcesTool.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", ResourcesTool.GetString("Shadow.String.ZipPasswordTitle"), ResourcesTool.GetString("Shadow.String.ZipPasswordTitle"));
                         dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
                         {
                             string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
@@ -162,7 +166,7 @@ namespace ShadowViewer.Pages
                         {
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressText.Visibility = Visibility.Collapsed;
-                            LoadingControlText.Text = I18nHelper.GetString("Shadow.String.ImportLoading");
+                            LoadingControlText.Text = ResourcesTool.GetString("Shadow.String.ImportLoading");
                         });
                         if (res is CacheZip cache)
                         {
@@ -218,7 +222,7 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await CreateRenameDialog(I18nHelper.GetString("Xaml.ToolTip.Rename.Content"), XamlRoot, comic).ShowAsync();
+            await CreateRenameDialog(ResourcesTool.GetString("Xaml.ToolTip.Rename.Content"), XamlRoot, comic).ShowAsync();
         }
         /// <summary>
         /// 右键菜单-删除
@@ -299,7 +303,7 @@ namespace ShadowViewer.Pages
         /// <returns></returns>
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
         {
-            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(I18nHelper.GetString("Shadow.String.CreateFolder.Title"), xamlRoot, "");
+            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(ResourcesTool.GetString("Shadow.String.CreateFolder.Title"), xamlRoot, "");
             dialog.PrimaryButtonClick += (s, e) =>
             {
                 var name = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
@@ -363,7 +367,6 @@ namespace ShadowViewer.Pages
                 LocalComic.Query().Where(x => x.Parent == comic.Id).ToList().ForEach(x => size+=x.Size);
                 comic.Size = size;
                 comic.Update();
-                Log.Information(size.ToString());
                 ViewModel.RefreshLocalComic();
             }
         }
@@ -378,7 +381,7 @@ namespace ShadowViewer.Pages
             {
                 if (frame.Tag is LocalComic comic && comic.IsFolder)
                 {
-                    e.DragUIOverride.Caption = I18nHelper.GetString("Xaml.Command.Move.Label") + comic.Name;
+                    e.DragUIOverride.Caption = ResourcesTool.GetString("Xaml.Command.Move.Label") + comic.Name;
                     e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None;
                 }
                 else return;
@@ -419,7 +422,7 @@ namespace ShadowViewer.Pages
             string text = ((MenuFlyoutItem)sender).Tag.ToString();
             foreach (MenuFlyoutItem item in SortFlyout.Items.Cast<MenuFlyoutItem>())
             {
-                item.Text = (item.Tag.ToString() == text ? "⁜ " : "    ") + I18nHelper.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
+                item.Text = (item.Tag.ToString() == text ? "⁜ " : "    ") + ResourcesTool.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
             }
             ViewModel.Sorts = EnumHelper.GetEnum<ShadowSorts>(((MenuFlyoutItem)sender).Tag.ToString());
             ViewModel.RefreshLocalComic();
@@ -433,7 +436,7 @@ namespace ShadowViewer.Pages
         {
             foreach (MenuFlyoutItem item in SortFlyout.Items)
             {
-                item.Text = (item.Tag.ToString() == "RZ" ? "⁜ " : "    ") + I18nHelper.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
+                item.Text = (item.Tag.ToString() == "RZ" ? "⁜ " : "    ") + ResourcesTool.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
             }
             SelectionPanel.Visibility = Visibility.Collapsed;
             ShelfInfo.Visibility = Config.IsBookShelfInfoBar.ToVisibility();
@@ -456,17 +459,17 @@ namespace ShadowViewer.Pages
             }
             ContentDialog dialog = XamlHelper.CreateContentDialog(XamlRoot);
             StackPanel stackPanel = new StackPanel();
-            dialog.Title = I18nHelper.GetString("Shadow.String.IsDelete");
+            dialog.Title = ResourcesTool.GetString("Shadow.String.IsDelete");
             CheckBox deleteFiles = new CheckBox()
             {
-                Content = I18nHelper.GetString("Shadow.String.DeleteFiles"),
+                Content = ResourcesTool.GetString("Shadow.String.DeleteFiles"),
                 IsChecked = Config.IsDeleteFilesWithComicDelete,
             };
             deleteFiles.Checked += DeleteFiles_Checked;
             deleteFiles.Unchecked += DeleteFiles_Checked;
             CheckBox remember = new CheckBox()
             {
-                Content = I18nHelper.GetString("Shadow.String.Remember"),
+                Content = ResourcesTool.GetString("Shadow.String.Remember"),
                 IsChecked = Config.IsRememberDeleteFilesWithComicDelete,
             };
             remember.Checked += Remember_Checked;
@@ -474,9 +477,9 @@ namespace ShadowViewer.Pages
             stackPanel.Children.Add(deleteFiles);
             stackPanel.Children.Add(remember);
             dialog.IsPrimaryButtonEnabled = true;
-            dialog.PrimaryButtonText = I18nHelper.GetString("Shadow.String.Confirm");
+            dialog.PrimaryButtonText = ResourcesTool.GetString("Shadow.String.Confirm");
             dialog.DefaultButton = ContentDialogButton.Close;
-            dialog.CloseButtonText = I18nHelper.GetString("Shadow.String.Canel");
+            dialog.CloseButtonText = ResourcesTool.GetString("Shadow.String.Canel");
             dialog.Content = stackPanel;
             dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
             {
@@ -570,7 +573,7 @@ namespace ShadowViewer.Pages
                     size += item.Size;
                 }
                 SelectionValue.Text = ContentGridView.SelectedItems.Count.ToString();
-                SizeValue.Text = ComicHelper.ShowSize(size);
+                SizeValue.Text = SizeToFormatConverter.SizeFormat(size);
             }
             else
             {

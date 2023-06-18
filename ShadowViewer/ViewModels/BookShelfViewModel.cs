@@ -1,4 +1,5 @@
 ﻿using ShadowViewer.Core.Enums;
+using ShadowViewer.ToolKits;
 
 namespace ShadowViewer.ViewModels
 {
@@ -13,7 +14,6 @@ namespace ShadowViewer.ViewModels
         public ShadowSorts Sorts { get; set; } = ShadowSorts.RZ;
         public ObservableCollection<LocalComic> LocalComics { get; } = new ObservableCollection<LocalComic>();
         private static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
-
         public bool IsEmpty
         {
             get => isEmpty;
@@ -34,7 +34,7 @@ namespace ShadowViewer.ViewModels
             RefreshLocalComic();
             if(Path == "local")
             {
-                CurrentName = I18nHelper.GetString("Shadow.Tag.Local");
+                CurrentName = ResourcesToolKit.GetString("Shadow.Tag.Local");
             }
             else
             {

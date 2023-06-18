@@ -25,12 +25,13 @@
         {
             this.pluginItem = pluginItem;
             pluginItem.MenuItems.Clear();
-            foreach (string name in PluginHelper.EnabledPlugins)
+            // TODO
+           /* foreach (string name in PluginHelper.EnabledPlugins)
             {
                 PluginHelper.PluginInstances[name].NavigationViewItemsHandler(pluginItem);
                 Log.ForContext<NavigationViewModel>().Information("[{name}]插件导航栏注入成功",
                     PluginHelper.PluginInstances[name].MetaData().Name);
-            }
+            }*/
         }
         public void Receive(NavigationMessage message)
         {

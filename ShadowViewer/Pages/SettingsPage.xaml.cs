@@ -1,16 +1,22 @@
+using ShadowViewer.Interfaces;
+using ShadowViewer.Plugins;
+
 namespace ShadowViewer.Pages
 {
     public sealed partial class SettingsPage : Page
     {
         public SettingsViewModel ViewModel { get; set; }
+        private IPluginsToolKit PluginsTool{get;}
         public SettingsPage()
         {
             this.InitializeComponent();
-            ViewModel = new SettingsViewModel();
+            ViewModel = DIFactory.Current.Services.GetService<SettingsViewModel>();
+            PluginsTool = DIFactory.Current.Services.GetService<IPluginsToolKit>();
+
         }
         private void PluginSettingsStackPanel_Loaded(object sender, RoutedEventArgs e)
         {
-            var currentTheme = ThemeHelper.RootTheme;
+            ElementTheme currentTheme = ThemeHelper.RootTheme;
             switch (currentTheme)
             {
                 case ElementTheme.Light:
@@ -23,9 +29,9 @@ namespace ShadowViewer.Pages
                     ThemeModeSetting.SelectedIndex = 2;
                     break;
             }
-            foreach (string name in PluginHelper.Plugins)
+            foreach (IPlugin plugin in PluginsTool.GetEnabledPlugins())
             {
-                var meta = PluginHelper.PluginInstances[name].MetaData();
+                var meta = plugin.MetaData();
                 var expander = new SettingsExpander
                 {
                     Tag = meta.ID,
@@ -54,14 +60,14 @@ namespace ShadowViewer.Pages
 
                 var switchButton = new ToggleSwitch()
                 {
-                    IsOn = PluginHelper.EnabledPlugins.Contains(name),
-                    Tag = name,
+                    IsOn = PluginsTool.IsEnabled(meta.ID),
+                    Tag = meta.ID,
                 };
                 switchButton.Toggled += PluginToggleSwitch_Toggled;
                 (expander.Content as StackPanel).Children.Add(switchButton);
-                PluginHelper.PluginInstances[name].PluginSettingsExpander(expander);
+                plugin.PluginSettingsExpander(expander);
                 Log.ForContext<SettingsPage>().Information("[{name}]插件设置注入成功",
-                    PluginHelper.PluginInstances[name].MetaData().Name);
+                    plugin.MetaData().Name);
                 PluginSettingsStackPanel.Children.Add(expander);
             }
             LoadSettingsStackPanel();
@@ -69,19 +75,17 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 插件的启动与关闭事件
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void PluginToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             ToggleSwitch toggle = (ToggleSwitch)sender;
-            var name = toggle.Tag.ToString();
+            var id = toggle.Tag.ToString();
             if (toggle.IsOn)
             {
-                PluginHelper.PluginEnabled(name);
+                PluginsTool.PluginEnabled(id);
             }
             else
             {
-                PluginHelper.PluginDisabled(name);
+                PluginsTool.PluginDisabled(id);
             }
             MessageHelper.SendNavigationReloadPlugin();
             LoadSettingsStackPanel();
@@ -101,16 +105,15 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 重载插件设置
         /// </summary>
-        /// <param name="panel">The panel.</param>
         public void LoadSettingsStackPanel()
         {
             foreach (SettingsExpander expander in PluginSettingsStackPanel.Children.Cast<SettingsExpander>())
             {
-                if (expander.Tag is string name)
+                if (expander.Tag is string id)
                 {
                     foreach (SettingsCard item in expander.Items.Cast<SettingsCard>())
                     {
-                        item.IsEnabled = PluginHelper.EnabledPlugins.Contains(name);
+                        item.IsEnabled = PluginsTool.IsEnabled(id);
                         if (item.Tag is bool arg)
                         {
                             item.IsEnabled = arg;

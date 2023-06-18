@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Core", "..\Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Plugin.Bika", "..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj", "{79517C10-EC99-48AD-B026-3839A34269EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowViewer.DI", "ShadowViewer.DI\ShadowViewer.DI.csproj", "{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,22 @@ Global
 		{79517C10-EC99-48AD-B026-3839A34269EE}.Release|x64.Build.0 = Release|Any CPU
 		{79517C10-EC99-48AD-B026-3839A34269EE}.Release|x86.ActiveCfg = Release|Any CPU
 		{79517C10-EC99-48AD-B026-3839A34269EE}.Release|x86.Build.0 = Release|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Debug|x64.Build.0 = Debug|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Debug|x86.Build.0 = Debug|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Release|ARM64.Build.0 = Release|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Release|x64.ActiveCfg = Release|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Release|x64.Build.0 = Release|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Release|x86.ActiveCfg = Release|Any CPU
+		{D38A2362-92B5-4B8E-85B8-D6A6FA5B2271}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
