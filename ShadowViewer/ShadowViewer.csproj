@@ -39,6 +39,7 @@
     <None Remove="Pages\NavigationPage.xaml" />
     <None Remove="Pages\PicPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\Settings\MainSettingsPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,8 +77,6 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
-    <ProjectReference Include="..\..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj" />
     <ProjectReference Include="..\ShadowViewer.DI\ShadowViewer.DI.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -131,7 +130,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\Settings\" />
+    <Page Update="Pages\Settings\MainSettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!-- 

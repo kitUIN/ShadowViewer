@@ -544,68 +544,6 @@
         </Grid>
         <!--#endregion-->
 
-        <!--#region ╪сть-->
-        <controls:Loading x:Name="LoadingControl" RightTapped="SmokeGrid_RightTapped">
-            <controls:Loading.Background>
-                <AcrylicBrush TintColor="Black" TintOpacity="0.2" />
-            </controls:Loading.Background>
-            <StackPanel
-                Padding="12"
-                Orientation="Horizontal"
-                Spacing="10">
-                <Image
-                    x:Name="ZipThumb"
-                    Width="250"
-                    Height="250" />
-                <StackPanel
-                    VerticalAlignment="Center"
-                    Orientation="Vertical"
-                    Spacing="20">
-                    <TextBlock
-                        x:Name="LoadingFileName"
-                        MaxWidth="200"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="20" />
-                    <ProgressBar
-                        x:Name="LoadingProgressBar"
-                        Width="200"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        IsIndeterminate="False"
-                        Maximum="100"
-                        Minimum="0" />
-                    <StackPanel
-                        x:Name="LoadingProgressText"
-                        HorizontalAlignment="Center"
-                        Orientation="Horizontal"
-                        Spacing="5"
-                        Visibility="Collapsed">
-                        <TextBlock Text="{x:Bind LoadingProgressBar.Value, Mode=OneWay}" />
-                        <TextBlock Text="%" />
-                    </StackPanel>
-                    <TextBlock
-                        x:Name="LoadingControlText"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="16" />
-                    <Button
-                        x:Name="CancelButton"
-                        x:Uid="Xaml/Button/Cancel"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Click="CancelButton_Click" />
-                    <TextBlock
-                        x:Name="CompressTip"
-                        x:Uid="Xaml/TextBlock/CompressTip"
-                        Width="200"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontSize="12"
-                        TextWrapping="WrapWholeWords" />
-                </StackPanel>
-            </StackPanel>
-        </controls:Loading>
-        <!--#endregion-->
+       
     </Grid>
 </Page>

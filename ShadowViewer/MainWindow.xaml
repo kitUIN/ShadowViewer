@@ -21,13 +21,17 @@
             Background="Transparent"
             Canvas.ZIndex="1"
             IsHitTestVisible="True">
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Spacing="15">
                 <Image Width="18" Source="ms-appx:///Assets/Tiles/TitlebarLogo.png" />
                 <TextBlock
                     x:Name="AppTitle"
                     x:Uid="Xaml/TextBlock/AppTitle"
-                    Margin="16,0,0,0"
                     VerticalAlignment="Center" />
+                <FontIcon
+                    x:Name="DebugIcon"
+                    FontSize="15"
+                    Glyph="&#xEBE8;"
+                    Visibility="Collapsed" />
             </StackPanel>
         </Border>
         <pages:NavigationPage />

@@ -7,6 +7,10 @@ namespace ShadowViewer.Pages
         {
             this.InitializeComponent();
             ViewModel = DIFactory.Current.Services.GetService<SettingsViewModel>();
+            ViewModel.Pages = new ObservableCollection<BreadcrumbItem> {
+                new BreadcrumbItem(ResourcesHelper.GetString(ResourceKey.Settings), typeof(MainSettingsPage)),
+                new BreadcrumbItem(ResourcesHelper.GetString(ResourceKey.BookShelfSettings), typeof(BookShelfSettingsPage))
+            };
         }
     }
 }

@@ -598,4 +598,10 @@
   <data name="Xaml.TextBlock.Thumb.Text" xml:space="preserve">
     <value>缩略图:</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="BookShelfSettings" xml:space="preserve">
+    <value>书架设置</value>
+  </data>
 </root>

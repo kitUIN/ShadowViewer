@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
     <ProjectReference Include="..\..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj" />
   </ItemGroup>
 </Project>

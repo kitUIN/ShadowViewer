@@ -22,19 +22,35 @@ namespace ShadowViewer.Pages
         public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
         private static CancellationTokenSource cancelTokenSource;
         public NavigationViewModel ViewModel { get; }
+        private ICallableToolKit caller;
         public NavigationPage()
         {
             this.InitializeComponent();
             ViewModel = DIFactory.Current.Services.GetService<NavigationViewModel>();
-            ICallableToolKit caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
+            caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
             caller.ImportComicEvent += Caller_ImportComicEvent;
             caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
             caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
             caller.ImportComicThumbEvent += Caller_ImportComicThumbEvent;
             caller.ImportComicCompletedEvent += Caller_ImportComicCompletedEvent;
             caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
+            caller.MainBackEvent += Caller_MainBackEvent;
             NavView.SelectedItem = NavView.MenuItems[0];
         }
+
+        private void Caller_MainBackEvent(object sender, MainBackEventArgs e)
+        {
+            if (ContentFrame.SourcePageType == typeof(SettingsPage) && e.Force)
+            {
+                caller.SettingsBack();
+            }
+            else
+            {
+                if (!ContentFrame.CanGoBack) return;
+                ContentFrame.GoBack();
+            } 
+        }
+
         /// <summary>
         /// 导入完成
         /// </summary>
@@ -133,7 +149,7 @@ namespace ShadowViewer.Pages
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressBar.Value = 0;
                             LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
-                            LoadingControlText.Text = AppResourcesHelper.GetString("Shadow.String.ImportDecompress");
+                            LoadingControlText.Text = ResourcesHelper.GetString("Shadow.String.ImportDecompress");
                             LoadingFileName.Text = file.Name;
                         });
                         ReaderOptions options = new ReaderOptions();
@@ -155,7 +171,7 @@ namespace ShadowViewer.Pages
                             {
                                 LoadingProgressBar.IsIndeterminate = true;
                                 LoadingProgressText.Visibility = Visibility.Collapsed;
-                                LoadingControlText.Text = AppResourcesHelper.GetString("Shadow.String.ImportLoading");
+                                LoadingControlText.Text = ResourcesHelper.GetString("Shadow.String.ImportLoading");
                             });
                             if (res is CacheZip cache)
                             {
@@ -196,7 +212,7 @@ namespace ShadowViewer.Pages
                             LoadingControl.IsLoading = true;
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressText.Visibility = Visibility.Collapsed;
-                            LoadingControlText.Text = AppResourcesHelper.GetString("Shadow.String.ImportLoading");
+                            LoadingControlText.Text = ResourcesHelper.GetString("Shadow.String.ImportLoading");
                             LoadingFileName.Text = folder.Name;
                         }); 
                        
@@ -296,16 +312,9 @@ namespace ShadowViewer.Pages
 
         private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-            TryGoBack();
+            caller.MainBack(true);
         }
-
-        private bool TryGoBack()
-        {
-            if (!ContentFrame.CanGoBack)
-                return false;
-            ContentFrame.GoBack();
-            return true;
-        }
+         
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -335,11 +344,11 @@ namespace ShadowViewer.Pages
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
                 e.AcceptedOperation = DataPackageOperation.Link;
-                e.DragUIOverride.Caption = AppResourcesHelper.GetString("Shadow.String.Import");
+                e.DragUIOverride.Caption = ResourcesHelper.GetString("Shadow.String.Import");
                 OverBorder.Visibility = Visibility.Visible;
                 OverBorder.Width = Root.ActualWidth - 30;
                 OverBorder.Height = Root.ActualHeight - 30;
-                ImportText.Text = AppResourcesHelper.GetString("Shadow.String.ImportText");
+                ImportText.Text = ResourcesHelper.GetString("Shadow.String.ImportText");
             }
         }
         /// <summary>
