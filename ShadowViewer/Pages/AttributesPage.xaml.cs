@@ -1,4 +1,4 @@
-using System.Diagnostics;
+
 
 namespace ShadowViewer.Pages
 {
@@ -8,6 +8,7 @@ namespace ShadowViewer.Pages
     public sealed partial class AttributesPage : Page
     {
         public AttributesViewModel ViewModel { get; set; }
+        private string TagId { get; set; }
         public AttributesPage()
         {
             this.InitializeComponent();
@@ -16,7 +17,8 @@ namespace ShadowViewer.Pages
         {
             if (e.Parameter is LocalComic comic)
             {
-                ViewModel = new AttributesViewModel(comic);
+                ViewModel = DIFactory.Current.Services.GetService<AttributesViewModel>();
+                ViewModel.Init(comic.Id);
             }
         }
         /// <summary>
@@ -36,8 +38,8 @@ namespace ShadowViewer.Pages
         private async void AuthorButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
-                I18nHelper.GetString("Shadow.String.Set"),
-                I18nHelper.GetString("Xaml.TextBlock.Author.Text"),
+                CoreResourcesHelper.GetString(CoreResourceKey.Set),
+                CoreResourcesHelper.GetString(CoreResourceKey.Author),
       "", ViewModel.CurrentComic.Author,
       (s, e, t) =>
             {
@@ -51,8 +53,8 @@ namespace ShadowViewer.Pages
         private async void FileNameButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
-                I18nHelper.GetString("Shadow.String.Set"),
-                I18nHelper.GetString("Xaml.TextBlock.FileName.Text"),
+                CoreResourcesHelper.GetString(CoreResourceKey.Set),
+                CoreResourcesHelper.GetString(CoreResourceKey.FileName),
       "", ViewModel.CurrentComic.Name,
       (s, e, t) =>
       {
@@ -66,8 +68,8 @@ namespace ShadowViewer.Pages
         private async void GrouprButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
-                I18nHelper.GetString("Shadow.String.Set"),
-                I18nHelper.GetString("Xaml.TextBlock.Group.Text"),
+                CoreResourcesHelper.GetString(CoreResourceKey.Set),
+                CoreResourcesHelper.GetString(CoreResourceKey.Group),
       "", ViewModel.CurrentComic.Group,
       (s, e, t) =>
       {
@@ -75,19 +77,18 @@ namespace ShadowViewer.Pages
       });
             await dialog.ShowAsync();
         }
-        
         /// <summary>
         /// 点击标签
         /// </summary>
         private void Tag_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            ShadowTag tag = (ShadowTag)button.Tag;
+            LocalTag tag = (LocalTag)button.Tag;
             if (ViewModel.IsLastTag(tag))
             {
                 TagName.Text = "";
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagFilled;
-                YesText.Text = I18nHelper.GetString("Shadow.String.AddNew");
+                YesText.Text = CoreResourcesHelper.GetString(CoreResourceKey.AddNew);
                 RemoveTagButton.Visibility = Visibility.Collapsed;
             }
             else
@@ -96,44 +97,28 @@ namespace ShadowViewer.Pages
                 ForegroundColorPicker.SelectedColor = ((SolidColorBrush)button.Foreground).Color;
                 TagName.Text = ((TextBlock)((StackPanel)button.Content).Children[1]).Text;
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagResetFilled;
-                YesText.Text = I18nHelper.GetString("Shadow.String.Update");
+                YesText.Text = CoreResourcesHelper.GetString(CoreResourceKey.Update);
                 RemoveTagButton.Visibility = Visibility.Visible;
             }
             YesToolTip.Content = YesText.Text;
             if (tag.IsEnable)
             {
+                TagId = tag.Id;
                 TagSelectFlyout.ShowAt(sender as FrameworkElement);
             }
         }
         private void Yes_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(TagName.Text)) return;
-            ViewModel.AddNewTag(new ShadowTag(TagName.Text, background: BackgroundColorPicker.SelectedColor, foreground: ForegroundColorPicker.SelectedColor));
-            TagName_TextChanged(TagName,null); // 手动刷新按钮状态
-        }
-        /// <summary>
-        /// 浮出-标签名称修改
-        /// </summary>
-        private void TagName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox box = sender as TextBox;
-            if (ShadowTag.Query().Any(x => x.Name == box.Text))
-            {
-                YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagResetFilled;
-                YesText.Text = I18nHelper.GetString("Shadow.String.Update");
-            }
-            else
-            {
-                YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagFilled;
-                YesText.Text = I18nHelper.GetString("Shadow.String.AddNew");
-            }
+            ViewModel.AddNewTag(new LocalTag(TagName.Text, background: BackgroundColorPicker.SelectedColor, foreground: ForegroundColorPicker.SelectedColor) { Id= TagId });
+            TagSelectFlyout.Hide();
         }
         /// <summary>
         /// 浮出-删除
         /// </summary>
         private void RemoveTagButton_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.RemoveTag(TagName.Text);
+            ViewModel.RemoveTag(TagId);
             TagSelectFlyout.Hide();
         }
 

@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:ShadowViewer"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:pages="using:ShadowViewer.Pages"
     mc:Ignorable="d">
 
     <Grid MinWidth="650" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -29,6 +30,6 @@
                     VerticalAlignment="Center" />
             </StackPanel>
         </Border>
-        <Frame x:Name="RootFrame" />
+        <pages:NavigationPage />
     </Grid>
 </Window>

@@ -7,7 +7,6 @@ namespace ShadowViewer
             this.InitializeComponent();
             this.Title = "ShadowViewer";
             this.SetTitleBar(AppTitleBar);
-            RootFrame.Navigate(typeof(NavigationPage));
         }
     }
 }

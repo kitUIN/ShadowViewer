@@ -155,6 +155,5 @@
             </StackPanel>
         </controls:Loading>
         <Grid x:Name="TopGrid" Canvas.ZIndex="1" />
-
     </Grid>
 </Page>
