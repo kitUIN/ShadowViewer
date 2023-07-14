@@ -70,7 +70,7 @@ namespace ShadowViewer.Pages
                 }
                 LoadingProgressBar.IsIndeterminate = true;
                 LoadingProgressText.Visibility = Visibility.Collapsed;
-                LoadingControlText.Text = AppResourcesToolKit.GetString("Shadow.String.ImportLoading");
+                LoadingControlText.Text = AppResourcesHelper.GetString("Shadow.String.ImportLoading");
                 LoadingFileName.Text = folder.Name;
                 await Task.Run(async () =>
                 {
@@ -92,112 +92,11 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void ShadowCommandAddFromZip_Click(object sender, RoutedEventArgs e)
         {
-            StorageFile storageFile = await FileHelper.SelectFileAsync(this, ".zip", ".rar", ".7z");
-            if (storageFile != null)
+            IReadOnlyList<IStorageItem> files = await FileHelper.SelectMultipleFileAsync(this, ".zip", ".rar", ".7z");
+            if (files != null)
             {
-                if (storageFile.IsZip())
-                {
-                    cancelTokenSource = new CancellationTokenSource();
-                    LoadingControl.IsLoading = true;
-                    bool again = false;
-                    await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = await ComicHelper.ImportAgainDialog(XamlRoot, zip: storageFile.Path)), cancelTokenSource.Token);
-                    if (again)
-                    {
-                        LoadingControl.IsLoading = false;
-                        return;
-                    }
-                    ZipThumb.Source = null;
-                    LoadingProgressBar.IsIndeterminate = true;
-                    LoadingProgressBar.Value = 0;
-                    LoadingProgressText.Visibility = Visibility.Visible;
-                    LoadingControlText.Text = AppResourcesToolKit.GetString("Shadow.String.ImportDecompress");
-                    LoadingFileName.Text = storageFile.Name;
-                    ReaderOptions options = null;
-                    bool skip = false;
-                    bool flag = false;
-                    await Task.Run(() =>
-                    {
-                        flag = CompressHelper.CheckPassword(storageFile.Path, ref options);
-                    }, cancelTokenSource.Token);
-                    while (!flag)
-                    {
-                        ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(AppResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"), XamlRoot, "", AppResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"), AppResourcesToolKit.GetString("Shadow.String.ZipPasswordTitle"));
-                        dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
-                        {
-                            string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
-                            options = new ReaderOptions() { Password = password };
-                        };
-                        dialog.CloseButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
-                        {
-                            skip = true;
-                            flag = true;
-                        };
-                        await dialog.ShowAsync();
-
-                        if (skip) break;
-                        await Task.Run(() =>
-                        {
-                            flag = CompressHelper.CheckPassword(storageFile.Path, ref options);
-                        }, cancelTokenSource.Token);
-                    }
-                    if (skip) return;
-                    string comicId = LocalComic.RandomId();
-                    await Task.Run(async () =>
-                    {
-                        object res = await CompressHelper.DeCompressAsync(storageFile.Path, Config.ComicsPath, comicId,
-                        imgAction: new Progress<MemoryStream>(
-                            (MemoryStream ms) => DispatcherQueue.EnqueueAsync(async () =>
-                            {
-                                BitmapImage bitmapImage = new BitmapImage();
-                                await bitmapImage.SetSourceAsync(ms.AsRandomAccessStream());
-                                ZipThumb.Source = bitmapImage;
-                            })),
-                        progress: new Progress<double>((value) => DispatcherQueue.TryEnqueue(() => LoadingProgressBar.Value = value)),
-                        () =>
-                        {
-                            DispatcherQueue.TryEnqueue(() =>
-                            {
-                                LoadingProgressBar.IsIndeterminate = false;
-                            });
-                        }, cancelTokenSource.Token, options);
-                        DispatcherQueue.TryEnqueue(() =>
-                        {
-                            LoadingProgressBar.IsIndeterminate = true;
-                            LoadingProgressText.Visibility = Visibility.Collapsed;
-                            LoadingControlText.Text = AppResourcesToolKit.GetString("Shadow.String.ImportLoading");
-                        });
-                        if (res is CacheZip cache)
-                        {
-                            StorageFolder folder = await cache.CachePath.ToStorageFolder();
-                            await Task.Run(async () =>
-                            {
-                                try
-                                {
-                                    await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path, cache.ComicId, cache.Name);
-                                }
-                                catch (Exception)
-                                {
-                                    Log.Warning("导入无效文件夹:{F},忽略", folder.Path);
-                                }
-                            }, cancelTokenSource.Token);
-                        }
-                        else if (res is ShadowEntry root)
-                        {
-                            string path = Path.Combine(Config.ComicsPath, comicId);
-                            string fileName = Path.GetFileNameWithoutExtension(storageFile.Path).Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
-                            LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path, comicId),
-                                parent: "local", size: root.Size, id: comicId);
-                            comic.Add();
-                            await Task.Run(() => ShadowEntry.ToLocalComic(root, path, comic.Id), cancelTokenSource.Token);
-                        }
-                    });
-                }
-                else
-                {
-                    Log.Warning("导入无效文件:{F},忽略", storageFile.Path);
-                }
-                ViewModel.RefreshLocalComic();
-                LoadingControl.IsLoading = false;
+                var passwords = new string[files.Count];
+                DIFactory.Current.Services.GetService<ICallableToolKit>().ImportComic(files, passwords, 0);
             }
         }
 
@@ -220,7 +119,7 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await CreateRenameDialog(AppResourcesToolKit.GetString("Xaml.ToolTip.Rename.Content"), XamlRoot, comic).ShowAsync();
+            await CreateRenameDialog(AppResourcesHelper.GetString("Xaml.ToolTip.Rename.Content"), XamlRoot, comic).ShowAsync();
         }
         /// <summary>
         /// 右键菜单-删除
@@ -296,7 +195,7 @@ namespace ShadowViewer.Pages
         /// <returns></returns>
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
         {
-            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(AppResourcesToolKit.GetString("Shadow.String.CreateFolder.Title"), xamlRoot, "");
+            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(AppResourcesHelper.GetString("Shadow.String.CreateFolder.Title"), xamlRoot, "");
             dialog.PrimaryButtonClick += (s, e) =>
             {
                 var name = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
@@ -374,7 +273,7 @@ namespace ShadowViewer.Pages
             {
                 if (frame.Tag is LocalComic comic && comic.IsFolder)
                 {
-                    e.DragUIOverride.Caption = AppResourcesToolKit.GetString("Xaml.Command.Move.Label") + comic.Name;
+                    e.DragUIOverride.Caption = AppResourcesHelper.GetString("Xaml.Command.Move.Label") + comic.Name;
                     e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None;
                 }
                 else return;
@@ -415,7 +314,7 @@ namespace ShadowViewer.Pages
             string text = ((MenuFlyoutItem)sender).Tag.ToString();
             foreach (MenuFlyoutItem item in SortFlyout.Items.Cast<MenuFlyoutItem>())
             {
-                item.Text = (item.Tag.ToString() == text ? "⁜ " : "    ") + AppResourcesToolKit.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
+                item.Text = (item.Tag.ToString() == text ? "⁜ " : "    ") + AppResourcesHelper.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
             }
             ViewModel.Sorts = EnumHelper.GetEnum<ShadowSorts>(((MenuFlyoutItem)sender).Tag.ToString());
             ViewModel.RefreshLocalComic();
@@ -429,7 +328,7 @@ namespace ShadowViewer.Pages
         {
             foreach (MenuFlyoutItem item in SortFlyout.Items)
             {
-                item.Text = (item.Tag.ToString() == "RZ" ? "⁜ " : "    ") + AppResourcesToolKit.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
+                item.Text = (item.Tag.ToString() == "RZ" ? "⁜ " : "    ") + AppResourcesHelper.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
             }
             SelectionPanel.Visibility = Visibility.Collapsed;
             ShelfInfo.Visibility = Config.IsBookShelfInfoBar.ToVisibility();
@@ -452,17 +351,17 @@ namespace ShadowViewer.Pages
             }
             ContentDialog dialog = XamlHelper.CreateContentDialog(XamlRoot);
             StackPanel stackPanel = new StackPanel();
-            dialog.Title = AppResourcesToolKit.GetString("Shadow.String.IsDelete");
+            dialog.Title = AppResourcesHelper.GetString("Shadow.String.IsDelete");
             CheckBox deleteFiles = new CheckBox()
             {
-                Content = AppResourcesToolKit.GetString("Shadow.String.DeleteFiles"),
+                Content = AppResourcesHelper.GetString("Shadow.String.DeleteFiles"),
                 IsChecked = Config.IsDeleteFilesWithComicDelete,
             };
             deleteFiles.Checked += DeleteFiles_Checked;
             deleteFiles.Unchecked += DeleteFiles_Checked;
             CheckBox remember = new CheckBox()
             {
-                Content = AppResourcesToolKit.GetString("Shadow.String.Remember"),
+                Content = AppResourcesHelper.GetString("Shadow.String.Remember"),
                 IsChecked = Config.IsRememberDeleteFilesWithComicDelete,
             };
             remember.Checked += Remember_Checked;
@@ -470,9 +369,9 @@ namespace ShadowViewer.Pages
             stackPanel.Children.Add(deleteFiles);
             stackPanel.Children.Add(remember);
             dialog.IsPrimaryButtonEnabled = true;
-            dialog.PrimaryButtonText = AppResourcesToolKit.GetString("Shadow.String.Confirm");
+            dialog.PrimaryButtonText = AppResourcesHelper.GetString("Shadow.String.Confirm");
             dialog.DefaultButton = ContentDialogButton.Close;
-            dialog.CloseButtonText = AppResourcesToolKit.GetString("Shadow.String.Canel");
+            dialog.CloseButtonText = AppResourcesHelper.GetString("Shadow.String.Canel");
             dialog.Content = stackPanel;
             dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
             {

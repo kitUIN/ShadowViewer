@@ -36,8 +36,8 @@ namespace ShadowViewer.Pages
         private async void AuthorButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
-                AppResourcesToolKit.GetString("Shadow.String.Set"),
-                AppResourcesToolKit.GetString("Xaml.TextBlock.Author.Text"),
+                CoreResourcesHelper.GetString(CoreResourceKey.Set),
+                CoreResourcesHelper.GetString(CoreResourceKey.Author),
       "", ViewModel.CurrentComic.Author,
       (s, e, t) =>
             {
@@ -51,8 +51,8 @@ namespace ShadowViewer.Pages
         private async void FileNameButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
-                AppResourcesToolKit.GetString("Shadow.String.Set"),
-                AppResourcesToolKit.GetString("Xaml.TextBlock.FileName.Text"),
+                CoreResourcesHelper.GetString(CoreResourceKey.Set),
+                CoreResourcesHelper.GetString(CoreResourceKey.FileName),
       "", ViewModel.CurrentComic.Name,
       (s, e, t) =>
       {
@@ -66,8 +66,8 @@ namespace ShadowViewer.Pages
         private async void GrouprButton_Click(object sender, RoutedEventArgs e)
         {
             ContentDialog dialog = XamlHelper.CreateOneTextBoxDialog(XamlRoot,
-                AppResourcesToolKit.GetString("Shadow.String.Set"),
-                AppResourcesToolKit.GetString("Xaml.TextBlock.Group.Text"),
+                CoreResourcesHelper.GetString(CoreResourceKey.Set),
+                CoreResourcesHelper.GetString(CoreResourceKey.Group),
       "", ViewModel.CurrentComic.Group,
       (s, e, t) =>
       {
@@ -86,7 +86,7 @@ namespace ShadowViewer.Pages
             {
                 TagName.Text = "";
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagFilled;
-                YesText.Text = AppResourcesToolKit.GetString("Shadow.String.AddNew");
+                YesText.Text = CoreResourcesHelper.GetString(CoreResourceKey.AddNew);
                 RemoveTagButton.Visibility = Visibility.Collapsed;
             }
             else
@@ -95,7 +95,7 @@ namespace ShadowViewer.Pages
                 ForegroundColorPicker.SelectedColor = ((SolidColorBrush)button.Foreground).Color;
                 TagName.Text = ((TextBlock)((StackPanel)button.Content).Children[1]).Text;
                 YesIcon.Symbol = FluntIcon.FluentIconSymbol.TagResetFilled;
-                YesText.Text = AppResourcesToolKit.GetString("Shadow.String.Update");
+                YesText.Text = CoreResourcesHelper.GetString(CoreResourceKey.Update);
                 RemoveTagButton.Visibility = Visibility.Visible;
             }
             YesToolTip.Content = YesText.Text;
