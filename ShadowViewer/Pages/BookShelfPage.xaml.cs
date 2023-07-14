@@ -1,6 +1,7 @@
 using CommunityToolkit.WinUI;
 using Microsoft.UI.Xaml.Controls;
 using Serilog.Core;
+using ShadowViewer.Extensions;
 using SharpCompress.Readers;
 using SqlSugar;
 using System.Linq;
@@ -12,11 +13,12 @@ namespace ShadowViewer.Pages
     public sealed partial class BookShelfPage : Page
     {
         public static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
-        private static CancellationTokenSource cancelTokenSource;
         public BookShelfViewModel ViewModel { get; set; }
+        private ICallableToolKit caller;
         public BookShelfPage()
         {
             this.InitializeComponent();
+            caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -58,33 +60,7 @@ namespace ShadowViewer.Pages
             StorageFolder folder = await FileHelper.SelectFolderAsync(this, "AddNewComic");
             if (folder != null)
             {
-                cancelTokenSource = new CancellationTokenSource();
-                LoadingControl.IsLoading = true;
-                bool again = false;
-                ZipThumb.Source = null;
-                await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = !Config.IsImportAgain && await ComicHelper.ImportAgainDialog(XamlRoot, path: folder.Path)));
-                if (again)
-                {
-                    LoadingControl.IsLoading = false;
-                    return;
-                }
-                LoadingProgressBar.IsIndeterminate = true;
-                LoadingProgressText.Visibility = Visibility.Collapsed;
-                LoadingControlText.Text = AppResourcesHelper.GetString("Shadow.String.ImportLoading");
-                LoadingFileName.Text = folder.Name;
-                await Task.Run(async () =>
-                {
-                    try
-                    {
-                        await ComicHelper.ImportComicsFromFolder(folder, ViewModel.Path);
-                    }
-                    catch (Exception)
-                    {
-                        Log.Warning("导入无效文件夹:{F},忽略", folder.Path);
-                    }
-                }, cancelTokenSource.Token);
-                ViewModel.RefreshLocalComic();
-                LoadingControl.IsLoading = false;
+                caller.ImportComic(new List<IStorageItem> { folder }, new string[1], 0);
             }
         }
         /// <summary>
@@ -96,7 +72,7 @@ namespace ShadowViewer.Pages
             if (files != null)
             {
                 var passwords = new string[files.Count];
-                DIFactory.Current.Services.GetService<ICallableToolKit>().ImportComic(files, passwords, 0);
+                caller.ImportComic(files, passwords, 0);
             }
         }
 

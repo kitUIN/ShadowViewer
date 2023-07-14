@@ -13,6 +13,7 @@ using SharpCompress.Archives;
 using SharpCompress.Common;
 using SharpCompress.IO;
 using System;
+using ShadowViewer.Extensions;
 
 namespace ShadowViewer.Pages
 {
@@ -34,7 +35,11 @@ namespace ShadowViewer.Pages
             caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
             NavView.SelectedItem = NavView.MenuItems[0];
         }
-
+        /// <summary>
+        /// 导入完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Caller_ImportComicCompletedEvent(object sender, EventArgs e)
         {
             DispatcherQueue.TryEnqueue(() =>
@@ -44,7 +49,9 @@ namespace ShadowViewer.Pages
             });
             
         }
-
+        /// <summary>
+        /// 导入的缩略图
+        /// </summary>
         private void Caller_ImportComicThumbEvent(object sender, ImportComicThumbEventArgs e)
         {
             DispatcherQueue.EnqueueAsync(async () =>
@@ -54,7 +61,9 @@ namespace ShadowViewer.Pages
                 ZipThumb.Source = bitmapImage;
             });
         }
-
+        /// <summary>
+        /// 导入失败
+        /// </summary>
         private async void Caller_ImportComicErrorEvent(object sender, ImportComicErrorEventArgs args)
         {
             ICallableToolKit caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
@@ -86,7 +95,11 @@ namespace ShadowViewer.Pages
                 });
             }
         }
-
+        /// <summary>
+        /// 导入进度
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Caller_ImportComicProgressEvent(object sender, ImportComicProgressEventArgs e)
         {
             DispatcherQueue.TryEnqueue(() =>
@@ -98,7 +111,11 @@ namespace ShadowViewer.Pages
                 LoadingProgressBar.Value = e.Progress;
             });
         }
-
+        /// <summary>
+        /// 开始导入
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void Caller_ImportComicEvent(object sender, ImportComicEventArgs e)
         {
             try
@@ -107,15 +124,12 @@ namespace ShadowViewer.Pages
                 {
                     var item = e.Items[i];
                     cancelTokenSource = new CancellationTokenSource();
-                    DispatcherQueue.TryEnqueue(() =>
-                    {
-                        LoadingControl.IsLoading = true;
-                        ZipThumb.Source = null;
-                    });
                     if (item is StorageFile file && file.IsZip())
                     {
                         DispatcherQueue.TryEnqueue(() =>
                         {
+                            ZipThumb.Source = null;
+                            LoadingControl.IsLoading = true;
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressBar.Value = 0;
                             LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
@@ -124,19 +138,19 @@ namespace ShadowViewer.Pages
                         });
                         ReaderOptions options = new ReaderOptions();
                         options.Password = e.Passwords[i];
-                        bool flag = CompressHelper.CheckPassword(file.Path, ref options);
+                        bool flag = CompressToolKit.CheckPassword(file.Path, ref options);
                         if (!flag)
                         {
                             DIFactory.Current.Services.GetService<ICallableToolKit>().ImportComicError(ImportComicError.Password, "密码错误",e.Items, i,e.Passwords);
                             return;
                         }
                         await Task.Run(() => {
-                            flag = CompressHelper.CheckPassword(file.Path, ref options);
+                            flag = CompressToolKit.CheckPassword(file.Path, ref options);
                         });
                         string comicId = LocalComic.RandomId();
                          
                         await Task.Run(async () => {
-                            object res = await DeCompressAsync(file.Path, Config.ComicsPath, comicId,  cancelTokenSource.Token, options);
+                            object res = await DIFactory.Current.Services.GetService<CompressToolKit>().DeCompressAsync(file.Path, Config.ComicsPath, comicId,  cancelTokenSource.Token, options);
                             DispatcherQueue.TryEnqueue(() =>
                             {
                                 LoadingProgressBar.IsIndeterminate = true;
@@ -146,10 +160,10 @@ namespace ShadowViewer.Pages
                             if (res is CacheZip cache)
                             {
                                 StorageFolder folder = await cache.CachePath.ToStorageFolder();
-                                await Task.Run(async () => {
+                                await Task.Run(() => {
                                     try
                                     {
-                                        await ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId, cache.Name);
+                                        ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId, cache.Name);
                                     }
                                     catch (Exception)
                                     {
@@ -171,24 +185,29 @@ namespace ShadowViewer.Pages
                     else if (item is StorageFolder folder)
                     {
                         bool again = false;
-                        await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again = !Config.IsImportAgain && await ComicHelper.ImportAgainDialog(XamlRoot, path: folder.Path)));
+                        await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again =  await ComicHelper.CheckImportAgain(XamlRoot, path: folder.Path)));
                         if (again)
                         {
-                            LoadingControl.IsLoading = false;
+                            DispatcherQueue.TryEnqueue(() => LoadingControl.IsLoading = false);
                             continue;
-                        }
-                        LoadingProgressBar.IsIndeterminate = true;
-                        LoadingProgressText.Visibility = Visibility.Collapsed;
-                        LoadingControlText.Text = AppResourcesHelper.GetString("Shadow.String.ImportLoading");
-                        LoadingFileName.Text = folder.Name;
-                        await Task.Run(async () => {
+                        } 
+                        DispatcherQueue.TryEnqueue(() =>
+                        {
+                            LoadingControl.IsLoading = true;
+                            LoadingProgressBar.IsIndeterminate = true;
+                            LoadingProgressText.Visibility = Visibility.Collapsed;
+                            LoadingControlText.Text = AppResourcesHelper.GetString("Shadow.String.ImportLoading");
+                            LoadingFileName.Text = folder.Name;
+                        }); 
+                       
+                        await Task.Run(  () => {
                             try
                             {
-                                await ComicHelper.ImportComicsFromFolder(folder, "local");
+                                ComicHelper.ImportComicsFromFolder(folder, "local");
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
-                                Log.Warning("导入无效文件夹:{F},忽略", folder.Path);
+                                Log.Warning("导入无效文件夹:{F},忽略\n{ex}", folder.Path, ex);
                             }
                         }, cancelTokenSource.Token);
                     }
@@ -208,84 +227,7 @@ namespace ShadowViewer.Pages
                 });
             }
         }
-        public async Task<object> DeCompressAsync(string zip, string destinationDirectory,
-            string comicId, CancellationToken token, ReaderOptions readerOptions = null)
-        {
-            ICallableToolKit caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
-            Logger.Information("进入解压流程");
-            string path = Path.Combine(destinationDirectory, comicId);
-            DateTime start;
-            ShadowEntry root = new ShadowEntry()
-            {
-                Name = zip.Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last(),
-            };
-            string md5 = EncryptingHelper.CreateMd5(zip);
-            string sha1 = EncryptingHelper.CreateSha1(zip);
-            CacheZip cacheZip = DBHelper.Db.Queryable<CacheZip>().First(x => x.Sha1 == sha1 && x.Md5 == md5);
-            cacheZip ??= CacheZip.Create(md5, sha1);
-            if (cacheZip.ComicId != null)
-            {
-                comicId = cacheZip.ComicId;
-                path = Path.Combine(destinationDirectory, comicId);
-                // 缓存文件未被删除
-                if (Directory.Exists(cacheZip.CachePath))
-                {
-                    Logger.Information("{Zip}文件存在缓存记录,直接载入漫画{cid}", zip, cacheZip.ComicId);
-                    return cacheZip;
-                }
-            }
-            if (token.IsCancellationRequested) throw new TaskCanceledException();
-            using (FileStream fStream = File.OpenRead(zip))
-            using (NonDisposingStream stream = NonDisposingStream.Create(fStream))
-            {
-                if (token.IsCancellationRequested) throw new TaskCanceledException();
-                using IArchive archive = ArchiveFactory.Open(stream, readerOptions);
-                if (token.IsCancellationRequested) throw new TaskCanceledException();
-                IEnumerable<IArchiveEntry> total = archive.Entries.Where(entry => !entry.IsDirectory && entry.Key.IsPic()).OrderBy(x => x.Key);
-                if (token.IsCancellationRequested) throw new TaskCanceledException();
-                int totalCount = total.Count();
-                MemoryStream ms = new MemoryStream();
-                if (total.FirstOrDefault() is IArchiveEntry img)
-                {
-                    using (Stream entryStream = img.OpenEntryStream())
-                    {
-                        await entryStream.CopyToAsync(ms);
-                        // ms.Seek(0, SeekOrigin.Begin);
-                    }
-                    byte[] bytes = ms.ToArray();
-                    CacheImg.CreateImage(destinationDirectory, bytes, comicId);
-                    caller.ImportComicThumb(new MemoryStream(bytes));
-                }
-                Logger.Information("开始解压:{Zip}", zip);
-                start = DateTime.Now;
-                int i = 0;
-                path.CreateDirectory();
-                foreach (IArchiveEntry entry in total)
-                {
-                    if (token.IsCancellationRequested) throw new TaskCanceledException();
-                    entry.WriteToDirectory(path, new ExtractionOptions() { ExtractFullPath = true, Overwrite = true });
-                    i++;
-                    double result = (double)i / (double)totalCount;
-                    caller.ImportComicProgress(Math.Round(result * 100, 2));
-                    ShadowEntry.LoadEntry(entry, root);
-                }
-                root.LoadChildren();
-                DateTime stop = DateTime.Now;
-                cacheZip.ComicId = comicId;
-                cacheZip.CachePath = path;
-                cacheZip.Name = Path.GetFileNameWithoutExtension(zip).Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
-                if (DBHelper.Db.Queryable<CacheZip>().Any(x => x.Id == cacheZip.Id))
-                {
-                    cacheZip.Update();
-                }
-                else
-                {
-                    cacheZip.Add();
-                }
-                Logger.Information("解压:{Zip} 页数:{Pages} 耗时: {Time} s", zip, totalCount, (stop - start).TotalSeconds);
-            }
-            return root;
-        }
+        
         private void Caller_NavigationToolKit_NavigateTo(object sender, NavigateToEventArgs e)
         {
             if (e.Mode == NavigateMode.URL)

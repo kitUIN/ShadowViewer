@@ -14,6 +14,7 @@ global using ShadowViewer.Helpers;
 global using ShadowViewer.Enums;
 global using ShadowViewer.Messages;
 global using ShadowViewer.ViewModels;
+global using ShadowViewer.Extensions;
 global using ShadowViewer.Models;
 global using ShadowViewer.Utils;
 global using ShadowViewer.Cache;

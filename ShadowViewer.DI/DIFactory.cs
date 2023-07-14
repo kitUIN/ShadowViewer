@@ -26,6 +26,7 @@ namespace ShadowViewer.DI
             services.AddSingleton<IResourcesToolKit, BikaResourcesToolKit>();
             services.AddSingleton<IPluginsToolKit, PluginsToolKit>();
             services.AddSingleton<ICallableToolKit, CallableToolKit>();
+            services.AddSingleton<CompressToolKit>();
             #endregion
             #region ViewModel
             services.AddSingleton<SettingsViewModel>();
