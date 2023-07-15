@@ -19,7 +19,7 @@ namespace ShadowViewer.Helpers
                     case "local":
                         if (urls.Length == 0) 
                         {
-                            _navigationToolKit.NavigateTo(Enums.NavigateMode.Page,typeof(BookShelfPage),null, uri); 
+                            _navigationToolKit.NavigateTo(NavigateMode.Page,typeof(BookShelfPage),null, uri); 
                             return; 
                         }
                         for (int i = 0; i < urls.Length; i++)
@@ -27,14 +27,14 @@ namespace ShadowViewer.Helpers
                             if (!DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
                             {
                                 string s = "shadow://local/" + string.Join("/", urls.Take(i + 1));
-                                _navigationToolKit.NavigateTo(Enums.NavigateMode.URL,null, urls[i - 1], new Uri(s));
+                                _navigationToolKit.NavigateTo(NavigateMode.URL,null, urls[i - 1], new Uri(s));
                                 return;
                             }
                         }
-                        _navigationToolKit.NavigateTo(Enums.NavigateMode.URL, null, urls.Last(), uri);
+                        _navigationToolKit.NavigateTo(NavigateMode.URL, null, urls.Last(), uri);
                         break;
                     case "settings":
-                        _navigationToolKit.NavigateTo(Enums.NavigateMode.Page, typeof(SettingsPage), null, null);
+                        _navigationToolKit.NavigateTo(NavigateMode.Page, typeof(SettingsPage), null, null);
                         break;
                     case "download":
                         break;

@@ -14,6 +14,8 @@ using SharpCompress.Common;
 using SharpCompress.IO;
 using System;
 using ShadowViewer.Extensions;
+using Microsoft.WindowsAppSDK.Runtime.Packages;
+using ShadowViewer.Plugin.Bika.Pages;
 
 namespace ShadowViewer.Pages
 {
@@ -22,27 +24,51 @@ namespace ShadowViewer.Pages
         public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
         private static CancellationTokenSource cancelTokenSource;
         public NavigationViewModel ViewModel { get; }
-        private ICallableToolKit caller;
+        private ICallableToolKit Caller { get; }
         public NavigationPage()
         {
             this.InitializeComponent();
             ViewModel = DIFactory.Current.Services.GetService<NavigationViewModel>();
-            caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
-            caller.ImportComicEvent += Caller_ImportComicEvent;
-            caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
-            caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
-            caller.ImportComicThumbEvent += Caller_ImportComicThumbEvent;
-            caller.ImportComicCompletedEvent += Caller_ImportComicCompletedEvent;
-            caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
-            caller.MainBackEvent += Caller_MainBackEvent;
+            Caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
+            Caller.ImportComicEvent += Caller_ImportComicEvent;
+            Caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
+            Caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
+            Caller.ImportComicThumbEvent += Caller_ImportComicThumbEvent;
+            Caller.ImportComicCompletedEvent += Caller_ImportComicCompletedEvent;
+            Caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
+            Caller.NavigateToEvent += Caller_NavigateToEvent;
+            Caller.MainBackEvent += Caller_MainBackEvent;
+            
             NavView.SelectedItem = NavView.MenuItems[0];
+        }
+
+        private void Caller_NavigateToEvent(object sender, NavigateToEventArgs e)
+        {
+            if (e.Mode == NavigateMode.Type)
+            {
+                IPluginsToolKit pluginTool = DIFactory.Current.Services.GetService<IPluginsToolKit>();
+                IEnumerable<Type> pluginSettingsPages = pluginTool.GetPlugins().Select(x => x.SettingsPage);
+                SettingsViewModel settings = DIFactory.Current.Services.GetService<SettingsViewModel>();
+                if (e.Page == typeof(SettingsPage) || e.Page == typeof(MainSettingsPage) || e.Page == typeof(BookShelfSettingsPage) || pluginSettingsPages.Any(x=>x==e.Page))
+                {
+                    settings.Pages.Clear();
+                    settings.Pages.Add(new BreadcrumbItem(e.Id, typeof(SettingsPage)));
+                    if (e.Page == typeof(SettingsPage)) return;
+                    settings.Pages.Add(new BreadcrumbItem(e.Id, e.Page));
+                }
+            }
+            else if(e.Mode == NavigateMode.Page)
+            {
+
+            }
         }
 
         private void Caller_MainBackEvent(object sender, MainBackEventArgs e)
         {
+            
             if (ContentFrame.SourcePageType == typeof(SettingsPage) && e.Force)
             {
-                caller.SettingsBack();
+                Caller.SettingsBack();
             }
             else
             {
@@ -254,6 +280,8 @@ namespace ShadowViewer.Pages
                     DispatcherQueue.EnqueueAsync(() =>
                     {
                         ContentFrame.Navigate(typeof(BookShelfPage), e.Url);
+                        NavView.SelectedItem = NavView.MenuItems.Cast<FrameworkElement>()
+                        .FirstOrDefault(x => x.Tag.ToString() +"Page" == nameof(BookShelfPage));
                     });
                 }
                 else
@@ -312,7 +340,7 @@ namespace ShadowViewer.Pages
 
         private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-            caller.MainBack(true);
+            Caller.MainBack(true);
         }
          
 

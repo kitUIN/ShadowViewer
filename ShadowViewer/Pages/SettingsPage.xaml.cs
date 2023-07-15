@@ -1,23 +1,30 @@
 namespace ShadowViewer.Pages
 {
-    public sealed partial class SettingsPage : Page
+    public sealed partial class SettingsPage :  Page
     {
-        public SettingsViewModel ViewModel { get; }
-        public SettingsPage()
+        private SettingsViewModel ViewModel { get; }
+        private ICallableToolKit Caller { get; }
+        public SettingsPage(): base() 
         {
             this.InitializeComponent();
             ViewModel = DIFactory.Current.Services.GetService<SettingsViewModel>();
+            Caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
             ContentFrame.Navigate(typeof(MainSettingsPage));
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-             
+            Caller.SettingsBackEvent += TryGoBack;
+            Caller.NavigateTo(NavigateMode.Type, e.SourcePageType, ResourcesHelper.GetString(ResourceKey.Settings), null);
         }
-        private void TryGoBack(object o,object e)
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            Caller.SettingsBackEvent -= TryGoBack;
+        }
+        public void TryGoBack(object sender, EventArgs e)
         {
             if (!ContentFrame.CanGoBack)
             {
-                DIFactory.Current.Services.GetService<ICallableToolKit>().MainBack(false);
+                Caller.MainBack(false);
             }
             else
             {

@@ -21,7 +21,7 @@
             Background="Transparent"
             Canvas.ZIndex="1"
             IsHitTestVisible="True">
-            <StackPanel Orientation="Horizontal" Spacing="15">
+            <StackPanel Orientation="Horizontal" Spacing="10">
                 <Image Width="18" Source="ms-appx:///Assets/Tiles/TitlebarLogo.png" />
                 <TextBlock
                     x:Name="AppTitle"
@@ -29,7 +29,9 @@
                     VerticalAlignment="Center" />
                 <FontIcon
                     x:Name="DebugIcon"
+                    VerticalAlignment="Center"
                     FontSize="15"
+                    Foreground="#e8a45a"
                     Glyph="&#xEBE8;"
                     Visibility="Collapsed" />
             </StackPanel>

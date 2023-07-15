@@ -26,11 +26,13 @@ namespace ShadowViewer.Pages.Settings
     {
         public SettingsViewModel ViewModel { get; }
         public IPluginsToolKit PluginsToolKit { get; }
+        private ICallableToolKit Caller { get; }
         public MainSettingsPage()
         {
             this.InitializeComponent();
             ViewModel = DIFactory.Current.Services.GetService<SettingsViewModel>();
             PluginsToolKit = DIFactory.Current.Services.GetService<IPluginsToolKit>();
+            Caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
             ElementTheme currentTheme = ThemeHelper.RootTheme;
             switch (currentTheme)
             {
@@ -44,10 +46,20 @@ namespace ShadowViewer.Pages.Settings
                     ThemeModeSetting.SelectedIndex = 2;
                     break;
             }
-            ViewModel.Pages = new ObservableCollection<BreadcrumbItem> {
-                new BreadcrumbItem(ResourcesHelper.GetString(ResourceKey.Settings), typeof(MainSettingsPage))
-            };
-        } 
+        }
+        private void InitBreadcrumbItems()
+        {
+            
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            
+            Caller.NavigateTo(NavigateMode.Type, e.SourcePageType, null, null);
+        }
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            
+        }
         /// <summary>
         /// 插件的启动与关闭事件
         /// </summary>
