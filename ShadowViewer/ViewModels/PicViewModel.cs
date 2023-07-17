@@ -17,14 +17,11 @@ namespace ShadowViewer.ViewModels
         private int imageWidth = 600;
         [ObservableProperty]
         private int currentPage = 1;
-        
-        public event EventHandler<CurrentPageChangedEventArgs> CurrentPageChangedEvent;
 
         public PicViewModel(LocalComic comic) 
         {
             Comic = comic;
             LoadImageFormComic();
-            Logger.Information("本地图片流模式加载图片 {Path}", comic.Path);
         }
         /// <summary>
         /// 从本地漫画加载图片
@@ -32,22 +29,14 @@ namespace ShadowViewer.ViewModels
         private void LoadImageFormComic()
         {
             Episodes = DBHelper.Db.Queryable<LocalEpisode>().Where(x => x.ComicId == Comic.Id).OrderBy(x => x.Order).ToList();
-            if(Episodes.Count > 0 )
+            if (Episodes.Count > 0)
             {
-                foreach(LocalPicture item in DBHelper.Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == Episodes[0].Id).OrderBy(x => x.Name).ToList())
+                foreach (LocalPicture item in DBHelper.Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == Episodes[0].Id).OrderBy(x => x.Name).ToList())
                 {
                     BitmapImage image = new BitmapImage();
                     image.UriSource = new Uri(item.Img);
                     Images.Add(image);
-                } 
-            }
-        } 
-        public void CurrentPageChange(CurrentPageChangedMode mode, int newValue, int oldValue)
-        {
-            SetProperty(ref currentPage, newValue, nameof(CurrentPage));
-            if(CurrentPageChangedMode.Slider == mode)
-            {
-                CurrentPageChangedEvent?.Invoke(this, new CurrentPageChangedEventArgs(mode, newValue, oldValue));
+                }
             }
         }
     }

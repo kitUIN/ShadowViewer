@@ -8,13 +8,14 @@
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
     mc:Ignorable="d">
 
-    <Grid>
+    <Grid x:Name="RootGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <GridView
             x:Name="PicViewer"
             Grid.Column="0"
+            MaxWidth="{x:Bind RootGrid.ActualWidth, Mode=OneWay}"
             HorizontalAlignment="Center"
             IsItemClickEnabled="False"
             ItemsSource="{x:Bind ViewModel.Images, Mode=OneWay}"
@@ -25,7 +26,7 @@
             Tapped="ScrollViewer_Tapped">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="BitmapImage">
-                    <Image Width="600" Source="{x:Bind}" />
+                    <Image Height="{x:Bind PixelHeight}" Source="{x:Bind}" />
                 </DataTemplate>
             </GridView.ItemTemplate>
             <GridView.ItemsPanel>
