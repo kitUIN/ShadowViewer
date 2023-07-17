@@ -10,7 +10,9 @@ namespace ShadowViewer.ViewModels
         private static ILogger Logger = Log.ForContext<PicViewModel>();
         public ObservableCollection<BitmapImage> Images { get; set; } = new ObservableCollection<BitmapImage>();
         public LocalComic Comic { get; private set; }
-        public List<LocalEpisode> Episodes { get; private set; }
+        [ObservableProperty]
+        private int currentEpisodeIndex;
+        public ObservableCollection<LocalEpisode> Episodes { get;   } = new ObservableCollection<LocalEpisode>();
         [ObservableProperty]
         private int maximumColumns = 1;
         [ObservableProperty]
@@ -30,11 +32,14 @@ namespace ShadowViewer.ViewModels
         {
             if(Comic.Affiliation == "Local")
             {
-                Episodes = DBHelper.Db.Queryable<LocalEpisode>().Where(x => x.ComicId == Comic.Id).OrderBy(x => x.Order).ToList();
+                Episodes.Clear();
+                DBHelper.Db.Queryable<LocalEpisode>().Where(x => x.ComicId == Comic.Id).OrderBy(x => x.Order).ForEach(x =>
+                {
+                    Episodes.Add(x);
+                });
                 if (Episodes.Count > 0)
                 {
-                    Log.Information(Episodes[0].Id);
-                    foreach (LocalPicture item in DBHelper.Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == Episodes[0].Id).OrderBy(x => x.Name).ToList())
+                    foreach (LocalPicture item in DBHelper.Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == Episodes[CurrentEpisodeIndex].Id).OrderBy(x => x.Name).ToList())
                     {
                         BitmapImage image = new BitmapImage();
                         image.UriSource = new Uri(item.Img);
@@ -42,6 +47,10 @@ namespace ShadowViewer.ViewModels
                     }
                 }
             }
+        }
+        partial void OnCurrentEpisodeIndexChanged(int oldValue, int newValue)
+        {
+             
         }
     }
 }

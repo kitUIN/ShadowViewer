@@ -61,7 +61,12 @@ namespace ShadowViewer.Pages
                         break;
                     }
                 }
+                if (scrollViewer.VerticalOffset + scrollViewer.ActualHeight + 2 >= scrollViewer.ExtentHeight)
+                {
+                    
+                }
             }
+
         }
 
         private void PageSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
