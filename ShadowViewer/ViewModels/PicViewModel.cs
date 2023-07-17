@@ -1,9 +1,12 @@
-﻿using SharpCompress.Common;
+﻿using Newtonsoft.Json.Linq;
+using ShadowViewer.Utils.Args;
+using SharpCompress.Common;
 
 namespace ShadowViewer.ViewModels
 {
     public partial class PicViewModel : ObservableObject
     {
+        
         private static ILogger Logger = Log.ForContext<PicViewModel>();
         public ObservableCollection<BitmapImage> Images { get; set; } = new ObservableCollection<BitmapImage>();
         public LocalComic Comic { get; private set; }
@@ -11,7 +14,12 @@ namespace ShadowViewer.ViewModels
         [ObservableProperty]
         private int maximumRows = 1;
         [ObservableProperty]
-        private int imageWidth = 600; 
+        private int imageWidth = 600;
+        [ObservableProperty]
+        private int currentPage = 1;
+        
+        public event EventHandler<CurrentPageChangedEventArgs> CurrentPageChangedEvent;
+
         public PicViewModel(LocalComic comic) 
         {
             Comic = comic;
@@ -34,5 +42,13 @@ namespace ShadowViewer.ViewModels
                 } 
             }
         } 
+        public void CurrentPageChange(CurrentPageChangedMode mode, int newValue, int oldValue)
+        {
+            SetProperty(ref currentPage, newValue, nameof(CurrentPage));
+            if(CurrentPageChangedMode.Slider == mode)
+            {
+                CurrentPageChangedEvent?.Invoke(this, new CurrentPageChangedEventArgs(mode, newValue, oldValue));
+            }
+        }
     }
 }
