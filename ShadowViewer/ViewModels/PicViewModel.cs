@@ -12,9 +12,9 @@ namespace ShadowViewer.ViewModels
         public LocalComic Comic { get; private set; }
         public List<LocalEpisode> Episodes { get; private set; }
         [ObservableProperty]
-        private int maximumRows = 1;
+        private int maximumColumns = 1;
         [ObservableProperty]
-        private int imageWidth = 600;
+        private int imageWidth = 800;
         [ObservableProperty]
         private int currentPage = 1;
 
@@ -28,14 +28,18 @@ namespace ShadowViewer.ViewModels
         /// </summary>
         private void LoadImageFormComic()
         {
-            Episodes = DBHelper.Db.Queryable<LocalEpisode>().Where(x => x.ComicId == Comic.Id).OrderBy(x => x.Order).ToList();
-            if (Episodes.Count > 0)
+            if(Comic.Affiliation == "Local")
             {
-                foreach (LocalPicture item in DBHelper.Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == Episodes[0].Id).OrderBy(x => x.Name).ToList())
+                Episodes = DBHelper.Db.Queryable<LocalEpisode>().Where(x => x.ComicId == Comic.Id).OrderBy(x => x.Order).ToList();
+                if (Episodes.Count > 0)
                 {
-                    BitmapImage image = new BitmapImage();
-                    image.UriSource = new Uri(item.Img);
-                    Images.Add(image);
+                    Log.Information(Episodes[0].Id);
+                    foreach (LocalPicture item in DBHelper.Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == Episodes[0].Id).OrderBy(x => x.Name).ToList())
+                    {
+                        BitmapImage image = new BitmapImage();
+                        image.UriSource = new Uri(item.Img);
+                        Images.Add(image);
+                    }
                 }
             }
         }

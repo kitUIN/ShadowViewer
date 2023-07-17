@@ -19,6 +19,7 @@ namespace ShadowViewer.Pages
             if(e.Parameter is LocalComic comic)
             {
                 ViewModel = new PicViewModel(comic);
+                DataContext = ViewModel;
             }
         }
         
@@ -36,8 +37,6 @@ namespace ShadowViewer.Pages
         {
             Menu.Visibility = (Menu.Visibility != Visibility.Visible).ToVisibility();
         }
-        private bool scroll = false;
-        private bool userInput = true; 
 
         private void PicViewer_Loaded(object sender, RoutedEventArgs e)
         {
@@ -73,8 +72,5 @@ namespace ShadowViewer.Pages
             }
         }
 
-        private void PageSlider_PointerPressed(object sender, PointerRoutedEventArgs e)
-        { 
-        }
     }
 }
