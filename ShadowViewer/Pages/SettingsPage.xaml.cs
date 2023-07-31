@@ -2,11 +2,12 @@ using ShadowViewer.Plugins;
 
 namespace ShadowViewer.Pages
 {
-    public sealed partial class SettingsPage :  Page
+    public sealed partial class SettingsPage : Page
     {
         public SettingsViewModel ViewModel { get; }
         public IPluginsToolKit PluginsToolKit { get; }
         private ICallableToolKit Caller { get; }
+
         public SettingsPage()
         {
             this.InitializeComponent();
@@ -27,17 +28,18 @@ namespace ShadowViewer.Pages
                     break;
             }
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-
             Caller.NavigateTo(NavigateMode.Type, e.SourcePageType, null, null);
         }
+
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-
         }
+
         /// <summary>
-        /// ²å¼þµÄÆô¶¯Óë¹Ø±ÕÊÂ¼þ
+        /// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½Â¼ï¿½
         /// </summary>
         private void PluginToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
@@ -51,17 +53,15 @@ namespace ShadowViewer.Pages
             {
                 PluginsToolKit.PluginDisabled(id);
             }
-            //TODO Æô¶¯¹Ø±ÕÊÂ¼þMessageHelper.SendNavigationReloadPlugin();
-
+            //TODO ï¿½ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½Â¼ï¿½MessageHelper.SendNavigationReloadPlugin();
         }
+
         /// <summary>
-        /// Ìø×ªµ½²å¼þµÄWebUri
+        /// ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½WebUri
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void PluginWebLink_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is SettingsCard card && card.Tag is Uri webUri)
+            if (sender is SettingsCard { Tag: Uri webUri })
             {
                 webUri.LaunchUriAsync();
             }
@@ -69,30 +69,32 @@ namespace ShadowViewer.Pages
 
         private async void LogButton_Click(object sender, RoutedEventArgs e)
         {
-            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs"));
+            var folder =
+                await StorageFolder.GetFolderFromPathAsync(Path.Combine(ApplicationData.Current.LocalFolder.Path,
+                    "Logs"));
             folder.LaunchFolderAsync();
         }
+
         private void ThemeModeSetting_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            string selectedTheme = ((ComboBoxItem)((ComboBox)sender).SelectedItem)?.Tag?.ToString();
-            Window window = WindowHelper.GetWindowForElement(this);
-            if (selectedTheme != null)
-            {
-                ThemeHelper.RootTheme = EnumHelper.GetEnum<ElementTheme>(selectedTheme);
-                UIHelper.AnnounceActionForAccessibility(sender as UIElement, $"Theme changed to {selectedTheme}",
-                                                                                "ThemeChangedNotificationActivityId");
-            }
+            var selectedTheme = ((ComboBoxItem)((ComboBox)sender).SelectedItem)?.Tag?.ToString();
+            if (selectedTheme == null) return;
+            ThemeHelper.RootTheme = EnumHelper.GetEnum<ElementTheme>(selectedTheme);
+            UIHelper.AnnounceActionForAccessibility((UIElement)sender, $"Theme changed to {selectedTheme}",
+                "ThemeChangedNotificationActivityId");
         }
 
         private void Uri_Click(object sender, RoutedEventArgs e)
         {
-            var uri = new Uri((sender as SettingsCard).Tag.ToString());
+            var source = sender as FrameworkElement;
+            if (source == null || source.Tag.ToString() is not { } tag) return;
+            var uri = new Uri(tag);
             uri.LaunchUriAsync();
         }
 
         private async void TempPath_Click(object sender, RoutedEventArgs e)
         {
-            StorageFolder folder = await FileHelper.SelectFolderAsync(this, "TempPath");
+            var folder = await FileHelper.SelectFolderAsync(this, "TempPath");
             if (folder != null)
             {
                 ViewModel.TempPath = folder.Path;
@@ -101,7 +103,7 @@ namespace ShadowViewer.Pages
 
         private async void ComicsPath_Click(object sender, RoutedEventArgs e)
         {
-            StorageFolder folder = await FileHelper.SelectFolderAsync(this, "ComicsPath");
+            var folder = await FileHelper.SelectFolderAsync(this, "ComicsPath");
             if (folder != null)
             {
                 ViewModel.ComicsPath = folder.Path;
@@ -110,22 +112,25 @@ namespace ShadowViewer.Pages
 
         private void Open_Click(object sender, RoutedEventArgs e)
         {
-            Button button = sender as Button;
-            var uri = new Uri(button.Tag.ToString());
+            var button = sender as Button;
+            if (button == null || button.Tag.ToString() is not { } tag) return;
+            var uri = new Uri(tag);
             uri.LaunchUriAsync();
         }
 
         private void HomeSettingCard_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.Pages.Add(new BreadcrumbItem("Book", typeof(BookShelfSettingsPage)));
-            this.Frame.Navigate(typeof(BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+            this.Frame.Navigate(typeof(BookShelfSettingsPage), null,
+                new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
 
-        private void PlutinCard_Click(object sender, RoutedEventArgs e)
+        private void PluginCard_Click(object sender, RoutedEventArgs e)
         {
-            if (PluginsToolKit.GetPlugin((sender as FrameworkElement).Tag.ToString()) is IPlugin plugin)
+            var source = sender as FrameworkElement;
+            if (source != null && PluginsToolKit.GetPlugin(source.Tag.ToString()) is { } plugin)
             {
-                this.Frame.Navigate(plugin.SettingsPage, null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                this.Frame.Navigate(plugin.SettingsPage, null,
+                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
         }
     }

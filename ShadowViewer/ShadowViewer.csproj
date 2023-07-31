@@ -28,7 +28,6 @@
   <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
     <None Remove="Assets\Default\import.png" />
-    <None Remove="Controls\SettingsHeader.xaml" />
     <None Remove="MainPage.xaml" />
     <None Remove="Pages\AttributesPage.xaml" />
     <None Remove="Pages\BookShelfPage.xaml" />
@@ -76,11 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\AttributesPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\SettingsHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

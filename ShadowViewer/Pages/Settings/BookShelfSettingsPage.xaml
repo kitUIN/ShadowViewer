@@ -5,27 +5,39 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:icons="using:FluentIcon"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
-    xmlns:local="using:ShadowViewer.Controls"
+    xmlns:local2="using:ShadowViewer.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
     <ScrollViewer Padding="20,0">
         <Grid>
             <StackPanel HorizontalAlignment="Stretch" Spacing="{StaticResource SettingsCardSpacing}">
-                <win:StackPanel.ChildrenTransitions>
-                    <win:EntranceThemeTransition FromVerticalOffset="50" />
-                    <win:RepositionThemeTransition IsStaggeringEnabled="False" />
-                </win:StackPanel.ChildrenTransitions>
+                <StackPanel.ChildrenTransitions>
+                    <EntranceThemeTransition FromVerticalOffset="50" />
+                    <RepositionThemeTransition IsStaggeringEnabled="False" />
+                </StackPanel.ChildrenTransitions>
                 <TextBlock x:Uid="Xaml/TextBlock/ShowSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local:SettingsHeader x:Uid="Xaml/SettingCard/IsBookShelfInfoBar" Symbol="CalendarInfoRegular" />
+                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/IsBookShelfInfoBar">
+                            <icons:FluentIcon
+                                Width="30"
+                                Height="30"
+                                FontSize="25"
+                                Symbol="CalendarInfoRegular" />
+                        </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Show" IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
                 </labs:SettingsCard>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local:SettingsHeader x:Uid="Xaml/SettingCard/IsTopBarDetail" Symbol="AppGenericRegular" />
+                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/IsTopBarDetail">
+                            <icons:FluentIcon
+                                Width="30"
+                                Height="30"
+                                FontSize="25"
+                                Symbol="AppGenericRegular" />
+                        </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Show" IsOn="{x:Bind ViewModel.IsTopBarDetail, Mode=TwoWay}" />
                 </labs:SettingsCard>
@@ -33,19 +45,37 @@
                 <TextBlock x:Uid="Xaml/TextBlock/OperationSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local:SettingsHeader x:Uid="Xaml/SettingCard/RememberDeleteWithFiles" Symbol="Checkbox2Regular" />
+                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/RememberDeleteWithFiles">
+                            <icons:FluentIcon
+                                Width="30"
+                                Height="30"
+                                FontSize="25"
+                                Symbol="Checkbox2Regular" />
+                        </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Need" IsOn="{x:Bind ViewModel.IsRememberDeleteFilesWithComicDelete, Mode=TwoWay}" />
                 </labs:SettingsCard>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local:SettingsHeader x:Uid="Xaml/SettingCard/DeleteWithFiles" Symbol="DeleteLinesRegular" />
+                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/DeleteWithFiles">
+                            <icons:FluentIcon
+                                Width="30"
+                                Height="30"
+                                FontSize="25"
+                                Symbol="DeleteLinesRegular" />
+                        </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsDeleteFilesWithComicDelete, Mode=TwoWay}" />
                 </labs:SettingsCard>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local:SettingsHeader x:Uid="Xaml/SettingCard/IsImportAgain" Symbol="CubeArrowCurveDownRegular" />
+                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/IsImportAgain">
+                            <icons:FluentIcon
+                                Width="30"
+                                Height="30"
+                                FontSize="25"
+                                Symbol="CubeArrowCurveDownRegular" />
+                        </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Allow" IsOn="{x:Bind ViewModel.IsImportAgain, Mode=TwoWay}" />
                 </labs:SettingsCard>

@@ -5,20 +5,24 @@
     x:Class="ShadowViewer.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:labs="using:CommunityToolkit.Labs.WinUI" 
+    xmlns:icons="using:FluentIcon"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
+    xmlns:local2="using:ShadowViewer.Controls"
     xmlns:m="using:ShadowViewer.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:plugin="using:ShadowViewer.Plugins"
+    xmlns:viewModels="using:ShadowViewer.ViewModels"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
-    <ScrollViewer Grid.Row="1" Padding="20,0">
+    <ScrollViewer Padding="20,0">
         <StackPanel HorizontalAlignment="Stretch" Spacing="{StaticResource SettingsCardSpacing}">
-            <win:StackPanel.ChildrenTransitions>
-                <win:EntranceThemeTransition FromVerticalOffset="50" />
-                <win:RepositionThemeTransition IsStaggeringEnabled="False" />
-            </win:StackPanel.ChildrenTransitions>
+            <StackPanel.ChildrenTransitions>
+                <EntranceThemeTransition FromVerticalOffset="50" />
+                <RepositionThemeTransition IsStaggeringEnabled="False" />
+            </StackPanel.ChildrenTransitions>
             <TextBlock x:Uid="Xaml/TextBlock/MainSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
             <labs:SettingsCard x:Name="ThemeSettingCard" x:Uid="Xaml/SettingCard/Theme">
                 <labs:SettingsCard.HeaderIcon>
@@ -93,18 +97,22 @@
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="plugin:IPlugin">
                         <labs:SettingsCard
-                            Click="PlutinCard_Click"
-                            Description="{x:Bind MetaData.Description, Mode=OneWay}"
-                            Header="{x:Bind MetaData.Name, Mode=OneWay}"
+                            Click="PluginCard_Click"
                             IsActionIconVisible="True"
                             IsClickEnabled="True"
                             Tag="{x:Bind MetaData.Id, Mode=OneWay}">
-                            <labs:SettingsCard.HeaderIcon>
-                                <BitmapIcon ShowAsMonochrome="False" UriSource="{x:Bind MetaData.Logo, Mode=OneWay}" />
-                            </labs:SettingsCard.HeaderIcon>
                             <labs:SettingsCard.ActionIcon>
                                 <FontIcon Glyph="&#xE76C;" />
                             </labs:SettingsCard.ActionIcon>
+                            <labs:SettingsCard.Header>
+                                <local2:ShadowSettingHeader Description="{x:Bind MetaData.Description, Mode=OneWay}" Header="{x:Bind MetaData.Name, Mode=OneWay}">
+                                    <BitmapIcon
+                                        Width="30"
+                                        Height="30"
+                                        ShowAsMonochrome="False"
+                                        UriSource="{x:Bind MetaData.Logo, Mode=OneWay}" />
+                                </local2:ShadowSettingHeader>
+                            </labs:SettingsCard.Header>
                             <StackPanel Orientation="Horizontal" Spacing="10">
                                 <TextBlock
                                     VerticalAlignment="Center"
@@ -129,7 +137,6 @@
                     <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/AppTitleBar.scale-200.png" />
                 </labs:SettingsExpander.HeaderIcon>
                 <TextBlock
-                    win:IsTextSelectionEnabled="True"
                     FontSize="16"
                     Foreground="{ThemeResource TextFillColorSecondaryBrush}"
                     Style="{StaticResource CaptionTextBlockStyle}"
@@ -160,12 +167,14 @@
                         HorizontalContentAlignment="Left"
                         ContentAlignment="Vertical">
                         <StackPanel Orientation="Vertical">
-                            <HyperlinkButton Content="🎨Windows UI Library" NavigateUri="https://aka.ms/winui" />
-                            <HyperlinkButton Content="🎨FluentIcon" NavigateUri="https://github.com/KitUIN/FluentIcon" />
-                            <HyperlinkButton Content="🔧Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
-                            <HyperlinkButton Content="🔧SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
-                            <HyperlinkButton Content="📃Serilog" NavigateUri="https://serilog.net" />
-                            <HyperlinkButton Content="💾SQLSugar" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
+                            <HyperlinkButton Content="📦Windows UI Library" NavigateUri="https://aka.ms/winui" />
+                            <HyperlinkButton Content="📦FluentIcon" NavigateUri="https://github.com/KitUIN/FluentIcon" />
+                            <HyperlinkButton Content="📦Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
+                            <HyperlinkButton Content="📦SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
+                            <HyperlinkButton Content="📦Serilog" NavigateUri="https://serilog.net" />
+                            <HyperlinkButton Content="📦SQLSugar" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
+                            <HyperlinkButton Content="📂WinUI-Gallery" NavigateUri="https://github.com/microsoft/WinUI-Gallery" />
+                            <HyperlinkButton Content="📂Bili.Uwp" NavigateUri="https://github.com/Richasy/Bili.Uwp" />
                         </StackPanel>
                     </labs:SettingsCard>
                 </labs:SettingsExpander.Items>
