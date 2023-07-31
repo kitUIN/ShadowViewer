@@ -66,7 +66,18 @@
                             <Button Click="TempPath_Click" Content="{ex:Locale Key=Revise}" />
                         </StackPanel>
                     </labs:SettingsCard>
-
+                    <labs:SettingsCard
+                        x:Name="PluginsPathCard"
+                        Description="{ex:Locale Key=PluginsPathDescription}"
+                        Header="{ex:Locale Key=PluginsPath}">
+                        <StackPanel Orientation="Horizontal" Spacing="5">
+                            <Button
+                                Click="Open_Click"
+                                Content="{ex:Locale Key=Open}"
+                                Tag="{x:Bind ViewModel.PluginsPath, Mode=OneWay}" />
+                            <Button Content="{ex:Locale Key=Revise}" />
+                        </StackPanel>
+                    </labs:SettingsCard>
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
             <labs:SettingsExpander
@@ -106,6 +117,18 @@
                 </labs:SettingsCard.ActionIcon>
             </labs:SettingsCard>
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
+            <labs:SettingsCard>
+                <labs:SettingsCard.Header>
+                    <local2:ShadowSettingHeader Description="{ex:Locale Key=PluginsUriDescription}" Header="{ex:Locale Key=PluginsUri}">
+                        <icons:FluentIcon
+                            Width="30"
+                            Height="30"
+                            FontSize="25"
+                            Symbol="GlobeSurfaceRegular" />
+                    </local2:ShadowSettingHeader>
+                </labs:SettingsCard.Header>
+                <TextBox Text="{x:Bind ViewModel.PluginsUri, Mode=TwoWay}" />
+            </labs:SettingsCard>
             <ItemsRepeater ItemsSource="{x:Bind PluginsToolKit.Plugins, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="plugin:IPlugin">
@@ -185,7 +208,7 @@
                             <HyperlinkButton Content="📦Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
                             <HyperlinkButton Content="📦SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
                             <HyperlinkButton Content="📦Serilog" NavigateUri="https://serilog.net" />
-                            <HyperlinkButton Content="📦SQLSugar" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
+                            <HyperlinkButton Content="📦SQLSugarCore" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
                             <HyperlinkButton Content="📦CustomExtensions.WinUI" NavigateUri="https://github.com/dnchattan/winui-extensions" />
                             <HyperlinkButton Content="📂WinUI-Gallery" NavigateUri="https://github.com/microsoft/WinUI-Gallery" />
                             <HyperlinkButton Content="📂Bili.Uwp" NavigateUri="https://github.com/Richasy/Bili.Uwp" />

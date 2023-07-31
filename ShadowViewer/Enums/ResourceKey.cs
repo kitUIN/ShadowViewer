@@ -55,5 +55,9 @@
         IsImportAgain,
         AllowOff,
         AllowOn,
+        PluginsPathDescription,
+        PluginsPath,
+        PluginsUriDescription,
+        PluginsUri,
     }
 }
