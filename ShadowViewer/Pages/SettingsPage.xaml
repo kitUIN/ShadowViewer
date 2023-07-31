@@ -117,18 +117,6 @@
                 </labs:SettingsCard.ActionIcon>
             </labs:SettingsCard>
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
-            <labs:SettingsCard>
-                <labs:SettingsCard.Header>
-                    <local2:ShadowSettingHeader Description="{ex:Locale Key=PluginsUriDescription}" Header="{ex:Locale Key=PluginsUri}">
-                        <icons:FluentIcon
-                            Width="30"
-                            Height="30"
-                            FontSize="25"
-                            Symbol="GlobeSurfaceRegular" />
-                    </local2:ShadowSettingHeader>
-                </labs:SettingsCard.Header>
-                <TextBox Text="{x:Bind ViewModel.PluginsUri, Mode=TwoWay}" />
-            </labs:SettingsCard>
             <ItemsRepeater ItemsSource="{x:Bind PluginsToolKit.Plugins, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="plugin:IPlugin">

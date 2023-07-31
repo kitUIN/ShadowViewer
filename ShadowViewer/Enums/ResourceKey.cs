@@ -57,7 +57,5 @@
         AllowOn,
         PluginsPathDescription,
         PluginsPath,
-        PluginsUriDescription,
-        PluginsUri,
     }
 }

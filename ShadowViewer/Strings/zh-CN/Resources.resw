@@ -637,10 +637,4 @@
   <data name="PluginsPathDescription" xml:space="preserve">
     <value>存放插件的位置</value>
   </data>
-  <data name="PluginsUriDescription" xml:space="preserve">
-    <value>获取插件列表的服务器地址</value>
-  </data>
-  <data name="PluginsUri" xml:space="preserve">
-    <value>插件列表地址</value>
-  </data>
 </root>
