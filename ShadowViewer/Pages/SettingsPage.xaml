@@ -5,8 +5,8 @@
     x:Class="ShadowViewer.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
- 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ex="using:ShadowViewer.Extensions"
     xmlns:icons="using:FluentIcon"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
@@ -23,54 +23,67 @@
                 <EntranceThemeTransition FromVerticalOffset="50" />
                 <RepositionThemeTransition IsStaggeringEnabled="False" />
             </StackPanel.ChildrenTransitions>
-            <TextBlock x:Uid="Xaml/TextBlock/MainSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-            <labs:SettingsCard x:Name="ThemeSettingCard" x:Uid="Xaml/SettingCard/Theme">
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=MainSetting}" />
+            <labs:SettingsCard Description="{ex:Locale Key=ThemeDescription}" Header="{ex:Locale Key=Theme}">
                 <labs:SettingsCard.HeaderIcon>
                     <FontIcon Glyph="&#xE790;" />
                 </labs:SettingsCard.HeaderIcon>
                 <ComboBox x:Name="ThemeModeSetting" SelectionChanged="ThemeModeSetting_SelectionChanged">
-                    <ComboBoxItem x:Uid="Xaml/ComboBoxItem/LightTheme" Tag="Light" />
-                    <ComboBoxItem x:Uid="Xaml/ComboBoxItem/DarkTheme" Tag="Dark" />
-                    <ComboBoxItem x:Uid="Xaml/ComboBoxItem/DefaultTheme" Tag="Default" />
+                    <ComboBoxItem Content="{ex:Locale Key=Light}" Tag="Light" />
+                    <ComboBoxItem Content="{ex:Locale Key=Dark}" Tag="Dark" />
+                    <ComboBoxItem Content="{ex:Locale Key=Default}" Tag="Default" />
                 </ComboBox>
             </labs:SettingsCard>
-            <labs:SettingsExpander x:Name="CacheSettingCard" x:Uid="Xaml/SettingCard/Cache">
+            <labs:SettingsExpander
+                x:Name="CacheSettingCard"
+                Description="{ex:Locale Key=FolderDescription}"
+                Header="{ex:Locale Key=DataFolder}">
                 <labs:SettingsExpander.HeaderIcon>
                     <FontIcon Glyph="&#xE7B8;" />
                 </labs:SettingsExpander.HeaderIcon>
                 <labs:SettingsExpander.Items>
-                    <labs:SettingsCard x:Name="ComicsPathCard" x:Uid="Xaml/SettingCard/ComicsPath">
+                    <labs:SettingsCard
+                        x:Name="ComicsPathCard"
+                        Description="{ex:Locale Key=ComicsPathDescription}"
+                        Header="{ex:Locale Key=ComicsPath}">
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <Button
-                                x:Uid="Xaml/Button/Open"
                                 Click="Open_Click"
+                                Content="{ex:Locale Key=Open}"
                                 Tag="{x:Bind ViewModel.ComicsPath, Mode=OneWay}" />
-                            <Button x:Uid="Xaml/Button/Revise" Click="ComicsPath_Click" />
+                            <Button Click="ComicsPath_Click" Content="{ex:Locale Key=Revise}" />
                         </StackPanel>
                     </labs:SettingsCard>
-                    <labs:SettingsCard x:Name="TempPathCard" x:Uid="Xaml/SettingCard/TempPath">
+                    <labs:SettingsCard
+                        x:Name="TempPathCard"
+                        Description="{ex:Locale Key=TempPathDescription}"
+                        Header="{ex:Locale Key=TempPath}">
                         <StackPanel Orientation="Horizontal" Spacing="5">
                             <Button
-                                x:Uid="Xaml/Button/Open"
                                 Click="Open_Click"
+                                Content="{ex:Locale Key=Open}"
                                 Tag="{x:Bind ViewModel.TempPath, Mode=OneWay}" />
-                            <Button x:Uid="Xaml/Button/Revise" Click="TempPath_Click" />
+                            <Button Click="TempPath_Click" Content="{ex:Locale Key=Revise}" />
                         </StackPanel>
                     </labs:SettingsCard>
+
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
-            <labs:SettingsExpander x:Name="DeveloperSettingCard" x:Uid="Xaml/SettingCard/Developer">
+            <labs:SettingsExpander
+                x:Name="DeveloperSettingCard"
+                Description="{ex:Locale Key=DeveloperDescription}"
+                Header="{ex:Locale Key=Developer}">
                 <labs:SettingsExpander.HeaderIcon>
                     <FontIcon Glyph="&#xEC7A;" />
                 </labs:SettingsExpander.HeaderIcon>
                 <labs:SettingsExpander.Items>
-                    <labs:SettingsCard x:Name="LogSettingCard" x:Uid="Xaml/SettingCard/Log">
+                    <labs:SettingsCard x:Name="LogSettingCard" Header="{ex:Locale Key=Log}">
                         <labs:SettingsCard.HeaderIcon>
                             <FontIcon Glyph="&#xE82D;" />
                         </labs:SettingsCard.HeaderIcon>
-                        <Button x:Uid="Xaml/Button/Log" Click="LogButton_Click" />
+                        <Button Click="LogButton_Click" Content="{ex:Locale Key=OpenLogFolder}" />
                     </labs:SettingsCard>
-                    <labs:SettingsCard x:Name="DebugSettingCard" x:Uid="Xaml/SettingCard/Debug">
+                    <labs:SettingsCard x:Name="DebugSettingCard" Header="{ex:Locale Key=Debug}">
                         <labs:SettingsCard.HeaderIcon>
                             <FontIcon Glyph="&#xEBE8;" />
                         </labs:SettingsCard.HeaderIcon>
@@ -78,11 +91,11 @@
                     </labs:SettingsCard>
                 </labs:SettingsExpander.Items>
             </labs:SettingsExpander>
-            <TextBlock x:Uid="Xaml/TextBlock/PageSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PageSetting}" />
             <labs:SettingsCard
                 x:Name="HomeSettingCard"
-                x:Uid="Xaml/SettingCard/Home"
                 Click="HomeSettingCard_Click"
+                Header="{ex:Locale Key=BookShelfSettings}"
                 IsActionIconVisible="True"
                 IsClickEnabled="True">
                 <labs:SettingsCard.HeaderIcon>
@@ -92,7 +105,7 @@
                     <FontIcon Glyph="&#xE76C;" />
                 </labs:SettingsCard.ActionIcon>
             </labs:SettingsCard>
-            <TextBlock x:Uid="Xaml/TextBlock/PluginSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
             <ItemsRepeater ItemsSource="{x:Bind PluginsToolKit.Plugins, Mode=OneWay}">
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="plugin:IPlugin">
@@ -131,8 +144,8 @@
             </ItemsRepeater>
 
             <!--  About  -->
-            <TextBlock x:Uid="Xaml/TextBlock/AboutSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
-            <labs:SettingsExpander Description="© 2023-2023 kitUIN. All rights reserved." Header="ShadowViewer">
+            <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=About}" />
+            <labs:SettingsExpander Description="© 2023-2023 kitUIN. All rights reserved." Header="{ex:Locale Key=AppTitle}">
                 <labs:SettingsExpander.HeaderIcon>
                     <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/AppTitleBar.scale-200.png" />
                 </labs:SettingsExpander.HeaderIcon>
@@ -144,8 +157,8 @@
                 <labs:SettingsExpander.Items>
                     <labs:SettingsCard
                         x:Name="BugRequestCard"
-                        x:Uid="Xaml/SettingsCard/BugRequest"
                         Click="Uri_Click"
+                        Header="{ex:Locale Key=BugRequest}"
                         IsClickEnabled="True"
                         Tag="https://github.com/kitUIN/ShadowViewer/issues/new/choose">
                         <labs:SettingsCard.ActionIcon>
@@ -154,8 +167,8 @@
                     </labs:SettingsCard>
                     <labs:SettingsCard
                         x:Name="SponsorCard"
-                        x:Uid="Xaml/SettingsCard/Sponsor"
                         Click="Uri_Click"
+                        Header="{ex:Locale Key=Sponsor}"
                         IsClickEnabled="True"
                         Tag="https://afdian.net/@kituin">
                         <labs:SettingsCard.ActionIcon>
@@ -163,9 +176,9 @@
                         </labs:SettingsCard.ActionIcon>
                     </labs:SettingsCard>
                     <labs:SettingsCard
-                        x:Uid="Xaml/SettingsCard/Dependencies"
                         HorizontalContentAlignment="Left"
-                        ContentAlignment="Vertical">
+                        ContentAlignment="Vertical"
+                        Header="{ex:Locale Key=Dependencies}">
                         <StackPanel Orientation="Vertical">
                             <HyperlinkButton Content="📦Windows UI Library" NavigateUri="https://aka.ms/winui" />
                             <HyperlinkButton Content="📦FluentIcon" NavigateUri="https://github.com/KitUIN/FluentIcon" />
@@ -173,6 +186,7 @@
                             <HyperlinkButton Content="📦SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
                             <HyperlinkButton Content="📦Serilog" NavigateUri="https://serilog.net" />
                             <HyperlinkButton Content="📦SQLSugar" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
+                            <HyperlinkButton Content="📦CustomExtensions.WinUI" NavigateUri="https://github.com/dnchattan/winui-extensions" />
                             <HyperlinkButton Content="📂WinUI-Gallery" NavigateUri="https://github.com/microsoft/WinUI-Gallery" />
                             <HyperlinkButton Content="📂Bili.Uwp" NavigateUri="https://github.com/Richasy/Bili.Uwp" />
                         </StackPanel>

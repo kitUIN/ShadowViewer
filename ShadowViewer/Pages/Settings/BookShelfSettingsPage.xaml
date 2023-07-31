@@ -26,10 +26,10 @@
                     <EntranceThemeTransition FromVerticalOffset="50" />
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </StackPanel.ChildrenTransitions>
-                <TextBlock x:Uid="Xaml/TextBlock/ShowSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=ShowSetting}" />
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/IsBookShelfInfoBar">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=IsBookShelfInfoBarDescription}" Header="{ex:Locale Key=IsBookShelfInfoBar}">
                             <icons:FluentIcon
                                 Width="30"
                                 Height="30"
@@ -37,13 +37,16 @@
                                 Symbol="CalendarInfoRegular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
-                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Show" IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}"
+                        OffContent="{ex:Locale Key=ShowOff}"
+                        OnContent="{ex:Locale Key=ShowOn}" />
                 </labs:SettingsCard>
 
-                <TextBlock x:Uid="Xaml/TextBlock/OperationSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=OperationSetting}" />
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/RememberDeleteWithFiles">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=RememberDeleteWithFilesDescription}" Header="{ex:Locale Key=RememberDeleteWithFiles}">
                             <icons:FluentIcon
                                 Width="30"
                                 Height="30"
@@ -51,11 +54,14 @@
                                 Symbol="Checkbox2Regular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
-                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Need" IsOn="{x:Bind ViewModel.IsRememberDeleteFilesWithComicDelete, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        IsOn="{x:Bind ViewModel.IsRememberDeleteFilesWithComicDelete, Mode=TwoWay}"
+                        OffContent="{ex:Locale Key=NeedOff}"
+                        OnContent="{ex:Locale Key=NeedOn}" />
                 </labs:SettingsCard>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/DeleteWithFiles">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=DeleteWithFilesDescription}" Header="{ex:Locale Key=DeleteWithFiles}">
                             <icons:FluentIcon
                                 Width="30"
                                 Height="30"
@@ -67,7 +73,7 @@
                 </labs:SettingsCard>
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/IsImportAgain">
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=IsImportAgainDescription}" Header="{ex:Locale Key=IsImportAgain}">
                             <icons:FluentIcon
                                 Width="30"
                                 Height="30"
@@ -75,7 +81,10 @@
                                 Symbol="CubeArrowCurveDownRegular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
-                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Allow" IsOn="{x:Bind ViewModel.IsImportAgain, Mode=TwoWay}" />
+                    <ToggleSwitch
+                        IsOn="{x:Bind ViewModel.IsImportAgain, Mode=TwoWay}"
+                        OffContent="{ex:Locale Key=AllowOff}"
+                        OnContent="{ex:Locale Key=AllowOn}" />
                 </labs:SettingsCard>
             </StackPanel>
         </ScrollViewer>

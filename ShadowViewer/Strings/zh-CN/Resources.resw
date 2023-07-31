@@ -204,25 +204,25 @@
   <data name="Xaml.Button.Cancel.Content" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="Xaml.Button.Log.Content" xml:space="preserve">
+  <data name="OpenLogFolder" xml:space="preserve">
     <value>打开日志文件夹</value>
   </data>
-  <data name="Xaml.Button.Open.Content" xml:space="preserve">
+  <data name="Open" xml:space="preserve">
     <value>打开</value>
   </data>
-  <data name="Xaml.Button.Revise.Content" xml:space="preserve">
+  <data name="Revise" xml:space="preserve">
     <value>修改</value>
   </data>
   <data name="Xaml.Button.Temp.Content" xml:space="preserve">
     <value>临时</value>
   </data>
-  <data name="Xaml.ComboBoxItem.DarkTheme.Content" xml:space="preserve">
+  <data name="Dark" xml:space="preserve">
     <value>深色</value>
   </data>
-  <data name="Xaml.ComboBoxItem.DefaultTheme.Content" xml:space="preserve">
+  <data name="Default" xml:space="preserve">
     <value>默认</value>
   </data>
-  <data name="Xaml.ComboBoxItem.LightTheme.Content" xml:space="preserve">
+  <data name="Light" xml:space="preserve">
     <value>浅色</value>
   </data>
   <data name="Xaml.Command.Add.Label" xml:space="preserve">
@@ -288,83 +288,74 @@
   <data name="Xaml.NavigationViewItem.User.Content" xml:space="preserve">
     <value>用户</value>
   </data>
-  <data name="Xaml.SettingCard.Cache.Description" xml:space="preserve">
-    <value>缓存文件夹设置</value>
+  <data name="FolderDescription" xml:space="preserve">
+    <value>设置文件夹位置</value>
   </data>
-  <data name="Xaml.SettingCard.Cache.Header" xml:space="preserve">
-    <value>缓存设置</value>
-  </data>
-  <data name="Xaml.SettingCard.ComicsPath.Description" xml:space="preserve">
+  <data name="ComicsPathDescription" xml:space="preserve">
     <value>存放缓存的漫画</value>
   </data>
-  <data name="Xaml.SettingCard.ComicsPath.Header" xml:space="preserve">
+  <data name="ComicsPath" xml:space="preserve">
     <value>漫画文件夹</value>
   </data>
-  <data name="Xaml.SettingCard.Debug.Description" xml:space="preserve">
+  <data name="DebugDescription" xml:space="preserve">
     <value>将影响一些事件的运行</value>
   </data>
-  <data name="Xaml.SettingCard.Debug.Header" xml:space="preserve">
+  <data name="Debug" xml:space="preserve">
     <value>调试模式</value>
   </data>
-  <data name="Xaml.SettingCard.DeleteWithFiles.Description" xml:space="preserve">
+  <data name="DeleteWithFilesDescription" xml:space="preserve">
     <value>删除解压压缩文件产生的漫画文件</value>
   </data>
-  <data name="Xaml.SettingCard.DeleteWithFiles.Header" xml:space="preserve">
+  <data name="DeleteWithFiles" xml:space="preserve">
     <value>删除漫画的同时删除缓存文件</value>
   </data>
-  <data name="Xaml.SettingCard.Developer.Description" xml:space="preserve">
+  <data name="DeveloperDescription" xml:space="preserve">
     <value>开发或改进功能所需的部分设置</value>
   </data>
-  <data name="Xaml.SettingCard.Developer.Header" xml:space="preserve">
+  <data name="Developer" xml:space="preserve">
     <value>开发者工具</value>
   </data>
-  <data name="Xaml.SettingCard.Home.Header" xml:space="preserve">
-    <value>书架设置</value>
-  </data>
-  <data name="Xaml.SettingCard.IsBookShelfInfoBar.Description" xml:space="preserve">
+  <data name="IsBookShelfInfoBarDescription" xml:space="preserve">
     <value>显示:总项目,当前选择,大小</value>
   </data>
-  <data name="Xaml.SettingCard.IsBookShelfInfoBar.Header" xml:space="preserve">
+  <data name="IsBookShelfInfoBar" xml:space="preserve">
     <value>显示书架左下角信息栏</value>
   </data>
-  <data name="Xaml.SettingCard.IsImportAgain.Description" xml:space="preserve">
+  <data name="IsImportAgainDescription" xml:space="preserve">
     <value>开启后能导入相同文件夹的漫画</value>
   </data>
-  <data name="Xaml.SettingCard.IsImportAgain.Header" xml:space="preserve">
+  <data name="IsImportAgain" xml:space="preserve">
     <value>允许重复导入</value>
   </data>
   <data name="Xaml.SettingCard.IsTopBarDetail.Header" xml:space="preserve">
     <value>显示顶部按钮名称</value>
   </data>
-  <data name="Xaml.SettingCard.Log.Header" xml:space="preserve">
+  <data name="Log" xml:space="preserve">
     <value>日志</value>
   </data>
-  <data name="Xaml.SettingCard.RememberDeleteWithFiles.Description" xml:space="preserve">
+  <data name="RememberDeleteWithFilesDescription" xml:space="preserve">
     <value>删除漫画时出现弹窗</value>
   </data>
-  <data name="Xaml.SettingCard.RememberDeleteWithFiles.Header" xml:space="preserve">
+  <data name="RememberDeleteWithFiles" xml:space="preserve">
     <value>删除漫画时需要二次确定</value>
   </data>
-  <data name="Xaml.SettingCard.TempPath.Description" xml:space="preserve">
+  <data name="TempPathDescription" xml:space="preserve">
     <value>存放一些临时文件</value>
   </data>
-  <data name="Xaml.SettingCard.TempPath.Header" xml:space="preserve">
+  <data name="TempPath" xml:space="preserve">
     <value>临时文件夹</value>
   </data>
-  <data name="Xaml.SettingCard.Theme.Description" xml:space="preserve">
+  <data name="ThemeDescription" xml:space="preserve">
     <value>设置应用的主题</value>
   </data>
-  <data name="Xaml.SettingCard.Theme.Header" xml:space="preserve">
+  <data name="Theme" xml:space="preserve">
     <value>主题</value>
   </data>
-  <data name="Xaml.SettingsCard.BugRequest.Header" xml:space="preserve">
+  <data name="BugRequest" xml:space="preserve">
     <value>🐛提交Bug或提出意见</value>
   </data>
-  <data name="Xaml.SettingsCard.Dependencies.Header" xml:space="preserve">
+  <data name="Dependencies" xml:space="preserve">
     <value>💕依赖&amp;鸣谢</value>
-  </data>
-  <data name="Xaml.SettingsCard.Sponsor.Header" xml:space="preserve">
-    <value>❤️赞助开发者</value>
   </data>
   <data name="Xaml.TextBlock.CreateTime.Text" xml:space="preserve">
     <value>创建时间:</value>
@@ -433,7 +424,7 @@
   <data name="Xaml.TextBlock.History.Text" xml:space="preserve">
     <value>浏览记录</value>
   </data>
-  <data name="Xaml.TextBlock.MainSettingTitle.Text" xml:space="preserve">
+  <data name="MainSetting" xml:space="preserve">
     <value>主要设置</value>
   </data>
   <data name="Xaml.TextBlock.Menu.Text" xml:space="preserve">
@@ -442,13 +433,13 @@
   <data name="Xaml.TextBlock.NowFolder.Text" xml:space="preserve">
     <value>当前文件夹:</value>
   </data>
-  <data name="Xaml.TextBlock.OperationSettingTitle.Text" xml:space="preserve">
+  <data name="OperationSetting" xml:space="preserve">
     <value>操作设置</value>
   </data>
-  <data name="Xaml.TextBlock.PageSettingTitle.Text" xml:space="preserve">
+  <data name="PageSetting" xml:space="preserve">
     <value>页面设置</value>
   </data>
-  <data name="Xaml.TextBlock.PluginSettingTitle.Text" xml:space="preserve">
+  <data name="PluginSetting" xml:space="preserve">
     <value>插件设置</value>
   </data>
   <data name="Xaml.TextBlock.Refresh.Text" xml:space="preserve">
@@ -457,7 +448,7 @@
   <data name="Xaml.TextBlock.SelectionHeader.Text" xml:space="preserve">
     <value>选中</value>
   </data>
-  <data name="Xaml.TextBlock.ShowSettingTitle.Text" xml:space="preserve">
+  <data name="ShowSetting" xml:space="preserve">
     <value>显示设置</value>
   </data>
   <data name="Xaml.TextBlock.Sort.Text" xml:space="preserve">
@@ -478,22 +469,22 @@
   <data name="Xaml.TextBlock.TeachingShelf.Text" xml:space="preserve">
     <value>什么都没有呢,可以点击右下角❓查看帮助</value>
   </data>
-  <data name="Xaml.ToggleSwitch.Allow.OffContent" xml:space="preserve">
+  <data name="AllowOff" xml:space="preserve">
     <value>不允许</value>
   </data>
-  <data name="Xaml.ToggleSwitch.Allow.OnContent" xml:space="preserve">
+  <data name="AllowOn" xml:space="preserve">
     <value>允许</value>
   </data>
-  <data name="Xaml.ToggleSwitch.Need.OffContent" xml:space="preserve">
+  <data name="NeedOff" xml:space="preserve">
     <value>不需要</value>
   </data>
-  <data name="Xaml.ToggleSwitch.Need.OnContent" xml:space="preserve">
+  <data name="NeedOn" xml:space="preserve">
     <value>需要</value>
   </data>
-  <data name="Xaml.ToggleSwitch.Show.OffContent" xml:space="preserve">
+  <data name="ShowOff" xml:space="preserve">
     <value>隐藏</value>
   </data>
-  <data name="Xaml.ToggleSwitch.Show.OnContent" xml:space="preserve">
+  <data name="ShowOn" xml:space="preserve">
     <value>显示</value>
   </data>
   <data name="Xaml.ToolTip.Add.Content" xml:space="preserve">
@@ -627,5 +618,17 @@
   </data>
   <data name="AppTitle" xml:space="preserve">
     <value>ShadowViewer</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>关于</value>
+  </data>
+  <data name="Sponsor" xml:space="preserve">
+    <value>❤️赞助开发者</value>
+  </data>
+  <data name="Folder" xml:space="preserve">
+    <value>文件夹</value>
+  </data>
+  <data name="DataFolder" xml:space="preserve">
+    <value>应用数据文件夹</value>
   </data>
 </root>
