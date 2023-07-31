@@ -3,6 +3,14 @@
     public enum ResourceKey
     {
         Settings,
-        BookShelfSettings
+        BookShelfSettings,
+        Add,
+        NewFolder,
+        ImportFromFolder,
+        ImportFromZip,
+        Refresh,
+        Filter,
+        Sort,
+        AppTitle,
     }
 }

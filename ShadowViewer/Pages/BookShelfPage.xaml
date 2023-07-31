@@ -7,6 +7,7 @@
     xmlns:converters="using:ShadowViewer.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dv="using:ShadowViewer.Models"
+    xmlns:ex="using:ShadowViewer.Extensions"
     xmlns:icons="using:FluentIcon"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
@@ -285,82 +286,82 @@
         <!--#endregion-->
     </Page.Resources>
     <Grid x:Name="Root" MinWidth="700">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
         <!--#region 顶部工具栏-->
         <Grid
-            Height="50"
-            Margin="20,0,20,0"
-            Padding="5"
+            Grid.Row="0"
+            Margin="5,0"
             VerticalAlignment="Top">
-            <StackPanel
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <CommandBar
+                x:Name="LeftCommandBar"
+                Grid.Column="0"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="10">
-                <DropDownButton x:Name="AddButton" Height="{StaticResource InfoButtonHeight}">
-                    <DropDownButton.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xECC8;" />
-                            <TextBlock
-                                x:Name="AddDetail"
-                                x:Uid="Xaml/TextBlock/Add"
-                                Margin="5,0,0,0" />
-                        </StackPanel>
-                    </DropDownButton.Content>
+                Background="Transparent"
+                DefaultLabelPosition="Right"
+                IsOpen="False">
+                <AppBarButton Label="{ex:Locale Key=Add}">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Add" />
+                        <ToolTip Content="{ex:Locale Key=Add}" />
                     </ToolTipService.ToolTip>
-                    <DropDownButton.Flyout>
+                    <AppBarButton.Icon>
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xECC8;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.Flyout>
                         <MenuFlyout Placement="Bottom">
                             <MenuFlyoutItem
                                 x:Name="ShadowCommandAddNewFolder"
-                                x:Uid="Xaml/Command/NewFolder"
                                 Click="ShadowCommandAddNewFolder_Click"
-                                Icon="NewFolder">
+                                Icon="NewFolder"
+                                Text="{ex:Locale Key=NewFolder}">
                                 <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="Xaml/ToolTip/NewFolder" />
+                                    <ToolTip Content="{ex:Locale Key=NewFolder}" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Uid="Xaml/Command/AddFromFolder" Click="ShadowCommandAddFromFolder_Click">
+                            <MenuFlyoutItem Click="ShadowCommandAddFromFolder_Click" Text="{ex:Locale Key=ImportFromFolder}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE82E;" />
                                 </MenuFlyoutItem.Icon>
                                 <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromFolder" />
+                                    <ToolTip Content="{ex:Locale Key=ImportFromFolder}" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Uid="Xaml/Command/AddFromZip" Click="ShadowCommandAddFromZip_Click">
+                            <MenuFlyoutItem Click="ShadowCommandAddFromZip_Click" Text="{ex:Locale Key=ImportFromZip}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xF012;" />
                                 </MenuFlyoutItem.Icon>
                                 <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromZip" />
+                                    <ToolTip Content="{ex:Locale Key=ImportFromZip}" />
                                 </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
                         </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
-                <Button
-                    x:Name="RefreshButton"
-                    Height="{StaticResource InfoButtonHeight}"
-                    Click="ShadowCommandRefresh_Click">
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+                <AppBarButton Click="ShadowCommandRefresh_Click" Label="{ex:Locale Key=Refresh}">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Refresh" />
+                        <ToolTip Content="{ex:Locale Key=Refresh}" />
                     </ToolTipService.ToolTip>
-                    <StackPanel Orientation="Horizontal">
+                    <AppBarButton.Icon>
                         <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE72C;" />
-                        <TextBlock
-                            x:Name="RefreshDetail"
-                            x:Uid="Xaml/TextBlock/Refresh"
-                            Margin="5,0,0,0" />
-                    </StackPanel>
-                </Button>
-            </StackPanel>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar>
             <labs:Segmented
                 x:Name="StyleSegmented"
+                Grid.Column="1"
                 HorizontalAlignment="Center"
                 SelectionChanged="Segmented_SelectionChanged"
                 SelectionMode="Single">
-                <labs:SegmentedItem Width="75">
+                <labs:SegmentedItem Width="60">
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Simple" />
                     </ToolTipService.ToolTip>
@@ -368,7 +369,15 @@
                         <FontIcon Glyph="&#xE163;" />
                     </labs:SegmentedItem.Icon>
                 </labs:SegmentedItem>
-                <labs:SegmentedItem Width="75">
+                <labs:SegmentedItem Width="60">
+                    <ToolTipService.ToolTip>
+                        <ToolTip x:Uid="Xaml/ToolTip/Detail" />
+                    </ToolTipService.ToolTip>
+                    <labs:SegmentedItem.Icon>
+                        <FontIcon Glyph="&#xE161;" />
+                    </labs:SegmentedItem.Icon>
+                </labs:SegmentedItem>
+                <labs:SegmentedItem Width="60">
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Detail" />
                     </ToolTipService.ToolTip>
@@ -377,40 +386,30 @@
                     </labs:SegmentedItem.Icon>
                 </labs:SegmentedItem>
             </labs:Segmented>
-            <StackPanel
+            <CommandBar
+                x:Name="RightCommandBar"
+                Grid.Column="2"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Orientation="Horizontal"
-                Spacing="10">
-                <Button Height="{StaticResource InfoButtonHeight}">
+                Background="Transparent"
+                DefaultLabelPosition="Right"
+                IsOpen="False">
+                <AppBarButton Label="{ex:Locale Key=Filter}">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Filter" />
+                        <ToolTip Content="{ex:Locale Key=Filter}" />
                     </ToolTipService.ToolTip>
-                    <StackPanel Orientation="Horizontal">
+                    <AppBarButton.Icon>
                         <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE71C;" />
-                        <TextBlock
-                            x:Name="FilterDetail"
-                            x:Uid="Xaml/TextBlock/Filter"
-                            Margin="5,0,0,0" />
-                    </StackPanel>
-                </Button>
-                <DropDownButton
-                    x:Name="SortButton"
-                    Height="{StaticResource InfoButtonHeight}"
-                    Loaded="Controls_Loaded">
-                    <DropDownButton.Content>
-                        <StackPanel Orientation="Horizontal">
-                            <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE8CB;" />
-                            <TextBlock
-                                x:Name="SortDetail"
-                                x:Uid="Xaml/TextBlock/Sort"
-                                Margin="5,0,0,0" />
-                        </StackPanel>
-                    </DropDownButton.Content>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+                <AppBarButton Label="{ex:Locale Key=Sort}" Loaded="Controls_Loaded">
                     <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Sort" />
+                        <ToolTip Content="{ex:Locale Key=Sort}" />
                     </ToolTipService.ToolTip>
-                    <DropDownButton.Flyout>
+                    <AppBarButton.Icon>
+                        <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE8CB;" />
+                    </AppBarButton.Icon>
+                    <AppBarButton.Flyout>
                         <MenuFlyout x:Name="SortFlyout" Placement="Bottom">
                             <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="PA" />
                             <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="PZ" />
@@ -421,16 +420,16 @@
                             <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="CA" />
                             <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="CZ" />
                         </MenuFlyout>
-                    </DropDownButton.Flyout>
-                </DropDownButton>
-            </StackPanel>
+                    </AppBarButton.Flyout>
+                </AppBarButton>
+            </CommandBar>
         </Grid>
         <!--#endregion-->
 
         <!--#region 漫画-->
         <ScrollViewer
-            Margin="0,40,0,15"
-            Padding="5"
+            Grid.Row="1"
+            Padding="5,0"
             HorizontalScrollBarVisibility="Disabled"
             HorizontalScrollMode="Disabled"
             IsVerticalScrollChainingEnabled="True"
@@ -459,6 +458,7 @@
 
         <!--#region 中部指导-->
         <Grid
+            Grid.Row="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
@@ -472,7 +472,10 @@
         <!--#endregion-->
 
         <!--#region 左下角信息栏-->
-        <Grid x:Name="ShelfInfo" VerticalAlignment="Bottom">
+        <Grid
+            x:Name="ShelfInfo"
+            Grid.Row="2"
+            VerticalAlignment="Bottom">
             <StackPanel
                 Margin="6,0,0,2"
                 HorizontalAlignment="Left"
@@ -524,6 +527,7 @@
 
         <!--#region 右下角按钮-->
         <Grid
+            Grid.Row="2"
             Padding="2"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom">
@@ -544,6 +548,6 @@
         </Grid>
         <!--#endregion-->
 
-       
+
     </Grid>
 </Page>

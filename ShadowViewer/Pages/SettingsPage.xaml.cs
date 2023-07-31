@@ -1,5 +1,3 @@
-using ShadowViewer.Plugins;
-
 namespace ShadowViewer.Pages
 {
     public sealed partial class SettingsPage : Page
@@ -38,9 +36,6 @@ namespace ShadowViewer.Pages
         {
         }
 
-        /// <summary>
-        /// �����������ر��¼�
-        /// </summary>
         private void PluginToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
             ToggleSwitch toggle = (ToggleSwitch)sender;
@@ -56,9 +51,7 @@ namespace ShadowViewer.Pages
             //TODO �����ر��¼�MessageHelper.SendNavigationReloadPlugin();
         }
 
-        /// <summary>
-        /// ��ת�������WebUri
-        /// </summary>
+        
         private void PluginWebLink_Click(object sender, RoutedEventArgs e)
         {
             if (sender is SettingsCard { Tag: Uri webUri })

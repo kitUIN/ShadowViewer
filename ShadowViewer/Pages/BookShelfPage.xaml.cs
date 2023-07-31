@@ -308,11 +308,10 @@ namespace ShadowViewer.Pages
             }
             SelectionPanel.Visibility = Visibility.Collapsed;
             ShelfInfo.Visibility = Config.IsBookShelfInfoBar.ToVisibility();
-            SortDetail.Visibility = AddDetail.Visibility = FilterDetail.Visibility = RefreshDetail.Visibility = Config.IsTopBarDetail.ToVisibility();
             StyleSegmented.SelectedIndex = Config.BookStyleDetail ? 1 : 0;
             ShadowCommandAddNewFolder.IsEnabled = ViewModel.Path == "local";
         }
-        /// <summary>
+        /// <summary>   
         /// 删除二次确定框
         /// </summary>
         public async void DeleteMessageDialog()

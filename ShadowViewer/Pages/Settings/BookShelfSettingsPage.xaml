@@ -3,14 +3,24 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:ex="using:ShadowViewer.Extensions"
     xmlns:icons="using:FluentIcon"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local2="using:ShadowViewer.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
-    <ScrollViewer Padding="20,0">
-        <Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Grid.Row="0"
+            Margin="20,10,0,0"
+            FontSize="25"
+            Text="{ex:Locale Key=BookShelfSettings}" />
+        <ScrollViewer Grid.Row="1" Padding="20,0">
             <StackPanel HorizontalAlignment="Stretch" Spacing="{StaticResource SettingsCardSpacing}">
                 <StackPanel.ChildrenTransitions>
                     <EntranceThemeTransition FromVerticalOffset="50" />
@@ -28,18 +38,6 @@
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Show" IsOn="{x:Bind ViewModel.IsBookShelfInfoBar, Mode=TwoWay}" />
-                </labs:SettingsCard>
-                <labs:SettingsCard>
-                    <labs:SettingsCard.Header>
-                        <local2:ShadowSettingHeader x:Uid="Xaml/SettingCard/IsTopBarDetail">
-                            <icons:FluentIcon
-                                Width="30"
-                                Height="30"
-                                FontSize="25"
-                                Symbol="AppGenericRegular" />
-                        </local2:ShadowSettingHeader>
-                    </labs:SettingsCard.Header>
-                    <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Show" IsOn="{x:Bind ViewModel.IsTopBarDetail, Mode=TwoWay}" />
                 </labs:SettingsCard>
 
                 <TextBlock x:Uid="Xaml/TextBlock/OperationSettingTitle" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" />
@@ -80,6 +78,6 @@
                     <ToggleSwitch x:Uid="Xaml/ToggleSwitch/Allow" IsOn="{x:Bind ViewModel.IsImportAgain, Mode=TwoWay}" />
                 </labs:SettingsCard>
             </StackPanel>
-        </Grid>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
 </Page>

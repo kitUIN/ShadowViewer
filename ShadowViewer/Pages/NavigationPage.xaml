@@ -27,16 +27,6 @@
             ItemInvoked="NavView_ItemInvoked"
             Loaded="NavView_Loaded"
             OpenPaneLength="220">
-            <NavigationView.AutoSuggestBox>
-                <AutoSuggestBox
-                    x:Name="controlsSearchBox"
-                    MinWidth="150"
-                    VerticalAlignment="Center"
-                    x:FieldModifier="public"
-                    KeyboardAcceleratorPlacementMode="Hidden"
-                    PlaceholderText="Search"
-                    QueryIcon="Find" />
-            </NavigationView.AutoSuggestBox>
 
             <Frame x:Name="ContentFrame" />
             <NavigationView.MenuItems>

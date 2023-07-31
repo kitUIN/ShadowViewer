@@ -604,4 +604,28 @@
   <data name="BookShelfSettings" xml:space="preserve">
     <value>书架设置</value>
   </data>
+  <data name="Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
+  <data name="ImportFromFolder" xml:space="preserve">
+    <value>从文件夹导入</value>
+  </data>
+  <data name="ImportFromZip" xml:space="preserve">
+    <value>从压缩文件导入</value>
+  </data>
+  <data name="Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>筛选</value>
+  </data>
+  <data name="Sort" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="AppTitle" xml:space="preserve">
+    <value>ShadowViewer</value>
+  </data>
 </root>
