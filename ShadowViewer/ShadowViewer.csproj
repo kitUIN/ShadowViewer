@@ -26,10 +26,8 @@
     <Compile Remove="ViewModels\BookShelfSettingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="Assets\Default\Import.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
+    <None Remove="Assets\Default\import.png" />
     <None Remove="Controls\SettingsHeader.xaml" />
     <None Remove="MainPage.xaml" />
     <None Remove="Pages\AttributesPage.xaml" />
@@ -39,7 +37,6 @@
     <None Remove="Pages\NavigationPage.xaml" />
     <None Remove="Pages\PicPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
-    <None Remove="Pages\Settings\MainSettingsPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -126,11 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\StatusBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\Settings\MainSettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

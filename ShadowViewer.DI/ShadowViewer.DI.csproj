@@ -8,12 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+      <PackageReference Include="CustomExtensions.WinUI" Version="0.1.10-beta" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
       <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.3.230502000" />
       <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj" />
+    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
   </ItemGroup>
 </Project>

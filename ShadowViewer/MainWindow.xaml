@@ -11,7 +11,10 @@
     xmlns:pages="using:ShadowViewer.Pages"
     mc:Ignorable="d">
 
-    <Grid MinWidth="650" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid
+        MinWidth="650"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        Loaded="Grid_Loaded">
         <Border
             x:Name="AppTitleBar"
             Height="48"

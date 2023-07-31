@@ -15,7 +15,7 @@ using SharpCompress.IO;
 using System;
 using ShadowViewer.Extensions;
 using Microsoft.WindowsAppSDK.Runtime.Packages;
-using ShadowViewer.Plugin.Bika.Pages;
+
 
 namespace ShadowViewer.Pages
 {
@@ -36,45 +36,17 @@ namespace ShadowViewer.Pages
             Caller.ImportComicThumbEvent += Caller_ImportComicThumbEvent;
             Caller.ImportComicCompletedEvent += Caller_ImportComicCompletedEvent;
             Caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
-            Caller.NavigateToEvent += Caller_NavigateToEvent;
             Caller.MainBackEvent += Caller_MainBackEvent;
             
             NavView.SelectedItem = NavView.MenuItems[0];
         }
 
-        private void Caller_NavigateToEvent(object sender, NavigateToEventArgs e)
-        {
-            if (e.Mode == NavigateMode.Type)
-            {
-                IPluginsToolKit pluginTool = DIFactory.Current.Services.GetService<IPluginsToolKit>();
-                IEnumerable<Type> pluginSettingsPages = pluginTool.GetPlugins().Select(x => x.SettingsPage);
-                SettingsViewModel settings = DIFactory.Current.Services.GetService<SettingsViewModel>();
-                if (e.Page == typeof(SettingsPage) || e.Page == typeof(MainSettingsPage) || e.Page == typeof(BookShelfSettingsPage) || pluginSettingsPages.Any(x=>x==e.Page))
-                {
-                    settings.Pages.Clear();
-                    settings.Pages.Add(new BreadcrumbItem(e.Id, typeof(SettingsPage)));
-                    if (e.Page == typeof(SettingsPage)) return;
-                    settings.Pages.Add(new BreadcrumbItem(e.Id, e.Page));
-                }
-            }
-            else if(e.Mode == NavigateMode.Page)
-            {
-
-            }
-        }
 
         private void Caller_MainBackEvent(object sender, MainBackEventArgs e)
         {
-            
-            if (ContentFrame.SourcePageType == typeof(SettingsPage) && e.Force)
-            {
-                Caller.SettingsBack();
-            }
-            else
-            {
-                if (!ContentFrame.CanGoBack) return;
-                ContentFrame.GoBack();
-            } 
+
+            if (!ContentFrame.CanGoBack) return;
+            ContentFrame.GoBack();
         }
 
         /// <summary>
@@ -324,11 +296,13 @@ namespace ShadowViewer.Pages
                 }
                 else
                 {
-                    /*foreach (string name in PluginHelper.EnabledPlugins)
+                    IPluginsToolKit plugin = DIFactory.Current.Services.GetService<IPluginsToolKit>();
+
+                    foreach (var p in plugin.EnabledPlugins)
                     {
-                        PluginHelper.PluginInstances[name].NavigationViewItemInvokedHandler(navItemTag, out _page,out parameter);
+                        p.NavigationViewItemInvokedHandler(navItemTag, out _page,out parameter);
                         if (_page != null) break;
-                    }*/
+                    }
                 }
             }
             var preNavPageType = ContentFrame.CurrentSourcePageType;

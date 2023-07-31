@@ -1,6 +1,6 @@
-﻿using Serilog;
+﻿using CustomExtensions.WinUI;
+using Serilog;
 using ShadowViewer.Interfaces;
-using ShadowViewer.Plugin.Bika;
 using ShadowViewer.Plugins;
 
 namespace ShadowViewer
@@ -11,7 +11,8 @@ namespace ShadowViewer
         {
             this.InitializeComponent();
             // 依赖注入
-            DIFactory.Current = new DIFactory();
+            ApplicationExtensionHost.Initialize(this);
+            DIFactory.Current = new DIFactory(); 
             // 配置文件
             Config.Init();
             // 文件创建

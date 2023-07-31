@@ -15,5 +15,10 @@ namespace ShadowViewer
         {
             DebugIcon.Visibility = Config.IsDebug.ToVisibility();
         }
+
+        private async void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+            await DIFactory.Current.Services.GetService<IPluginsToolKit>().InitAsync();
+        }
     }
 }

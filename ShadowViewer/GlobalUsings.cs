@@ -12,7 +12,6 @@ global using ShadowViewer.Converters;
 global using ShadowViewer.Controls;
 global using ShadowViewer.Helpers;
 global using ShadowViewer.Enums;
-global using ShadowViewer.Pages.Settings;
 global using ShadowViewer.Messages;
 global using ShadowViewer.ViewModels;
 global using ShadowViewer.Extensions;
@@ -50,7 +49,6 @@ global using Microsoft.UI.Windowing;
 global using Windows.Graphics;
 global using Windows.UI;
 global using Path = System.IO.Path;
-
 global using Microsoft.UI.Xaml.Media.Animation;
 global using Windows.ApplicationModel.DataTransfer;
 global using Windows.Foundation.Metadata;
