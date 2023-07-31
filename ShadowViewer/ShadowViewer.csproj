@@ -72,7 +72,7 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ShadowViewer.DI\ShadowViewer.DI.csproj" />
+    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\AttributesPage.xaml">

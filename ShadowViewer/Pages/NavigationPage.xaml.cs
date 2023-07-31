@@ -16,7 +16,6 @@ using System;
 using ShadowViewer.Extensions;
 using Microsoft.WindowsAppSDK.Runtime.Packages;
 
-
 namespace ShadowViewer.Pages
 {
     public sealed partial class NavigationPage : Page

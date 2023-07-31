@@ -6,7 +6,6 @@ global using System.Threading.Tasks;
 global using Windows.Storage;
 global using Microsoft.UI.Xaml;
 global using ShadowViewer.Pages;
-global using ShadowViewer.DI;
 global using ShadowViewer.Configs;
 global using ShadowViewer.Converters;
 global using ShadowViewer.Controls;
