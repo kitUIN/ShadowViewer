@@ -37,7 +37,6 @@ namespace ShadowViewer.Pages
             Caller.ImportComicCompletedEvent += Caller_ImportComicCompletedEvent;
             Caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
             Caller.MainBackEvent += Caller_MainBackEvent;
-            
             NavView.SelectedItem = NavView.MenuItems[0];
         }
 
@@ -52,28 +51,19 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 导入完成
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Caller_ImportComicCompletedEvent(object sender, EventArgs e)
         {
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                DIFactory.Current.Services.GetService<ICallableToolKit>().RefreshBook();
-                LoadingControl.IsLoading = false;
-            });
-            
+            DIFactory.Current.Services.GetService<ICallableToolKit>().RefreshBook();
+            LoadingControl.IsLoading = false;
         }
         /// <summary>
         /// 导入的缩略图
         /// </summary>
-        private void Caller_ImportComicThumbEvent(object sender, ImportComicThumbEventArgs e)
+        private async void Caller_ImportComicThumbEvent(object sender, ImportComicThumbEventArgs e)
         {
-            DispatcherQueue.EnqueueAsync(async () =>
-            {
-                BitmapImage bitmapImage = new BitmapImage();
-                await bitmapImage.SetSourceAsync(e.Thumb.AsRandomAccessStream());
-                ZipThumb.Source = bitmapImage;
-            });
+            BitmapImage bitmapImage = new BitmapImage();
+            await bitmapImage.SetSourceAsync(e.Thumb.AsRandomAccessStream());
+            ZipThumb.Source = bitmapImage;
         }
         /// <summary>
         /// 导入失败
@@ -82,31 +72,28 @@ namespace ShadowViewer.Pages
         {
             ICallableToolKit caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
             if (args.Error == ImportComicError.Password)
-            { 
-                await DispatcherQueue.EnqueueAsync(async () =>
+            {
+                ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(args.Message, XamlRoot);
+                dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
                 {
-                    ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog( args.Message, XamlRoot);
-                    dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                    // 重新开始
+                    string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
+                    args.Password[args.Index] = password == "" ? null : password;
+                    caller.ImportComic(args.Items, args.Password, args.Index);
+                };
+                dialog.CloseButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                {
+                    // 跳过本个
+                    if (args.Items.Count > args.Index + 1)
                     {
-                        // 重新开始
-                        string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
-                        args.Password[args.Index] = password == "" ? null: password;
-                        caller.ImportComic(args.Items, args.Password, args.Index);
-                    };
-                    dialog.CloseButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                        caller.ImportComic(args.Items, args.Password, args.Index + 1);
+                    }
+                    else
                     {
-                        // 跳过本个
-                        if(args.Items.Count > args.Index + 1)
-                        {
-                            caller.ImportComic(args.Items, args.Password, args.Index + 1);
-                        }
-                        else
-                        {
-                            caller.ImportComicCompleted();
-                        }
-                    };
-                    await dialog.ShowAsync();
-                });
+                        caller.ImportComicCompleted();
+                    }
+                };
+                await dialog.ShowAsync();
             }
         }
         /// <summary>
@@ -116,14 +103,11 @@ namespace ShadowViewer.Pages
         /// <param name="e"></param>
         private void Caller_ImportComicProgressEvent(object sender, ImportComicProgressEventArgs e)
         {
-            DispatcherQueue.TryEnqueue(() =>
+            if (LoadingProgressBar.IsIndeterminate)
             {
-                if (LoadingProgressBar.IsIndeterminate)
-                {
-                    LoadingProgressBar.IsIndeterminate = false;
-                }
-                LoadingProgressBar.Value = e.Progress;
-            });
+                LoadingProgressBar.IsIndeterminate = false;
+            }
+            LoadingProgressBar.Value = e.Progress;
         }
         /// <summary>
         /// 开始导入
@@ -140,16 +124,13 @@ namespace ShadowViewer.Pages
                     cancelTokenSource = new CancellationTokenSource();
                     if (item is StorageFile file && file.IsZip())
                     {
-                        DispatcherQueue.TryEnqueue(() =>
-                        {
-                            ZipThumb.Source = null;
-                            LoadingControl.IsLoading = true;
-                            LoadingProgressBar.IsIndeterminate = true;
-                            LoadingProgressBar.Value = 0;
-                            LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
-                            LoadingControlText.Text = ResourcesHelper.GetString("Shadow.String.ImportDecompress");
-                            LoadingFileName.Text = file.Name;
-                        });
+                        ZipThumb.Source = null;
+                        LoadingControl.IsLoading = true;
+                        LoadingProgressBar.IsIndeterminate = true;
+                        LoadingProgressBar.Value = 0;
+                        LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
+                        LoadingControlText.Text = ResourcesHelper.GetString("Shadow.String.ImportDecompress");
+                        LoadingFileName.Text = file.Name;
                         ReaderOptions options = new ReaderOptions();
                         options.Password = e.Passwords[i];
                         bool flag = CompressToolKit.CheckPassword(file.Path, ref options);
