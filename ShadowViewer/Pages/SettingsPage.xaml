@@ -23,6 +23,11 @@
                 <EntranceThemeTransition FromVerticalOffset="50" />
                 <RepositionThemeTransition IsStaggeringEnabled="False" />
             </StackPanel.ChildrenTransitions>
+            <TextBlock
+                Grid.Row="0"
+                Margin="20,10,0,0"
+                FontSize="25"
+                Text="{ex:Locale Key=Settings}" />
             <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=MainSetting}" />
             <labs:SettingsCard Description="{ex:Locale Key=ThemeDescription}" Header="{ex:Locale Key=Theme}">
                 <labs:SettingsCard.HeaderIcon>
