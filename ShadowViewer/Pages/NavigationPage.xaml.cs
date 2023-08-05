@@ -1,9 +1,9 @@
 using CommunityToolkit.WinUI;
-using ShadowViewer.Utils.Args;
 using SharpCompress.Readers;
 using System.Threading;
 using SqlSugar;
 using System.Diagnostics;
+
 
 namespace ShadowViewer.Pages
 {
@@ -29,9 +29,38 @@ namespace ShadowViewer.Pages
             Caller.PluginEnabledEvent += CallerOnPluginEnabledEvent;
             Caller.PluginDisabledEvent += CallerOnPluginEnabledEvent;
             Caller.TopGridEvent += Caller_TopGridEvent;
+            Caller.ImportPluginEvent += CallerOnImportPluginEvent;
             NavView.SelectedItem = NavView.MenuItems[0];
         }
 
+        private async void CallerOnImportPluginEvent(object sender, ImportPluginEventArgs e)
+        {
+            var path = ConfigHelper.GetString("PluginsPath");
+            foreach (var item in e.Items)
+            {
+                if (item is StorageFile file)
+                {
+                    var pluginPath = Path.Combine(path, file.DisplayName);
+                    if (!Directory.Exists(pluginPath))
+                    {
+                        var compressToolKit = DiFactory.Current.Services.GetService<CompressToolKit>();
+                        await Task.Run(async () =>
+                        {
+                            compressToolKit.DeCompress(file.Path, pluginPath);
+                            await DispatcherQueue.EnqueueAsync(async () =>
+                            {
+                                await PluginsToolKit.ImportAsync(Path.Combine(pluginPath, file.DisplayName + ".dll"));
+                            });
+                        });
+                    }
+                }
+            }
+            
+        }
+
+        /// <summary>
+        /// 顶部窗体事件
+        /// </summary>
         private async void Caller_TopGridEvent(object sender, TopGridEventArg e)
         {
             switch (e.Mode)
@@ -66,7 +95,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void Caller_ImportComicCompletedEvent(object sender, EventArgs e)
         {
-            DiFactory.Current.Services.GetService<ICallableToolKit>().RefreshBook();
+            Caller.RefreshBook();
             LoadingControl.IsLoading = false;
         }
         /// <summary>
@@ -83,7 +112,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void Caller_ImportComicErrorEvent(object sender, ImportComicErrorEventArgs args)
         {
-            var caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+             
             if (args.Error != ImportComicError.Password) return;
             var dialog = XamlHelper.CreateOneLineTextBoxDialog(args.Message, XamlRoot);
             dialog.PrimaryButtonClick += (s, e) =>
@@ -91,18 +120,18 @@ namespace ShadowViewer.Pages
                 // 重新开始
                 var password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
                 args.Password[args.Index] = password == "" ? null : password;
-                caller.ImportComic(args.Items, args.Password, args.Index);
+                Caller.ImportComic(args.Items, args.Password, args.Index);
             };
             dialog.CloseButtonClick += (s, e) =>
             {
                 // 跳过本个
                 if (args.Items.Count > args.Index + 1)
                 {
-                    caller.ImportComic(args.Items, args.Password, args.Index + 1);
+                    Caller.ImportComic(args.Items, args.Password, args.Index + 1);
                 }
                 else
                 {
-                    caller.ImportComicCompleted();
+                    Caller.ImportComicCompleted();
                 }
             };
             await dialog.ShowAsync();
@@ -149,7 +178,7 @@ namespace ShadowViewer.Pages
                         var flag = CompressToolKit.CheckPassword(file.Path, ref options);
                         if (!flag)
                         {
-                            DiFactory.Current.Services.GetService<ICallableToolKit>().ImportComicError(ImportComicError.Password, "密码错误",e.Items, i,e.Passwords);
+                            Caller.ImportComicError(ImportComicError.Password, "密码错误",e.Items, i,e.Passwords);
                             return;
                         }
                         await Task.Run(() => {
@@ -230,7 +259,7 @@ namespace ShadowViewer.Pages
                         Log.Warning("导入无效文件:{F},忽略", item.Path);
                     }
                 }
-                DiFactory.Current.Services.GetService<ICallableToolKit>().ImportComicCompleted();
+                Caller.ImportComicCompleted();
             }
             catch (TaskCanceledException)
             {
@@ -241,7 +270,9 @@ namespace ShadowViewer.Pages
                 });
             }
         }
-        
+        /// <summary>
+        /// 导航事件
+        /// </summary>
         private void Caller_NavigationToolKit_NavigateTo(object sender, NavigateToEventArgs e)
         {
             if (e.Mode == NavigateMode.URL)
@@ -250,12 +281,9 @@ namespace ShadowViewer.Pages
                 var comic = db.Queryable<LocalComic>().First(x => x.Id == e.Id);
                 if (comic.IsFolder)
                 {
-                    DispatcherQueue.EnqueueAsync(() =>
-                    {
-                        ContentFrame.Navigate(typeof(BookShelfPage), e.Url);
-                        NavView.SelectedItem = NavView.MenuItems.Cast<FrameworkElement>()
+                    ContentFrame.Navigate(typeof(BookShelfPage), e.Url);
+                    NavView.SelectedItem = NavView.MenuItems.Cast<FrameworkElement>()
                         .FirstOrDefault(x => x.Tag.ToString() +"Page" == nameof(BookShelfPage));
-                    });
                 }
                 else
                 {
@@ -264,13 +292,12 @@ namespace ShadowViewer.Pages
             }
             else
             {
-                DispatcherQueue.EnqueueAsync(() =>
-                {
-                    ContentFrame.Navigate(e.Page, e.Url);
-                });
+                ContentFrame.Navigate(e.Page, e.Url);
             };
         }
-
+        /// <summary>
+        /// 左侧点击导航栏
+        /// </summary>
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
             Type page = null;
@@ -322,10 +349,13 @@ namespace ShadowViewer.Pages
             ContentFrame.GoBack();
         }
          
-
+        /// <summary>
+        /// 初始化插件
+        /// </summary>
         private async void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            await DiFactory.Current.Services.GetService<IPluginsToolKit>().InitAsync();
+            await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync();
+            await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync(@"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
         }
         /// <summary>
         /// 外部文件拖入进行响应
@@ -336,8 +366,17 @@ namespace ShadowViewer.Pages
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
                 var items = await e.DataView.GetStorageItemsAsync();
-                var passwords = new string[items.Count];
-                DiFactory.Current.Services.GetService<ICallableToolKit>().ImportComic(items, passwords, 0);
+                var groups = items.GroupBy(x => x is StorageFile file && file.IsZip() && file.Name.StartsWith("ShadowViewer.Plugin")  );
+                var list1 = groups.FirstOrDefault(x => x.Key)?.ToList();
+                if (list1 is not null && list1.Count > 0)
+                {
+                    Caller.ImportPlugin(this,list1);
+                }
+                var list2 = groups.FirstOrDefault(x => !x.Key)?.ToList();
+                if (list2 is null) return;
+                if (list2.Count == 0) return;
+                var passwords = new string[list2.Count];
+                Caller.ImportComic(list2, passwords, 0);
             }
         }
         /// <summary>

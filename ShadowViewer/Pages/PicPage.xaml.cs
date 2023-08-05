@@ -1,9 +1,3 @@
-using CommunityToolkit.WinUI;
-using CommunityToolkit.WinUI.UI;
-using Microsoft.UI.Xaml.Controls;
-using ShadowViewer.Utils.Args;
-using System.Diagnostics;
-
 namespace ShadowViewer.Pages
 {
 
