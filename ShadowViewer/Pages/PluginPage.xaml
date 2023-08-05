@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Extensions"
+    xmlns:icons="using:FluentIcon"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:local2="using:ShadowViewer.Controls"
@@ -20,57 +21,113 @@
             Margin="20,10,0,0"
             FontSize="25"
             Text="{ex:Locale Key=PluginManager}" />
-        <ScrollViewer Grid.Row="1" Padding="20,0">
-            <StackPanel HorizontalAlignment="Stretch" Spacing="{StaticResource SettingsCardSpacing}">
-                <StackPanel.ChildrenTransitions>
-                    <EntranceThemeTransition FromVerticalOffset="50" />
-                    <RepositionThemeTransition IsStaggeringEnabled="False" />
-                </StackPanel.ChildrenTransitions>
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
-                <InfoBar
-                    x:Name="NoPluginInfoBar"
-                    Title="{ex:Locale Key=NoPluginTip}"
-                    Width="300"
-                    IsClosable="True"
-                    Loaded="NoPluginInfoBar_Loaded"
-                    Severity="Warning">
-                    <HyperlinkButton Margin="0,0,0,10" Content="{ex:Locale Key=GoPluginTip}" />
-                </InfoBar>
-                <ItemsRepeater ItemsSource="{x:Bind PluginsToolKit.Plugins, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="plugins:IPlugin">
-                            <labs:SettingsCard
-                                Click="PluginCard_Click"
-                                IsActionIconVisible="True"
-                                IsClickEnabled="True"
-                                Tag="{x:Bind MetaData.Id, Mode=OneWay}">
-                                <labs:SettingsCard.ActionIcon>
-                                    <FontIcon Glyph="&#xE76C;" />
-                                </labs:SettingsCard.ActionIcon>
-                                <labs:SettingsCard.Header>
-                                    <local2:ShadowSettingHeader Description="{x:Bind MetaData.Description, Mode=OneWay}" Header="{x:Bind MetaData.Name, Mode=OneWay}">
-                                        <BitmapIcon
-                                            Width="30"
-                                            Height="30"
-                                            ShowAsMonochrome="False"
-                                            UriSource="{x:Bind MetaData.Logo, Mode=OneWay}" />
-                                    </local2:ShadowSettingHeader>
-                                </labs:SettingsCard.Header>
-                                <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="16"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind MetaData.Version, Mode=OneWay}" />
-                                    <ToggleSwitch IsOn="{x:Bind IsEnabled, Mode=TwoWay}" Tag="{x:Bind MetaData.Id, Mode=OneWay}" />
+        <GridView
+            Grid.Row="1"
+            Margin="20,10,0,0"
+            ItemsSource="{x:Bind PluginsToolKit.Plugins, Mode=OneWay}"
+            SelectionMode="None">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="plugins:IPlugin">
+                    <Grid
+                        Width="300"
+                        Height="200"
+                        Padding="10,5,10,0"
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        RowSpacing="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="60" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Image
+                                Grid.Column="0"
+                                Width="60"
+                                Height="60"
+                                Source="{x:Bind MetaData.Logo.AbsoluteUri}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock
+                                    FontSize="20"
+                                    Text="{x:Bind MetaData.Name}"
+                                    TextTrimming="CharacterEllipsis" />
+                                <TextBlock
+                                    Foreground="Gray"
+                                    Text="{x:Bind MetaData.Author}"
+                                    TextTrimming="CharacterEllipsis" />
+                            </StackPanel>
+                            <HyperlinkButton
+                                Grid.Column="2"
+                                Padding="5"
+                                NavigateUri="{x:Bind MetaData.WebUri}">
+                                <Image
+                                    Width="25"
+                                    Height="25"
+                                    Source="ms-appx:///Assets/Icons/github.png" />
+                            </HyperlinkButton>
+                        </Grid>
+                        <TextBlock
+                            Grid.Row="1"
+                            Margin="10,0"
+                            Text="{x:Bind MetaData.Description}"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <StackPanel
+                                Grid.Column="0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                Orientation="Vertical"
+                                Spacing="3">
+                                <StackPanel Orientation="Horizontal" Spacing="3">
+                                    <icons:FluentIcon Symbol="PredictionsRegular" />
+                                    <TextBlock Text="{x:Bind MetaData.Id}" />
                                 </StackPanel>
-                            </labs:SettingsCard>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
-            </StackPanel>
+                                <StackPanel Orientation="Horizontal" Spacing="3">
+                                    <icons:FluentIcon Symbol="TargetArrowRegular" />
+                                    <TextBlock Text="{x:Bind MetaData.Version}" />
+                                </StackPanel>
+                            </StackPanel>
+                            <ToggleSwitch
+                                Grid.Column="1"
+                                VerticalAlignment="Center"
+                                IsOn="{x:Bind IsEnabled, Mode=TwoWay}" />
 
-        </ScrollViewer>
+                            <HyperlinkButton
+                                Grid.Column="2"
+                                Padding="5"
+                                Click="HyperlinkButton_Click"
+                                Tag="{x:Bind MetaData.Id}">
+                                <FontIcon Glyph="&#xE713;" />
+                            </HyperlinkButton>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        <InfoBar
+            x:Name="NoPluginInfoBar"
+            Title="{ex:Locale Key=NoPluginTip}"
+            Grid.Row="1"
+            Width="300"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            IsClosable="True"
+            Loaded="NoPluginInfoBar_Loaded"
+            Severity="Warning">
+            <HyperlinkButton Margin="0,0,0,10" Content="{ex:Locale Key=GoPluginTip}" />
+        </InfoBar>
     </Grid>
 </Page>

@@ -29,5 +29,10 @@ namespace ShadowViewer.Pages
                 NoPluginInfoBar.IsOpen = true;
             }
         }
+
+        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
