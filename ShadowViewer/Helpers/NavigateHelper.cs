@@ -1,5 +1,6 @@
 ﻿
 using Serilog.Core;
+using SqlSugar;
 
 namespace ShadowViewer.Helpers
 {
@@ -11,7 +12,8 @@ namespace ShadowViewer.Helpers
             // 本应用协议
             if (uri.Scheme == "shadow")
             {
-                ICallableToolKit _navigationToolKit = DIFactory.Current.Services.GetService<ICallableToolKit>();
+                var db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                var _navigationToolKit = DiFactory.Current.Services.GetService<ICallableToolKit>();
                 string[] urls = uri.AbsolutePath.Split(new char[] { '/',}, StringSplitOptions.RemoveEmptyEntries);
                 // 本地
                 switch (uri.Host.ToLower())
@@ -24,7 +26,7 @@ namespace ShadowViewer.Helpers
                         }
                         for (int i = 0; i < urls.Length; i++)
                         {
-                            if (!DBHelper.Db.Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
+                            if (!db.Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
                             {
                                 string s = "shadow://local/" + string.Join("/", urls.Take(i + 1));
                                 _navigationToolKit.NavigateTo(NavigateMode.URL,null, urls[i - 1], new Uri(s));

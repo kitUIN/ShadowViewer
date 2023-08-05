@@ -1,23 +1,21 @@
 <Page
+    NavigationCacheMode="Required"
+    mc:Ignorable="d"
     x:Class="ShadowViewer.Pages.NavigationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:co="using:ShadowViewer.Controls"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    NavigationCacheMode="Required"
-    mc:Ignorable="d">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid
-        x:Name="Root"
         AllowDrop="True"
         DragLeave="Root_DragLeave"
         DragOver="Root_DragOver"
-        Drop="Root_Drop">
+        Drop="Root_Drop"
+        x:Name="Root">
         <NavigationView
-            x:Name="NavView"
-            Grid.Column="1"
             BackRequested="NavView_BackRequested"
             Canvas.ZIndex="0"
             IsBackEnabled="True"
@@ -26,34 +24,35 @@
             IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavView_ItemInvoked"
             Loaded="NavView_Loaded"
-            OpenPaneLength="220">
+            OpenPaneLength="220"
+            x:Name="NavView">
 
             <Frame x:Name="ContentFrame" />
             <NavigationView.MenuItems>
                 <NavigationViewItem
-                    x:Name="HomeItem"
-                    x:Uid="Xaml/NavigationViewItem/Home"
                     Icon="Home"
-                    Tag="BookShelf" />
+                    Tag="BookShelf"
+                    x:Name="HomeItem"
+                    x:Uid="Xaml/NavigationViewItem/Home" />
                 <NavigationViewItem
+                    Tag="Plugins"
                     x:Name="PluginItem"
-                    x:Uid="Xaml/NavigationViewItem/Plugin"
-                    Tag="Plugins">
+                    x:Uid="Xaml/NavigationViewItem/Plugin">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE74C;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
                 <NavigationViewItem
-                    x:Name="DownloadItem"
-                    x:Uid="Xaml/NavigationViewItem/Download"
                     Icon="Download"
-                    Tag="Download" />
+                    Tag="Download"
+                    x:Name="DownloadItem"
+                    x:Uid="Xaml/NavigationViewItem/Download" />
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem
+                    Tag="User"
                     x:Name="UserItem"
-                    x:Uid="Xaml/NavigationViewItem/User"
-                    Tag="User">
+                    x:Uid="Xaml/NavigationViewItem/User">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE77B;" />
                     </NavigationViewItem.Icon>
@@ -61,89 +60,91 @@
             </NavigationView.FooterMenuItems>
         </NavigationView>
         <Border
-            x:Name="OverBorder"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
             Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
             BorderBrush="{ThemeResource FocusStrokeColorOuterBrush}"
             BorderThickness="2"
             Canvas.ZIndex="2"
             CornerRadius="8"
-            Visibility="Collapsed">
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Visibility="Collapsed"
+            x:Name="OverBorder">
             <StackPanel
                 HorizontalAlignment="Center"
-                VerticalAlignment="Center"
                 Orientation="Vertical"
-                Spacing="20">
+                Spacing="20"
+                VerticalAlignment="Center">
                 <FontIcon FontSize="100" Glyph="&#xE74B;" />
                 <TextBlock
-                    x:Name="ImportText"
+                    FontSize="30"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Top"
-                    FontSize="30" />
+                    x:Name="ImportText" />
             </StackPanel>
         </Border>
-        <controls:Loading x:Name="LoadingControl" RightTapped="SmokeGrid_RightTapped">
+        <controls:Loading RightTapped="SmokeGrid_RightTapped" x:Name="LoadingControl">
             <controls:Loading.Background>
                 <AcrylicBrush TintColor="Black" TintOpacity="0.2" />
             </controls:Loading.Background>
             <StackPanel
-                Padding="12"
                 Orientation="Horizontal"
+                Padding="12"
                 Spacing="10">
                 <Image
-                    x:Name="ZipThumb"
+                    Height="250"
                     Width="250"
-                    Height="250" />
+                    x:Name="ZipThumb" />
                 <StackPanel
-                    VerticalAlignment="Center"
                     Orientation="Vertical"
-                    Spacing="20">
+                    Spacing="20"
+                    VerticalAlignment="Center">
                     <TextBlock
-                        x:Name="LoadingFileName"
+                        FontSize="20"
+                        HorizontalAlignment="Center"
                         MaxWidth="200"
-                        HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontSize="20" />
+                        x:Name="LoadingFileName" />
                     <ProgressBar
-                        x:Name="LoadingProgressBar"
-                        Width="200"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
                         IsIndeterminate="True"
                         Maximum="100"
-                        Minimum="0" />
+                        Minimum="0"
+                        VerticalAlignment="Center"
+                        Width="200"
+                        x:Name="LoadingProgressBar" />
                     <StackPanel
-                        x:Name="LoadingProgressText"
                         HorizontalAlignment="Center"
                         Orientation="Horizontal"
                         Spacing="5"
-                        Visibility="Collapsed">
+                        Visibility="Collapsed"
+                        x:Name="LoadingProgressText">
                         <TextBlock Text="{x:Bind LoadingProgressBar.Value, Mode=OneWay}" />
                         <TextBlock Text="%" />
                     </StackPanel>
                     <TextBlock
-                        x:Name="LoadingControlText"
+                        FontSize="16"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        FontSize="16" />
+                        x:Name="LoadingControlText" />
                     <Button
+                        Click="CancelButton_Click"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         x:Name="CancelButton"
-                        x:Uid="Xaml/Button/Cancel"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Click="CancelButton_Click" />
+                        x:Uid="Xaml/Button/Cancel" />
                     <TextBlock
-                        x:Name="CompressTip"
-                        x:Uid="Xaml/TextBlock/CompressTip"
-                        Width="200"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
                         FontSize="12"
-                        TextWrapping="WrapWholeWords" />
+                        HorizontalAlignment="Center"
+                        TextWrapping="WrapWholeWords"
+                        VerticalAlignment="Center"
+                        Width="200"
+                        x:Name="CompressTip"
+                        x:Uid="Xaml/TextBlock/CompressTip" />
                 </StackPanel>
             </StackPanel>
         </controls:Loading>
-        <Grid x:Name="TopGrid" Canvas.ZIndex="1" />
+        <Grid Canvas.ZIndex="1" x:Name="TopGrid">
+            
+        </Grid>
     </Grid>
 </Page>

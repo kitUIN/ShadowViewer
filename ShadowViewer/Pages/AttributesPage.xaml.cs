@@ -17,7 +17,7 @@ namespace ShadowViewer.Pages
         {
             if (e.Parameter is LocalComic comic)
             {
-                ViewModel = DIFactory.Current.Services.GetService<AttributesViewModel>();
+                ViewModel = DiFactory.Current.Services.GetService<AttributesViewModel>();
                 ViewModel.Init(comic.Id);
             }
         }

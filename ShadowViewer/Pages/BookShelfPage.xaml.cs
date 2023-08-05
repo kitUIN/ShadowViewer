@@ -18,11 +18,11 @@ namespace ShadowViewer.Pages
         public BookShelfPage()
         {
             this.InitializeComponent();
-            caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
+            caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel = DIFactory.Current.Services.GetService<BookShelfViewModel>();
+            ViewModel = DiFactory.Current.Services.GetService<BookShelfViewModel>();
             ViewModel.Init(e.Parameter as Uri);
         }
         /// <summary>
@@ -211,7 +211,8 @@ namespace ShadowViewer.Pages
                 }
             }
             long size = 0;
-            LocalComic.Query().Where(x => x.Parent == path.Id).ToList().ForEach(x => size += x.Size);
+            var db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
+            db.Queryable<LocalComic>().Where(x => x.Parent == path.Id).ToList().ForEach(x => size += x.Size);
             path.SetSize(size);
             MoveTeachingTip.IsOpen = false;
             ViewModel.RefreshLocalComic();
@@ -232,7 +233,8 @@ namespace ShadowViewer.Pages
                     }
                 }
                 long size = 0;
-                LocalComic.Query().Where(x => x.Parent == comic.Id).ToList().ForEach(x => size+=x.Size);
+                var db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                db.Queryable<LocalComic>().Where(x => x.Parent == comic.Id).ToList().ForEach(x => size+=x.Size);
                 comic.Size = size;
                 comic.Update();
                 ViewModel.RefreshLocalComic();
@@ -382,9 +384,10 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void DeleteComics()
         {
+            var db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
             foreach (LocalComic comic in ContentGridView.SelectedItems.ToList().Cast<LocalComic>())
             {
-                if (Config.IsDeleteFilesWithComicDelete && !comic.IsFolder && DBHelper.Db.Queryable<CacheZip>().Any(x => x.ComicId == comic.Id))
+                if (Config.IsDeleteFilesWithComicDelete && !comic.IsFolder && db.Queryable<CacheZip>().Any(x => x.ComicId == comic.Id))
                 {
                     comic.Link.DeleteDirectory();
                 }

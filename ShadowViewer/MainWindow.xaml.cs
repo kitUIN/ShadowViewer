@@ -8,7 +8,7 @@ namespace ShadowViewer
             this.Title = "ShadowViewer";
             this.SetTitleBar(AppTitleBar);
             DebugIcon.Visibility = Config.IsDebug.ToVisibility();
-            DIFactory.Current.Services.GetService<ICallableToolKit>().DebugEvent += MainWindow_DebugEvent;
+            DiFactory.Current.Services.GetService<ICallableToolKit>().DebugEvent += MainWindow_DebugEvent;
         }
 
         private void MainWindow_DebugEvent(object sender, EventArgs e)
@@ -18,7 +18,7 @@ namespace ShadowViewer
 
         private async void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            await DIFactory.Current.Services.GetService<IPluginsToolKit>().InitAsync();
+            
         }
     }
 }

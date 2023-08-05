@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using ShadowViewer.Utils.Args;
 using SharpCompress.Common;
+using SqlSugar;
 
 namespace ShadowViewer.ViewModels
 {
@@ -30,16 +31,17 @@ namespace ShadowViewer.ViewModels
         /// </summary>
         private void LoadImageFormComic()
         {
+            var Db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
             if(Comic.Affiliation == "Local")
             {
                 Episodes.Clear();
-                DBHelper.Db.Queryable<LocalEpisode>().Where(x => x.ComicId == Comic.Id).OrderBy(x => x.Order).ForEach(x =>
+                Db.Queryable<LocalEpisode>().Where(x => x.ComicId == Comic.Id).OrderBy(x => x.Order).ForEach(x =>
                 {
                     Episodes.Add(x);
                 });
                 if (Episodes.Count > 0)
                 {
-                    foreach (LocalPicture item in DBHelper.Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == Episodes[CurrentEpisodeIndex].Id).OrderBy(x => x.Name).ToList())
+                    foreach (LocalPicture item in Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == Episodes[CurrentEpisodeIndex].Id).OrderBy(x => x.Name).ToList())
                     {
                         BitmapImage image = new BitmapImage();
                         image.UriSource = new Uri(item.Img);

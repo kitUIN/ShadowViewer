@@ -7,8 +7,8 @@ namespace ShadowViewer.Pages
         public BookShelfSettingsPage()
         {
             this.InitializeComponent();
-            ViewModel = DIFactory.Current.Services.GetService<SettingsViewModel>();
-            Caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
+            ViewModel = DiFactory.Current.Services.GetService<SettingsViewModel>();
+            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
         }
          
         protected override void OnNavigatedTo(NavigationEventArgs e)

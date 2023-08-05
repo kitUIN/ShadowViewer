@@ -7,7 +7,7 @@ namespace ShadowViewer.Pages
         public PluginPage()
         {
             this.InitializeComponent();
-            PluginsToolKit = DIFactory.Current.Services.GetService<IPluginsToolKit>();
+            PluginsToolKit = DiFactory.Current.Services.GetService<IPluginsToolKit>();
         }
         /// <summary>
         /// «∞Õ˘≤Âº˛…Ë÷√
