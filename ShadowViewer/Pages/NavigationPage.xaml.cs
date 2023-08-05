@@ -1,20 +1,7 @@
-using SharpCompress.Readers;
 using CommunityToolkit.WinUI;
-using System.Threading;
-using Windows.Storage;
-using Microsoft.UI.Xaml.Controls;
-using CommunityToolkit.WinUI.UI.Controls;
-using ShadowViewer.ToolKits;
-using ShadowViewer.Interfaces;
-using System.Security.Policy;
 using ShadowViewer.Utils.Args;
-using Microsoft.UI.Xaml;
-using SharpCompress.Archives;
-using SharpCompress.Common;
-using SharpCompress.IO;
-using System;
-using ShadowViewer.Extensions;
-using Microsoft.WindowsAppSDK.Runtime.Packages;
+using SharpCompress.Readers;
+using System.Threading;
 
 namespace ShadowViewer.Pages
 {
