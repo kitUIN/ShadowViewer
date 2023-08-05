@@ -8,30 +8,32 @@ namespace ShadowViewer.Pages
     public sealed partial class NavigationPage : Page
     {
         public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
-        private static CancellationTokenSource cancelTokenSource;
-        public NavigationViewModel ViewModel { get; }
+        private static CancellationTokenSource _cancelTokenSource;
+        private NavigationViewModel ViewModel { get; }
         private ICallableToolKit Caller { get; }
+        private IPluginsToolKit PluginsToolKit { get; }
         public NavigationPage()
         {
             this.InitializeComponent();
             ViewModel = DIFactory.Current.Services.GetService<NavigationViewModel>();
             Caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
+            PluginsToolKit = DIFactory.Current.Services.GetService<IPluginsToolKit>();
             Caller.ImportComicEvent += Caller_ImportComicEvent;
             Caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
             Caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
             Caller.ImportComicThumbEvent += Caller_ImportComicThumbEvent;
             Caller.ImportComicCompletedEvent += Caller_ImportComicCompletedEvent;
             Caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
-            Caller.MainBackEvent += Caller_MainBackEvent;
+            Caller.PluginEnabledEvent += CallerOnPluginEnabledEvent;
+            Caller.PluginDisabledEvent += CallerOnPluginEnabledEvent;
             NavView.SelectedItem = NavView.MenuItems[0];
         }
-
-
-        private void Caller_MainBackEvent(object sender, MainBackEventArgs e)
+        /// <summary>
+        /// 启用或禁用插件时更新左侧导航栏
+        /// </summary>
+        private void CallerOnPluginEnabledEvent(object sender, PluginEventArg e)
         {
-
-            if (!ContentFrame.CanGoBack) return;
-            ContentFrame.GoBack();
+            ViewModel.LoadPluginItems(PluginItem);
         }
 
         /// <summary>
@@ -47,7 +49,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void Caller_ImportComicThumbEvent(object sender, ImportComicThumbEventArgs e)
         {
-            BitmapImage bitmapImage = new BitmapImage();
+            var bitmapImage = new BitmapImage();
             await bitmapImage.SetSourceAsync(e.Thumb.AsRandomAccessStream());
             ZipThumb.Source = bitmapImage;
         }
@@ -56,31 +58,29 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void Caller_ImportComicErrorEvent(object sender, ImportComicErrorEventArgs args)
         {
-            ICallableToolKit caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
-            if (args.Error == ImportComicError.Password)
+            var caller = DIFactory.Current.Services.GetService<ICallableToolKit>();
+            if (args.Error != ImportComicError.Password) return;
+            var dialog = XamlHelper.CreateOneLineTextBoxDialog(args.Message, XamlRoot);
+            dialog.PrimaryButtonClick += (s, e) =>
             {
-                ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(args.Message, XamlRoot);
-                dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                // 重新开始
+                var password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
+                args.Password[args.Index] = password == "" ? null : password;
+                caller.ImportComic(args.Items, args.Password, args.Index);
+            };
+            dialog.CloseButtonClick += (s, e) =>
+            {
+                // 跳过本个
+                if (args.Items.Count > args.Index + 1)
                 {
-                    // 重新开始
-                    string password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
-                    args.Password[args.Index] = password == "" ? null : password;
-                    caller.ImportComic(args.Items, args.Password, args.Index);
-                };
-                dialog.CloseButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
+                    caller.ImportComic(args.Items, args.Password, args.Index + 1);
+                }
+                else
                 {
-                    // 跳过本个
-                    if (args.Items.Count > args.Index + 1)
-                    {
-                        caller.ImportComic(args.Items, args.Password, args.Index + 1);
-                    }
-                    else
-                    {
-                        caller.ImportComicCompleted();
-                    }
-                };
-                await dialog.ShowAsync();
-            }
+                    caller.ImportComicCompleted();
+                }
+            };
+            await dialog.ShowAsync();
         }
         /// <summary>
         /// 导入进度
@@ -104,10 +104,10 @@ namespace ShadowViewer.Pages
         {
             try
             {
-                for (int i = e.Index; i < e.Items.Count;i++)
+                for (var i = e.Index; i < e.Items.Count;i++)
                 {
                     var item = e.Items[i];
-                    cancelTokenSource = new CancellationTokenSource();
+                    _cancelTokenSource = new CancellationTokenSource();
                     if (item is StorageFile file && file.IsZip())
                     {
                         ZipThumb.Source = null;
@@ -117,9 +117,11 @@ namespace ShadowViewer.Pages
                         LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
                         LoadingControlText.Text = ResourcesHelper.GetString("Shadow.String.ImportDecompress");
                         LoadingFileName.Text = file.Name;
-                        ReaderOptions options = new ReaderOptions();
-                        options.Password = e.Passwords[i];
-                        bool flag = CompressToolKit.CheckPassword(file.Path, ref options);
+                        var options = new ReaderOptions
+                        {
+                            Password = e.Passwords[i], 
+                        };
+                        var flag = CompressToolKit.CheckPassword(file.Path, ref options);
                         if (!flag)
                         {
                             DIFactory.Current.Services.GetService<ICallableToolKit>().ImportComicError(ImportComicError.Password, "密码错误",e.Items, i,e.Passwords);
@@ -128,44 +130,49 @@ namespace ShadowViewer.Pages
                         await Task.Run(() => {
                             flag = CompressToolKit.CheckPassword(file.Path, ref options);
                         });
-                        string comicId = LocalComic.RandomId();
+                        var comicId = LocalComic.RandomId();
                          
                         await Task.Run(async () => {
-                            object res = await DIFactory.Current.Services.GetService<CompressToolKit>().DeCompressAsync(file.Path, Config.ComicsPath, comicId,  cancelTokenSource.Token, options);
+                            var res = await DIFactory.Current.Services.GetService<CompressToolKit>().DeCompressAsync(file.Path, Config.ComicsPath, comicId,  _cancelTokenSource.Token, options);
                             DispatcherQueue.TryEnqueue(() =>
                             {
                                 LoadingProgressBar.IsIndeterminate = true;
                                 LoadingProgressText.Visibility = Visibility.Collapsed;
                                 LoadingControlText.Text = ResourcesHelper.GetString("Shadow.String.ImportLoading");
                             });
-                            if (res is CacheZip cache)
+                            switch (res)
                             {
-                                StorageFolder folder = await cache.CachePath.ToStorageFolder();
-                                await Task.Run(() => {
-                                    try
-                                    {
-                                        ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId, cache.Name);
-                                    }
-                                    catch (Exception)
-                                    {
-                                        Log.Error("无效文件夹{F},忽略", folder.Path);
-                                    }
-                                }, cancelTokenSource.Token);
+                                case CacheZip cache:
+                                {
+                                    StorageFolder folder = await cache.CachePath.ToStorageFolder();
+                                    await Task.Run(() => {
+                                        try
+                                        {
+                                            ComicHelper.ImportComicsFromFolder(folder, "local", cache.ComicId, cache.Name);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            Log.Error("无效文件夹{F},忽略", folder.Path);
+                                        }
+                                    }, _cancelTokenSource.Token);
+                                    break;
+                                }
+                                case ShadowEntry root:
+                                {
+                                    var path = Path.Combine(Config.ComicsPath, comicId);
+                                    var fileName = Path.GetFileNameWithoutExtension(file.Path)?.Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
+                                    var comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path, comicId),
+                                        parent: "local", size: root.Size, id: comicId);
+                                    comic.Add();
+                                    await Task.Run(() => ShadowEntry.ToLocalComic(root, path, comic.Id), _cancelTokenSource.Token);
+                                    break;
+                                }
                             }
-                            else if (res is ShadowEntry root)
-                            {
-                                string path = Path.Combine(Config.ComicsPath, comicId);
-                                string fileName = Path.GetFileNameWithoutExtension(file.Path).Split(new char[] { '\\', '/' }, StringSplitOptions.RemoveEmptyEntries).Last();
-                                LocalComic comic = LocalComic.Create(fileName, path, img: ComicHelper.LoadImgFromEntry(root, path, comicId),
-                                    parent: "local", size: root.Size, id: comicId);
-                                comic.Add();
-                                await Task.Run(() => ShadowEntry.ToLocalComic(root, path, comic.Id), cancelTokenSource.Token);
-                            }
-                        }, cancelTokenSource.Token);
+                        }, _cancelTokenSource.Token);
                     }
                     else if (item is StorageFolder folder)
                     {
-                        bool again = false;
+                        var again = false;
                         await Task.Run(() => DispatcherQueue.EnqueueAsync(async () => again =  await ComicHelper.CheckImportAgain(XamlRoot, path: folder.Path)));
                         if (again)
                         {
@@ -190,7 +197,7 @@ namespace ShadowViewer.Pages
                             {
                                 Log.Warning("导入无效文件夹:{F},忽略\n{ex}", folder.Path, ex);
                             }
-                        }, cancelTokenSource.Token);
+                        }, _cancelTokenSource.Token);
                     }
                     else
                     {
@@ -213,7 +220,7 @@ namespace ShadowViewer.Pages
         {
             if (e.Mode == NavigateMode.URL)
             {
-                LocalComic comic = DBHelper.Db.Queryable<LocalComic>().First(x => x.Id == e.Id);
+                var comic = DBHelper.Db.Queryable<LocalComic>().First(x => x.Id == e.Id);
                 if (comic.IsFolder)
                 {
                     DispatcherQueue.EnqueueAsync(() =>
@@ -239,67 +246,69 @@ namespace ShadowViewer.Pages
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            Type _page = null;
+            Type page = null;
             object parameter = null;
-            if (args.IsSettingsInvoked == true)
+            if (args.IsSettingsInvoked)
             {
-                _page = typeof(SettingsPage);
+                page = typeof(SettingsPage);
                 parameter = new Uri("shadow://settings/");
             }
             else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag is string navItemTag)
             {
-                if (navItemTag == "BookShelf")
+                switch (navItemTag)
                 {
-                    _page = typeof(BookShelfPage);
-                    parameter = new Uri("shadow://local/");
-                }
-                else if (navItemTag == "Download")
-                {
-                    _page = typeof(DownloadPage);
-                }
-                else if (navItemTag == "User")
-                {
-
-                }
-                else
-                {
-                    IPluginsToolKit plugin = DIFactory.Current.Services.GetService<IPluginsToolKit>();
-
-                    foreach (var p in plugin.EnabledPlugins)
+                    case "BookShelf":
+                        page = typeof(BookShelfPage);
+                        parameter = new Uri("shadow://local/");
+                        break;
+                    case "Download":
+                        page = typeof(DownloadPage);
+                        break;
+                    case "User":
+                        break;
+                    case "Plugins":
+                        page = typeof(PluginPage);
+                        break;
+                    default:
                     {
-                        p.NavigationViewItemInvokedHandler(navItemTag, out _page,out parameter);
-                        if (_page != null) break;
+                        foreach (var p in PluginsToolKit.EnabledPlugins)
+                        {
+                            p.NavigationViewItemInvokedHandler(navItemTag, out page,out parameter);
+                            if (page != null) break;
+                        }
+                        break;
                     }
                 }
             }
             var preNavPageType = ContentFrame.CurrentSourcePageType;
-            if (!(_page is null) && !Type.Equals(preNavPageType, _page))
+            if (page is not null && !Type.Equals(preNavPageType, page))
             {
-                ContentFrame.Navigate(_page, parameter, args.RecommendedNavigationTransitionInfo);
+                ContentFrame.Navigate(page, parameter, args.RecommendedNavigationTransitionInfo);
             }
         }
-
+        /// <summary>
+        /// 后退按钮
+        /// </summary>
         private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
-            Caller.MainBack(true);
+            if (!ContentFrame.CanGoBack) return;
+            ContentFrame.GoBack();
         }
          
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            ViewModel.LoadPluginItems(PluginItem);
+            
         }
         /// <summary>
         /// 外部文件拖入进行响应
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
         private async void Root_Drop(object sender, DragEventArgs e)
         {
             OverBorder.Visibility = Visibility.Collapsed;
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
-                IReadOnlyList<IStorageItem> items = await e.DataView.GetStorageItemsAsync();
+                var items = await e.DataView.GetStorageItemsAsync();
                 var passwords = new string[items.Count];
                 DIFactory.Current.Services.GetService<ICallableToolKit>().ImportComic(items, passwords, 0);
             }
@@ -336,7 +345,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            cancelTokenSource.Cancel();
+            _cancelTokenSource.Cancel();
         }
     }
 

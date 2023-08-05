@@ -57,5 +57,8 @@
         AllowOn,
         PluginsPathDescription,
         PluginsPath,
+        PluginManager,
+        NoPluginTip,
+        GoPluginTip,
     }
 }

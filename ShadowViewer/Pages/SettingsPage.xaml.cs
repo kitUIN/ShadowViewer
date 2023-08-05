@@ -38,8 +38,8 @@ namespace ShadowViewer.Pages
 
         private void PluginToggleSwitch_Toggled(object sender, RoutedEventArgs e)
         {
-            ToggleSwitch toggle = (ToggleSwitch)sender;
-            string id = toggle.Tag.ToString();
+            var toggle = (ToggleSwitch)sender;
+            var id = toggle.Tag.ToString();
             if (toggle.IsOn)
             {
                 PluginsToolKit.PluginEnabled(id);
@@ -116,7 +116,9 @@ namespace ShadowViewer.Pages
             this.Frame.Navigate(typeof(BookShelfSettingsPage), null,
                 new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
-
+        /// <summary>
+        /// 前往插件设置
+        /// </summary>
         private void PluginCard_Click(object sender, RoutedEventArgs e)
         {
             var source = sender as FrameworkElement;
@@ -125,6 +127,11 @@ namespace ShadowViewer.Pages
                 this.Frame.Navigate(plugin.SettingsPage, null,
                     new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
+        }
+
+        private void ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

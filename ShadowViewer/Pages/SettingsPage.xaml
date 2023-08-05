@@ -126,44 +126,6 @@
                         <FontIcon Glyph="&#xE76C;" />
                     </labs:SettingsCard.ActionIcon>
                 </labs:SettingsCard>
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
-                <ItemsRepeater ItemsSource="{x:Bind PluginsToolKit.Plugins, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="plugin:IPlugin">
-                            <labs:SettingsCard
-                                Click="PluginCard_Click"
-                                IsActionIconVisible="True"
-                                IsClickEnabled="True"
-                                Tag="{x:Bind MetaData.Id, Mode=OneWay}">
-                                <labs:SettingsCard.ActionIcon>
-                                    <FontIcon Glyph="&#xE76C;" />
-                                </labs:SettingsCard.ActionIcon>
-                                <labs:SettingsCard.Header>
-                                    <local2:ShadowSettingHeader Description="{x:Bind MetaData.Description, Mode=OneWay}" Header="{x:Bind MetaData.Name, Mode=OneWay}">
-                                        <BitmapIcon
-                                            Width="30"
-                                            Height="30"
-                                            ShowAsMonochrome="False"
-                                            UriSource="{x:Bind MetaData.Logo, Mode=OneWay}" />
-                                    </local2:ShadowSettingHeader>
-                                </labs:SettingsCard.Header>
-                                <StackPanel Orientation="Horizontal" Spacing="10">
-                                    <TextBlock
-                                        VerticalAlignment="Center"
-                                        FontSize="16"
-                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                                        Style="{StaticResource CaptionTextBlockStyle}"
-                                        Text="{x:Bind MetaData.Version, Mode=OneWay}" />
-                                    <ToggleSwitch
-                                        IsOn="{x:Bind IsEnabled, Mode=OneWay}"
-                                        Tag="{x:Bind MetaData.Id, Mode=OneWay}"
-                                        Toggled="PluginToggleSwitch_Toggled" />
-                                </StackPanel>
-                            </labs:SettingsCard>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
-
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=About}" />
                 <labs:SettingsExpander Description="© 2023-2023 kitUIN. All rights reserved." Header="{ex:Locale Key=AppTitle}">

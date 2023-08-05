@@ -637,4 +637,13 @@
   <data name="PluginsPathDescription" xml:space="preserve">
     <value>存放插件的位置</value>
   </data>
+  <data name="PluginManager" xml:space="preserve">
+    <value>插件管理器</value>
+  </data>
+  <data name="NoPluginTip" xml:space="preserve">
+    <value>没有插件?</value>
+  </data>
+  <data name="GoPluginTip" xml:space="preserve">
+    <value>前往挑选</value>
+  </data>
 </root>
