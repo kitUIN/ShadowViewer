@@ -126,5 +126,13 @@
             </StackPanel>
         </controls:Loading>
         <Grid Canvas.ZIndex="1" x:Name="TopGrid" />
+        <StackPanel
+            Canvas.ZIndex="1"
+            HorizontalAlignment="Center"
+            MinWidth="100"
+            Orientation="Vertical"
+            VerticalAlignment="Top"
+            Visibility="Collapsed"
+            x:Name="TipContainer" />
     </Grid>
 </Page>

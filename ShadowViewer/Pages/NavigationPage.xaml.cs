@@ -75,6 +75,21 @@ namespace ShadowViewer.Pages
                     TopGrid.Children.Clear();
                     TopGrid.Children.Add(e.Element);
                     break;
+                case TopGridMode.Tip:
+                    if (e.Element is TipPopup popup)
+                    {
+                        TipContainer.Visibility = Visibility.Visible;
+                        TipContainer.Children.Add(popup);
+                        popup.Visibility = Visibility.Visible;
+                        await Task.Delay(TimeSpan.FromSeconds(popup.DisplaySeconds));
+                        popup.Visibility = Visibility.Collapsed;
+                        TipContainer.Children.Remove(popup);
+                        if (TipContainer.Children.Count == 0)
+                        {
+                            TipContainer.Visibility = Visibility.Collapsed;
+                        }
+                    }
+                    break;
             }
             
             
