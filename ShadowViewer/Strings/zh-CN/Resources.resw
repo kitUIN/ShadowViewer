@@ -276,18 +276,6 @@
   <data name="Xaml.MenuFlyoutItem.ZA.Text" xml:space="preserve">
     <value>字母顺序Z-A</value>
   </data>
-  <data name="Xaml.NavigationViewItem.Download.Content" xml:space="preserve">
-    <value>下载</value>
-  </data>
-  <data name="Xaml.NavigationViewItem.Home.Content" xml:space="preserve">
-    <value>书架</value>
-  </data>
-  <data name="Xaml.NavigationViewItem.Plugin.Content" xml:space="preserve">
-    <value>插件</value>
-  </data>
-  <data name="Xaml.NavigationViewItem.User.Content" xml:space="preserve">
-    <value>用户</value>
-  </data>
   <data name="FolderDescription" xml:space="preserve">
     <value>设置文件夹位置</value>
   </data>

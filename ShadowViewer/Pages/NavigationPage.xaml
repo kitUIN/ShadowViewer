@@ -24,30 +24,12 @@
             IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavView_ItemInvoked"
             Loaded="NavView_Loaded"
+            MenuItemsSource="{x:Bind ViewModel.MenuItems}"
             OpenPaneLength="220"
             x:Name="NavView">
 
             <Frame x:Name="ContentFrame" />
-            <NavigationView.MenuItems>
-                <NavigationViewItem
-                    Icon="Home"
-                    Tag="BookShelf"
-                    x:Name="HomeItem"
-                    x:Uid="Xaml/NavigationViewItem/Home" />
-                <NavigationViewItem
-                    Tag="Plugins"
-                    x:Name="PluginItem"
-                    x:Uid="Xaml/NavigationViewItem/Plugin">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE74C;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem
-                    Icon="Download"
-                    Tag="Download"
-                    x:Name="DownloadItem"
-                    x:Uid="Xaml/NavigationViewItem/Download" />
-            </NavigationView.MenuItems>
+
             <NavigationView.FooterMenuItems>
                 <NavigationViewItem
                     Tag="User"
@@ -143,8 +125,6 @@
                 </StackPanel>
             </StackPanel>
         </controls:Loading>
-        <Grid Canvas.ZIndex="1" x:Name="TopGrid">
-            
-        </Grid>
+        <Grid Canvas.ZIndex="1" x:Name="TopGrid" />
     </Grid>
 </Page>

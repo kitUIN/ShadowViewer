@@ -3,7 +3,7 @@ using SharpCompress.Readers;
 using System.Threading;
 using SqlSugar;
 using System.Diagnostics;
-
+using ShadowViewer.Args;
 
 namespace ShadowViewer.Pages
 {
@@ -30,7 +30,6 @@ namespace ShadowViewer.Pages
             Caller.PluginDisabledEvent += CallerOnPluginEnabledEvent;
             Caller.TopGridEvent += Caller_TopGridEvent;
             Caller.ImportPluginEvent += CallerOnImportPluginEvent;
-            NavView.SelectedItem = NavView.MenuItems[0];
         }
 
         private async void CallerOnImportPluginEvent(object sender, ImportPluginEventArgs e)
@@ -87,7 +86,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void CallerOnPluginEnabledEvent(object sender, PluginEventArg e)
         {
-            ViewModel.LoadPluginItems(PluginItem);
+            ViewModel.InitMenuItems();
         }
 
         /// <summary>
@@ -324,14 +323,15 @@ namespace ShadowViewer.Pages
                         page = typeof(PluginPage);
                         break;
                     default:
-                    {
-                        foreach (var p in PluginsToolKit.EnabledPlugins)
-                        {
-                            p.NavigationViewItemInvokedHandler(navItemTag, out page,out parameter);
-                            if (page != null) break;
-                        }
                         break;
-                    }
+                }
+            }
+            if (page is null && args.InvokedItemContainer!=null)
+            {
+                foreach (var p in PluginsToolKit.EnabledPlugins)
+                {
+                    p.NavigationViewItemInvokedHandler(args.InvokedItemContainer.Tag, ref page,ref parameter);
+                    if (page != null) break;
                 }
             }
             var preNavPageType = ContentFrame.CurrentSourcePageType;
@@ -354,8 +354,10 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void NavView_Loaded(object sender, RoutedEventArgs e)
         {
+            
             await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync();
             await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync(@"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
+            ViewModel.InitMenuItems();
         }
         /// <summary>
         /// 外部文件拖入进行响应
