@@ -44,8 +44,14 @@ namespace ShadowViewer.Pages
                     if (!Directory.Exists(pluginPath))
                     {
                         var compressToolKit = DiFactory.Current.Services.GetService<CompressToolKit>();
-                        compressToolKit.DeCompress(file.Path, pluginPath);
-                        await PluginsToolKit.ImportAsync(Path.Combine(pluginPath, file.DisplayName + ".dll"));
+                        await Task.Run(async () =>
+                        {
+                            compressToolKit.DeCompress(file.Path, pluginPath);
+                            await DispatcherQueue.EnqueueAsync(async () =>
+                            {
+                                await PluginsToolKit.ImportAsync(Path.Combine(pluginPath, file.DisplayName + ".dll"));
+                            });
+                        });
                     }
                 }
             }
@@ -348,6 +354,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void NavView_Loaded(object sender, RoutedEventArgs e)
         {
+            await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync();
             await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync(@"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
         }
         /// <summary>
