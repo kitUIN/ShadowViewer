@@ -60,5 +60,13 @@
         PluginManager,
         NoPluginTip,
         GoPluginTip,
+        PA,
+        PZ,
+        AZ,
+        ZA,
+        RA,
+        RZ,
+        CA,
+        CZ,
     }
 }

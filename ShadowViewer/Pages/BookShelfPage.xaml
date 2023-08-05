@@ -402,7 +402,10 @@
                         <FontIcon FontSize="{StaticResource InfoIconSize}" Glyph="&#xE71C;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
-                <AppBarButton Label="{ex:Locale Key=Sort}" Loaded="Controls_Loaded">
+                <AppBarButton
+                    Label="{ex:Locale Key=Sort}"
+                    Loaded="Controls_Loaded"
+                    x:Name="SortAppBarButton">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{ex:Locale Key=Sort}" />
                     </ToolTipService.ToolTip>
@@ -411,14 +414,42 @@
                     </AppBarButton.Icon>
                     <AppBarButton.Flyout>
                         <MenuFlyout Placement="Bottom" x:Name="SortFlyout">
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="PA" />
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="PZ" />
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="AZ" />
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="ZA" />
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="RA" />
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="RZ" />
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="CA" />
-                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Tag="CZ" />
+                            <MenuFlyoutItem
+                                Click="MenuFlyoutItem_Click"
+                                Tag="PA"
+                                Text="{ex:Locale Key=PA}" />
+                            <MenuFlyoutItem
+                                Click="MenuFlyoutItem_Click"
+                                Tag="PZ"
+                                Text="{ex:Locale Key=PZ}" />
+                            <MenuFlyoutItem
+                                Click="MenuFlyoutItem_Click"
+                                Tag="AZ"
+                                Text="{ex:Locale Key=AZ}" />
+                            <MenuFlyoutItem
+                                Click="MenuFlyoutItem_Click"
+                                Tag="ZA"
+                                Text="{ex:Locale Key=ZA}" />
+                            <MenuFlyoutItem
+                                Click="MenuFlyoutItem_Click"
+                                Tag="RA"
+                                Text="{ex:Locale Key=RA}" />
+                            <MenuFlyoutItem
+                                Click="MenuFlyoutItem_Click"
+                                Tag="RZ"
+                                Text="{ex:Locale Key=RZ}">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE7B3;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                Click="MenuFlyoutItem_Click"
+                                Tag="CA"
+                                Text="{ex:Locale Key=CA}" />
+                            <MenuFlyoutItem
+                                Click="MenuFlyoutItem_Click"
+                                Tag="CZ"
+                                Text="{ex:Locale Key=CZ}" />
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>

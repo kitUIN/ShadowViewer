@@ -252,28 +252,28 @@
   <data name="Xaml.Command.Status.Label" xml:space="preserve">
     <value>属性</value>
   </data>
-  <data name="Xaml.MenuFlyoutItem.AZ.Text" xml:space="preserve">
+  <data name="AZ" xml:space="preserve">
     <value>字母顺序A-Z</value>
   </data>
-  <data name="Xaml.MenuFlyoutItem.CA.Text" xml:space="preserve">
+  <data name="CA" xml:space="preserve">
     <value>创建时间早-晚</value>
   </data>
-  <data name="Xaml.MenuFlyoutItem.CZ.Text" xml:space="preserve">
+  <data name="CZ" xml:space="preserve">
     <value>创建时间晚-早</value>
   </data>
-  <data name="Xaml.MenuFlyoutItem.PA.Text" xml:space="preserve">
+  <data name="PA" xml:space="preserve">
     <value>阅读进度小-大</value>
   </data>
-  <data name="Xaml.MenuFlyoutItem.PZ.Text" xml:space="preserve">
+  <data name="PZ" xml:space="preserve">
     <value>阅读进度大-小</value>
   </data>
-  <data name="Xaml.MenuFlyoutItem.RA.Text" xml:space="preserve">
+  <data name="RA" xml:space="preserve">
     <value>阅读时间早-晚</value>
   </data>
-  <data name="Xaml.MenuFlyoutItem.RZ.Text" xml:space="preserve">
+  <data name="RZ" xml:space="preserve">
     <value>阅读时间晚-早</value>
   </data>
-  <data name="Xaml.MenuFlyoutItem.ZA.Text" xml:space="preserve">
+  <data name="ZA" xml:space="preserve">
     <value>字母顺序Z-A</value>
   </data>
   <data name="FolderDescription" xml:space="preserve">

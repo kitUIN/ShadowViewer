@@ -282,13 +282,14 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
-            string text = ((MenuFlyoutItem)sender).Tag.ToString();
-            foreach (MenuFlyoutItem item in SortFlyout.Items.Cast<MenuFlyoutItem>())
+            var text = ((MenuFlyoutItem)sender).Text;
+            foreach (var item in SortFlyout.Items.Cast<MenuFlyoutItem>())
             {
-                item.Text = (item.Tag.ToString() == text ? "⁜ " : "    ") + ResourcesHelper.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
+                item.Icon = item.Text == text ? new FontIcon() { Glyph = "\uE7B3" } : null;
             }
             ViewModel.Sorts = EnumHelper.GetEnum<ShadowSorts>(((MenuFlyoutItem)sender).Tag.ToString());
             ViewModel.RefreshLocalComic();
+            SortAppBarButton.Label = text;
         }
         /// <summary>
         /// 控件初始化
@@ -297,10 +298,6 @@ namespace ShadowViewer.Pages
         /// <param name="e"></param>
         private void Controls_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (MenuFlyoutItem item in SortFlyout.Items)
-            {
-                item.Text = (item.Tag.ToString() == "RZ" ? "⁜ " : "    ") + ResourcesHelper.GetString($"Xaml.MenuFlyoutItem.{item.Tag.ToString()}.Text");
-            }
             SelectionPanel.Visibility = Visibility.Collapsed;
             ShelfInfo.Visibility = Config.IsBookShelfInfoBar.ToVisibility();
             StyleSegmented.SelectedIndex = Config.BookStyleDetail ? 1 : 0;
