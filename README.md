@@ -14,11 +14,11 @@
     <img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer" alt="release">
   </a>
 </p> 
-<div align="center">
-  
-| 模块                                                             | 必须  | 类型      | 备注                    |
-|----------------------------------------------------------------|-----|---------|-----------------------|
-| [ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Core)   | 是   | 项目  | 核心功能模块 |
-| [ShadowViewer.Plugin.Bika](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) | 否   | DLL | 插件-哔咔漫画             |
+ 
+## 插件列表🔩
+| 模块                                                             | 开发者  | 备注                    |
+|----------------------------------------------------------------|---------|-----------------------|
+| [ShadowViewer.Plugin.Bika](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) | [kitUIN](https://github.com/kitUIN) | 适配哔咔漫画             |
 
- </div>
+## 导入插件📦
+将插件项目的发行版压缩包下载后,直接拖入应用即可自动导入
