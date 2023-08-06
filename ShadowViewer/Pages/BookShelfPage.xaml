@@ -404,7 +404,6 @@
                 </AppBarButton>
                 <AppBarButton
                     Label="{ex:Locale Key=Sort}"
-                    Loaded="Controls_Loaded"
                     x:Name="SortAppBarButton">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{ex:Locale Key=Sort}" />
