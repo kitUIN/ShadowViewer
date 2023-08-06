@@ -1,3 +1,5 @@
+using ShadowViewer.Plugins;
+
 namespace ShadowViewer.Pages
 {
     
@@ -9,19 +11,7 @@ namespace ShadowViewer.Pages
             this.InitializeComponent();
             PluginsToolKit = DiFactory.Current.Services.GetService<IPluginsToolKit>();
         }
-        /// <summary>
-        /// 前往插件设置
-        /// </summary>
-        private void PluginCard_Click(object sender, RoutedEventArgs e)
-        {
-            var source = sender as FrameworkElement;
-            if (source != null && PluginsToolKit.GetPlugin(source.Tag.ToString()) is { } plugin)
-            {
-                this.Frame.Navigate(plugin.SettingsPage, null,
-                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
-            }
-        }
-
+        
         private void NoPluginInfoBar_Loaded(object sender, RoutedEventArgs e)
         {
             if(PluginsToolKit.Plugins.Count == 0)
@@ -29,17 +19,16 @@ namespace ShadowViewer.Pages
                 NoPluginInfoBar.IsOpen = true;
             }
         }
-
+        /// <summary>
+        /// 前往插件设置
+        /// </summary>
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as HyperlinkButton;
-            if(button!=null&& button.Tag is string tag)
+            if(button!=null&& button.Tag is string tag && PluginsToolKit.GetPlugin(tag) is IPlugin plugin)
             {
-                var setting = PluginsToolKit.GetPlugin(tag).SettingsPage;
-                if (setting != null)
-                {
-                    Frame.Navigate(setting, null);
-                }
+                this.Frame.Navigate(plugin.SettingsPage, null,
+                    new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
         }
     }
