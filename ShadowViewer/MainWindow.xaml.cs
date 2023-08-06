@@ -16,7 +16,7 @@ namespace ShadowViewer
             DebugIcon.Visibility = Config.IsDebug.ToVisibility();
         }
 
-        private async void Grid_Loaded(object sender, RoutedEventArgs e)
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
             
         }

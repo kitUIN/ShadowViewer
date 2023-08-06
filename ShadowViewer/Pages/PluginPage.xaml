@@ -108,7 +108,7 @@
                             <HyperlinkButton
                                 Grid.Column="2"
                                 Padding="5"
-                                Click="HyperlinkButton_Click"
+                                Click="Settings_Click"
                                 Tag="{x:Bind MetaData.Id}">
                                 <FontIcon Glyph="&#xE713;" />
                             </HyperlinkButton>

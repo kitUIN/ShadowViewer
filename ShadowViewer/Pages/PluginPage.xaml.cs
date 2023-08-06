@@ -30,9 +30,17 @@ namespace ShadowViewer.Pages
             }
         }
 
-        private void HyperlinkButton_Click(object sender, RoutedEventArgs e)
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
-
+            var button = sender as HyperlinkButton;
+            if(button!=null&& button.Tag is string tag)
+            {
+                var setting = PluginsToolKit.GetPlugin(tag).SettingsPage;
+                if (setting != null)
+                {
+                    Frame.Navigate(setting, null);
+                }
+            }
         }
     }
 }
