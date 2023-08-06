@@ -37,6 +37,7 @@
     <None Remove="Pages\PicPage.xaml" />
     <None Remove="Pages\PluginPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
+    <None Remove="Pages\UserPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +74,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\UserPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\PluginPage.xaml">

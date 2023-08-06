@@ -296,8 +296,8 @@ namespace ShadowViewer.Pages
                 if (comic.IsFolder)
                 {
                     ContentFrame.Navigate(typeof(BookShelfPage), e.Url);
-                    NavView.SelectedItem = NavView.MenuItems.Cast<FrameworkElement>()
-                        .FirstOrDefault(x => x.Tag.ToString() +"Page" == nameof(BookShelfPage));
+                    NavView.SelectedItem = ViewModel.MenuItems
+                        .FirstOrDefault(x => x.Tag!=null&& x.Tag.ToString() +"Page" == nameof(BookShelfPage));
                 }
                 else
                 {
@@ -333,6 +333,7 @@ namespace ShadowViewer.Pages
                         page = typeof(DownloadPage);
                         break;
                     case "User":
+                        page = typeof(UserPage);
                         break;
                     case "Plugins":
                         page = typeof(PluginPage);
@@ -341,7 +342,7 @@ namespace ShadowViewer.Pages
                         break;
                 }
             }
-            if (page is null && args.InvokedItemContainer!=null)
+            if (page is null && args.InvokedItemContainer != null)
             {
                 foreach (var p in PluginsToolKit.EnabledPlugins)
                 {
@@ -369,7 +370,6 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            
             await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync();
             await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync(@"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
             ViewModel.InitMenuItems();
@@ -405,11 +405,10 @@ namespace ShadowViewer.Pages
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
                 e.AcceptedOperation = DataPackageOperation.Link;
-                e.DragUIOverride.Caption = ResourcesHelper.GetString("Shadow.String.Import");
+                e.DragUIOverride.Caption = ResourcesHelper.GetString("Import");
                 OverBorder.Visibility = Visibility.Visible;
                 OverBorder.Width = Root.ActualWidth - 30;
                 OverBorder.Height = Root.ActualHeight - 30;
-                ImportText.Text = ResourcesHelper.GetString("Shadow.String.ImportText");
             }
         }
         /// <summary>

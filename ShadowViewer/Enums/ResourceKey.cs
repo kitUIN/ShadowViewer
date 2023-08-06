@@ -68,5 +68,7 @@
         RZ,
         CA,
         CZ,
+        ImportText,
+        Import,
     }
 }

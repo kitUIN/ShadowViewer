@@ -165,8 +165,8 @@
   <data name="Shadow.String.DeleteFiles" xml:space="preserve">
     <value>删除缓存漫画文件</value>
   </data>
-  <data name="Shadow.String.Import" xml:space="preserve">
-    <value>导入到</value>
+  <data name="Import" xml:space="preserve">
+    <value>导入</value>
   </data>
   <data name="Shadow.String.ImportAgainMessage" xml:space="preserve">
     <value>该漫画已经存在</value>
@@ -180,8 +180,8 @@
   <data name="Shadow.String.ImportLoading" xml:space="preserve">
     <value>正在导入,请稍后...</value>
   </data>
-  <data name="Shadow.String.ImportText" xml:space="preserve">
-    <value>将文件拖到这并导入为漫画</value>
+  <data name="ImportText" xml:space="preserve">
+    <value>将文件拖到这并导入为漫画/插件</value>
   </data>
   <data name="Shadow.String.IsDelete" xml:space="preserve">
     <value>确定要删除吗</value>
