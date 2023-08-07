@@ -63,7 +63,7 @@ namespace ShadowViewer.Pages
         private async void LogButton_Click(object sender, RoutedEventArgs e)
         {
             var folder =
-                await StorageFolder.GetFolderFromPathAsync(Path.Combine(ApplicationData.Current.LocalFolder.Path,
+                await StorageFolder.GetFolderFromPathAsync(Path.Combine(System.Environment.CurrentDirectory,
                     "Logs"));
             folder.LaunchFolderAsync();
         }
