@@ -21,7 +21,7 @@
     <AppxBundle>Never</AppxBundle>
 	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
 	  <WindowsPackageType>None</WindowsPackageType>
-	  <SelfContained>true</SelfContained>
+	  
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <ItemGroup>
