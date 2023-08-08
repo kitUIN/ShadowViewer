@@ -61,7 +61,10 @@
                                     Click="Open_Click"
                                     Content="{ex:Locale Key=Open}"
                                     Tag="{x:Bind ViewModel.ComicsPath, Mode=OneWay}" />
-                                <Button Click="ComicsPath_Click" Content="{ex:Locale Key=Revise}" />
+                                <Button
+                                    Click="ComicsPath_Click"
+                                    Content="{ex:Locale Key=Revise}"
+                                    Visibility="{x:Bind IsUnPackaged}" />
                             </StackPanel>
                         </labs:SettingsCard>
                         <labs:SettingsCard
@@ -73,7 +76,10 @@
                                     Click="Open_Click"
                                     Content="{ex:Locale Key=Open}"
                                     Tag="{x:Bind ViewModel.TempPath, Mode=OneWay}" />
-                                <Button Click="TempPath_Click" Content="{ex:Locale Key=Revise}" />
+                                <Button
+                                    Click="TempPath_Click"
+                                    Content="{ex:Locale Key=Revise}"
+                                    Visibility="{x:Bind IsUnPackaged}" />
                             </StackPanel>
                         </labs:SettingsCard>
                         <labs:SettingsCard
@@ -85,7 +91,7 @@
                                     Click="Open_Click"
                                     Content="{ex:Locale Key=Open}"
                                     Tag="{x:Bind ViewModel.PluginsPath, Mode=OneWay}" />
-                                <Button Content="{ex:Locale Key=Revise}" />
+                                <Button Content="{ex:Locale Key=Revise}" Visibility="{x:Bind IsUnPackaged}" />
                             </StackPanel>
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>

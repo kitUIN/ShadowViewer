@@ -5,7 +5,7 @@ namespace ShadowViewer.Pages
         public SettingsViewModel ViewModel { get; }
         public IPluginsToolKit PluginsToolKit { get; }
         private ICallableToolKit Caller { get; }
-
+        public bool IsUnPackaged = !ConfigHelper.IsPackaged;
         public SettingsPage()
         {
             this.InitializeComponent();
@@ -62,8 +62,9 @@ namespace ShadowViewer.Pages
 
         private async void LogButton_Click(object sender, RoutedEventArgs e)
         {
+            var defaultPath = ConfigHelper.IsPackaged ? ApplicationData.Current.LocalFolder.Path : System.Environment.CurrentDirectory;
             var folder =
-                await StorageFolder.GetFolderFromPathAsync(Path.Combine(System.Environment.CurrentDirectory,
+                await StorageFolder.GetFolderFromPathAsync(Path.Combine(defaultPath,
                     "Logs"));
             folder.LaunchFolderAsync();
         }
