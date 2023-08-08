@@ -25,9 +25,9 @@
 
 ## 依赖 📂
 [ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) - 核心功能组件  
-[Windows UI Library](https://aka.ms/winui) - WinUI3  
+[Windows App SDK](https://github.com/microsoft/WindowsAppSDK) - Windows App SDK  
 [Windows Community Toolkit](https://github.com/CommunityToolkit/dotnet) - 控件及其他帮助类  
-[CustomExtensions.WinUI](https://github.com/dnchattan/winui-extensions) - 使Windows App Sdk支持外置插件  
+[CustomExtensions.WinUI](https://github.com/dnchattan/winui-extensions) - 使Windows App SDK支持外置插件  
 [SQLSugarCore](https://github.com/DotNetNext/SqlSugar) - ORM框架  
 [Serilog](https://serilog.net) - 日志系统  
 [SharpCompress](https://github.com/adamhathcock/sharpcompress) - 提供压缩解压支持  
