@@ -361,7 +361,7 @@
                 SelectionChanged="Segmented_SelectionChanged"
                 SelectionMode="Single"
                 x:Name="StyleSegmented">
-                <labs:SegmentedItem Width="60">
+                <labs:SegmentedItem Width="60" IsSelected="True">
                     <ToolTipService.ToolTip>
                         <ToolTip x:Uid="Xaml/ToolTip/Simple" />
                     </ToolTipService.ToolTip>
