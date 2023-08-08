@@ -69,7 +69,14 @@ namespace ShadowViewer.Pages
                     if (e.Element is ContentDialog dialog)
                     {
                         dialog.XamlRoot = XamlRoot;
-                        await dialog.ShowAsync();
+                        try
+                        {
+                            await dialog.ShowAsync();
+                        }
+                        catch(System.Runtime.InteropServices.COMException)
+                        {
+                        }
+
                     }
 
                     break;
