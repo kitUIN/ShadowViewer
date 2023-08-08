@@ -8,6 +8,7 @@
     xmlns:ex="using:ShadowViewer.Extensions"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:ShadowViewer.Models"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Grid
@@ -25,22 +26,19 @@
             IsTabStop="False"
             IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavView_ItemInvoked"
-            Loaded="NavView_Loaded"
-            MenuItemsSource="{x:Bind ViewModel.MenuItems}"
+            
+            Loaded="NavView_Loaded"  
+            MenuItemsSource="{x:Bind ViewModel.MenuItems,Mode=OneWay}"
+            FooterMenuItemsSource="{x:Bind ViewModel.FooterMenuItems,Mode=OneWay}"
             OpenPaneLength="220">
 
             <Frame x:Name="ContentFrame" />
-
-            <NavigationView.FooterMenuItems>
-                <NavigationViewItem
-                    x:Name="UserItem"
-                    x:Uid="Xaml/NavigationViewItem/User"
-                    Tag="User">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE77B;" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-            </NavigationView.FooterMenuItems>
+            <NavigationView.MenuItemTemplate>
+                <DataTemplate x:DataType="models:ShadowNavigationItem">
+                    <NavigationViewItem Tag="{x:Bind}" Icon="{x:Bind Icon,Mode=OneWay}" Content="{x:Bind Content,Mode=OneWay}"/>
+                </DataTemplate>
+            </NavigationView.MenuItemTemplate>
+             
         </NavigationView>
         <Border
             x:Name="OverBorder"

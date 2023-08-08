@@ -94,9 +94,6 @@ namespace ShadowViewer.Pages
                     }
                     break;
             }
-            
-            
-            
         }
 
         /// <summary>
@@ -299,8 +296,8 @@ namespace ShadowViewer.Pages
                 if (comic.IsFolder)
                 {
                     ContentFrame.Navigate(typeof(BookShelfPage), e.Url);
-                    NavView.SelectedItem = ViewModel.MenuItems
-                        .FirstOrDefault(x => x.Tag!=null&& x.Tag.ToString() +"Page" == nameof(BookShelfPage));
+                    //NavView.SelectedItem = ViewModel.MenuItems
+                    //    .FirstOrDefault(x => x.Tag!=null&& x.Tag.ToString() +"Page" == nameof(BookShelfPage));
                 }
                 else
                 {
@@ -324,9 +321,9 @@ namespace ShadowViewer.Pages
                 page = typeof(SettingsPage);
                 parameter = new Uri("shadow://settings/");
             }
-            else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag is string navItemTag)
+            else if (args.InvokedItemContainer!=null && args.InvokedItemContainer.Tag is ShadowNavigationItem item)
             {
-                switch (navItemTag)
+                switch (item.Id)
                 {
                     case "BookShelf":
                         page = typeof(BookShelfPage);
@@ -342,17 +339,15 @@ namespace ShadowViewer.Pages
                         page = typeof(PluginPage);
                         break;
                     default:
+                        foreach (var p in PluginsToolKit.EnabledPlugins)
+                        {
+                            p.NavigationViewItemInvokedHandler(item, ref page,ref parameter);
+                            if (page != null) break;
+                        }
                         break;
                 }
             }
-            if (page is null && args.InvokedItemContainer != null)
-            {
-                foreach (var p in PluginsToolKit.EnabledPlugins)
-                {
-                    p.NavigationViewItemInvokedHandler(args.InvokedItemContainer.Tag, ref page,ref parameter);
-                    if (page != null) break;
-                }
-            }
+            
             var preNavPageType = ContentFrame.CurrentSourcePageType;
             if (page is not null && !Type.Equals(preNavPageType, page))
             {
