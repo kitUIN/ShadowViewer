@@ -122,12 +122,16 @@
             Title="{ex:Locale Key=NoPluginTip}"
             Grid.Row="1"
             Width="300"
+            Margin="10"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             IsClosable="True"
             Loaded="NoPluginInfoBar_Loaded"
             Severity="Warning">
-            <HyperlinkButton Margin="0,0,0,10" Content="{ex:Locale Key=GoPluginTip}" />
+            <HyperlinkButton
+                Margin="0,0,0,10"
+                Content="{ex:Locale Key=GoPluginTip}"
+                NavigateUri="https://github.com/kitUIN/ShadowViewer#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8" />
         </InfoBar>
     </Grid>
 </Page>

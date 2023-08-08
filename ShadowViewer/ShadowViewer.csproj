@@ -1,28 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
-    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
-    <RootNamespace>ShadowViewer</RootNamespace>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
-    <Platforms>x86;x64;ARM64</Platforms>
-    <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
-    <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
-    <UseWinUI>true</UseWinUI> 
-    <EnableMsixTooling>true</EnableMsixTooling>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>1326D648CA36685EE85219156A5F27B35F00958A</PackageCertificateThumbprint>
-    <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
-    <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundle>Never</AppxBundle>
-	  <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
-	  <WindowsPackageType>None</WindowsPackageType>
-	  <SelfContained>true</SelfContained>
-    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+	  <OutputType>WinExe</OutputType>
+	  <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+	  <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+	  <RootNamespace>ShadowViewer</RootNamespace>
+	  <ApplicationManifest>app.manifest</ApplicationManifest>
+	  <Platforms>x86;x64;ARM64</Platforms>
+	  <RuntimeIdentifiers>win10-x86;win10-x64;win10-arm64</RuntimeIdentifiers>
+	  <PublishProfile>win10-$(Platform).pubxml</PublishProfile>
+	  <UseWinUI>true</UseWinUI>
+	  <EnableMsixTooling>true</EnableMsixTooling>
+	  <DefaultLanguage>zh-CN</DefaultLanguage>
+	  <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+	  <PackageCertificateThumbprint>1326D648CA36685EE85219156A5F27B35F00958A</PackageCertificateThumbprint>
+	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
+	  <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
+	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
+	  <AppxBundle>Never</AppxBundle>
+	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Config.cs" />
@@ -127,6 +124,9 @@
     <Page Update="Pages\BookShelfPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
 
   <!-- 
