@@ -169,7 +169,7 @@
                             ContentAlignment="Vertical"
                             Header="{ex:Locale Key=Dependencies}">
                             <StackPanel Orientation="Vertical">
-                                <HyperlinkButton Content="📦Windows UI Library" NavigateUri="https://aka.ms/winui" />
+                                <HyperlinkButton Content="📦Windows App SDK" NavigateUri="https://github.com/microsoft/WindowsAppSDK" />
                                 <HyperlinkButton Content="📦FluentIcon" NavigateUri="https://github.com/KitUIN/FluentIcon" />
                                 <HyperlinkButton Content="📦Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
                                 <HyperlinkButton Content="📦SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
