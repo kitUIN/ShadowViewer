@@ -73,7 +73,10 @@ namespace ShadowViewer.Pages
                     break;
                 case TopGridMode.Dialog:
                     TopGrid.Children.Clear();
-                    TopGrid.Children.Add(e.Element);
+                    if (e.Element != null)
+                    {
+                        TopGrid.Children.Add(e.Element);
+                    }
                     break;
                 case TopGridMode.Tip:
                     if (e.Element is TipPopup popup)
@@ -371,7 +374,7 @@ namespace ShadowViewer.Pages
         private async void NavView_Loaded(object sender, RoutedEventArgs e)
         {
             await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync();
-            //await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync(@"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
+            await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync(@"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
             ViewModel.InitMenuItems();
         }
         /// <summary>
