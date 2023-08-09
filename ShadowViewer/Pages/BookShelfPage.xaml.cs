@@ -88,7 +88,7 @@ namespace ShadowViewer.Pages
         {
             HomeCommandBarFlyout.Hide();
             LocalComic comic = ContentGridView.SelectedItems[0] as LocalComic;
-            await CreateRenameDialog(ResourcesHelper.GetString("Xaml.ToolTip.Rename.Content"), XamlRoot, comic).ShowAsync();
+            await CreateRenameDialog(ResourcesHelper.GetString(ResourceKey.Rename), XamlRoot, comic).ShowAsync();
         }
         /// <summary>
         /// 右键菜单-删除
@@ -164,7 +164,7 @@ namespace ShadowViewer.Pages
         /// <returns></returns>
         public ContentDialog CreateFolderDialog(XamlRoot xamlRoot, string parent)
         {
-            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(ResourcesHelper.GetString("Shadow.String.CreateFolder.Title"), xamlRoot, "");
+            ContentDialog dialog = XamlHelper.CreateOneLineTextBoxDialog(ResourcesHelper.GetString(ResourceKey.NewFolder), xamlRoot, "");
             dialog.PrimaryButtonClick += (s, e) =>
             {
                 var name = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
@@ -244,7 +244,7 @@ namespace ShadowViewer.Pages
             {
                 if (frame.Tag is LocalComic comic && comic.IsFolder)
                 {
-                    e.DragUIOverride.Caption = ResourcesHelper.GetString("Xaml.Command.Move.Label") + comic.Name;
+                    e.DragUIOverride.Caption = ResourcesHelper.GetString(ResourceKey.MoveTo) + comic.Name;
                     e.AcceptedOperation = comic.IsFolder ? DataPackageOperation.Move : DataPackageOperation.None;
                 }
                 else return;
@@ -318,17 +318,17 @@ namespace ShadowViewer.Pages
             }
             ContentDialog dialog = XamlHelper.CreateContentDialog(XamlRoot);
             StackPanel stackPanel = new StackPanel();
-            dialog.Title = ResourcesHelper.GetString("Shadow.String.IsDelete");
+            dialog.Title = ResourcesHelper.GetString(ResourceKey.IsDelete);
             CheckBox deleteFiles = new CheckBox()
             {
-                Content = ResourcesHelper.GetString("Shadow.String.DeleteFiles"),
+                Content = ResourcesHelper.GetString(ResourceKey.DeleteComicFiles),
                 IsChecked = Config.IsDeleteFilesWithComicDelete,
             };
             deleteFiles.Checked += DeleteFiles_Checked;
             deleteFiles.Unchecked += DeleteFiles_Checked;
             CheckBox remember = new CheckBox()
             {
-                Content = ResourcesHelper.GetString("Shadow.String.Remember"),
+                Content = ResourcesHelper.GetString(ResourceKey.Remember),
                 IsChecked = Config.IsRememberDeleteFilesWithComicDelete,
             };
             remember.Checked += Remember_Checked;
@@ -336,9 +336,9 @@ namespace ShadowViewer.Pages
             stackPanel.Children.Add(deleteFiles);
             stackPanel.Children.Add(remember);
             dialog.IsPrimaryButtonEnabled = true;
-            dialog.PrimaryButtonText = ResourcesHelper.GetString("Shadow.String.Confirm");
+            dialog.PrimaryButtonText = ResourcesHelper.GetString(ResourceKey.Confirm);
             dialog.DefaultButton = ContentDialogButton.Close;
-            dialog.CloseButtonText = ResourcesHelper.GetString("Shadow.String.Canel");
+            dialog.CloseButtonText = ResourcesHelper.GetString(ResourceKey.Cancel);
             dialog.Content = stackPanel;
             dialog.PrimaryButtonClick += (ContentDialog s, ContentDialogButtonClickEventArgs e) =>
             {

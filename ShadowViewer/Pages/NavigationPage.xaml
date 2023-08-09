@@ -109,14 +109,12 @@
                         VerticalAlignment="Center"
                         FontSize="16" />
                     <Button
-                        x:Name="CancelButton"
-                        x:Uid="Xaml/Button/Cancel"
+                        x:Name="CancelButton" Content="{ex:Locale Key=Cancel}" 
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Click="CancelButton_Click" />
                     <TextBlock
-                        x:Name="CompressTip"
-                        x:Uid="Xaml/TextBlock/CompressTip"
+                        x:Name="CompressTip" Text="{ex:Locale Key=CompressTip}"
                         Width="200"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"

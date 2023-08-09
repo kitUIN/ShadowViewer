@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8"?>
+
 <Page
     x:Class="ShadowViewer.Pages.AttributesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -9,6 +10,7 @@
     xmlns:icons="using:FluentIcon"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
+    xmlns:ex="using:ShadowViewer.Extensions"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ShadowViewer.Models"
     mc:Ignorable="d">
@@ -20,14 +22,14 @@
         <Flyout x:Name="TagSelectFlyout">
             <StackPanel Orientation="Vertical" Spacing="10">
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock x:Uid="Xaml/TextBlock/TagName" VerticalAlignment="Center" />
+                    <TextBlock Text="{ex:Locale Key=TagName}" VerticalAlignment="Center" />
                     <TextBox
                         x:Name="TagName"
                         MaxWidth="450"
                         KeyDown="TagName_KeyDown" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock x:Uid="Xaml/TextBlock/BackgroundColor" />
+                    <TextBlock Text="{ex:Locale Key=BackgroundColor}" />
                     <controls:ColorPickerButton x:Name="BackgroundColorPicker" SelectedColor="Gold">
                         <controls:ColorPickerButton.ColorPickerStyle>
                             <Style TargetType="controls:ColorPicker">
@@ -39,7 +41,7 @@
                     </controls:ColorPickerButton>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock x:Uid="Xaml/TextBlock/ForegroundColor" />
+                    <TextBlock Text="{ex:Locale Key=ForegroundColor}" />
                     <controls:ColorPickerButton x:Name="ForegroundColorPicker" SelectedColor="Black">
                         <controls:ColorPickerButton.ColorPickerStyle>
                             <Style TargetType="controls:ColorPicker">
@@ -58,18 +60,15 @@
                         x:Name="RemoveTagButton"
                         HorizontalAlignment="Center"
                         Click="RemoveTagButton_Click"
-                        CornerRadius="10"
+                        CornerRadius="10" ToolTipService.ToolTip="{ex:Locale Key=Delete}"
                         Visibility="Collapsed">
-                        <ToolTipService.ToolTip>
-                            <ToolTip x:Uid="Xaml/ToolTip/Delete" />
-                        </ToolTipService.ToolTip>
                         <StackPanel Orientation="Horizontal">
                             <icons:FluentIcon
                                 Margin="0,1,5,0"
                                 VerticalAlignment="Center"
                                 FontSize="18"
                                 Symbol="TagDismissFilled" />
-                            <TextBlock x:Uid="Xaml/TextBlock/Delete" />
+                            <TextBlock Text="{ex:Locale Key=Delete}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -108,10 +107,8 @@
                                 Height="260"
                                 VerticalAlignment="Center"
                                 Source="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}"
+                                ToolTipService.ToolTip="{ex:Locale Key=Revise}"
                                 Tapped="Image_Tapped">
-                                <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="Xaml/ToolTip/ClickToRevise" />
-                                </ToolTipService.ToolTip>
                             </Image>
                             <!--#endregion-->
                             <StackPanel
@@ -133,7 +130,7 @@
                                             <!--#region 名称-->
                                             <StackPanel Orientation="Horizontal" Spacing="6">
                                                 <TextBlock
-                                                    x:Uid="Xaml/TextBlock/FileName"
+                                                    Text="{ex:Locale Key=FileName}"
                                                     Width="{StaticResource AttributesTitleWidth}"
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     FontWeight="Bold"
@@ -147,12 +144,9 @@
                                                     TextTrimming="CharacterEllipsis" />
                                                 <HyperlinkButton
                                                     x:Name="FileNameButton"
-                                                    Padding="3"
+                                                    Padding="3" ToolTipService.ToolTip="{ex:Locale Key=Revise}"
                                                     VerticalAlignment="Bottom"
                                                     Click="FileNameButton_Click">
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip x:Uid="Xaml/ToolTip/ClickToRevise" />
-                                                    </ToolTipService.ToolTip>
                                                     <icons:FluentIcon FontSize="15" Symbol="EditFilled" />
                                                 </HyperlinkButton>
                                             </StackPanel>
@@ -160,11 +154,10 @@
 
                                             <!--#region 作者-->
                                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                                <TextBlock
-                                                    x:Uid="Xaml/TextBlock/Author"
-                                                    Width="{StaticResource AttributesTitleWidth}"
-                                                    FontSize="{StaticResource AttributesFontSize}"
-                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock Text="{ex:Locale Key=Author}"
+                                                           Width="{StaticResource AttributesTitleWidth}"
+                                                           FontSize="{StaticResource AttributesFontSize}"
+                                                           IsTextSelectionEnabled="True" />
                                                 <TextBlock
                                                     MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                     FontSize="{StaticResource AttributesFontSize}"
@@ -175,10 +168,8 @@
                                                     x:Name="AuthorButton"
                                                     Padding="3"
                                                     VerticalAlignment="Bottom"
+                                                    ToolTipService.ToolTip="{ex:Locale Key=Revise}"
                                                     Click="AuthorButton_Click">
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip x:Uid="Xaml/ToolTip/ClickToRevise" />
-                                                    </ToolTipService.ToolTip>
                                                     <icons:FluentIcon FontSize="15" Symbol="EditFilled" />
                                                 </HyperlinkButton>
                                             </StackPanel>
@@ -201,10 +192,8 @@
                                                     x:Name="GroupButton"
                                                     Padding="3"
                                                     VerticalAlignment="Bottom"
+                                                    ToolTipService.ToolTip="{ex:Locale Key=Revise}"
                                                     Click="GrouprButton_Click">
-                                                    <ToolTipService.ToolTip>
-                                                        <ToolTip x:Uid="Xaml/ToolTip/ClickToRevise" />
-                                                    </ToolTipService.ToolTip>
                                                     <icons:FluentIcon FontSize="15" Symbol="EditFilled" />
                                                 </HyperlinkButton>
                                             </StackPanel>
@@ -222,11 +211,10 @@
                                     <StackPanel Orientation="Vertical" Spacing="3">
                                         <!--#region 进度-->
                                         <StackPanel Orientation="Horizontal" Spacing="6">
-                                            <TextBlock
-                                                x:Uid="Xaml/TextBlock/Percent"
-                                                Width="{StaticResource AttributesTitleWidth}"
-                                                FontSize="{StaticResource AttributesFontSize}"
-                                                IsTextSelectionEnabled="True" />
+                                            <TextBlock Text="{ex:Locale Key=Percent}"
+                                                       Width="{StaticResource AttributesTitleWidth}"
+                                                       FontSize="{StaticResource AttributesFontSize}"
+                                                       IsTextSelectionEnabled="True" />
                                             <TextBlock
                                                 MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                 FontSize="{StaticResource AttributesFontSize}"
@@ -238,11 +226,10 @@
 
                                         <!--#region 话,页-->
                                         <StackPanel Orientation="Horizontal" Spacing="6">
-                                            <TextBlock
-                                                x:Uid="Xaml/TextBlock/Pages"
-                                                Width="{StaticResource AttributesTitleWidth}"
-                                                FontSize="{StaticResource AttributesFontSize}"
-                                                IsTextSelectionEnabled="True" />
+                                            <TextBlock Text="{ex:Locale Key=Pages}"
+                                                       Width="{StaticResource AttributesTitleWidth}"
+                                                       FontSize="{StaticResource AttributesFontSize}"
+                                                       IsTextSelectionEnabled="True" />
                                             <StackPanel
                                                 MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                 Orientation="Horizontal"
@@ -251,30 +238,27 @@
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     IsTextSelectionEnabled="True"
                                                     Text="{x:Bind ViewModel.CurrentComic.EpisodeCounts, Mode=OneWay}" />
-                                                <TextBlock
-                                                    x:Uid="Xaml/TextBlock/Episode"
-                                                    FontSize="{StaticResource AttributesFontSize}"
-                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock Text="{ex:Locale Key=Episode}"
+                                                           FontSize="{StaticResource AttributesFontSize}"
+                                                           IsTextSelectionEnabled="True" />
                                                 <TextBlock
                                                     Margin="5,0,0,0"
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     IsTextSelectionEnabled="True"
                                                     Text="{x:Bind ViewModel.CurrentComic.Counts, Mode=OneWay}" />
-                                                <TextBlock
-                                                    x:Uid="Xaml/TextBlock/Page"
-                                                    FontSize="{StaticResource AttributesFontSize}"
-                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock Text="{ex:Locale Key=Page}"
+                                                           FontSize="{StaticResource AttributesFontSize}"
+                                                           IsTextSelectionEnabled="True" />
                                             </StackPanel>
                                         </StackPanel>
                                         <!--#endregion-->
 
                                         <!--#region 大小-->
                                         <StackPanel Orientation="Horizontal" Spacing="6">
-                                            <TextBlock
-                                                x:Uid="Xaml/TextBlock/Size"
-                                                Width="{StaticResource AttributesTitleWidth}"
-                                                FontSize="{StaticResource AttributesFontSize}"
-                                                IsTextSelectionEnabled="True" />
+                                            <TextBlock Text="{ex:Locale Key=Size}"
+                                                       Width="{StaticResource AttributesTitleWidth}"
+                                                       FontSize="{StaticResource AttributesFontSize}"
+                                                       IsTextSelectionEnabled="True" />
                                             <TextBlock
                                                 MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                 FontSize="{StaticResource AttributesFontSize}"
@@ -295,11 +279,10 @@
                                         <StackPanel Orientation="Vertical" Spacing="3">
                                             <!--#region 创建时间-->
                                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                                <TextBlock
-                                                    x:Uid="Xaml/TextBlock/CreateTime"
-                                                    Width="{StaticResource AttributesTitleWidth}"
-                                                    FontSize="{StaticResource AttributesFontSize}"
-                                                    IsTextSelectionEnabled="True" />
+                                                <TextBlock Text="{ex:Locale Key=CreateTime}"
+                                                           Width="{StaticResource AttributesTitleWidth}"
+                                                           FontSize="{StaticResource AttributesFontSize}"
+                                                           IsTextSelectionEnabled="True" />
                                                 <TextBlock
                                                     MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                     FontSize="{StaticResource AttributesFontSize}"
@@ -313,7 +296,7 @@
                                             <!--#region 最后查看-->
                                             <StackPanel Orientation="Horizontal" Spacing="6">
                                                 <TextBlock
-                                                    x:Uid="Xaml/TextBlock/LastReadTime"
+                                                    Text="{ex:Locale Key=LastReadTime}"
                                                     Width="{StaticResource AttributesTitleWidth}"
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     IsTextSelectionEnabled="True" />
@@ -330,11 +313,8 @@
                                         <HyperlinkButton
                                             Padding="6,4,3,4"
                                             HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom"
+                                            VerticalAlignment="Bottom" ToolTipService.ToolTip="{ex:Locale Key=More}"
                                             Click="IDButton_Click">
-                                            <ToolTipService.ToolTip>
-                                                <ToolTip x:Uid="Xaml/ToolTip/More" />
-                                            </ToolTipService.ToolTip>
                                             <FlyoutBase.AttachedFlyout>
                                                 <Flyout Placement="Left">
                                                     <StackPanel Orientation="Vertical" Spacing="4">
@@ -345,11 +325,10 @@
                                                                 <ColumnDefinition Width="260" />
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
-                                                            <TextBlock
-                                                                x:Uid="Xaml/TextBlock/ID"
-                                                                Grid.Column="0"
-                                                                FontSize="{StaticResource AttributesFontSize}"
-                                                                IsTextSelectionEnabled="True" />
+                                                            <TextBlock Text="{ex:Locale Key=Id}"
+                                                                       Grid.Column="0"
+                                                                       FontSize="{StaticResource AttributesFontSize}"
+                                                                       IsTextSelectionEnabled="True" />
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 MaxWidth="250"
@@ -363,10 +342,8 @@
                                                                 Padding="4"
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
+                                                                ToolTipService.ToolTip="{ex:Locale Key=Copy}"
                                                                 Tag="{x:Bind ViewModel.CurrentComic.Id, Mode=OneWay}">
-                                                                <ToolTipService.ToolTip>
-                                                                    <ToolTip x:Uid="Xaml/ToolTip/Copy" />
-                                                                </ToolTipService.ToolTip>
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
                                                             </HyperlinkButton>
                                                         </Grid>
@@ -379,11 +356,10 @@
                                                                 <ColumnDefinition Width="260" />
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
-                                                            <TextBlock
-                                                                x:Uid="Xaml/TextBlock/Thumb"
-                                                                Grid.Column="0"
-                                                                FontSize="{StaticResource AttributesFontSize}"
-                                                                IsTextSelectionEnabled="True" />
+                                                            <TextBlock Text="{ex:Locale Key=Thumb}"
+                                                                       Grid.Column="0"
+                                                                       FontSize="{StaticResource AttributesFontSize}"
+                                                                       IsTextSelectionEnabled="True" />
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 MaxWidth="250"
@@ -395,11 +371,9 @@
                                                                 Grid.Column="2"
                                                                 Padding="4"
                                                                 VerticalAlignment="Bottom"
+                                                                ToolTipService.ToolTip="{ex:Locale Key=Copy}"
                                                                 Click="CopyButton_Click"
                                                                 Tag="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}">
-                                                                <ToolTipService.ToolTip>
-                                                                    <ToolTip x:Uid="Xaml/ToolTip/Copy" />
-                                                                </ToolTipService.ToolTip>
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
                                                             </HyperlinkButton>
                                                         </Grid>
@@ -412,8 +386,7 @@
                                                                 <ColumnDefinition Width="260" />
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
-                                                            <TextBlock
-                                                                x:Uid="Xaml/TextBlock/Path"
+                                                            <TextBlock Text="{ex:Locale Key=Path}"
                                                                 Grid.Column="0"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True" />
@@ -429,10 +402,8 @@
                                                                 Padding="4"
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
+                                                                ToolTipService.ToolTip="{ex:Locale Key=Copy}"
                                                                 Tag="{x:Bind ViewModel.CurrentComic.Path, Mode=OneWay}">
-                                                                <ToolTipService.ToolTip>
-                                                                    <ToolTip x:Uid="Xaml/ToolTip/Copy" />
-                                                                </ToolTipService.ToolTip>
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
                                                             </HyperlinkButton>
                                                         </Grid>
@@ -445,8 +416,7 @@
                                                                 <ColumnDefinition Width="260" />
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
-                                                            <TextBlock
-                                                                x:Uid="Xaml/TextBlock/Link"
+                                                            <TextBlock Text="{ex:Locale Key=Link}"
                                                                 Grid.Column="0"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True" />
@@ -461,11 +431,9 @@
                                                                 Grid.Column="2"
                                                                 Padding="4"
                                                                 VerticalAlignment="Bottom"
+                                                                ToolTipService.ToolTip="{ex:Locale Key=Copy}"
                                                                 Click="CopyButton_Click"
                                                                 Tag="{x:Bind ViewModel.CurrentComic.Link, Mode=OneWay}">
-                                                                <ToolTipService.ToolTip>
-                                                                    <ToolTip x:Uid="Xaml/ToolTip/Copy" />
-                                                                </ToolTipService.ToolTip>
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyFilled" />
                                                             </HyperlinkButton>
                                                         </Grid>

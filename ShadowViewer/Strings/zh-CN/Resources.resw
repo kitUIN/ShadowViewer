@@ -150,7 +150,7 @@
   <data name="Shadow.String.Canel" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="Shadow.String.Confirm" xml:space="preserve">
+  <data name="Confirm" xml:space="preserve">
     <value>确认</value>
   </data>
   <data name="Shadow.String.CreateFolder.Img" xml:space="preserve">
@@ -162,7 +162,7 @@
   <data name="Shadow.String.CreateFolder.Title" xml:space="preserve">
     <value>新建文件夹</value>
   </data>
-  <data name="Shadow.String.DeleteFiles" xml:space="preserve">
+  <data name="DeleteComicFiles" xml:space="preserve">
     <value>删除缓存漫画文件</value>
   </data>
   <data name="Import" xml:space="preserve">
@@ -174,19 +174,19 @@
   <data name="Shadow.String.ImportAgainTitle" xml:space="preserve">
     <value>重复导入</value>
   </data>
-  <data name="Shadow.String.ImportDecompress" xml:space="preserve">
+  <data name="IsDecompressing" xml:space="preserve">
     <value>正在解压,请稍后...</value>
   </data>
-  <data name="Shadow.String.ImportLoading" xml:space="preserve">
+  <data name="IsImporting" xml:space="preserve">
     <value>正在导入,请稍后...</value>
   </data>
   <data name="ImportText" xml:space="preserve">
     <value>将文件拖到这并导入为漫画/插件</value>
   </data>
-  <data name="Shadow.String.IsDelete" xml:space="preserve">
+  <data name="IsDelete" xml:space="preserve">
     <value>确定要删除吗</value>
   </data>
-  <data name="Shadow.String.Remember" xml:space="preserve">
+  <data name="Remember" xml:space="preserve">
     <value>记住我的选择,不再提示</value>
   </data>
   <data name="Shadow.String.ZipPassword" xml:space="preserve">
@@ -198,10 +198,7 @@
   <data name="Shadow.Tag.Local" xml:space="preserve">
     <value>本地</value>
   </data>
-  <data name="Xaml.Button.AddTag.Content" xml:space="preserve">
-    <value>添加标签</value>
-  </data>
-  <data name="Xaml.Button.Cancel.Content" xml:space="preserve">
+  <data name="Cancel" xml:space="preserve">
     <value>取消</value>
   </data>
   <data name="Open" xml:space="preserve">
@@ -209,9 +206,6 @@
   </data>
   <data name="Revise" xml:space="preserve">
     <value>修改</value>
-  </data>
-  <data name="Xaml.Button.Temp.Content" xml:space="preserve">
-    <value>临时</value>
   </data>
   <data name="Dark" xml:space="preserve">
     <value>深色</value>
@@ -222,32 +216,8 @@
   <data name="Light" xml:space="preserve">
     <value>浅色</value>
   </data>
-  <data name="Xaml.Command.Add.Label" xml:space="preserve">
-    <value>新建</value>
-  </data>
-  <data name="Xaml.Command.AddFromFolder.Text" xml:space="preserve">
-    <value>从文件夹导入漫画</value>
-  </data>
-  <data name="Xaml.Command.AddFromZip.Text" xml:space="preserve">
-    <value>从压缩文件导入漫画</value>
-  </data>
-  <data name="Xaml.Command.AddTag.Label" xml:space="preserve">
-    <value>添加标签</value>
-  </data>
-  <data name="Xaml.Command.Move.Label" xml:space="preserve">
+  <data name="MoveTo" xml:space="preserve">
     <value>移动到</value>
-  </data>
-  <data name="Xaml.Command.NewFolder.Text" xml:space="preserve">
-    <value>新建文件夹</value>
-  </data>
-  <data name="Xaml.Command.Refresh.Label" xml:space="preserve">
-    <value>刷新</value>
-  </data>
-  <data name="Xaml.Command.Settings.Label" xml:space="preserve">
-    <value>书架设置</value>
-  </data>
-  <data name="Xaml.Command.Status.Label" xml:space="preserve">
-    <value>属性</value>
   </data>
   <data name="AZ" xml:space="preserve">
     <value>字母顺序A-Z</value>
@@ -294,12 +264,6 @@
   <data name="DeleteWithFiles" xml:space="preserve">
     <value>删除漫画的同时删除缓存文件</value>
   </data>
-  <data name="DeveloperDescription" xml:space="preserve">
-    <value>开发或改进功能所需的部分设置</value>
-  </data>
-  <data name="Developer" xml:space="preserve">
-    <value>开发者工具</value>
-  </data>
   <data name="IsBookShelfInfoBarDescription" xml:space="preserve">
     <value>显示:总项目,当前选择,大小</value>
   </data>
@@ -311,9 +275,6 @@
   </data>
   <data name="IsImportAgain" xml:space="preserve">
     <value>允许重复导入</value>
-  </data>
-  <data name="Xaml.SettingCard.IsTopBarDetail.Header" xml:space="preserve">
-    <value>显示顶部按钮名称</value>
   </data>
   <data name="LogPath" xml:space="preserve">
     <value>日志文件夹</value>
@@ -342,81 +303,41 @@
   <data name="Dependencies" xml:space="preserve">
     <value>💕依赖&amp;鸣谢</value>
   </data>
-  <data name="Xaml.TextBlock.CreateTime.Text" xml:space="preserve">
+  <data name="CreateTime" xml:space="preserve">
     <value>创建时间:</value>
   </data>
-  <data name="Xaml.TextBlock.LastReadTime.Text" xml:space="preserve">
+  <data name="LastReadTime" xml:space="preserve">
     <value>最后查看:</value>
   </data>
-  <data name="Xaml.TextBlock.Link.Text" xml:space="preserve">
+  <data name="Link" xml:space="preserve">
     <value>指向:</value>
   </data>
-  <data name="Xaml.TextBlock.Parent.Text" xml:space="preserve">
-    <value>上一级:</value>
-  </data>
-  <data name="Xaml.TextBlock.Path.Text" xml:space="preserve">
+  <data name="Path" xml:space="preserve">
     <value>地址:</value>
   </data>
-  <data name="Xaml.TextBlock.Percent.Text" xml:space="preserve">
+  <data name="Percent" xml:space="preserve">
     <value>进度:</value>
   </data>
-  <data name="Xaml.TextBlock.Size.Text" xml:space="preserve">
+  <data name="Size" xml:space="preserve">
     <value>大小:</value>
   </data>
-  <data name="Xaml.TextBlock.Type.Text" xml:space="preserve">
-    <value>类型:</value>
-  </data>
-  <data name="Xaml.TeachingTip.Move.ActionButtonContent" xml:space="preserve">
-    <value>移动</value>
-  </data>
-  <data name="Xaml.TeachingTip.Move.CloseButtonContent" xml:space="preserve">
-    <value>取消</value>
-  </data>
-  <data name="Xaml.TeachingTip.Move.Title" xml:space="preserve">
-    <value>移动到</value>
-  </data>
-  <data name="Xaml.TextBlock.AboutSettingTitle.Text" xml:space="preserve">
-    <value>关于</value>
-  </data>
-  <data name="Xaml.TextBlock.Add.Text" xml:space="preserve">
-    <value>新建</value>
-  </data>
-  <data name="Xaml.TextBlock.AppTitle.Text" xml:space="preserve">
-    <value>ShadowReader</value>
-    <comment>ShadowReader</comment>
-  </data>
-  <data name="Xaml.TextBlock.Author.Text" xml:space="preserve">
+  <data name="Author" xml:space="preserve">
     <value>作者:</value>
   </data>
-  <data name="Xaml.TextBlock.BackgroundColor.Text" xml:space="preserve">
-    <value>背景颜色:</value>
+  <data name="BackgroundColor" xml:space="preserve">
+    <value>背景颜色</value>
   </data>
-  <data name="Xaml.TextBlock.CompressTip.Text" xml:space="preserve">
+  <data name="CompressTip" xml:space="preserve">
     <value>Tips:若解压速度过慢,可以先在外部解压后用`从文件夹导入漫画`</value>
   </data>
-  <data name="Xaml.TextBlock.FileName.Text" xml:space="preserve">
+  <data name="FileName" xml:space="preserve">
     <value>名称:</value>
   </data>
-  <data name="Xaml.TextBlock.Filter.Text" xml:space="preserve">
-    <value>筛选</value>
-  </data>
-  <data name="Xaml.TextBlock.FolderTotalHeader.Text" xml:space="preserve">
-    <value>个项目</value>
-  </data>
-  <data name="Xaml.TextBlock.ForegroundColor.Text" xml:space="preserve">
-    <value>字体颜色:</value>
-  </data>
-  <data name="Xaml.TextBlock.History.Text" xml:space="preserve">
-    <value>浏览记录</value>
+  <data name="ForegroundColor" xml:space="preserve">
+    <value>字体颜色</value>
   </data>
   <data name="MainSetting" xml:space="preserve">
     <value>主要设置</value>
-  </data>
-  <data name="Xaml.TextBlock.Menu.Text" xml:space="preserve">
-    <value>菜单</value>
-  </data>
-  <data name="Xaml.TextBlock.NowFolder.Text" xml:space="preserve">
-    <value>当前文件夹:</value>
   </data>
   <data name="OperationSetting" xml:space="preserve">
     <value>操作设置</value>
@@ -427,32 +348,11 @@
   <data name="PluginSetting" xml:space="preserve">
     <value>插件设置</value>
   </data>
-  <data name="Xaml.TextBlock.Refresh.Text" xml:space="preserve">
-    <value>刷新</value>
-  </data>
-  <data name="Xaml.TextBlock.SelectionHeader.Text" xml:space="preserve">
-    <value>选中</value>
-  </data>
   <data name="ShowSetting" xml:space="preserve">
     <value>显示设置</value>
   </data>
-  <data name="Xaml.TextBlock.Sort.Text" xml:space="preserve">
-    <value>排序</value>
-  </data>
-  <data name="Xaml.TextBlock.TagName.Text" xml:space="preserve">
+  <data name="TagName" xml:space="preserve">
     <value>标签名称:</value>
-  </data>
-  <data name="Xaml.TextBlock.TagPreview.Text" xml:space="preserve">
-    <value>标签预览:</value>
-  </data>
-  <data name="Xaml.TextBlock.Teaching.BookShelfDetailFalse.Text" xml:space="preserve">
-    <value>关闭时,顶部按钮将只显示图标:</value>
-  </data>
-  <data name="Xaml.TextBlock.Teaching.BookShelfDetailTrue.Text" xml:space="preserve">
-    <value>开启时,顶部按钮将显示具体名称:</value>
-  </data>
-  <data name="Xaml.TextBlock.TeachingShelf.Text" xml:space="preserve">
-    <value>什么都没有呢,可以点击右下角❓查看帮助</value>
   </data>
   <data name="AllowOff" xml:space="preserve">
     <value>不允许</value>
@@ -472,76 +372,25 @@
   <data name="ShowOn" xml:space="preserve">
     <value>显示</value>
   </data>
-  <data name="Xaml.ToolTip.Add.Content" xml:space="preserve">
-    <value>新建</value>
-  </data>
-  <data name="Xaml.ToolTip.AddFromFolder.Content" xml:space="preserve">
-    <value>从文件夹导入漫画</value>
-  </data>
-  <data name="Xaml.ToolTip.AddFromZip.Content" xml:space="preserve">
-    <value>从压缩文件导入漫画</value>
-  </data>
-  <data name="Xaml.ToolTip.AddTag.Content" xml:space="preserve">
-    <value>添加标签</value>
-  </data>
-  <data name="Xaml.ToolTip.BookSettings.Content" xml:space="preserve">
-    <value>书架设置</value>
-  </data>
-  <data name="Xaml.ToolTip.Delete.Content" xml:space="preserve">
+  <data name="Delete" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="Xaml.ToolTip.Detail.Content" xml:space="preserve">
-    <value>详细视图</value>
-  </data>
-  <data name="Xaml.ToolTip.Filter.Content" xml:space="preserve">
-    <value>筛选</value>
-  </data>
-  <data name="Xaml.ToolTip.Help.Content" xml:space="preserve">
-    <value>帮助</value>
-  </data>
-  <data name="Xaml.ToolTip.History.Content" xml:space="preserve">
-    <value>浏览记录</value>
-  </data>
-  <data name="Xaml.ToolTip.Menu.Content" xml:space="preserve">
-    <value>菜单</value>
-  </data>
-  <data name="Xaml.ToolTip.Move.Content" xml:space="preserve">
-    <value>移动到</value>
-  </data>
-  <data name="Xaml.ToolTip.NewFolder.Content" xml:space="preserve">
-    <value>新建文件夹</value>
-  </data>
-  <data name="Xaml.ToolTip.Refresh.Content" xml:space="preserve">
-    <value>刷新</value>
-  </data>
-  <data name="Xaml.ToolTip.Rename.Content" xml:space="preserve">
+  <data name="Rename" xml:space="preserve">
     <value>重命名</value>
-  </data>
-  <data name="Xaml.ToolTip.Simple.Content" xml:space="preserve">
-    <value>简略视图</value>
-  </data>
-  <data name="Xaml.ToolTip.Sort.Content" xml:space="preserve">
-    <value>排序</value>
-  </data>
-  <data name="Xaml.ToolTip.Status.Content" xml:space="preserve">
-    <value>属性</value>
   </data>
   <data name="Shadow.String.Set" xml:space="preserve">
     <value>修改</value>
   </data>
-  <data name="Xaml.TextBlock.Group.Text" xml:space="preserve">
-    <value>翻译组:</value>
-  </data>
-  <data name="Xaml.TextBlock.ID.Text" xml:space="preserve">
+  <data name="Id" xml:space="preserve">
     <value>标识符:</value>
   </data>
-  <data name="Xaml.TextBlock.Episode.Text" xml:space="preserve">
+  <data name="Episode" xml:space="preserve">
     <value>话</value>
   </data>
-  <data name="Xaml.TextBlock.Page.Text" xml:space="preserve">
+  <data name="Page" xml:space="preserve">
     <value>页</value>
   </data>
-  <data name="Xaml.TextBlock.Pages.Text" xml:space="preserve">
+  <data name="Pages" xml:space="preserve">
     <value>页数:</value>
   </data>
   <data name="Shadow.String.AddNew" xml:space="preserve">
@@ -550,28 +399,19 @@
   <data name="Shadow.String.Update" xml:space="preserve">
     <value>更新</value>
   </data>
-  <data name="Xaml.TextBlock.Delete.Text" xml:space="preserve">
-    <value>删除</value>
-  </data>
-  <data name="Xaml.TextBlock.ClickToRead.Text" xml:space="preserve">
-    <value>点击阅读</value>
-  </data>
-  <data name="Xaml.ToolTip.ClickToRevise.Content" xml:space="preserve">
-    <value>点击修改</value>
-  </data>
   <data name="Shadow.String.Tag" xml:space="preserve">
     <value>标签</value>
   </data>
   <data name="Shadow.String.Affiliation" xml:space="preserve">
     <value>所属</value>
   </data>
-  <data name="Xaml.ToolTip.Copy.Content" xml:space="preserve">
+  <data name="Copy" xml:space="preserve">
     <value>复制</value>
   </data>
-  <data name="Xaml.ToolTip.More.Content" xml:space="preserve">
+  <data name="More" xml:space="preserve">
     <value>更多</value>
   </data>
-  <data name="Xaml.TextBlock.Thumb.Text" xml:space="preserve">
+  <data name="Thumb" xml:space="preserve">
     <value>缩略图:</value>
   </data>
   <data name="Settings" xml:space="preserve">
@@ -609,9 +449,6 @@
   </data>
   <data name="Sponsor" xml:space="preserve">
     <value>❤️赞助开发者</value>
-  </data>
-  <data name="Folder" xml:space="preserve">
-    <value>文件夹</value>
   </data>
   <data name="DataFolder" xml:space="preserve">
     <value>应用数据文件夹</value>
