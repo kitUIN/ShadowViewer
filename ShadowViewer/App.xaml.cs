@@ -40,7 +40,6 @@ namespace ShadowViewer
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             startupWindow = new MainWindow();
-            startupWindow.ExtendsContentIntoTitleBar = true;
             WindowHelper.TrackWindow(startupWindow);
             ThemeHelper.Initialize(startupWindow);
             var firstUri = new Uri("shadow://local/");

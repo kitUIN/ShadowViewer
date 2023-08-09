@@ -31,9 +31,22 @@ namespace ShadowViewer.Pages
             Caller.PluginDisabledEvent += CallerOnPluginEnabledEvent;
             Caller.TopGridEvent += Caller_TopGridEvent;
             Caller.ImportPluginEvent += CallerOnImportPluginEvent;
+            Caller.NavigationViewBackRequestedEvent += Caller_NavigationViewBackRequestedEvent;
+            Caller.NavigationViewPaneEvent += Caller_NavigationViewPaneEvent;
         }
 
-        private async void CallerOnImportPluginEvent(object sender, ImportPluginEventArgs e)
+        private void Caller_NavigationViewPaneEvent(object sender, EventArgs e)
+        {
+            NavView.IsPaneOpen = !NavView.IsPaneOpen;
+        }
+
+        private void Caller_NavigationViewBackRequestedEvent(object sender, EventArgs e)
+        {
+            if (!ContentFrame.CanGoBack) return;
+            ContentFrame.GoBack();
+        }
+
+        private async void CallerOnImportPluginEvent(object sender, ImportPluginEventArg e)
         {
             var path = ConfigHelper.GetString("PluginsPath");
             foreach (var item in e.Items)
@@ -63,47 +76,49 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void Caller_TopGridEvent(object sender, TopGridEventArg e)
         {
-            switch (e.Mode)
+            try
             {
-                case TopGridMode.ContentDialog:
-                    if (e.Element is ContentDialog dialog)
-                    {
-                        dialog.XamlRoot = XamlRoot;
-                        try
+                switch (e.Mode)
+                {
+                    case TopGridMode.ContentDialog:
+                        if (e.Element is ContentDialog dialog)
                         {
-                            await dialog.ShowAsync();
+                            dialog.XamlRoot = XamlRoot;
+                        
+                                await dialog.ShowAsync();
+
                         }
-                        catch(System.Runtime.InteropServices.COMException)
+
+                        break;
+                    case TopGridMode.Dialog:
+                        TopGrid.Children.Clear();
+                        if (e.Element != null)
                         {
+                            TopGrid.Children.Add(e.Element);
                         }
 
-                    }
-
-                    break;
-                case TopGridMode.Dialog:
-                    TopGrid.Children.Clear();
-                    if (e.Element != null)
-                    {
-                        TopGrid.Children.Add(e.Element);
-                    }
-
-                    break;
-                case TopGridMode.Tip:
-                    if (e.Element is TipPopup popup)
-                    {
-                        TipContainer.Visibility = Visibility.Visible;
-                        TipContainer.Children.Add(popup);
-                        popup.Visibility = Visibility.Visible;
-                        await Task.Delay(TimeSpan.FromSeconds(popup.DisplaySeconds));
-                        popup.Visibility = Visibility.Collapsed;
-                        TipContainer.Children.Remove(popup);
-                        if (TipContainer.Children.Count == 0)
+                        break;
+                    case TopGridMode.Tip:
+                        if (e.Element is TipPopup popup)
                         {
-                            TipContainer.Visibility = Visibility.Collapsed;
+                            TipContainer.Visibility = Visibility.Visible;
+                            TipContainer.Children.Add(popup);
+                            popup.Visibility = Visibility.Visible;
+                            await Task.Delay(TimeSpan.FromSeconds(popup.DisplaySeconds));
+                            popup.Visibility = Visibility.Collapsed;
+                            TipContainer.Children.Remove(popup);
+                            if (TipContainer.Children.Count == 0)
+                            {
+                                TipContainer.Visibility = Visibility.Collapsed;
+                            }
                         }
-                    }
 
-                    break;
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("顶部窗体事件报错:{E}", ex);
             }
         }
 
@@ -380,15 +395,6 @@ namespace ShadowViewer.Pages
             {
                 ContentFrame.Navigate(page, parameter, args.RecommendedNavigationTransitionInfo);
             }
-        }
-
-        /// <summary>
-        /// 后退按钮
-        /// </summary>
-        private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
-        {
-            if (!ContentFrame.CanGoBack) return;
-            ContentFrame.GoBack();
         }
 
         /// <summary>

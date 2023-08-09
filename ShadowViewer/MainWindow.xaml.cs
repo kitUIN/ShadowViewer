@@ -1,24 +1,32 @@
+using System.Diagnostics;
+
 namespace ShadowViewer
 {
     public sealed partial class MainWindow : Window
     {
+        private ICallableToolKit Caller { get; } = DiFactory.Current.Services.GetService<ICallableToolKit>();
         public MainWindow()
         {
             this.InitializeComponent();
-            this.Title = "ShadowViewer";
-            this.SetTitleBar(AppTitleBar);
-            DebugIcon.Visibility = Config.IsDebug.ToVisibility();
-            DiFactory.Current.Services.GetService<ICallableToolKit>().DebugEvent += MainWindow_DebugEvent;
+            AppTitleBar.Window = this;
+            //this.Title = "ShadowViewer";
+            AppTitleBar.Subtitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+            Caller.DebugEvent += MainWindow_DebugEvent;
         }
 
         private void MainWindow_DebugEvent(object sender, EventArgs e)
         {
-            DebugIcon.Visibility = Config.IsDebug.ToVisibility();
+            AppTitleBar.Subtitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
         }
 
-        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        private void AppTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
         {
-            
+            Caller.NavigationViewBackRequested(sender);
+        }
+
+        private void AppTitleBar_OnPaneButtonClick(object sender, RoutedEventArgs e)
+        {
+            Caller.NavigationViewPane(sender);
         }
     }
 }

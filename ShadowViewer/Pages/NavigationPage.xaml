@@ -19,26 +19,27 @@
         Drop="Root_Drop">
         <NavigationView
             x:Name="NavView"
-            BackRequested="NavView_BackRequested"
             Canvas.ZIndex="0"
-            IsBackEnabled="True"
+            FooterMenuItemsSource="{x:Bind ViewModel.FooterMenuItems, Mode=OneWay}"
+            IsBackButtonVisible="Collapsed"
             IsPaneOpen="False"
+            IsPaneToggleButtonVisible="False"
             IsTabStop="False"
-            IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavView_ItemInvoked"
-            
-            Loaded="NavView_Loaded"  
-            MenuItemsSource="{x:Bind ViewModel.MenuItems,Mode=OneWay}"
-            FooterMenuItemsSource="{x:Bind ViewModel.FooterMenuItems,Mode=OneWay}"
+            Loaded="NavView_Loaded"
+            MenuItemsSource="{x:Bind ViewModel.MenuItems, Mode=OneWay}"
             OpenPaneLength="220">
 
             <Frame x:Name="ContentFrame" />
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="models:ShadowNavigationItem">
-                    <NavigationViewItem Tag="{x:Bind}" Icon="{x:Bind Icon,Mode=OneWay}" Content="{x:Bind Content,Mode=OneWay}"/>
+                    <NavigationViewItem
+                        Content="{x:Bind Content, Mode=OneWay}"
+                        Icon="{x:Bind Icon, Mode=OneWay}"
+                        Tag="{x:Bind}" />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
-             
+
         </NavigationView>
         <Border
             x:Name="OverBorder"
