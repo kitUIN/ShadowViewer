@@ -26,7 +26,7 @@
 ## 依赖 📂
 [ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) - 核心功能组件  
 [Windows App SDK](https://github.com/microsoft/WindowsAppSDK) - Windows App SDK  
-[Windows Community Toolkit](https://github.com/CommunityToolkit/dotnet) - 控件及其他帮助类  
+[Windows Community Toolkit](https://github.com/CommunityToolkit/dotnet)/[Windows Community Toolkit Labs](https://github.com/CommunityToolkit/Labs-Windows) - 控件及其他帮助类  
 [CustomExtensions.WinUI](https://github.com/dnchattan/winui-extensions) - 使Windows App SDK支持外置插件  
 [SQLSugarCore](https://github.com/DotNetNext/SqlSugar) - ORM框架  
 [Serilog](https://serilog.net) - 日志系统  
@@ -37,3 +37,4 @@
 ## 感谢以下项目 ❤️
 [WinUI-Gallery](https://github.com/microsoft/WinUI-Gallery) - WinUI3示例 - 参考了部分控件编写  
 [Bili.Uwp](https://github.com/Richasy/Bili.Uwp) - 哔哩客户端 - 参考了部分功能实现  
+[Windows Community Toolkit Labs(TitleBar)](https://github.com/CommunityToolkit/Labs-Windows/blob/niels9001/titlebar-experiment/components/TitleBar/samples/TitleBar.md) - 实验性社区包 - 参考了标题栏实现  
