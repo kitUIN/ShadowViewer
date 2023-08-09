@@ -130,7 +130,7 @@
             x:Name="TipContainer"
             MinWidth="100"
             HorizontalAlignment="Center"
-            VerticalAlignment="Top"
+            VerticalAlignment="Bottom"
             Canvas.ZIndex="1"
             Orientation="Vertical"
             Visibility="Collapsed" />

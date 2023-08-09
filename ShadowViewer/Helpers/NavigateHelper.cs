@@ -16,7 +16,7 @@ namespace ShadowViewer.Helpers
                 var _navigationToolKit = DiFactory.Current.Services.GetService<ICallableToolKit>();
                 string[] urls = uri.AbsolutePath.Split(new char[] { '/',}, StringSplitOptions.RemoveEmptyEntries);
                 // 本地
-                switch (uri.Host.ToLower())
+                switch (uri.Host)
                 {
                     case "local":
                         if (urls.Length == 0) 
@@ -24,26 +24,28 @@ namespace ShadowViewer.Helpers
                             _navigationToolKit.NavigateTo(NavigateMode.Page,typeof(BookShelfPage),null, uri); 
                             return; 
                         }
-                        for (int i = 0; i < urls.Length; i++)
+                        for (var i = 0; i < urls.Length; i++)
                         {
                             if (!db.Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
                             {
-                                string s = "shadow://local/" + string.Join("/", urls.Take(i + 1));
+                                var s = "shadow://local/" + string.Join("/", urls.Take(i + 1));
                                 _navigationToolKit.NavigateTo(NavigateMode.URL,null, urls[i - 1], new Uri(s));
                                 return;
                             }
                         }
                         _navigationToolKit.NavigateTo(NavigateMode.URL, null, urls.Last(), uri);
-                        break;
+                        return;
                     case "settings":
                         _navigationToolKit.NavigateTo(NavigateMode.Page, typeof(SettingsPage), null, null);
-                        break;
+                        return;
                     case "download":
-                        break;
+                        _navigationToolKit.NavigateTo(NavigateMode.Page, typeof(DownloadPage), null, null);
+                        return;
                     default:
                         //TODO: 插件注入
-                        break;
+                        break; 
                 } 
+                _navigationToolKit.NavigateTo(NavigateMode.Page,typeof(BookShelfPage),null, uri); 
             }
         }
     }
