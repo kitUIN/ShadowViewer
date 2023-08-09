@@ -204,9 +204,6 @@
   <data name="Xaml.Button.Cancel.Content" xml:space="preserve">
     <value>取消</value>
   </data>
-  <data name="OpenLogFolder" xml:space="preserve">
-    <value>打开日志文件夹</value>
-  </data>
   <data name="Open" xml:space="preserve">
     <value>打开</value>
   </data>
@@ -318,8 +315,8 @@
   <data name="Xaml.SettingCard.IsTopBarDetail.Header" xml:space="preserve">
     <value>显示顶部按钮名称</value>
   </data>
-  <data name="Log" xml:space="preserve">
-    <value>日志</value>
+  <data name="LogPath" xml:space="preserve">
+    <value>日志文件夹</value>
   </data>
   <data name="RememberDeleteWithFilesDescription" xml:space="preserve">
     <value>删除漫画时出现弹窗</value>
@@ -633,5 +630,8 @@
   </data>
   <data name="GoPluginTip" xml:space="preserve">
     <value>前往挑选</value>
+  </data>
+  <data name="LogPathDescription" xml:space="preserve">
+    <value>存放日志的文件夹</value>
   </data>
 </root>
