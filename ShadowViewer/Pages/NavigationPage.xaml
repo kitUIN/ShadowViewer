@@ -19,6 +19,7 @@
         Drop="Root_Drop">
         <NavigationView
             x:Name="NavView"
+            Background="Transparent"
             Canvas.ZIndex="0"
             FooterMenuItemsSource="{x:Bind ViewModel.FooterMenuItems, Mode=OneWay}"
             IsBackButtonVisible="Collapsed"
@@ -109,16 +110,18 @@
                         VerticalAlignment="Center"
                         FontSize="16" />
                     <Button
-                        x:Name="CancelButton" Content="{ex:Locale Key=Cancel}" 
+                        x:Name="CancelButton"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Click="CancelButton_Click" />
+                        Click="CancelButton_Click"
+                        Content="{ex:Locale Key=Cancel}" />
                     <TextBlock
-                        x:Name="CompressTip" Text="{ex:Locale Key=CompressTip}"
+                        x:Name="CompressTip"
                         Width="200"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         FontSize="12"
+                        Text="{ex:Locale Key=CompressTip}"
                         TextWrapping="WrapWholeWords" />
                 </StackPanel>
             </StackPanel>

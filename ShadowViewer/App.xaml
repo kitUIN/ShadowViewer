@@ -13,6 +13,8 @@
                 <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>
             <!--  Other app resources here  -->
+            <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
+            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="{ThemeResource NavigationViewDefaultPaneBackground}" />
             <!--  Style  -->
             <!--#region Tag Button-->
             <Style x:Key="NoOverButton" TargetType="Button">

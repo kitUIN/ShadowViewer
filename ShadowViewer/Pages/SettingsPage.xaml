@@ -16,6 +16,7 @@
     xmlns:plugin="using:ShadowViewer.Plugins"
     xmlns:viewModels="using:ShadowViewer.ViewModels"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -44,9 +45,7 @@
                         <ComboBoxItem Content="{ex:Locale Key=Default}" Tag="Default" />
                     </ComboBox>
                 </labs:SettingsCard>
-                <labs:SettingsExpander
-                    Description="{ex:Locale Key=FolderDescription}"
-                    Header="{ex:Locale Key=DataFolder}">
+                <labs:SettingsExpander Description="{ex:Locale Key=FolderDescription}" Header="{ex:Locale Key=DataFolder}">
                     <labs:SettingsExpander.HeaderIcon>
                         <FontIcon Glyph="&#xE7B8;" />
                     </labs:SettingsExpander.HeaderIcon>
@@ -54,43 +53,42 @@
                         <labs:SettingsCard Description="{ex:Locale Key=LogPathDescription}" Header="{ex:Locale Key=LogPath}">
                             <Button Click="LogButton_Click" Content="{ex:Locale Key=Open}" />
                         </labs:SettingsCard>
-                        <labs:SettingsCard
-                            Description="{ex:Locale Key=ComicsPathDescription}"
-                            Header="{ex:Locale Key=ComicsPath}">
-                            <StackPanel Orientation="Horizontal" >
+                        <labs:SettingsCard Description="{ex:Locale Key=ComicsPathDescription}" Header="{ex:Locale Key=ComicsPath}">
+                            <StackPanel Orientation="Horizontal">
                                 <Button
                                     Click="Open_Click"
                                     Content="{ex:Locale Key=Open}"
                                     Tag="{x:Bind ViewModel.ComicsPath, Mode=OneWay}" />
-                                <Button Margin="5,0,0,0"
+                                <Button
+                                    Margin="5,0,0,0"
                                     Click="ComicsPath_Click"
                                     Content="{ex:Locale Key=Revise}"
                                     Visibility="{x:Bind IsUnPackaged}" />
                             </StackPanel>
                         </labs:SettingsCard>
-                        <labs:SettingsCard
-                            Description="{ex:Locale Key=TempPathDescription}"
-                            Header="{ex:Locale Key=TempPath}">
-                            <StackPanel Orientation="Horizontal" >
+                        <labs:SettingsCard Description="{ex:Locale Key=TempPathDescription}" Header="{ex:Locale Key=TempPath}">
+                            <StackPanel Orientation="Horizontal">
                                 <Button
                                     Click="Open_Click"
                                     Content="{ex:Locale Key=Open}"
                                     Tag="{x:Bind ViewModel.TempPath, Mode=OneWay}" />
-                                <Button Margin="5,0,0,0"
-                                        Click="TempPath_Click"
-                                        Content="{ex:Locale Key=Revise}"
-                                        Visibility="{x:Bind IsUnPackaged}" />
+                                <Button
+                                    Margin="5,0,0,0"
+                                    Click="TempPath_Click"
+                                    Content="{ex:Locale Key=Revise}"
+                                    Visibility="{x:Bind IsUnPackaged}" />
                             </StackPanel>
                         </labs:SettingsCard>
-                        <labs:SettingsCard
-                            Description="{ex:Locale Key=PluginsPathDescription}"
-                            Header="{ex:Locale Key=PluginsPath}">
-                            <StackPanel Orientation="Horizontal" >
+                        <labs:SettingsCard Description="{ex:Locale Key=PluginsPathDescription}" Header="{ex:Locale Key=PluginsPath}">
+                            <StackPanel Orientation="Horizontal">
                                 <Button
                                     Click="Open_Click"
                                     Content="{ex:Locale Key=Open}"
                                     Tag="{x:Bind ViewModel.PluginsPath, Mode=OneWay}" />
-                                <Button Content="{ex:Locale Key=Revise}" Margin="5,0,0,0" Visibility="{x:Bind IsUnPackaged}" />
+                                <Button
+                                    Margin="5,0,0,0"
+                                    Content="{ex:Locale Key=Revise}"
+                                    Visibility="{x:Bind IsUnPackaged}" />
                             </StackPanel>
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>
