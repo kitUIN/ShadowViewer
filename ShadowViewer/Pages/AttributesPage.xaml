@@ -11,7 +11,6 @@
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="using:ShadowViewer.Models"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.Resources>
         <converters:SizeToFormatConverter x:Key="SizeConverter" />
@@ -91,7 +90,13 @@
         </Flyout>
         <!--#endregion-->
     </Page.Resources>
-    <Grid x:Name="Root" MinWidth="700">
+    <Grid
+        x:Name="Root"
+        MinWidth="700"
+        Background="{ThemeResource LayerFillColorDefaultBrush}"
+        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+        BorderThickness="1"
+        CornerRadius="{ThemeResource NavigationViewContentGridCornerRadius}">
         <ScrollViewer Padding="10" VerticalAlignment="Top">
             <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
                 <StackPanel Orientation="Vertical" Spacing="2">
