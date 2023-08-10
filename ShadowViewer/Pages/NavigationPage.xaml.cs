@@ -57,10 +57,10 @@ namespace ShadowViewer.Pages
                     if (!Directory.Exists(pluginPath))
                     {
                         var compressToolKit = DiFactory.Current.Services.GetService<CompressToolKit>();
-                        await Task.Run(async () =>
+                        await Task.Run(() =>
                         {
                             compressToolKit.DeCompress(file.Path, pluginPath);
-                            await DispatcherQueue.EnqueueAsync(async () =>
+                            DispatcherQueue.TryEnqueue(async () =>
                             {
                                 await PluginsToolKit.ImportAsync(
                                     Path.Combine(pluginPath, file.DisplayName + ".dll"));
@@ -279,7 +279,7 @@ namespace ShadowViewer.Pages
                     else if (item is StorageFolder folder)
                     {
                         var again = false;
-                        await Task.Run(() => DispatcherQueue.EnqueueAsync(async () =>
+                        await Task.Run(() => DispatcherQueue.TryEnqueue(async () =>
                             again = await ComicHelper.CheckImportAgain(XamlRoot, path: folder.Path)));
                         if (again)
                         {
