@@ -22,7 +22,6 @@ namespace ShadowViewer
             await pluginServices.ImportAsync();
             await pluginServices.ImportAsync(
                 @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
-            pluginServices.InitAllPlugins();
         }
         private void MainWindow_DebugEvent(object sender, EventArgs e)
         {

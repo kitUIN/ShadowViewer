@@ -56,7 +56,7 @@
                                 Grid.Column="0"
                                 Width="60"
                                 Height="60"
-                                Source="{x:Bind MetaData.Logo.AbsoluteUri}" />
+                                Source="{x:Bind MetaData.Logo}" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock
                                     FontSize="20"
