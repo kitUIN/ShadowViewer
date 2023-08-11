@@ -403,10 +403,6 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            await DiFactory.Services.Resolve<IPluginService>().ImportAsync();
-            await DiFactory.Services.Resolve<IPluginService>().ImportAsync(
-                @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
-            
         }
 
         /// <summary>
