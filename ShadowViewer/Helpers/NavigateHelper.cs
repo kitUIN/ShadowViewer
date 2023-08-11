@@ -1,4 +1,5 @@
 ﻿
+using DryIoc;
 using Serilog.Core;
 using SqlSugar;
 
@@ -12,8 +13,8 @@ namespace ShadowViewer.Helpers
             // 本应用协议
             if (uri.Scheme == "shadow")
             {
-                var db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
-                var _navigationToolKit = DiFactory.Current.Services.GetService<ICallableToolKit>();
+                var db =  DiFactory.Services.Resolve<ISqlSugarClient>();
+                var _navigationToolKit = DiFactory.Services.Resolve<ICallableToolKit>();
                 string[] urls = uri.AbsolutePath.Split(new char[] { '/',}, StringSplitOptions.RemoveEmptyEntries);
                 // 本地
                 switch (uri.Host)

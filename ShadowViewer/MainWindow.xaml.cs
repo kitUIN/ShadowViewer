@@ -4,7 +4,7 @@ namespace ShadowViewer
 {
     public sealed partial class MainWindow : Window
     {
-        private ICallableToolKit Caller { get; } = DiFactory.Current.Services.GetService<ICallableToolKit>();
+        private ICallableToolKit Caller { get; } = DiFactory.Services.Resolve<ICallableToolKit>();
         public MainWindow()
         {
             this.InitializeComponent();

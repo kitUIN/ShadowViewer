@@ -18,9 +18,9 @@ namespace ShadowViewer.Pages
         public NavigationPage()
         {
             this.InitializeComponent();
-            ViewModel = DiFactory.Current.Services.GetService<NavigationViewModel>();
-            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
-            PluginsToolKit = DiFactory.Current.Services.GetService<IPluginsToolKit>();
+            ViewModel = DiFactory.Services.Resolve<NavigationViewModel>();
+            Caller = DiFactory.Services.Resolve<ICallableToolKit>();
+            PluginsToolKit = DiFactory.Services.Resolve<IPluginsToolKit>();
             Caller.ImportComicEvent += Caller_ImportComicEvent;
             Caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
             Caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
@@ -56,7 +56,7 @@ namespace ShadowViewer.Pages
                     var pluginPath = Path.Combine(path, file.DisplayName);
                     if (!Directory.Exists(pluginPath))
                     {
-                        var compressToolKit = DiFactory.Current.Services.GetService<CompressToolKit>();
+                        var compressToolKit = DiFactory.Services.Resolve<CompressToolKit>();
                         await Task.Run(() =>
                         {
                             compressToolKit.DeCompress(file.Path, pluginPath);
@@ -231,7 +231,7 @@ namespace ShadowViewer.Pages
 
                         await Task.Run(async () =>
                         {
-                            var res = await DiFactory.Current.Services.GetService<CompressToolKit>()
+                            var res = await DiFactory.Services.Resolve<CompressToolKit>()
                                 .DeCompressAsync(file.Path, Config.ComicsPath, comicId, _cancelTokenSource.Token,
                                     options);
                             DispatcherQueue.TryEnqueue(() =>
@@ -267,7 +267,7 @@ namespace ShadowViewer.Pages
                                     var comic = LocalComic.Create(fileName, path,
                                         img: ComicHelper.LoadImgFromEntry(root, path, comicId),
                                         parent: "local", size: root.Size, id: comicId);
-                                    var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                                    var db = DiFactory.Services.Resolve<ISqlSugarClient>();
                                     db.Insertable(comic).ExecuteCommand();
                                     await Task.Run(() => ShadowEntry.ToLocalComic(root, path, comic.Id),
                                         _cancelTokenSource.Token);
@@ -330,7 +330,7 @@ namespace ShadowViewer.Pages
         {
             if (e.Mode == NavigateMode.URL)
             {
-                var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                var db = DiFactory.Services.Resolve<ISqlSugarClient>();
                 var comic = db.Queryable<LocalComic>().First(x => x.Id == e.Id);
                 if (comic.IsFolder)
                 {
@@ -402,8 +402,8 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync();
-            await DiFactory.Current.Services.GetService<IPluginsToolKit>().ImportAsync(
+            await DiFactory.Services.Resolve<IPluginsToolKit>().ImportAsync();
+            await DiFactory.Services.Resolve<IPluginsToolKit>().ImportAsync(
                 @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
             
         }

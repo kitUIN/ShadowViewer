@@ -9,9 +9,9 @@ namespace ShadowViewer.Pages
         public SettingsPage()
         {
             this.InitializeComponent();
-            ViewModel = DiFactory.Current.Services.GetService<SettingsViewModel>();
-            PluginsToolKit = DiFactory.Current.Services.GetService<IPluginsToolKit>();
-            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            ViewModel = DiFactory.Services.Resolve<SettingsViewModel>();
+            PluginsToolKit = DiFactory.Services.Resolve<IPluginsToolKit>();
+            Caller = DiFactory.Services.Resolve<ICallableToolKit>();
             ElementTheme currentTheme = ThemeHelper.RootTheme;
             switch (currentTheme)
             {
