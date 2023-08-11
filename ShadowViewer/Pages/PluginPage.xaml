@@ -28,7 +28,7 @@
         <GridView
             Grid.Row="1"
             Margin="20,10,0,0"
-            ItemsSource="{x:Bind PluginsToolKit.Plugins, Mode=OneWay}"
+            ItemsSource="{x:Bind PluginService.Plugins, Mode=OneWay}"
             SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="plugins:IPlugin">

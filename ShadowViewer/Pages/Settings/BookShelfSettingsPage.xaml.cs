@@ -1,14 +1,16 @@
+using DryIoc;
+
 namespace ShadowViewer.Pages
 {
     public sealed partial class BookShelfSettingsPage : Page
     {
         private SettingsViewModel ViewModel { get;  }
-        private ICallableToolKit Caller { get;  }
+        private ICallableService Caller { get;  }
         public BookShelfSettingsPage()
         {
             this.InitializeComponent();
-            ViewModel = DiFactory.Current.Services.GetService<SettingsViewModel>();
-            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            ViewModel = DiFactory.Services.Resolve<SettingsViewModel>();
+            Caller = DiFactory.Services.Resolve<ICallableService>();
         }
          
         protected override void OnNavigatedTo(NavigationEventArgs e)

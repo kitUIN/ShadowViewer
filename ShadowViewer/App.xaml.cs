@@ -10,21 +10,20 @@ namespace ShadowViewer
     {
         public App()
         {
-            this.InitializeComponent();
-            // 依赖注入
-            ApplicationExtensionHost.Initialize(this);
-            DiFactory.Current = new DiFactory(); 
             // 配置文件
             Config.Init();
             // 数据库
             InitDatabase();
+            this.InitializeComponent();
+            // 依赖注入
+            ApplicationExtensionHost.Initialize(this);
         }
         /// <summary>
         /// 初始化数据库
         /// </summary>
         private static void InitDatabase()
         {
-            var db = DiFactory.Current.Services.GetService<ISqlSugarClient>();
+            var db = DiFactory.Services.Resolve<ISqlSugarClient>();
             db.DbMaintenance.CreateDatabase();
             db.CodeFirst.InitTables<LocalComic>();
             db.CodeFirst.InitTables<LocalEpisode>();

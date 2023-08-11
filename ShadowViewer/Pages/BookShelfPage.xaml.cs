@@ -7,15 +7,15 @@ namespace ShadowViewer.Pages
     {
         public static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
         public BookShelfViewModel ViewModel { get; set; }
-        private ICallableToolKit caller;
+        private ICallableService caller;
         public BookShelfPage()
         {
             this.InitializeComponent();
-            caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            caller = DiFactory.Services.Resolve<ICallableService>();
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel = DiFactory.Current.Services.GetService<BookShelfViewModel>();
+            ViewModel = DiFactory.Services.Resolve<BookShelfViewModel>();
             ViewModel.Init(e.Parameter as Uri);
         }
         /// <summary>
@@ -204,7 +204,7 @@ namespace ShadowViewer.Pages
                 }
             }
             long size = 0;
-            var db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
+            var db =  DiFactory.Services.Resolve<ISqlSugarClient>();
             db.Queryable<LocalComic>().Where(x => x.Parent == path.Id).ToList().ForEach(x => size += x.Size);
             path.SetSize(size);
             MoveTeachingTip.IsOpen = false;
@@ -226,7 +226,7 @@ namespace ShadowViewer.Pages
                     }
                 }
                 long size = 0;
-                var db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
+                var db =  DiFactory.Services.Resolve<ISqlSugarClient>();
                 db.Queryable<LocalComic>().Where(x => x.Parent == comic.Id).ToList().ForEach(x => size+=x.Size);
                 comic.Size = size;
                 comic.Update();
@@ -374,7 +374,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void DeleteComics()
         {
-            var db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
+            var db =  DiFactory.Services.Resolve<ISqlSugarClient>();
             foreach (LocalComic comic in ContentGridView.SelectedItems.ToList().Cast<LocalComic>())
             {
                 if (Config.IsDeleteFilesWithComicDelete && !comic.IsFolder && db.Queryable<CacheZip>().Any(x => x.ComicId == comic.Id))

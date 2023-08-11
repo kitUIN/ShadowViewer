@@ -1,7 +1,7 @@
 global using System;
 global using System.Collections.Generic;
 global using System.Linq;
-global using System.Text;
+global using DryIoc;
 global using System.Threading.Tasks;
 global using Windows.Storage;
 global using Microsoft.UI.Xaml;
@@ -17,7 +17,7 @@ global using ShadowViewer.Extensions;
 global using ShadowViewer.Models;
 global using ShadowViewer.Args;
 global using ShadowViewer.Cache;
-global using ShadowViewer.ToolKits;
+global using ShadowViewer.Services;
 global using ShadowViewer.Interfaces;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using System.Collections.ObjectModel;

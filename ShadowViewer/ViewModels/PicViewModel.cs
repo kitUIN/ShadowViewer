@@ -28,7 +28,7 @@ namespace ShadowViewer.ViewModels
         /// </summary>
         private void LoadImageFormComic()
         {
-            var Db =  DiFactory.Current.Services.GetService<ISqlSugarClient>();
+            var Db =  DiFactory.Services.Resolve<ISqlSugarClient>();
             if(Comic.Affiliation == "Local")
             {
                 Episodes.Clear();

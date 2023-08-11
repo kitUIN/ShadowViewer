@@ -3,15 +3,15 @@ namespace ShadowViewer.Pages
     public sealed partial class SettingsPage : Page
     {
         public SettingsViewModel ViewModel { get; }
-        public IPluginsToolKit PluginsToolKit { get; }
-        private ICallableToolKit Caller { get; }
+        public IPluginService PluginService { get; }
+        private ICallableService Caller { get; }
         public bool IsUnPackaged = !ConfigHelper.IsPackaged;
         public SettingsPage()
         {
             this.InitializeComponent();
-            ViewModel = DiFactory.Current.Services.GetService<SettingsViewModel>();
-            PluginsToolKit = DiFactory.Current.Services.GetService<IPluginsToolKit>();
-            Caller = DiFactory.Current.Services.GetService<ICallableToolKit>();
+            ViewModel = DiFactory.Services.Resolve<SettingsViewModel>();
+            PluginService = DiFactory.Services.Resolve<IPluginService>();
+            Caller = DiFactory.Services.Resolve<ICallableService>();
             ElementTheme currentTheme = ThemeHelper.RootTheme;
             switch (currentTheme)
             {
@@ -42,11 +42,11 @@ namespace ShadowViewer.Pages
             var id = toggle.Tag.ToString();
             if (toggle.IsOn)
             {
-                PluginsToolKit.PluginEnabled(id);
+                PluginService.PluginEnabled(id);
             }
             else
             {
-                PluginsToolKit.PluginDisabled(id);
+                PluginService.PluginDisabled(id);
             }
             //TODO �����ر��¼�MessageHelper.SendNavigationReloadPlugin();
         }
@@ -123,7 +123,7 @@ namespace ShadowViewer.Pages
         private void PluginCard_Click(object sender, RoutedEventArgs e)
         {
             var source = sender as FrameworkElement;
-            if (source != null && PluginsToolKit.GetPlugin(source.Tag.ToString()) is { } plugin)
+            if (source != null && PluginService.GetPlugin(source.Tag.ToString()) is { } plugin)
             {
                 this.Frame.Navigate(plugin.SettingsPage, null,
                     new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });

@@ -14,28 +14,30 @@
 
     <Grid
         MinWidth="650"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+        Loaded="NavView_Loaded">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <controls:TitleBar
             x:Name="AppTitleBar"
-            Title="ShadowViewer" PaneButtonClick="AppTitleBar_OnPaneButtonClick"
+            Title="ShadowViewer"
             Grid.Row="0"
             VerticalAlignment="Top"
             AutoConfigureCustomTitleBar="True"
             BackButtonClick="AppTitleBar_BackButtonClick"
             DisplayMode="Tall"
             IsBackButtonVisible="True"
-            IsPaneButtonVisible="True">
+            IsPaneButtonVisible="True"
+            PaneButtonClick="AppTitleBar_OnPaneButtonClick">
             <controls:TitleBar.Icon>
                 <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/AppTitleBarIcon.png" />
             </controls:TitleBar.Icon>
             <controls:TitleBar.Content>
                 <AutoSuggestBox PlaceholderText="Search.." />
             </controls:TitleBar.Content>
-            
+
         </controls:TitleBar>
         <pages:NavigationPage Grid.Row="1" />
     </Grid>
