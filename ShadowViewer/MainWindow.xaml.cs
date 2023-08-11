@@ -4,7 +4,7 @@ namespace ShadowViewer
 {
     public sealed partial class MainWindow : Window
     {
-        private ICallableToolKit Caller { get; } = DiFactory.Services.Resolve<ICallableToolKit>();
+        private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
         public MainWindow()
         {
             this.InitializeComponent();
@@ -18,7 +18,7 @@ namespace ShadowViewer
         /// </summary>
         private async void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            var pluginServices = DiFactory.Services.Resolve<IPluginsToolKit>();
+            var pluginServices = DiFactory.Services.Resolve<IPluginService>();
             await pluginServices.ImportAsync();
             await pluginServices.ImportAsync(
                 @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");

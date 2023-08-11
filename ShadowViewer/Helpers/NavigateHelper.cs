@@ -14,7 +14,7 @@ namespace ShadowViewer.Helpers
             if (uri.Scheme == "shadow")
             {
                 var db =  DiFactory.Services.Resolve<ISqlSugarClient>();
-                var _navigationToolKit = DiFactory.Services.Resolve<ICallableToolKit>();
+                var _navigationToolKit = DiFactory.Services.Resolve<ICallableService>();
                 string[] urls = uri.AbsolutePath.Split(new char[] { '/',}, StringSplitOptions.RemoveEmptyEntries);
                 // 本地
                 switch (uri.Host)

@@ -17,7 +17,7 @@ global using ShadowViewer.Extensions;
 global using ShadowViewer.Models;
 global using ShadowViewer.Args;
 global using ShadowViewer.Cache;
-global using ShadowViewer.ToolKits;
+global using ShadowViewer.Services;
 global using ShadowViewer.Interfaces;
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using System.Collections.ObjectModel;

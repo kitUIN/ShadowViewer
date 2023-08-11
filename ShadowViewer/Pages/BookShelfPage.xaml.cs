@@ -7,11 +7,11 @@ namespace ShadowViewer.Pages
     {
         public static ILogger Logger { get; } = Log.ForContext<BookShelfPage>();
         public BookShelfViewModel ViewModel { get; set; }
-        private ICallableToolKit caller;
+        private ICallableService caller;
         public BookShelfPage()
         {
             this.InitializeComponent();
-            caller = DiFactory.Services.Resolve<ICallableToolKit>();
+            caller = DiFactory.Services.Resolve<ICallableService>();
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

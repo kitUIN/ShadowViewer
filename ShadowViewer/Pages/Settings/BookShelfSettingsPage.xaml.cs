@@ -5,12 +5,12 @@ namespace ShadowViewer.Pages
     public sealed partial class BookShelfSettingsPage : Page
     {
         private SettingsViewModel ViewModel { get;  }
-        private ICallableToolKit Caller { get;  }
+        private ICallableService Caller { get;  }
         public BookShelfSettingsPage()
         {
             this.InitializeComponent();
             ViewModel = DiFactory.Services.Resolve<SettingsViewModel>();
-            Caller = DiFactory.Services.Resolve<ICallableToolKit>();
+            Caller = DiFactory.Services.Resolve<ICallableService>();
         }
          
         protected override void OnNavigatedTo(NavigationEventArgs e)
