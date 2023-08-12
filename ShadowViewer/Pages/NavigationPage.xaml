@@ -129,7 +129,7 @@
         <Grid x:Name="TopGrid" Canvas.ZIndex="1" />
         <StackPanel
             x:Name="TipContainer"
-            MinWidth="100"
+            MinWidth="100" FlowDirection="RightToLeft"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Canvas.ZIndex="1"
