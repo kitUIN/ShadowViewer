@@ -157,6 +157,7 @@
                                 <HyperlinkButton Content="📦SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
                                 <HyperlinkButton Content="📃Serilog" NavigateUri="https://serilog.net" />
                                 <HyperlinkButton Content="📦SQLSugarCore" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
+                                <HyperlinkButton Content="📦DryIoc" NavigateUri="https://github.com/dadhi/DryIoc" />
                                 <HyperlinkButton Content="🔩CustomExtensions.WinUI" NavigateUri="https://github.com/dnchattan/winui-extensions" />
                                 <HyperlinkButton Content="📂WinUI Gallery" NavigateUri="https://github.com/microsoft/WinUI-Gallery" />
                                 <HyperlinkButton Content="📂Bili.Uwp" NavigateUri="https://github.com/Richasy/Bili.Uwp" />
