@@ -32,7 +32,7 @@
 [Serilog](https://serilog.net) - 日志系统  
 [SharpCompress](https://github.com/adamhathcock/sharpcompress) - 提供压缩解压支持  
 [FluentIcon](https://github.com/KitUIN/FluentIcon) - FluentIcon新图标  
-
+[DryIoc](https://github.com/dadhi/DryIoc) - 依赖注入
 
 ## 感谢以下项目 ❤️
 [WinUI-Gallery](https://github.com/microsoft/WinUI-Gallery) - WinUI3示例 - 参考了部分控件编写  
