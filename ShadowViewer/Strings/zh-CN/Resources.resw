@@ -471,4 +471,25 @@
   <data name="LogPathDescription" xml:space="preserve">
     <value>存放日志的文件夹</value>
   </data>
+  <data name="Status" xml:space="preserve">
+    <value>属性</value>
+  </data>
+  <data name="SimpleView" xml:space="preserve">
+    <value>简单视图</value>
+  </data>
+  <data name="DetailView" xml:space="preserve">
+    <value>详细视图</value>
+  </data>
+  <data name="BookShelfEmpty" xml:space="preserve">
+    <value>什么都没有呢,点击右下角❓查看帮助吧</value>
+  </data>
+  <data name="Object" xml:space="preserve">
+    <value>对象</value>
+  </data>
+  <data name="CurrentFolder" xml:space="preserve">
+    <value>当前文件夹</value>
+  </data>
+  <data name="SelectionHeader" xml:space="preserve">
+    <value>选择</value>
+  </data>
 </root>

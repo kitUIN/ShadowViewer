@@ -186,72 +186,59 @@
             <AppBarButton
                 x:Name="ShadowCommandRename"
                 Click="ShadowCommandRename_Click"
-                Icon="Rename">
-                <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="Xaml/ToolTip/Rename" />
-                </ToolTipService.ToolTip>
-            </AppBarButton>
+                Icon="Rename"
+                Label="{ex:Locale Key=Rename}"
+                ToolTipService.ToolTip="{ex:Locale Key=Rename}" />
             <AppBarButton
                 x:Name="ShadowCommandDelete"
                 Click="ShadowCommandDelete_Click"
-                Icon="Delete">
-                <ToolTipService.ToolTip>
-                    <ToolTip x:Uid="Xaml/ToolTip/Delete" />
-                </ToolTipService.ToolTip>
-            </AppBarButton>
+                Icon="Delete"
+                Label="{ex:Locale Key=Delete}"
+                ToolTipService.ToolTip="{ex:Locale Key=Delete}" />
             <CommandBarFlyout.SecondaryCommands>
-                <AppBarButton x:Name="ShadowCommandAdd" x:Uid="Xaml/Command/Add">
+                <AppBarButton
+                    x:Name="ShadowCommandAdd"
+                    Label="{ex:Locale Key=Add}"
+                    ToolTipService.ToolTip="{ex:Locale Key=Add}">
                     <AppBarButton.Icon>
                         <FontIcon Glyph="&#xECC8;" />
                     </AppBarButton.Icon>
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Add" />
-                    </ToolTipService.ToolTip>
                     <AppBarButton.Flyout>
                         <MenuFlyout>
                             <MenuFlyoutItem
                                 x:Name="ShadowCommandAddFromFolder"
-                                x:Uid="Xaml/Command/AddFromFolder"
-                                Click="ShadowCommandAddFromFolder_Click">
+                                Click="ShadowCommandAddFromFolder_Click"
+                                Text="{ex:Locale Key=NewFolder}"
+                                ToolTipService.ToolTip="{ex:Locale Key=NewFolder}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE82E;" />
                                 </MenuFlyoutItem.Icon>
-                                <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromFolder" />
-                                </ToolTipService.ToolTip>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="ShadowCommandAddFromZip"
-                                x:Uid="Xaml/Command/AddFromZip"
-                                Click="ShadowCommandAddFromZip_Click">
+                                Click="ShadowCommandAddFromZip_Click"
+                                Text="{ex:Locale Key=ImportFromZip}"
+                                ToolTipService.ToolTip="{ex:Locale Key=ImportFromZip}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xF012;" />
                                 </MenuFlyoutItem.Icon>
-                                <ToolTipService.ToolTip>
-                                    <ToolTip x:Uid="Xaml/ToolTip/AddFromZip" />
-                                </ToolTipService.ToolTip>
+
                             </MenuFlyoutItem>
                         </MenuFlyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
                 <AppBarButton
                     x:Name="ShadowCommandMove"
-                    x:Uid="Xaml/Command/Move"
                     Click="ShadowCommandMove_Click"
-                    Icon="MoveToFolder">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Move" />
-                    </ToolTipService.ToolTip>
-                </AppBarButton>
+                    Icon="MoveToFolder"
+                    Label="{ex:Locale Key=MoveTo}"
+                    ToolTipService.ToolTip="{ex:Locale Key=MoveTo}" />
                 <AppBarButton
                     x:Name="ShadowCommandStatus"
-                    x:Uid="Xaml/Command/Status"
                     Click="ShadowCommandStatus_Click"
-                    Icon="Repair">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Status" />
-                    </ToolTipService.ToolTip>
-                </AppBarButton>
+                    Icon="Repair"
+                    Label="{ex:Locale Key=Status}"
+                    ToolTipService.ToolTip="{ex:Locale Key=Status}" />
             </CommandBarFlyout.SecondaryCommands>
         </CommandBarFlyout>
         <!--#endregion-->
@@ -259,7 +246,7 @@
         <!--#region Â·¾¶Ê÷-->
         <TeachingTip
             x:Name="MoveTeachingTip"
-            x:Uid="Xaml/TeachingTip/Move"
+            Title="{ex:Locale Key=MoveTo}"
             ActionButtonClick="MoveTeachingTip_ActionButtonClick"
             IsLightDismissEnabled="True"
             PlacementMargin="20"
@@ -367,26 +354,20 @@
                 HorizontalAlignment="Center"
                 SelectionChanged="Segmented_SelectionChanged"
                 SelectionMode="Single">
-                <labs:SegmentedItem Width="60" IsSelected="True">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Simple" />
-                    </ToolTipService.ToolTip>
+                <labs:SegmentedItem
+                    Width="60"
+                    IsSelected="True"
+                    ToolTipService.ToolTip="{ex:Locale Key=SimpleView}">
                     <labs:SegmentedItem.Icon>
                         <FontIcon Glyph="&#xE163;" />
                     </labs:SegmentedItem.Icon>
                 </labs:SegmentedItem>
-                <labs:SegmentedItem Width="60">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Detail" />
-                    </ToolTipService.ToolTip>
+                <labs:SegmentedItem Width="60" ToolTipService.ToolTip="{ex:Locale Key=DetailView}">
                     <labs:SegmentedItem.Icon>
                         <FontIcon Glyph="&#xE161;" />
                     </labs:SegmentedItem.Icon>
                 </labs:SegmentedItem>
                 <labs:SegmentedItem Width="60">
-                    <ToolTipService.ToolTip>
-                        <ToolTip x:Uid="Xaml/ToolTip/Detail" />
-                    </ToolTipService.ToolTip>
                     <labs:SegmentedItem.Icon>
                         <FontIcon Glyph="&#xE161;" />
                     </labs:SegmentedItem.Icon>
@@ -497,10 +478,10 @@
             VerticalAlignment="Center"
             Visibility="{x:Bind ViewModel.IsEmpty, Mode=OneWay}">
             <TextBlock
-                x:Uid="Xaml/TextBlock/TeachingShelf"
                 MaxWidth="500"
                 FontSize="17"
                 FontWeight="Bold"
+                Text="{ex:Locale Key=BookShelfEmpty}"
                 TextWrapping="Wrap" />
         </Grid>
         <!--#endregion-->
@@ -520,7 +501,7 @@
                     Orientation="Horizontal"
                     Spacing="3">
                     <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{x:Bind ViewModel.FolderTotalCounts, Mode=OneWay}" />
-                    <TextBlock x:Uid="Xaml/TextBlock/FolderTotalHeader" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{ex:Locale Key=Object}" />
                 </StackPanel>
                 <TextBlock
                     Margin="10,0,0,0"
@@ -530,7 +511,7 @@
                     Margin="10,0,0,0"
                     Orientation="Horizontal"
                     Spacing="3">
-                    <TextBlock x:Uid="Xaml/TextBlock/NowFolder" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{ex:Locale Key=CurrentFolder}" />
                     <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{x:Bind ViewModel.CurrentName, Mode=OneWay}" />
                 </StackPanel>
                 <TextBlock
@@ -542,9 +523,9 @@
                     Margin="10,0,0,0"
                     Orientation="Horizontal"
                     Spacing="5">
-                    <TextBlock x:Uid="Xaml/TextBlock/SelectionHeader" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{ex:Locale Key=SelectionHeader}" />
                     <TextBlock x:Name="SelectionValue" FontSize="{StaticResource InfoTextSize}" />
-                    <TextBlock x:Uid="Xaml/TextBlock/FolderTotalHeader" FontSize="{StaticResource InfoTextSize}" />
+                    <TextBlock FontSize="{StaticResource InfoTextSize}" Text="{ex:Locale Key=Object}" />
                     <TextBlock
                         x:Name="SizeValue"
                         Margin="5,0,0,0"
