@@ -2,8 +2,13 @@
 
 public partial class ShadowEpisode : ObservableObject, IShadowEpisode
 {
-    [ObservableProperty] private object source;
+    public LocalEpisode Source { get; set; }
 
     [ObservableProperty] private string title;
-    public object Tag { get; set; }
+
+    public ShadowEpisode(LocalEpisode episode)
+    {
+        Source = episode;
+        Title = episode.Name;
+    }
 }

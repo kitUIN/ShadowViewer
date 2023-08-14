@@ -19,6 +19,4 @@ public partial class ShadowPicture : ObservableObject, IShadowPicture
     public ShadowPicture(int index, string uri) : this(index, new BitmapImage() { UriSource = new Uri(uri) })
     {
     }
-
-    public object Tag { get; set; }
 }

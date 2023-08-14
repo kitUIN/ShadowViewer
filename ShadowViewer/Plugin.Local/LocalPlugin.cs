@@ -38,7 +38,7 @@ public class LocalPlugin : PluginBase
     }
 
     /// <summary>
-    /// 从本地漫画加载图片
+    /// Episode变化响应
     /// </summary>
     private void LoadLocalImage(object sender, CurrentEpisodeIndexChangedEventArg arg)
     {
@@ -47,8 +47,8 @@ public class LocalPlugin : PluginBase
         if (viewModel.Affiliation != MetaData.Id) return;
         viewModel.Images.Clear();
         var index = 0;
-        if (viewModel.Episodes.Count > 0 && viewModel.Episodes[arg.NewValue].Source is LocalEpisode episode)
-            foreach (var item in Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == episode.Id).OrderBy(x => x.Name)
+        if (viewModel.Episodes.Count > 0 && viewModel.Episodes[arg.NewValue] is ShadowEpisode episode)
+            foreach (var item in Db.Queryable<LocalPicture>().Where(x => x.EpisodeId == episode.Source.Id).OrderBy(x => x.Name)
                          .ToList())
                 viewModel.Images.Add(new ShadowPicture(++index, item.Img));
     }
@@ -65,7 +65,7 @@ public class LocalPlugin : PluginBase
         Db.Queryable<LocalEpisode>().Where(x => x.ComicId == comic.Id).OrderBy(x => x.Order).ForEach(x =>
         {
             orders.Add(x.Order);
-            viewModel.Episodes.Add(new ShadowEpisode() { Source = x, Title = x.Name });
+            viewModel.Episodes.Add(new ShadowEpisode(x));
         });
         if (viewModel.CurrentEpisodeIndex == -1 && orders.Count > 0)
             viewModel.CurrentEpisodeIndex = orders[0];
