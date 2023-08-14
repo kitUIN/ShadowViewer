@@ -113,7 +113,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Core.csproj" />
-    <ProjectReference Include="..\..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\UserPage.xaml">

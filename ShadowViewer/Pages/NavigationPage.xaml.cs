@@ -63,8 +63,7 @@ namespace ShadowViewer.Pages
                             compressToolKit.DeCompress(file.Path, pluginPath);
                             DispatcherQueue.TryEnqueue(async () =>
                             {
-                                await PluginService.ImportAsync(
-                                    Path.Combine(pluginPath, file.DisplayName + ".dll"));
+                                await PluginService.ImportAsync();
                             });
                         });
                     }

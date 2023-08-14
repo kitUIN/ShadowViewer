@@ -11,13 +11,13 @@ namespace ShadowViewer
     {
         public App()
         {
+
+            ApplicationExtensionHost.Initialize(this);
             // 配置文件
             Config.Init();
             // 数据库
             InitDatabase();
             this.InitializeComponent();
-            // 依赖注入
-            ApplicationExtensionHost.Initialize(this);
         }
         /// <summary>
         /// 初始化数据库
@@ -42,16 +42,21 @@ namespace ShadowViewer
             var startupWindow = new MainWindow();
             WindowHelper.TrackWindow(startupWindow);
             ThemeHelper.Initialize(startupWindow);
-            
+
             // 插件依赖注入
             var pluginServices = DiFactory.Services.Resolve<IPluginService>();
             pluginServices.Import<LocalPlugin>();
-            await pluginServices.ImportAsync();
+            try
+            {
+                await pluginServices.ImportAsync();
+            }catch(Exception ex)
+            {
+                Log.Error("{E}", ex);
+            }
             
 #if DEBUG
             // 这里是测试插件用的, ImportAsync里填入你Debug出来的插件dll位置
-            await pluginServices.ImportAsync(
-                @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
+            // await pluginServices.ImportAsync( @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
 #endif
             // 导航
             var firstUri = new Uri("shadow://local/");
