@@ -104,5 +104,6 @@
         IsImporting,
         SelectionHeader,
         Object,
+        Navigate,
     }
 }

@@ -29,7 +29,7 @@ namespace ShadowViewer.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Caller.NavigateTo(NavigateMode.Type, e.SourcePageType, null, null);
+            //Caller.NavigateTo(NavigateMode.Type, e.SourcePageType, null, null);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -128,11 +128,6 @@ namespace ShadowViewer.Pages
                 this.Frame.Navigate(plugin.SettingsPage, null,
                     new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
-        }
-
-        private void ToggleSwitch_OnToggled(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 using DryIoc;
 using Serilog.Core;
+using ShadowViewer.Plugins;
 using SqlSugar;
 
 namespace ShadowViewer.Helpers
@@ -12,17 +13,13 @@ namespace ShadowViewer.Helpers
             if (uri.Scheme != "shadow") return;
             var db =  DiFactory.Services.Resolve<ISqlSugarClient>();
             var navigationToolKit = DiFactory.Services.Resolve<ICallableService>();
-            string[] urls = uri.AbsolutePath.Split(new char[] { '/',}, StringSplitOptions.RemoveEmptyEntries);
+            var pluginService = DiFactory.Services.Resolve<IPluginService>();
+            var urls = uri.AbsolutePath.Split(new char[] { '/',}, StringSplitOptions.RemoveEmptyEntries);
             // 本地
             switch (uri.Host)
             {
                 case "local":
-                    if (urls.Length == 0) 
-                    {
-                        navigationToolKit.NavigateTo(NavigateMode.Page,typeof(BookShelfPage),null, uri); 
-                        return; 
-                    }
-                    for (var i = 0; i < urls.Length; i++)
+                    /*for (var i = 0; i < urls.Length; i++)
                     {
                         if (!db.Queryable<LocalComic>().Any(x => x.Id == urls[i])) 
                         {
@@ -30,20 +27,27 @@ namespace ShadowViewer.Helpers
                             navigationToolKit.NavigateTo(NavigateMode.URL,null, urls[i - 1], new Uri(s));
                             return;
                         }
-                    }
-                    navigationToolKit.NavigateTo(NavigateMode.URL, null, urls.Last(), uri);
-                    return;
+                    }*/
+                    navigationToolKit.NavigateTo(typeof(BookShelfPage),uri); 
+                    return; 
                 case "settings":
-                    navigationToolKit.NavigateTo(NavigateMode.Page, typeof(SettingsPage), null, null);
+                    navigationToolKit.NavigateTo(typeof(SettingsPage), null);
                     return;
                 case "download":
-                    navigationToolKit.NavigateTo(NavigateMode.Page, typeof(DownloadPage), null, null);
+                    navigationToolKit.NavigateTo( typeof(DownloadPage), null);
                     return;
                 default:
-                    //TODO: 插件注入
+                    if (pluginService.GetEnabledPlugin(uri.Host) is IPlugin plugin)
+                    {
+                        plugin.Navigate(uri, urls);
+                    }
+                    else
+                    {
+                        
+                    }
                     break; 
             } 
-            navigationToolKit.NavigateTo(NavigateMode.Page,typeof(BookShelfPage),null, uri);
+            
         }
     }
 }

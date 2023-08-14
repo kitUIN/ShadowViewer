@@ -15,7 +15,7 @@ namespace ShadowViewer.Pages
          
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Caller.NavigateTo(NavigateMode.Type, e.SourcePageType, ResourcesHelper.GetString(ResourceKey.BookShelfSettings), null);
+            //Caller.NavigateTo(NavigateMode.Type, e.SourcePageType, ResourcesHelper.GetString(ResourceKey.BookShelfSettings), null);
         }
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {

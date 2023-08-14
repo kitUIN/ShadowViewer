@@ -329,26 +329,11 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void Caller_NavigationToolKit_NavigateTo(object sender, NavigateToEventArgs e)
         {
-            if (e.Mode == NavigateMode.URL)
+            if (e.Page is not null && !Type.Equals(ContentFrame.CurrentSourcePageType, e.Page))
             {
-                var db = DiFactory.Services.Resolve<ISqlSugarClient>();
-                var comic = db.Queryable<LocalComic>().First(x => x.Id == e.Id);
-                if (comic.IsFolder)
-                {
-                    ContentFrame.Navigate(typeof(BookShelfPage), e.Url);
-                    //NavView.SelectedItem = ViewModel.MenuItems
-                    //    .FirstOrDefault(x => x.Tag!=null&& x.Tag.ToString() +"Page" == nameof(BookShelfPage));
-                }
-                else
-                {
-                }
+                ContentFrame.Navigate(e.Page,e.Parameter);
             }
-            else
-            {
-                ContentFrame.Navigate(e.Page, e.Url);
-            }
-
-            ;
+            
         }
 
         /// <summary>

@@ -102,13 +102,6 @@ public class LocalPlugin : PluginBase
     /// </summary>
     public override void SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        if (args.ChosenSuggestion != null)
-        {
-            // User selected an item from the suggestion list, take an action on it here.
-        }
-        else
-        {
-            // Use args.QueryText to determine what to do.
-        }
+        
     }
 }

@@ -41,7 +41,7 @@ public sealed partial class MainWindow : Window
 
     private void AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
     {
-        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput&&!string.IsNullOrEmpty(sender.Text))
         {
             SearchItems.Clear();
             foreach (var plugin in Plugins.EnabledPlugins)
@@ -51,6 +51,7 @@ public sealed partial class MainWindow : Window
                     SearchItems.Add(i);
                 }
             }
+            SearchItems.Add(new NavigateSearchItem(sender.Text));
         }
     }
 
@@ -66,16 +67,22 @@ public sealed partial class MainWindow : Window
     {
         if (args.ChosenSuggestion != null)
         {
-            foreach (var plugin in Plugins.EnabledPlugins)
+            if (args.ChosenSuggestion is NavigateSearchItem item)
             {
-                plugin.SearchQuerySubmitted(sender, args);
+                NavigateHelper.ShadowNavigate(new Uri(item.Title));
             }
+            else
+            {
+                foreach (var plugin in Plugins.EnabledPlugins)
+                {
+                    plugin.SearchQuerySubmitted(sender, args);
+                }
+            }
+            
         }
         else
         {
             
-            Debug.WriteLine(sender.Items.Count);
-            Debug.WriteLine(args.QueryText);
             // Use args.QueryText to determine what to do.
         }
         

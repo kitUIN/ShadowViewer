@@ -495,4 +495,7 @@
   <data name="Search" xml:space="preserve">
     <value>搜索</value>
   </data>
+  <data name="Navigate" xml:space="preserve">
+    <value>导航</value>
+  </data>
 </root>
