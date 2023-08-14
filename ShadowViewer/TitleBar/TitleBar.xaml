@@ -176,8 +176,8 @@
                                     ToolTipService.ToolTip="Toggle menu" />
                         </StackPanel>
 
-                        <ContentPresenter x:Name="PART_ContentPresenter"
-                                          Grid.Column="5"
+                        <ContentPresenter  x:Name="PART_ContentPresenter"  
+                                          Grid.Column="5" 
                                           MinWidth="360"
                                           HorizontalAlignment="Stretch"
                                           VerticalAlignment="Center"

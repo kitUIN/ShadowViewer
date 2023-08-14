@@ -48,14 +48,15 @@
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Image
                                 Grid.Column="0"
-                                Width="60"
-                                Height="60"
+                                MinWidth="10"
+                                MaxWidth="60"
+                                MaxHeight="60"
                                 Source="{x:Bind MetaData.Logo}" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock

@@ -89,9 +89,14 @@ public partial class TitleBar : Control
 
         SizeChanged -= this.TitleBar_SizeChanged;
         SizeChanged += this.TitleBar_SizeChanged;
-
+        if(Content is FrameworkElement element) element.SizeChanged += Element_SizeChanged;
         Update();
         base.OnApplyTemplate();
+    }
+
+    private void Element_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        Update();
     }
 
     private void TitleBar_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -108,8 +113,7 @@ public partial class TitleBar : Control
             VisualStateManager.GoToState(this, WideState, true);
         }
         SetDragRegionForCustomTitleBar();
-    }
-
+    } 
     private void BackButton_Click(object sender, RoutedEventArgs e)
     {
         BackButtonClick?.Invoke(this, new RoutedEventArgs());

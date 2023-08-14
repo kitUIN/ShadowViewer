@@ -42,6 +42,7 @@
         Default,
         ThemeDescription,
         Theme,
+        Search,
         MainSetting,
         ShowSetting,
         IsBookShelfInfoBarDescription,

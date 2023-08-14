@@ -161,7 +161,7 @@
                                 <HyperlinkButton Content="🔩CustomExtensions.WinUI" NavigateUri="https://github.com/dnchattan/winui-extensions" />
                                 <HyperlinkButton Content="📂WinUI Gallery" NavigateUri="https://github.com/microsoft/WinUI-Gallery" />
                                 <HyperlinkButton Content="📂Bili.Uwp" NavigateUri="https://github.com/Richasy/Bili.Uwp" />
-                                <HyperlinkButton Content="📂Windows Community Toolkit Labs[TitleBar]" NavigateUri="https://github.com/CommunityToolkit/Labs-Windows/blob/niels9001/titlebar-experiment/components/TitleBar/samples/TitleBar.md" />
+                                <HyperlinkButton Content="📂Windows Community Toolkit Labs[TitleBar]" NavigateUri="https://github.com/CommunityToolkit/Labs-Windows/discussions/454" />
                             </StackPanel>
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>

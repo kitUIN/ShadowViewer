@@ -1,38 +1,80 @@
-using System.Diagnostics;
+namespace ShadowViewer;
 
-namespace ShadowViewer
+public sealed partial class MainWindow : Window
 {
-    public sealed partial class MainWindow : Window
+    public ObservableCollection<IShadowSearchItem> SearchItems { get; } = new();
+    private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
+    private IPluginService Plugins { get; } = DiFactory.Services.Resolve<IPluginService>();
+
+    public MainWindow()
     {
-        private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
-        public MainWindow()
-        {
-            this.InitializeComponent();
-            AppTitleBar.Window = this;
-            //this.Title = "ShadowViewer";
+        InitializeComponent();
+        AppTitleBar.Window = this;
+        Title = "ShadowViewer";
+        AppTitleBar.Subtitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+        Caller.DebugEvent += (_, _) =>
             AppTitleBar.Subtitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
-            Caller.DebugEvent += MainWindow_DebugEvent;
-        }
-        /// <summary>
-        /// 初始化插件
-        /// </summary>
-        private   void NavView_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
-        private void MainWindow_DebugEvent(object sender, EventArgs e)
-        {
-            AppTitleBar.Subtitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
-        }
+    }
 
-        private void AppTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
-        {
-            Caller.NavigationViewBackRequested(sender);
-        }
+    /// <summary>
+    /// 初始化插件
+    /// </summary>
+    private void NavView_Loaded(object sender, RoutedEventArgs e)
+    {
+    }
 
-        private void AppTitleBar_OnPaneButtonClick(object sender, RoutedEventArgs e)
+    private void MainWindow_DebugEvent(object sender, EventArgs e)
+    {
+    }
+
+    private void AppTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
+    {
+        Caller.NavigationViewBackRequested(sender);
+    }
+
+    private void AppTitleBar_OnPaneButtonClick(object sender, RoutedEventArgs e)
+    {
+        Caller.NavigationViewPane(sender);
+    }
+
+    private void AutoSuggestBox_OnTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
-            Caller.NavigationViewPane(sender);
+            SearchItems.Clear();
+            foreach (var plugin in Plugins.EnabledPlugins)
+            {
+                foreach(var i in plugin.SearchTextChanged(sender,args))
+                {
+                    SearchItems.Add(i);
+                }
+            }
         }
+    }
+
+    private void AutoSuggestBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+    {
+        foreach (var plugin in Plugins.EnabledPlugins)
+        {
+            plugin.SearchSuggestionChosen(sender, args);
+        }
+    }
+
+    private void AutoSuggestBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+    {
+        foreach (var plugin in Plugins.EnabledPlugins)
+        {
+            plugin.SearchQuerySubmitted(sender, args);
+        }
+    }
+
+    private void UIElement_OnGotFocus(object sender, RoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void UIElement_OnLostFocus(object sender, RoutedEventArgs e)
+    {
+        SearchItems.Clear();
     }
 }
