@@ -24,7 +24,7 @@
 将插件项目的发行版压缩包下载后,直接拖入应用即可自动导入
 
 ## 依赖 📂
-[ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) - 核心功能组件  
+[ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Core) - 核心功能组件  
 [Windows App SDK](https://github.com/microsoft/WindowsAppSDK) - Windows App SDK  
 [Windows Community Toolkit](https://github.com/CommunityToolkit/dotnet)/[Windows Community Toolkit Labs](https://github.com/CommunityToolkit/Labs-Windows) - 控件及其他帮助类  
 [CustomExtensions.WinUI](https://github.com/dnchattan/winui-extensions) - 使Windows App SDK支持外置插件  
