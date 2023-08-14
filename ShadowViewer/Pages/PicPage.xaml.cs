@@ -22,9 +22,8 @@ namespace ShadowViewer.Pages
 
         private void ScrollViewer_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.PageDown)
+            if (e.Key == VirtualKey.PageDown&& sender is ScrollViewer scrollViewer)
             {
-                ScrollViewer scrollViewer = sender as ScrollViewer;
                 scrollViewer.ChangeView(null, scrollViewer.VerticalOffset + scrollViewer.ViewportHeight, null);
             }
         }
@@ -40,50 +39,41 @@ namespace ShadowViewer.Pages
             //scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
         }
 
+        /// <summary>
+        /// 响应移动视图
+        /// </summary>
         private void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            if (PageSlider.FocusState != FocusState.Pointer&&ViewModel != null)
+            if (PageSlider.FocusState == FocusState.Pointer || ViewModel == null ||
+                sender is not ScrollViewer scrollViewer) return;
+            var y = scrollViewer.VerticalOffset;
+            int i;
+            for (i = 0; i < ViewModel.Images.Count; i++)
             {
-                ScrollViewer scrollViewer = sender as ScrollViewer;
-                double y = scrollViewer.VerticalOffset;
-                int i;
-                for (i = 0; i < ViewModel.Images.Count; i++)
+                var f = PicViewer.TryGetElement(i) as FrameworkElement;
+                if (f == null || f.ActualOffset.Y <= y) continue;
+                if(ViewModel.CurrentPage != i + 1)
                 {
-                    FrameworkElement f = PicViewer.TryGetElement(i) as FrameworkElement;
-                    if (f == null || f.ActualOffset.Y <= y) continue;
-                    else
-                    {
-                        if(ViewModel.CurrentPage != i + 1)
-                        {
-                            ViewModel.CurrentPage = i + 1;
-                        }
-                        break;
-                    }
+                    ViewModel.CurrentPage = i + 1;
                 }
-                if (scrollViewer.VerticalOffset + scrollViewer.ActualHeight + 2 >= scrollViewer.ExtentHeight)
-                {
+                break;
+            }
+            if (scrollViewer.VerticalOffset + scrollViewer.ActualHeight + 2 >= scrollViewer.ExtentHeight)
+            {
 
-                }
             }
         }
-
+        /// <summary>
+        /// 移动进度条响应
+        /// </summary>
         private void PageSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            if (ViewModel!=null&&e.NewValue - 1 >= 0 && e.NewValue - 1 < ViewModel.Images.Count && PageSlider.FocusState == FocusState.Pointer)
-            {
-                var element = PicViewer.GetOrCreateElement((int)(e.NewValue - 1));
-                PicViewer.UpdateLayout();
-                element.StartBringIntoView(new BringIntoViewOptions() { VerticalOffset = 0D, VerticalAlignmentRatio = 0.0f });
-            }
+            if (ViewModel == null || !(e.NewValue - 1 >= 0) || !(e.NewValue - 1 < ViewModel.Images.Count) ||
+                PageSlider.FocusState != FocusState.Pointer) return;
+            var element = PicViewer.GetOrCreateElement((int)(e.NewValue - 1));
+            PicViewer.UpdateLayout();
+            element.StartBringIntoView(new BringIntoViewOptions() { VerticalOffset = 0D, VerticalAlignmentRatio = 0.0f });
         }
 
-        public void ViewportBehavior_EnteredViewport(object sender, EventArgs e)
-        {
-            if(sender is Grid gird)
-            {
-                //gird.EffectiveViewportChanged
-                //ViewModel.CurrentPage = pic.Index;
-            }
-        }
     }
 }

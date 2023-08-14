@@ -1,6 +1,7 @@
 ﻿using CustomExtensions.WinUI;
 using Serilog;
 using ShadowViewer.Interfaces;
+using ShadowViewer.Plugin.Local;
 using ShadowViewer.Plugins;
 using SqlSugar;
 
@@ -36,11 +37,18 @@ namespace ShadowViewer
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            startupWindow = new MainWindow();
+            var startupWindow = new MainWindow();
             WindowHelper.TrackWindow(startupWindow);
             ThemeHelper.Initialize(startupWindow);
+            
+            var pluginServices = DiFactory.Services.Resolve<IPluginService>();
+            pluginServices.Import(typeof(LocalPlugin));
+            //await pluginServices.ImportAsync();
+            await pluginServices.ImportAsync(
+                @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
+            
             var firstUri = new Uri("shadow://local/");
             var actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
             if (actEventArgs.Kind == ExtendedActivationKind.Protocol
@@ -50,15 +58,8 @@ namespace ShadowViewer
             }
             startupWindow.Activate();
             NavigateHelper.ShadowNavigate(firstUri);
+            
         }
-         
-        private static Window startupWindow;
-        public static Window StartupWindow
-        {
-            get
-            {
-                return startupWindow;
-            }
-        }
+          
     }
 }

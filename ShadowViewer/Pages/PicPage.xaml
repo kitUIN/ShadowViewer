@@ -34,10 +34,7 @@
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="models:ShadowPicture">
                         <Grid Padding="100,0" Tag="{x:Bind}">
-                            <Image Source="{x:Bind Image, Mode=OneWay}" />
-                            <interactivity:Interaction.Behaviors>
-                                <behaviors:ViewportBehavior EnteringViewport="ViewportBehavior_EnteredViewport" IsAlwaysOn="True" />
-                            </interactivity:Interaction.Behaviors>
+                            <Image Source="{x:Bind Source, Mode=OneWay}" />
                         </Grid>
                     </DataTemplate>
                 </ItemsRepeater.ItemTemplate>
@@ -63,7 +60,11 @@
                 Background="{ThemeResource SolidBackgroundFillColorBaseBrush}"
                 CornerRadius="5">
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <ComboBox VerticalAlignment="Center" ItemsSource="{x:Bind ViewModel.Episodes}" DisplayMemberPath="Title" SelectedIndex="{x:Bind ViewModel.CurrentEpisodeIndex,Mode=TwoWay}"  />
+                    <ComboBox
+                        VerticalAlignment="Center"
+                        DisplayMemberPath="Title"
+                        ItemsSource="{x:Bind ViewModel.Episodes}"
+                        SelectedIndex="{x:Bind ViewModel.CurrentEpisodeIndex, Mode=TwoWay}" />
                     <TextBlock VerticalAlignment="Center" Text="{x:Bind ViewModel.CurrentPage, Mode=OneWay}" />
                     <Slider
                         x:Name="PageSlider"

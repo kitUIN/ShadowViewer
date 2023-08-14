@@ -16,12 +16,9 @@ namespace ShadowViewer
         /// <summary>
         /// ³õÊ¼»¯²å¼þ
         /// </summary>
-        private async void NavView_Loaded(object sender, RoutedEventArgs e)
+        private   void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            var pluginServices = DiFactory.Services.Resolve<IPluginService>();
-            //await pluginServices.ImportAsync();
-            await pluginServices.ImportAsync(
-                @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
+            
         }
         private void MainWindow_DebugEvent(object sender, EventArgs e)
         {
