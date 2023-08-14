@@ -38,4 +38,4 @@
 ## 感谢以下项目 ❤️
 [WinUI-Gallery](https://github.com/microsoft/WinUI-Gallery) - WinUI3示例 - 参考了部分控件编写  
 [Bili.Uwp](https://github.com/Richasy/Bili.Uwp) - 哔哩客户端 - 参考了部分功能实现  
-[Windows Community Toolkit Labs(TitleBar)](https://github.com/CommunityToolkit/Labs-Windows/blob/niels9001/titlebar-experiment/components/TitleBar/samples/TitleBar.md) - 实验性社区包 - 参考了标题栏实现  
+[Windows Community Toolkit Labs(TitleBar)](https://github.com/CommunityToolkit/Labs-Windows/discussions/454) - 实验性社区包 - 参考了标题栏实现  
