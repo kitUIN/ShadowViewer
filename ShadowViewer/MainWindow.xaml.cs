@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace ShadowViewer;
 
 public sealed partial class MainWindow : Window
@@ -62,15 +64,26 @@ public sealed partial class MainWindow : Window
 
     private void AutoSuggestBox_OnQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        foreach (var plugin in Plugins.EnabledPlugins)
+        if (args.ChosenSuggestion != null)
         {
-            plugin.SearchQuerySubmitted(sender, args);
+            foreach (var plugin in Plugins.EnabledPlugins)
+            {
+                plugin.SearchQuerySubmitted(sender, args);
+            }
         }
+        else
+        {
+            
+            Debug.WriteLine(sender.Items.Count);
+            Debug.WriteLine(args.QueryText);
+            // Use args.QueryText to determine what to do.
+        }
+        
     }
 
     private void UIElement_OnGotFocus(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        
     }
 
     private void UIElement_OnLostFocus(object sender, RoutedEventArgs e)
