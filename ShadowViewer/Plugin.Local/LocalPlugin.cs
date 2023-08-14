@@ -1,4 +1,5 @@
 ﻿using ShadowViewer.Plugins;
+using ShadowViewer.Plugin.Local.Models;
 using SqlSugar;
 
 namespace ShadowViewer.Plugin.Local;
