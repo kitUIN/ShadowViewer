@@ -44,13 +44,15 @@ namespace ShadowViewer
             ThemeHelper.Initialize(startupWindow);
             
             // 插件依赖注入
-            DiFactory.Services.Register<IPlugin,LocalPlugin>(reuse: Reuse.Singleton);
             var pluginServices = DiFactory.Services.Resolve<IPluginService>();
             pluginServices.Import<LocalPlugin>();
-            //await pluginServices.ImportAsync();
+            await pluginServices.ImportAsync();
+            
+#if DEBUG
+            // 这里是测试插件用的, ImportAsync里填入你Debug出来的插件dll位置
             await pluginServices.ImportAsync(
                 @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
-            
+#endif
             // 导航
             var firstUri = new Uri("shadow://local/");
             var actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
