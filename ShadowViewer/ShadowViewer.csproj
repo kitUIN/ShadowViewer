@@ -67,9 +67,6 @@
     <ProjectCapability Include="Msix" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Pages\PluginPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -113,6 +110,10 @@
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="TitleBar\" />
     <Folder Include="ViewModels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Core.csproj" />
+    <ProjectReference Include="..\..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\UserPage.xaml">
