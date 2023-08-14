@@ -115,7 +115,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Plugin.Local\" />
     <Folder Include="TitleBar\" />
+    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\UserPage.xaml">

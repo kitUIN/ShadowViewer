@@ -1,5 +1,4 @@
 using SqlSugar;
- 
 
 namespace ShadowViewer.Pages
 {
@@ -269,7 +268,7 @@ namespace ShadowViewer.Pages
             }
         }
         /// <summary>
-        /// ��ֹ�����Ҽ��¼�
+        /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -476,7 +475,7 @@ namespace ShadowViewer.Pages
                 }
                 else
                 {
-                    Frame.Navigate(typeof(PicPage), comic, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+                    Frame.Navigate(typeof(PicPage), new PicViewArg("Local", comic), new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
                 }
             }
         }
