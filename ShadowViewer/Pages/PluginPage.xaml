@@ -104,7 +104,7 @@
                                     <TextBlock Text="{x:Bind MetaData.Version}" />
                                 </StackPanel>
                             </StackPanel>
-                            <ToggleSwitch
+                            <ToggleSwitch IsEnabled="{x:Bind CanSwitch,Mode=OneWay}"
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
                                 IsOn="{x:Bind IsEnabled, Mode=TwoWay}" />

@@ -21,10 +21,8 @@ public class LocalPlugin : PluginBase
     public new static readonly PluginMetaData MetaData = typeof(LocalPlugin).GetPluginMetaData();
     public override LocalTag AffiliationTag { get; }
     public override Type SettingsPage { get; }
-
-    public override void NavigationViewItemInvokedHandler(object tag, ref Type page, ref object parameter)
-    {
-    }
+    public  override bool CanSwitch { get; } = false;
+    public  override bool CanDelete { get; } = false;
 
     protected override void PluginEnabled()
     {

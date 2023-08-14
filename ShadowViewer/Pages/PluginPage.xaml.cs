@@ -25,7 +25,7 @@ namespace ShadowViewer.Pages
         private void Settings_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as HyperlinkButton;
-            if(button!=null&& button.Tag is string tag && PluginService.GetPlugin(tag) is IPlugin plugin)
+            if(button!=null&& button.Tag is string tag &&PluginService.GetPlugin(tag) is IPlugin plugin && plugin.SettingsPage != null)
             {
                 this.Frame.Navigate(plugin.SettingsPage, null,
                     new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });

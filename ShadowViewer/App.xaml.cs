@@ -43,12 +43,15 @@ namespace ShadowViewer
             WindowHelper.TrackWindow(startupWindow);
             ThemeHelper.Initialize(startupWindow);
             
+            // 插件依赖注入
+            DiFactory.Services.Register<IPlugin,LocalPlugin>(reuse: Reuse.Singleton);
             var pluginServices = DiFactory.Services.Resolve<IPluginService>();
-            pluginServices.Import(typeof(LocalPlugin));
+            pluginServices.Import<LocalPlugin>();
             //await pluginServices.ImportAsync();
             await pluginServices.ImportAsync(
                 @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
             
+            // 导航
             var firstUri = new Uri("shadow://local/");
             var actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
             if (actEventArgs.Kind == ExtendedActivationKind.Protocol
