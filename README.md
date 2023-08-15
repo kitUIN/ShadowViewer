@@ -16,10 +16,10 @@
 </p> 
  
 ## 插件列表🔩
-| ID | 名称                                    |       简述           | 开发者  | 链接                    |
-|--------------------------------|--------------------------------|---------|-----------------------|-----------------------|
-| Local | 本地阅读器 | 支持本地阅读漫画             | [kitUIN](https://github.com/kitUIN) | 内置 |
-| Bika | 哔咔漫画 | 适配哔咔漫画             | [kitUIN](https://github.com/kitUIN) | [Github](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) |
+| ID | 名称                                    |       简述           | 开发者  | 链接                    |最新版本 |
+|--------------------------------|--------------------------------|---------|-----------------------|-----------------------|----|
+| Local | 本地阅读器 | 支持本地阅读漫画             | [kitUIN](https://github.com/kitUIN) | 内置 | ![local](https://img.shields.io/badge/release-v0.1.0-blue) |
+| Bika | 哔咔漫画 | 适配哔咔漫画             | [kitUIN](https://github.com/kitUIN) | [Github](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) |![bika](https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Plugin.Bika?color=blue&include_prereleases)|
 
 ## 导入插件📦
 将插件项目的发行版压缩包下载后,直接拖入应用即可自动导入
