@@ -21,7 +21,7 @@ public class LocalPlugin : PluginBase
     {
     }
 
-    public new static readonly PluginMetaData MetaData = typeof(LocalPlugin).GetPluginMetaData();
+    public override PluginMetaData MetaData { get; } = typeof(LocalPlugin).GetPluginMetaData();
     public override LocalTag AffiliationTag { get; }
     public override Type SettingsPage { get; }
     public override bool CanSwitch { get; } = false;

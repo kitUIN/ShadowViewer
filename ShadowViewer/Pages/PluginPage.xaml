@@ -105,9 +105,10 @@
                                     <TextBlock Text="{x:Bind MetaData.Version}" />
                                 </StackPanel>
                             </StackPanel>
-                            <ToggleSwitch IsEnabled="{x:Bind CanSwitch,Mode=OneWay}"
+                            <ToggleSwitch
                                 Grid.Column="1"
                                 VerticalAlignment="Center"
+                                IsEnabled="{x:Bind CanSwitch, Mode=OneWay}"
                                 IsOn="{x:Bind IsEnabled, Mode=TwoWay}" />
 
                             <HyperlinkButton
