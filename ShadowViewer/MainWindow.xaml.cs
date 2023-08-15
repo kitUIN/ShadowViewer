@@ -52,7 +52,8 @@ public sealed partial class MainWindow : Window
                     SearchItems.Add(i);
                 }
             }
-            SearchItems.Add(new NavigateSearchItem(sender.Text));
+            if (!string.IsNullOrEmpty(sender.Text))
+                SearchItems.Add(new NavigateSearchItem(sender.Text));
         }
     }
 
