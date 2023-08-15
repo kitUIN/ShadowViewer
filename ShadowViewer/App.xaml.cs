@@ -58,7 +58,7 @@ namespace ShadowViewer
             var currentCulture = CultureInfo.CurrentUICulture;
 #if DEBUG
             // 这里是测试插件用的, ImportAsync里填入你Debug出来的插件dll位置
-            // await pluginServices.ImportAsync( @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
+            await pluginServices.ImportAsync( @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
 #endif
             // 导航
             var firstUri = new Uri("shadow://local/");

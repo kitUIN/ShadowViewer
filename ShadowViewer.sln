@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer", "ShadowViewer\ShadowViewer.csproj", "{4F92FB1F-2A83-4125-8B87-FBB96A0858B6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3544E882-806F-4237-8C06-8216FDCAABD5} = {3544E882-806F-4237-8C06-8216FDCAABD5}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Plugin.Bika", "..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj", "{3544E882-806F-4237-8C06-8216FDCAABD5}"
 EndProject
