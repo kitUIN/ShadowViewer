@@ -85,7 +85,7 @@ public sealed partial class MainWindow : Window
             
             // Use args.QueryText to determine what to do.
         }
-        
+        sender.Text = string.Empty;
     }
 
     private void UIElement_OnGotFocus(object sender, RoutedEventArgs e)
