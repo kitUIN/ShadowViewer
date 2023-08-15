@@ -12,7 +12,8 @@ namespace ShadowViewer.Plugin.Local;
     "kitUIN", "0.1.0",
     "https://github.com/kitUIN/ShadowViewer/",
     "/",
-    20230808)]
+    20230808,
+    "zh-CN")]
 public class LocalPlugin : PluginBase
 {
     public LocalPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
