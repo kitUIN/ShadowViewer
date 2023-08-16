@@ -38,24 +38,27 @@
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </StackPanel.ChildrenTransitions>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=MainSetting}" />
-                <labs:SettingsCard Description="{ex:Locale Key=ThemeDescription}" Header="{ex:Locale Key=Theme}">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xE790;" />
-                    </labs:SettingsCard.HeaderIcon>
+                <labs:SettingsCard >
+                    <labs:SettingsCard.Header>
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=ThemeDescription}" Header="{ex:Locale Key=Theme}">
+                            <icons:FluentIcon Width="30" Height="30" FontSize="25"  
+                                              Symbol="ColorRegular" />
+                        </local2:ShadowSettingHeader>
+                    </labs:SettingsCard.Header>  
                     <ComboBox x:Name="ThemeModeSetting" SelectionChanged="ThemeModeSetting_SelectionChanged">
                         <ComboBoxItem Content="{ex:Locale Key=Light}" Tag="Light" />
                         <ComboBoxItem Content="{ex:Locale Key=Dark}" Tag="Dark" />
                         <ComboBoxItem Content="{ex:Locale Key=Default}" Tag="Default" />
                     </ComboBox>
                 </labs:SettingsCard>
-                <labs:SettingsExpander Description="{ex:Locale Key=FolderDescription}" Header="{ex:Locale Key=DataFolder}">
-                    <labs:SettingsExpander.HeaderIcon>
-                        <FontIcon Glyph="&#xE7B8;" />
-                    </labs:SettingsExpander.HeaderIcon>
-                    <labs:SettingsExpander.Items>
-                        <labs:SettingsCard Description="{ex:Locale Key=LogPathDescription}" Header="{ex:Locale Key=LogPath}">
-                            <Button Click="LogButton_Click" Content="{ex:Locale Key=Open}" />
-                        </labs:SettingsCard>
+                <labs:SettingsExpander >
+                    <labs:SettingsExpander.Header>
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=FolderDescription}" Header="{ex:Locale Key=DataFolder}">
+                            <icons:FluentIcon Width="30" Height="30" FontSize="25"  
+                                              Symbol="ArchiveRegular" />
+                        </local2:ShadowSettingHeader>
+                    </labs:SettingsExpander.Header> 
+                    <labs:SettingsExpander.Items> 
                         <labs:SettingsCard Description="{ex:Locale Key=ComicsPathDescription}" Header="{ex:Locale Key=ComicsPath}">
                             <StackPanel Orientation="Horizontal">
                                 <Button
@@ -96,10 +99,22 @@
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
-                <labs:SettingsCard Description="{ex:Locale Key=DebugDescription}" Header="{ex:Locale Key=Debug}">
-                    <labs:SettingsCard.HeaderIcon>
-                        <FontIcon Glyph="&#xEBE8;" />
-                    </labs:SettingsCard.HeaderIcon>
+                <labs:SettingsCard >
+                    <labs:SettingsCard.Header>
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=LogPathDescription}" Header="{ex:Locale Key=LogPath}">
+                            <icons:FluentIcon Width="30" Height="30" FontSize="25"  
+                                Symbol="BookDatabaseRegular" />
+                        </local2:ShadowSettingHeader>
+                    </labs:SettingsCard.Header>
+                    <Button Click="LogButton_Click" Content="{ex:Locale Key=Open}" />
+                </labs:SettingsCard>
+                <labs:SettingsCard >
+                    <labs:SettingsCard.Header>
+                        <local2:ShadowSettingHeader Description="{ex:Locale Key=DebugDescription}" Header="{ex:Locale Key=Debug}">
+                            <icons:FluentIcon Width="30" Height="30" FontSize="25"  
+                                              Symbol="BugRegular" />
+                        </local2:ShadowSettingHeader>
+                    </labs:SettingsCard.Header>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsDebug, Mode=TwoWay}" />
                 </labs:SettingsCard>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
