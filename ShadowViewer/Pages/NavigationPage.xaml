@@ -8,6 +8,7 @@
     xmlns:ex="using:ShadowViewer.Extensions"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:models="using:ShadowViewer.Models"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
@@ -65,18 +66,20 @@
                     Text="{ex:Locale Key=ImportText}" />
             </StackPanel>
         </Border>
-        <controls:Loading x:Name="LoadingControl" RightTapped="SmokeGrid_RightTapped">
-            <controls:Loading.Background>
-                <AcrylicBrush TintColor="Black" TintOpacity="0.2" />
-            </controls:Loading.Background>
+        <controls:Loading
+            x:Name="LoadingControl"
+            Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+            Opacity=".95"
+            RightTapped="SmokeGrid_RightTapped">
+
             <StackPanel
                 Padding="12"
                 Orientation="Horizontal"
                 Spacing="10">
                 <Image
                     x:Name="ZipThumb"
-                    Width="250"
-                    Height="250" />
+                    MaxWidth="250"
+                    MaxHeight="250" />
                 <StackPanel
                     VerticalAlignment="Center"
                     Orientation="Vertical"
@@ -129,10 +132,11 @@
         <Grid x:Name="TopGrid" Canvas.ZIndex="1" />
         <StackPanel
             x:Name="TipContainer"
-            MinWidth="100" FlowDirection="RightToLeft"
+            MinWidth="100"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Canvas.ZIndex="1"
+            FlowDirection="RightToLeft"
             Orientation="Vertical"
             Visibility="Collapsed" />
     </Grid>

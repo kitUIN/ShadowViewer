@@ -49,26 +49,30 @@ namespace ShadowViewer.Pages
 
         private async void CallerOnImportPluginEvent(object sender, ImportPluginEventArg e)
         {
-            var path = ConfigHelper.GetString("PluginsPath");
-            foreach (var item in e.Items)
+            await DispatcherQueue.EnqueueAsync(async () =>
             {
-                if (item is StorageFile file)
+                var path = ConfigHelper.GetString("PluginsPath");
+                foreach (var item in e.Items)
                 {
-                    var pluginPath = Path.Combine(path, file.DisplayName);
-                    if (!Directory.Exists(pluginPath))
+                    if (item is StorageFile file)
                     {
-                        var compressToolKit = DiFactory.Services.Resolve<CompressService>();
-                        await Task.Run(() =>
+                        var pluginPath = Path.Combine(path, file.DisplayName);
+                        if (!Directory.Exists(pluginPath))
                         {
-                            compressToolKit.DeCompress(file.Path, pluginPath);
-                            DispatcherQueue.TryEnqueue(async () =>
+                            var compressToolKit = DiFactory.Services.Resolve<CompressService>();
+                            await Task.Run(async () =>
                             {
-                                await PluginService.ImportAsync();
+                                compressToolKit.DeCompress(file.Path, pluginPath);
+                                await DispatcherQueue.EnqueueAsync(async () =>
+                                {
+                                    await PluginService.ImportAsync();
+                                });
                             });
-                        });
+                        }
                     }
                 }
-            }
+            });
+            
         }
 
         /// <summary>
@@ -144,9 +148,12 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void Caller_ImportComicThumbEvent(object sender, ImportComicThumbEventArgs e)
         {
-            var bitmapImage = new BitmapImage();
-            await bitmapImage.SetSourceAsync(e.Thumb.AsRandomAccessStream());
-            ZipThumb.Source = bitmapImage;
+            await DispatcherQueue.EnqueueAsync(async () =>
+            {
+                var bitmapImage = new BitmapImage();
+                await bitmapImage.SetSourceAsync(e.Thumb.AsRandomAccessStream());
+                ZipThumb.Source = bitmapImage;
+            });
         }
 
         /// <summary>
@@ -154,28 +161,31 @@ namespace ShadowViewer.Pages
         /// </summary>
         private async void Caller_ImportComicErrorEvent(object sender, ImportComicErrorEventArgs args)
         {
-            if (args.Error != ImportComicError.Password) return;
-            var dialog = XamlHelper.CreateOneLineTextBoxDialog(args.Message, XamlRoot);
-            dialog.PrimaryButtonClick += (s, e) =>
+            await DispatcherQueue.EnqueueAsync(async () =>
             {
-                // 重新开始
-                var password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
-                args.Password[args.Index] = password == "" ? null : password;
-                Caller.ImportComic(args.Items, args.Password, args.Index);
-            };
-            dialog.CloseButtonClick += (s, e) =>
-            {
-                // 跳过本个
-                if (args.Items.Count > args.Index + 1)
+                if (args.Error != ImportComicError.Password) return;
+                var dialog = XamlHelper.CreateOneLineTextBoxDialog(args.Message, XamlRoot);
+                dialog.PrimaryButtonClick += (s, e) =>
                 {
-                    Caller.ImportComic(args.Items, args.Password, args.Index + 1);
-                }
-                else
+                    // 重新开始
+                    var password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
+                    args.Password[args.Index] = password == "" ? null : password;
+                    Caller.ImportComic(args.Items, args.Password, args.Index);
+                };
+                dialog.CloseButtonClick += (s, e) =>
                 {
-                    Caller.ImportComicCompleted();
-                }
-            };
-            await dialog.ShowAsync();
+                    // 跳过本个
+                    if (args.Items.Count > args.Index + 1)
+                    {
+                        Caller.ImportComic(args.Items, args.Password, args.Index + 1);
+                    }
+                    else
+                    {
+                        Caller.ImportComicCompleted();
+                    }
+                };
+                await dialog.ShowAsync();
+            });
         }
 
         /// <summary>
@@ -185,12 +195,15 @@ namespace ShadowViewer.Pages
         /// <param name="e"></param>
         private void Caller_ImportComicProgressEvent(object sender, ImportComicProgressEventArgs e)
         {
-            if (LoadingProgressBar.IsIndeterminate)
+            DispatcherQueue.TryEnqueue(() =>
             {
-                LoadingProgressBar.IsIndeterminate = false;
-            }
+                if (LoadingProgressBar.IsIndeterminate)
+                {
+                    LoadingProgressBar.IsIndeterminate = false;
+                }
 
-            LoadingProgressBar.Value = e.Progress;
+                LoadingProgressBar.Value = e.Progress;
+            });
         }
 
         /// <summary>
