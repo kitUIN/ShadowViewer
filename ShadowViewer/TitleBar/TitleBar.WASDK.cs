@@ -148,7 +148,7 @@ public partial class TitleBar : Control
             dragRectsList.Add(dragRectL);
 
             Windows.Graphics.RectInt32 dragRectR;
-            dragRectR.X = (int)((PART_LeftPaddingColumn.ActualWidth
+            dragRectR.X = (int)((PART_LeftPaddingColumn.ActualWidth +15
                                 + PART_IconColumn.ActualWidth
                                 + PART_ButtonsHolderColumn!.ActualWidth
                                 + PART_TitleHolder!.ActualWidth

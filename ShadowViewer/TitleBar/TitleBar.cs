@@ -101,17 +101,7 @@ public partial class TitleBar : Control
 
     private void TitleBar_SizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (e.NewSize.Width <= CompactStateBreakpoint)
-        {
-            if (Content != null || Footer != null)
-            {
-                VisualStateManager.GoToState(this, NarrowState, true);
-            }
-        }
-        else
-        {
-            VisualStateManager.GoToState(this, WideState, true);
-        }
+        VisualStateManager.GoToState(this, WideState, true);
         SetDragRegionForCustomTitleBar();
     } 
     private void BackButton_Click(object sender, RoutedEventArgs e)
