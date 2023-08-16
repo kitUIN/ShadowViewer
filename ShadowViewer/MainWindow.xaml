@@ -1,7 +1,7 @@
 <!--  Copyright (c) Microsoft Corporation and Contributors.  -->
 <!--  Licensed under the MIT License.  -->
 
-<Window
+<winUiEx:WindowEx
     x:Class="ShadowViewer.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -11,12 +11,12 @@
     xmlns:interfaces="using:ShadowViewer.Interfaces"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="using:ShadowViewer.Pages"
+    xmlns:winUiEx="using:WinUIEx"
     mc:Ignorable="d">
 
     <Grid
         MinWidth="650"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-        Loaded="NavView_Loaded">
+         Loaded="NavView_Loaded">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -76,4 +76,4 @@
         </controls:TitleBar>
         <pages:NavigationPage Grid.Row="1" />
     </Grid>
-</Window>
+</winUiEx:WindowEx>

@@ -1,8 +1,9 @@
 using System.Diagnostics;
+using WinUIEx;
 
 namespace ShadowViewer;
 
-public sealed partial class MainWindow : Window
+public sealed partial class MainWindow : WindowEx
 {
     public ObservableCollection<IShadowSearchItem> SearchItems { get; } = new();
     private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
@@ -12,6 +13,7 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         AppTitleBar.Window = this;
+        SystemBackdrop = new MicaBackdrop();
         Title = "ShadowViewer";
         AppTitleBar.Subtitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
         Caller.DebugEvent += (_, _) =>
