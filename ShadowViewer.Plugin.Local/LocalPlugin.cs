@@ -22,7 +22,7 @@ namespace ShadowViewer.Plugin.Local;
     "本地阅读适配器",
     "kitUIN", "0.1.0",
     "https://github.com/kitUIN/ShadowViewer/",
-    "",
+    "fluent://\uEA4E",
     20230808,
     "zh-CN")]
 public class LocalPlugin : PluginBase

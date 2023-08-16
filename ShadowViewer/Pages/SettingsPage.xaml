@@ -111,10 +111,11 @@
                                IsClickEnabled="True">
                                <labs:SettingsCard.Header>
                                    <local2:ShadowSettingHeader Description="{x:Bind MetaData.Description}" Header="{x:Bind MetaData.Name}">
-                                       <BitmapIcon
-                                           Width="30"
-                                           Height="30"
-                                           ShowAsMonochrome="False"
+                                       <local2:PluginLogo
+                                           Width="30" 
+                                           FontSize="25"
+                                           FontIconSize="20"
+                                           Height="30" Logo="{x:Bind MetaData.Logo}"
                                        />
                                    </local2:ShadowSettingHeader>
                                </labs:SettingsCard.Header>

@@ -5,8 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Extensions"
     xmlns:icons="using:FluentIcon"
-    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
-    xmlns:local="using:ShadowViewer.Pages"
     xmlns:local2="using:ShadowViewer.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:plugins="using:ShadowViewer.Plugins"
@@ -52,12 +50,12 @@
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Image
+                            <local2:PluginLogo
                                 Grid.Column="0"
-                                MinWidth="10"
-                                MaxWidth="60"
-                                MaxHeight="60"
-                                Source="{x:Bind MetaData.Logo}" />
+                                Width="60" FontIconSize="35"
+                                FontSize="40"
+                                Height="60"
+                                Logo="{x:Bind MetaData.Logo}" />
                             <StackPanel Grid.Column="1" VerticalAlignment="Center">
                                 <TextBlock
                                     FontSize="20"
