@@ -204,9 +204,6 @@
   <data name="Open" xml:space="preserve">
     <value>打开</value>
   </data>
-  <data name="Revise" xml:space="preserve">
-    <value>修改</value>
-  </data>
   <data name="Dark" xml:space="preserve">
     <value>深色</value>
   </data>
@@ -258,32 +255,8 @@
   <data name="Debug" xml:space="preserve">
     <value>调试模式</value>
   </data>
-  <data name="DeleteWithFilesDescription" xml:space="preserve">
-    <value>删除解压压缩文件产生的漫画文件</value>
-  </data>
-  <data name="DeleteWithFiles" xml:space="preserve">
-    <value>删除漫画的同时删除缓存文件</value>
-  </data>
-  <data name="IsBookShelfInfoBarDescription" xml:space="preserve">
-    <value>显示:总项目,当前选择,大小</value>
-  </data>
-  <data name="IsBookShelfInfoBar" xml:space="preserve">
-    <value>显示书架左下角信息栏</value>
-  </data>
-  <data name="IsImportAgainDescription" xml:space="preserve">
-    <value>开启后能导入相同文件夹的漫画</value>
-  </data>
-  <data name="IsImportAgain" xml:space="preserve">
-    <value>允许重复导入</value>
-  </data>
   <data name="LogPath" xml:space="preserve">
     <value>日志文件夹</value>
-  </data>
-  <data name="RememberDeleteWithFilesDescription" xml:space="preserve">
-    <value>删除漫画时出现弹窗</value>
-  </data>
-  <data name="RememberDeleteWithFiles" xml:space="preserve">
-    <value>删除漫画时需要二次确定</value>
   </data>
   <data name="TempPathDescription" xml:space="preserve">
     <value>存放一些临时文件</value>
@@ -303,44 +276,11 @@
   <data name="Dependencies" xml:space="preserve">
     <value>💕依赖&amp;鸣谢</value>
   </data>
-  <data name="CreateTime" xml:space="preserve">
-    <value>创建时间:</value>
-  </data>
-  <data name="LastReadTime" xml:space="preserve">
-    <value>最后查看:</value>
-  </data>
-  <data name="Link" xml:space="preserve">
-    <value>指向:</value>
-  </data>
-  <data name="Path" xml:space="preserve">
-    <value>地址:</value>
-  </data>
-  <data name="Percent" xml:space="preserve">
-    <value>进度:</value>
-  </data>
-  <data name="Size" xml:space="preserve">
-    <value>大小:</value>
-  </data>
-  <data name="Author" xml:space="preserve">
-    <value>作者:</value>
-  </data>
-  <data name="BackgroundColor" xml:space="preserve">
-    <value>背景颜色</value>
-  </data>
   <data name="CompressTip" xml:space="preserve">
     <value>Tips:若解压速度过慢,可以先在外部解压后用`从文件夹导入漫画`</value>
   </data>
-  <data name="FileName" xml:space="preserve">
-    <value>名称:</value>
-  </data>
-  <data name="ForegroundColor" xml:space="preserve">
-    <value>字体颜色</value>
-  </data>
   <data name="MainSetting" xml:space="preserve">
     <value>主要设置</value>
-  </data>
-  <data name="OperationSetting" xml:space="preserve">
-    <value>操作设置</value>
   </data>
   <data name="PageSetting" xml:space="preserve">
     <value>页面设置</value>
@@ -348,29 +288,8 @@
   <data name="PluginSetting" xml:space="preserve">
     <value>插件设置</value>
   </data>
-  <data name="ShowSetting" xml:space="preserve">
-    <value>显示设置</value>
-  </data>
   <data name="TagName" xml:space="preserve">
     <value>标签名称:</value>
-  </data>
-  <data name="AllowOff" xml:space="preserve">
-    <value>不允许</value>
-  </data>
-  <data name="AllowOn" xml:space="preserve">
-    <value>允许</value>
-  </data>
-  <data name="NeedOff" xml:space="preserve">
-    <value>不需要</value>
-  </data>
-  <data name="NeedOn" xml:space="preserve">
-    <value>需要</value>
-  </data>
-  <data name="ShowOff" xml:space="preserve">
-    <value>隐藏</value>
-  </data>
-  <data name="ShowOn" xml:space="preserve">
-    <value>显示</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>删除</value>
@@ -380,18 +299,6 @@
   </data>
   <data name="Shadow.String.Set" xml:space="preserve">
     <value>修改</value>
-  </data>
-  <data name="Id" xml:space="preserve">
-    <value>标识符:</value>
-  </data>
-  <data name="Episode" xml:space="preserve">
-    <value>话</value>
-  </data>
-  <data name="Page" xml:space="preserve">
-    <value>页</value>
-  </data>
-  <data name="Pages" xml:space="preserve">
-    <value>页数:</value>
   </data>
   <data name="Shadow.String.AddNew" xml:space="preserve">
     <value>新增</value>
@@ -405,20 +312,8 @@
   <data name="Shadow.String.Affiliation" xml:space="preserve">
     <value>所属</value>
   </data>
-  <data name="Copy" xml:space="preserve">
-    <value>复制</value>
-  </data>
-  <data name="More" xml:space="preserve">
-    <value>更多</value>
-  </data>
-  <data name="Thumb" xml:space="preserve">
-    <value>缩略图:</value>
-  </data>
   <data name="Settings" xml:space="preserve">
     <value>设置</value>
-  </data>
-  <data name="BookShelfSettings" xml:space="preserve">
-    <value>书架设置</value>
   </data>
   <data name="Add" xml:space="preserve">
     <value>添加</value>
@@ -497,5 +392,8 @@
   </data>
   <data name="Navigate" xml:space="preserve">
     <value>导航</value>
+  </data>
+  <data name="Revise" xml:space="preserve">
+    <value>修改</value>
   </data>
 </root>

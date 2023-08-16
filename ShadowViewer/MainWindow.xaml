@@ -36,13 +36,16 @@
                 <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/AppTitleBarIcon.png" />
             </controls:TitleBar.Icon>
             <controls:TitleBar.Content>
-                <AutoSuggestBox QuerySubmitted="AutoSuggestBox_OnQuerySubmitted"
-                                GotFocus="UIElement_OnGotFocus"
-                                LostFocus="UIElement_OnLostFocus"
-                                ItemsSource="{x:Bind SearchItems, Mode=OneWay}" UpdateTextOnSelect="False"
-                                PlaceholderText="{ex:Locale Key=Search}" TextMemberPath="Title"
-                                SuggestionChosen="AutoSuggestBox_OnSuggestionChosen"
-                                TextChanged="AutoSuggestBox_OnTextChanged">
+                <AutoSuggestBox
+                    GotFocus="UIElement_OnGotFocus"
+                    ItemsSource="{x:Bind SearchItems, Mode=OneWay}"
+                    LostFocus="UIElement_OnLostFocus"
+                    PlaceholderText="{ex:Locale Key=Search}"
+                    QuerySubmitted="AutoSuggestBox_OnQuerySubmitted"
+                    SuggestionChosen="AutoSuggestBox_OnSuggestionChosen"
+                    TextChanged="AutoSuggestBox_OnTextChanged"
+                    TextMemberPath="Title"
+                    UpdateTextOnSelect="False">
                     <AutoSuggestBox.ItemTemplate>
                         <DataTemplate x:DataType="interfaces:IShadowSearchItem">
                             <Grid ColumnSpacing="5">

@@ -1,10 +1,15 @@
-﻿namespace ShadowViewer.Plugin.Local.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
+using ShadowViewer.Interfaces;
+using System;
+
+namespace ShadowViewer.Plugin.Local.Models;
 
 public partial class ShadowPicture : ObservableObject, IShadowPicture
 {
     [ObservableProperty] private int index;
     [ObservableProperty] private ImageSource source;
-
 
     public ShadowPicture(int index, BitmapImage image)
     {

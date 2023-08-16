@@ -1,4 +1,8 @@
-﻿namespace ShadowViewer.Plugin.Local.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using ShadowViewer.Interfaces;
+using ShadowViewer.Models;
+
+namespace ShadowViewer.Plugin.Local.Models;
 
 public partial class ShadowEpisode : ObservableObject, IShadowEpisode
 {

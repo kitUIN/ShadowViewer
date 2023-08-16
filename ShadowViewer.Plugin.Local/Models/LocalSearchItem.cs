@@ -1,4 +1,6 @@
-﻿using ShadowViewer.Plugin.Local.Enums;
+﻿using Microsoft.UI.Xaml.Controls;
+using ShadowViewer.Interfaces;
+using ShadowViewer.Plugin.Local.Enums;
 
 namespace ShadowViewer.Plugin.Local.Models;
 

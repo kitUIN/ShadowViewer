@@ -117,7 +117,7 @@ namespace ShadowViewer.Pages
         private void ShadowCommandStatus_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            Frame.Navigate(typeof(AttributesPage), ContentGridView.SelectedItems[0] as LocalComic);
+            Frame.Navigate(typeof(Plugin.Local.Pages.BookShelfSettingsPage), ContentGridView.SelectedItems[0] as LocalComic);
         }
 
         /// <summary>
@@ -411,7 +411,7 @@ namespace ShadowViewer.Pages
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            this.Frame.Navigate(typeof(BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+            this.Frame.Navigate(typeof(Plugin.Local.Pages.BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
 
         private void HistoryButton_Click(object sender, RoutedEventArgs e)

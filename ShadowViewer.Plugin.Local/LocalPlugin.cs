@@ -3,6 +3,17 @@ using ShadowViewer.Plugin.Local.Enums;
 using ShadowViewer.Plugins;
 using ShadowViewer.Plugin.Local.Models;
 using SqlSugar;
+using ShadowViewer.Interfaces;
+using ShadowViewer.Services;
+using ShadowViewer.Models;
+using ShadowViewer.Extensions;
+using System;
+using System.Collections.Generic;
+using Microsoft.UI.Xaml.Controls;
+using System.Linq;
+using ShadowViewer.ViewModels;
+using ShadowViewer.Args;
+using ShadowViewer.Plugin.Local.Pages;
 
 namespace ShadowViewer.Plugin.Local;
 
@@ -11,7 +22,7 @@ namespace ShadowViewer.Plugin.Local;
     "本地阅读适配器",
     "kitUIN", "0.1.0",
     "https://github.com/kitUIN/ShadowViewer/",
-    "/",
+    "",
     20230808,
     "zh-CN")]
 public class LocalPlugin : PluginBase
@@ -21,19 +32,37 @@ public class LocalPlugin : PluginBase
         compressServices, pluginService)
     {
     }
-
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public override PluginMetaData MetaData { get; } = typeof(LocalPlugin).GetPluginMetaData();
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public override LocalTag AffiliationTag { get; }
-    public override Type SettingsPage { get; }
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public override Type SettingsPage { get; } = typeof(BookShelfSettingsPage);
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public override bool CanSwitch { get; } = false;
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public override bool CanDelete { get; } = false;
-
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     protected override void PluginEnabled()
     {
         Caller.CurrentEpisodeIndexChangedEvent += LoadLocalImage;
         Caller.PicturesLoadStartingEvent += LoadImageFormLocalComic;
     }
-
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     protected override void PluginDisabled()
     {
         Caller.CurrentEpisodeIndexChangedEvent -= LoadLocalImage;

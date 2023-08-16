@@ -22,8 +22,13 @@
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="ViewModels\**" />
+    <EmbeddedResource Remove="ViewModels\**" />
+    <None Remove="ViewModels\**" />
+    <Page Remove="ViewModels\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Remove="Config.cs" />
-    <Compile Remove="ViewModels\BookShelfSettingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
@@ -109,10 +114,10 @@
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="TitleBar\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Core.csproj" />
+    <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\UserPage.xaml">
@@ -128,4 +133,7 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  <ItemGroup>
+    <PRIResource Remove="ViewModels\**" />
+  </ItemGroup>
 </Project>
