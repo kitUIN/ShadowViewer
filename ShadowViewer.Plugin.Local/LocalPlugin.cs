@@ -148,4 +148,9 @@ public class LocalPlugin : PluginBase
     public override void SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
     }
+
+    public override void PluginDeleting()
+    {
+        
+    }
 }

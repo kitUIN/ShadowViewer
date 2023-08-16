@@ -27,13 +27,31 @@ namespace ShadowViewer.Pages
 
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
+            if (sender is FrameworkElement { Tag: IPlugin plugin })
+            {
+                var contentDialog= XamlHelper.CreateMessageDialog(XamlRoot,
+                    ResourcesHelper.GetString(ResourceKey.DeletePlugin) + plugin.MetaData.Name,
+                    ResourcesHelper.GetString(ResourceKey.DeletePluginMessage));
+                contentDialog.IsPrimaryButtonEnabled = true;
+                contentDialog.DefaultButton = ContentDialogButton.Close;
+                contentDialog.PrimaryButtonText = ResourcesHelper.GetString(ResourceKey.Confirm) ;
+                contentDialog.PrimaryButtonClick += async (dialog, args) =>
+                {
+                    var flag = await PluginService.DeleteAsync(plugin.MetaData.Id);
+                    
+                };
+                contentDialog.ShowAsync();
+            }
 
+            
         }
 
         private void More_Click(object sender, RoutedEventArgs e)
         {
-            var flyout = FlyoutBase.GetAttachedFlyout((FrameworkElement)sender);
-            flyout?.ShowAt((FrameworkElement)sender);
+            if (sender is not FrameworkElement source) return;
+            var flyout = FlyoutBase.GetAttachedFlyout(source);
+            flyout?.ShowAt(source);
+
         }
 
         private async void OpenFolder_Click(object sender, RoutedEventArgs e)
@@ -43,7 +61,7 @@ namespace ShadowViewer.Pages
                 try
                 {
                     var file = await plgin.GetType().Assembly.Location.GetFile();
-                    var folder =await file.GetParentAsync();
+                    var folder = await file.GetParentAsync();
                     folder.LaunchFolderAsync();
                 }
                 catch(Exception ex)

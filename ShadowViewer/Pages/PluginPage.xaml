@@ -163,7 +163,7 @@
                                         <MenuFlyoutItem
                                             Click="Delete_Click"
                                             Icon="Delete"
-                                            Tag="{x:Bind MetaData.Id}"
+                                            Tag="{x:Bind }"
                                             Text="{ex:Locale Key=Delete}"
                                             Visibility="{x:Bind CanDelete, Mode=OneWay}" />
                                     </MenuFlyout>

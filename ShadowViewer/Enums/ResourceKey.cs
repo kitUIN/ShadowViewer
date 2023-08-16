@@ -106,5 +106,7 @@
         Object,
         Navigate,
         OpenFolder, 
+        DeletePlugin,
+        DeletePluginMessage,
     }
 }
