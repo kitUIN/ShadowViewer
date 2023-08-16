@@ -143,6 +143,7 @@
                                 <ImageIcon
                                     Width="25"
                                     Height="25"
+                                    Foreground="White"
                                     Source="ms-appx:///Assets/Icons/github.png" />
                             </HyperlinkButton>
                             <HyperlinkButton
@@ -151,7 +152,9 @@
                                 Width="37"
                                 Height="37"
                                 Padding="5"
-                                Click="More_Click">
+                                Click="More_Click"
+                                Loaded="More_Loaded"
+                                Tag="{x:Bind}">
                                 <icons:FluentIcon FontSize="25" Symbol="MoreHorizontalRegular" />
                                 <FlyoutBase.AttachedFlyout>
                                     <MenuFlyout Placement="Right">
@@ -159,11 +162,12 @@
                                             Click="OpenFolder_Click"
                                             Icon="Folder"
                                             Tag="{x:Bind}"
-                                            Text="{ex:Locale Key=OpenFolder}" />
+                                            Text="{ex:Locale Key=OpenFolder}"
+                                            Visibility="{x:Bind CanOpenFolder, Mode=OneWay}" />
                                         <MenuFlyoutItem
                                             Click="Delete_Click"
                                             Icon="Delete"
-                                            Tag="{x:Bind }"
+                                            Tag="{x:Bind}"
                                             Text="{ex:Locale Key=Delete}"
                                             Visibility="{x:Bind CanDelete, Mode=OneWay}" />
                                     </MenuFlyout>

@@ -65,6 +65,10 @@ public class LocalPlugin : PluginBase
     /// <inheritdoc/>
     /// </summary>
     public override bool CanDelete { get; } = false;
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public override bool CanOpenFolder { get; } = false;
 
     /// <summary>
     /// <inheritdoc/>

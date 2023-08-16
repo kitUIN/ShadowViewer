@@ -25,7 +25,7 @@ namespace ShadowViewer.Pages
             }
         }
 
-        private void Delete_Click(object sender, RoutedEventArgs e)
+        private async void Delete_Click(object sender, RoutedEventArgs e)
         {
             if (sender is FrameworkElement { Tag: IPlugin plugin })
             {
@@ -40,7 +40,7 @@ namespace ShadowViewer.Pages
                     var flag = await PluginService.DeleteAsync(plugin.MetaData.Id);
                     
                 };
-                contentDialog.ShowAsync();
+                await contentDialog.ShowAsync();
             }
 
             
@@ -49,6 +49,7 @@ namespace ShadowViewer.Pages
         private void More_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not FrameworkElement source) return;
+            if (sender is FrameworkElement { Tag: IPlugin plugin }   && !plugin.CanOpenFolder && !plugin.CanDelete)return;
             var flyout = FlyoutBase.GetAttachedFlyout(source);
             flyout?.ShowAt(source);
 
@@ -68,6 +69,15 @@ namespace ShadowViewer.Pages
                 {
                     Log.Error("打开文件夹错误{Ex}", ex);
                 }
+            }
+        }
+
+        private void More_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement { Tag: IPlugin plugin } source && !plugin.CanOpenFolder && !plugin.CanDelete)
+            {
+                source.Visibility = Visibility.Collapsed;
+                return;
             }
         }
     }
