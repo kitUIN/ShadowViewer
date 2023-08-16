@@ -31,5 +31,33 @@ namespace ShadowViewer.Pages
                     new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
             }
         }
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void More_Click(object sender, RoutedEventArgs e)
+        {
+            var flyout = FlyoutBase.GetAttachedFlyout((FrameworkElement)sender);
+            flyout?.ShowAt((FrameworkElement)sender);
+        }
+
+        private async void OpenFolder_Click(object sender, RoutedEventArgs e)
+        {
+            if(sender is FrameworkElement { Tag: IPlugin plgin})
+            {
+                try
+                {
+                    var file = await plgin.GetType().Assembly.Location.GetFile();
+                    var folder =await file.GetParentAsync();
+                    folder.LaunchFolderAsync();
+                }
+                catch(Exception ex)
+                {
+                    Log.Error("打开文件夹错误{Ex}", ex);
+                }
+            }
+        }
     }
 }

@@ -33,88 +33,133 @@
                     <Grid
                         Width="300"
                         Height="200"
-                        Padding="10,5,10,0"
+                        Padding="10,5,10,5"
                         Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
                         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
                         BorderThickness="1"
                         CornerRadius="8"
                         RowSpacing="5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="60" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="60" />
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <local2:PluginLogo
-                                Grid.Column="0"
-                                Width="60" FontIconSize="35"
-                                FontSize="40"
-                                Height="60"
-                                Logo="{x:Bind MetaData.Logo}" />
-                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock
-                                    FontSize="20"
-                                    Text="{x:Bind MetaData.Name}"
-                                    TextTrimming="CharacterEllipsis" />
-                                <TextBlock
-                                    Foreground="Gray"
-                                    Text="{x:Bind MetaData.Author}"
-                                    TextTrimming="CharacterEllipsis" />
-                            </StackPanel>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <local2:PluginLogo
+                                    Grid.Column="0"
+                                    Width="60"
+                                    Height="60"
+                                    FontIconSize="35"
+                                    FontSize="40"
+                                    Logo="{x:Bind MetaData.Logo}" />
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock
+                                        FontSize="20"
+                                        Text="{x:Bind MetaData.Name}"
+                                        TextTrimming="CharacterEllipsis" />
+                                    <TextBlock
+                                        Foreground="Gray"
+                                        Text="{x:Bind MetaData.Author}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+
+                            </Grid>
+                            <TextBlock
+                                Grid.Row="1"
+                                Margin="10,0"
+                                Text="{x:Bind MetaData.Description}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap" />
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="80" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel
+                                    Grid.Column="0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical"
+                                    Spacing="3">
+                                    <StackPanel Orientation="Horizontal" Spacing="3">
+                                        <icons:FluentIcon Symbol="PredictionsRegular" />
+                                        <TextBlock Text="{x:Bind MetaData.Id}" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Spacing="3">
+                                        <icons:FluentIcon Symbol="TargetArrowRegular" />
+                                        <TextBlock Text="{x:Bind MetaData.Version}" />
+                                    </StackPanel>
+                                </StackPanel>
+                                <ToggleSwitch
+                                    Grid.Column="1"
+                                    VerticalAlignment="Bottom"
+                                    IsEnabled="{x:Bind CanSwitch, Mode=OneWay}"
+                                    IsOn="{x:Bind IsEnabled, Mode=TwoWay}" />
+
+
+                            </Grid>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <HyperlinkButton
-                                Grid.Column="2"
+                                Grid.Row="0"
+                                Width="37"
+                                Height="37"
                                 Padding="5"
                                 NavigateUri="{x:Bind MetaData.WebUri}">
-                                <Image
+                                <ImageIcon
                                     Width="25"
                                     Height="25"
                                     Source="ms-appx:///Assets/Icons/github.png" />
                             </HyperlinkButton>
-                        </Grid>
-                        <TextBlock
-                            Grid.Row="1"
-                            Margin="10,0"
-                            Text="{x:Bind MetaData.Description}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="Wrap" />
-                        <Grid Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel
-                                Grid.Column="0"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Orientation="Vertical"
-                                Spacing="3">
-                                <StackPanel Orientation="Horizontal" Spacing="3">
-                                    <icons:FluentIcon Symbol="PredictionsRegular" />
-                                    <TextBlock Text="{x:Bind MetaData.Id}" />
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Spacing="3">
-                                    <icons:FluentIcon Symbol="TargetArrowRegular" />
-                                    <TextBlock Text="{x:Bind MetaData.Version}" />
-                                </StackPanel>
-                            </StackPanel>
-                            <ToggleSwitch
-                                Grid.Column="1"
-                                VerticalAlignment="Center"
-                                IsEnabled="{x:Bind CanSwitch, Mode=OneWay}"
-                                IsOn="{x:Bind IsEnabled, Mode=TwoWay}" />
-
                             <HyperlinkButton
-                                Grid.Column="2"
+                                x:Name="More"
+                                Grid.Row="3"
+                                Width="37"
+                                Height="37"
+                                Padding="5"
+                                Click="More_Click">
+                                <icons:FluentIcon FontSize="25" Symbol="MoreHorizontalRegular" />
+                                <FlyoutBase.AttachedFlyout>
+                                    <MenuFlyout Placement="Right">
+                                        <MenuFlyoutItem
+                                            Click="OpenFolder_Click"
+                                            Icon="Folder"
+                                            Tag="{x:Bind}"
+                                            Text="{ex:Locale Key=OpenFolder}" />
+                                        <MenuFlyoutItem
+                                            Click="Delete_Click"
+                                            Icon="Delete"
+                                            Tag="{x:Bind MetaData.Id}"
+                                            Text="{ex:Locale Key=Delete}"
+                                            Visibility="{x:Bind CanDelete, Mode=OneWay}" />
+                                    </MenuFlyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </HyperlinkButton>
+                            <HyperlinkButton
+                                Grid.Row="4"
+                                Width="37"
+                                Height="37"
                                 Padding="5"
                                 Click="Settings_Click"
                                 Tag="{x:Bind MetaData.Id}">
-                                <FontIcon Glyph="&#xE713;" />
+                                <icons:FluentIcon FontSize="25" Symbol="SettingsRegular" />
                             </HyperlinkButton>
                         </Grid>
                     </Grid>

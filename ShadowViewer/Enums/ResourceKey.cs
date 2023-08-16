@@ -105,5 +105,6 @@
         SelectionHeader,
         Object,
         Navigate,
+        OpenFolder, 
     }
 }

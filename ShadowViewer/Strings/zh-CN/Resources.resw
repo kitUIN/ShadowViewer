@@ -396,4 +396,7 @@
   <data name="Revise" xml:space="preserve">
     <value>修改</value>
   </data>
+  <data name="OpenFolder" xml:space="preserve">
+    <value>打开文件夹</value>
+  </data>
 </root>
