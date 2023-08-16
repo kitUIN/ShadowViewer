@@ -361,7 +361,7 @@
     <value>没有插件?</value>
   </data>
   <data name="GoPluginTip" xml:space="preserve">
-    <value>前往挑选</value>
+    <value>前往挑选插件</value>
   </data>
   <data name="LogPathDescription" xml:space="preserve">
     <value>存放日志的文件夹</value>

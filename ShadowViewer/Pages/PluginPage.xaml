@@ -18,11 +18,28 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock
+        <Grid
             Grid.Row="0"
-            Margin="20,10,0,0"
-            FontSize="25"
-            Text="{ex:Locale Key=PluginManager}" />
+            Padding="20,10"
+            ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                FontSize="25"
+                Text="{ex:Locale Key=PluginManager}" />
+            <HyperlinkButton
+                Grid.Column="1"
+                Margin="0,0,0,10"
+                Content="{ex:Locale Key=GoPluginTip}"
+                NavigateUri="https://github.com/kitUIN/ShadowViewer#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8" />
+        </Grid>
+
         <GridView
             Grid.Row="1"
             Margin="20,10,0,0"
@@ -166,21 +183,6 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <InfoBar
-            x:Name="NoPluginInfoBar"
-            Title="{ex:Locale Key=NoPluginTip}"
-            Grid.Row="1"
-            Width="300"
-            Margin="10"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            IsClosable="True"
-            Loaded="NoPluginInfoBar_Loaded"
-            Severity="Warning">
-            <HyperlinkButton
-                Margin="0,0,0,10"
-                Content="{ex:Locale Key=GoPluginTip}"
-                NavigateUri="https://github.com/kitUIN/ShadowViewer#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8" />
-        </InfoBar>
+
     </Grid>
 </Page>

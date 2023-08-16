@@ -12,13 +12,6 @@ namespace ShadowViewer.Pages
             PluginService = DiFactory.Services.Resolve<IPluginService>();
         }
         
-        private void NoPluginInfoBar_Loaded(object sender, RoutedEventArgs e)
-        {
-            if(PluginService.Plugins.Count == 0)
-            {
-                NoPluginInfoBar.IsOpen = true;
-            }
-        }
         /// <summary>
         /// «∞Õ˘≤Âº˛…Ë÷√
         /// </summary>
