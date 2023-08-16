@@ -11,9 +11,13 @@ using System;
 using System.Collections.Generic;
 using Microsoft.UI.Xaml.Controls;
 using System.Linq;
+using DryIoc;
 using ShadowViewer.ViewModels;
 using ShadowViewer.Args;
 using ShadowViewer.Plugin.Local.Pages;
+using ShadowViewer.Plugin.Local.Services;
+using ShadowViewer.Plugin.Local.ViewModels;
+using AttributesViewModel = ShadowViewer.Plugin.Local.ViewModels.AttributesViewModel;
 
 namespace ShadowViewer.Plugin.Local;
 
@@ -31,42 +35,54 @@ public class LocalPlugin : PluginBase
         CompressService compressServices, IPluginService pluginService) : base(callableService, sqlSugarClient,
         compressServices, pluginService)
     {
+        DiFactory.Services.Register<PicViewService>(Reuse.Singleton);
+        DiFactory.Services.Register<AttributesViewModel>(Reuse.Transient);
+        DiFactory.Services.Register<PicViewModel>(Reuse.Transient);
     }
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     public override PluginMetaData MetaData { get; } = typeof(LocalPlugin).GetPluginMetaData();
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     public override LocalTag AffiliationTag { get; }
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     public override Type SettingsPage { get; } = typeof(BookShelfSettingsPage);
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     public override bool CanSwitch { get; } = false;
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     public override bool CanDelete { get; } = false;
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     protected override void PluginEnabled()
     {
-        Caller.CurrentEpisodeIndexChangedEvent += LoadLocalImage;
-        Caller.PicturesLoadStartingEvent += LoadImageFormLocalComic;
+        var picViewService = DiFactory.Services.Resolve<PicViewService>();
+        picViewService.CurrentEpisodeIndexChangedEvent += LoadLocalImage;
+        picViewService.PicturesLoadStartingEvent += LoadImageFormLocalComic;
     }
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     protected override void PluginDisabled()
     {
-        Caller.CurrentEpisodeIndexChangedEvent -= LoadLocalImage;
-        Caller.PicturesLoadStartingEvent -= LoadImageFormLocalComic;
+        var picViewService = DiFactory.Services.Resolve<PicViewService>();
+        picViewService.CurrentEpisodeIndexChangedEvent -= LoadLocalImage;
+        picViewService.PicturesLoadStartingEvent -= LoadImageFormLocalComic;
     }
 
     /// <summary>
@@ -122,16 +138,13 @@ public class LocalPlugin : PluginBase
     /// </summary>
     public override void SearchSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
     {
-        if (args.SelectedItem is LocalSearchItem item)
-        {
-            sender.Text = item.Title;
-        }
+        if (args.SelectedItem is LocalSearchItem item) sender.Text = item.Title;
     }
+
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
     public override void SearchQuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
     {
-        
     }
 }

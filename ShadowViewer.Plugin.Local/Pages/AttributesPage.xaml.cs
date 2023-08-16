@@ -15,6 +15,7 @@ using ShadowViewer.Models;
 using ShadowViewer.Plugin.Local.Enums;
 using ShadowViewer.Plugin.Local.Helpers;
 using ShadowViewer.ViewModels;
+using AttributesViewModel = ShadowViewer.Plugin.Local.ViewModels.AttributesViewModel;
 
 namespace ShadowViewer.Plugin.Local.Pages;
 

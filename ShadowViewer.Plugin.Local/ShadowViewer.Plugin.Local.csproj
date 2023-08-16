@@ -15,4 +15,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Core.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\PicPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 </Project>

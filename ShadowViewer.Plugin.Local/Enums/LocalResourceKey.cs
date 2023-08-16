@@ -52,5 +52,8 @@ namespace ShadowViewer.Plugin.Local.Enums
         Thumb,
         Path,
         Link,
+        Tag,
+        AddTag,
+        Affiliation,
     }
 }

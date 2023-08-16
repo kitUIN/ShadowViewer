@@ -162,4 +162,13 @@
   <data name="Revise" xml:space="preserve">
     <value>修改</value>
   </data>
+  <data name="Tag" xml:space="preserve">
+    <value>标签</value>
+  </data>
+  <data name="AddTag" xml:space="preserve">
+    <value>添加标签</value>
+  </data>
+  <data name="Affiliation" xml:space="preserve">
+    <value>所属</value>
+  </data>
 </root>
