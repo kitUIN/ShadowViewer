@@ -1,3 +1,4 @@
+using ShadowViewer.Plugin.Local.Pages;
 using SqlSugar;
 
 namespace ShadowViewer.Pages
