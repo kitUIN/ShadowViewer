@@ -33,7 +33,7 @@
                 <ItemsRepeater.ItemTemplate>
                     <DataTemplate x:DataType="interfaces:IShadowPicture">
                         <Grid Padding="100,0" Tag="{x:Bind}">
-                            <TextBlock Text="{x:Bind Index}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"></TextBlock>
+                            <TextBlock Padding="0,100" Text="{x:Bind Index}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="45"></TextBlock>
                             <Image Source="{x:Bind Source, Mode=OneWay}" />
                         </Grid>
                     </DataTemplate>

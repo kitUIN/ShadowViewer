@@ -28,7 +28,8 @@ namespace ShadowViewer.Plugin.Local;
     "https://github.com/kitUIN/ShadowViewer/",
     "fluent://\uEA4E",
     20230808,
-    "zh-CN")]
+    null,
+    new []{"zh-CN"})]
 public class LocalPlugin : PluginBase
 {
     public LocalPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
