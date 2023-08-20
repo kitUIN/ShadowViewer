@@ -36,12 +36,12 @@ namespace ShadowViewer.Pages
             Caller.NavigationViewPaneEvent += Caller_NavigationViewPaneEvent;
         }
 
-        private void Caller_NavigationViewPaneEvent(object sender, EventArgs e)
+        private void Caller_NavigationViewPaneEvent(object? sender, EventArgs e)
         {
             NavView.IsPaneOpen = !NavView.IsPaneOpen;
         }
 
-        private void Caller_NavigationViewBackRequestedEvent(object sender, EventArgs e)
+        private void Caller_NavigationViewBackRequestedEvent(object? sender, EventArgs e)
         {
             if (!ContentFrame.CanGoBack) return;
             ContentFrame.GoBack();
@@ -129,7 +129,7 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 启用或禁用插件时更新左侧导航栏
         /// </summary>
-        private void CallerOnPluginEnabledEvent(object sender, PluginEventArg e)
+        private void CallerOnPluginEnabledEvent(object? sender, PluginEventArg e)
         {
             ViewModel.ReloadItems();
         }

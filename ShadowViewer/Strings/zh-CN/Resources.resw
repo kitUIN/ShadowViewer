@@ -528,4 +528,7 @@
   <data name="AddNew" xml:space="preserve">
     <value>新增</value>
   </data>
+  <data name="BookShelf" xml:space="preserve">
+    <value>书架</value>
+  </data>
 </root>

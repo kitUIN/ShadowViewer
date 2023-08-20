@@ -115,5 +115,6 @@
         AddTag,
         Affiliation,
         Group,
+        BookShelf,
     }
 }

@@ -10,6 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:models="using:ShadowViewer.Models"
+    xmlns:interfaces="using:ShadowViewer.Interfaces"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Grid
@@ -34,7 +35,7 @@
 
             <Frame x:Name="ContentFrame" />
             <NavigationView.MenuItemTemplate>
-                <DataTemplate x:DataType="models:ShadowNavigationItem">
+                <DataTemplate x:DataType="interfaces:IShadowNavigationItem">
                     <NavigationViewItem
                         Content="{x:Bind Content, Mode=OneWay}"
                         Icon="{x:Bind Icon, Mode=OneWay}"
