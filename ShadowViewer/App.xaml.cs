@@ -1,7 +1,7 @@
 ﻿using CustomExtensions.WinUI;
 using Serilog;
 using ShadowViewer.Interfaces;
-using ShadowViewer.Plugin.Core;
+using ShadowViewer.Plugin.Local;
 using ShadowViewer.Plugins;
 using SqlSugar;
 using System.Globalization;
@@ -26,7 +26,6 @@ namespace ShadowViewer
         {
             DiFactory.Services.Register<AttributesViewModel>(Reuse.Transient);
             DiFactory.Services.Register<PicViewModel>(Reuse.Transient);
-            DiFactory.Services.Register<INavigationResponder, ShadowNavigationResponder>(reuse:Reuse.Singleton,made: Parameters.Of.Type<string>(_ => ""));
         }
         /// <summary>
         /// 初始化数据库
@@ -48,7 +47,10 @@ namespace ShadowViewer
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
-            
+            var currentCulture = CultureInfo.CurrentUICulture;
+            var startupWindow = new MainWindow();
+            WindowHelper.TrackWindow(startupWindow);
+            ThemeHelper.Initialize(startupWindow);
             // 插件依赖注入
             var pluginServices = DiFactory.Services.Resolve<PluginService>();
             pluginServices.Import<LocalPlugin>();
@@ -60,10 +62,6 @@ namespace ShadowViewer
             {
                 Log.Error("{E}", ex);
             }
-            var currentCulture = CultureInfo.CurrentUICulture;
-            var startupWindow = new MainWindow();
-            WindowHelper.TrackWindow(startupWindow);
-            ThemeHelper.Initialize(startupWindow);
 #if DEBUG
             // 这里是测试插件用的, ImportAsync里填入你Debug出来的插件dll位置
             await pluginServices.ImportAsync( @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");

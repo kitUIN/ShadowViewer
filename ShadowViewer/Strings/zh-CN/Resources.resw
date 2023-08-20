@@ -147,9 +147,6 @@
   <data name="Shadow.FileType.ComicFolder" xml:space="preserve">
     <value>漫画文件夹</value>
   </data>
-  <data name="Shadow.String.Canel" xml:space="preserve">
-    <value>取消</value>
-  </data>
   <data name="Confirm" xml:space="preserve">
     <value>确认</value>
   </data>
@@ -161,9 +158,6 @@
   </data>
   <data name="Shadow.String.CreateFolder.Title" xml:space="preserve">
     <value>新建文件夹</value>
-  </data>
-  <data name="DeleteComicFiles" xml:space="preserve">
-    <value>删除缓存漫画文件</value>
   </data>
   <data name="Import" xml:space="preserve">
     <value>导入</value>
@@ -182,12 +176,6 @@
   </data>
   <data name="ImportText" xml:space="preserve">
     <value>将文件拖到这并导入为漫画/插件</value>
-  </data>
-  <data name="IsDelete" xml:space="preserve">
-    <value>确定要删除吗</value>
-  </data>
-  <data name="Remember" xml:space="preserve">
-    <value>记住我的选择,不再提示</value>
   </data>
   <data name="Shadow.String.ZipPassword" xml:space="preserve">
     <value>解压密码</value>
@@ -215,30 +203,6 @@
   </data>
   <data name="MoveTo" xml:space="preserve">
     <value>移动到</value>
-  </data>
-  <data name="AZ" xml:space="preserve">
-    <value>字母顺序A-Z</value>
-  </data>
-  <data name="CA" xml:space="preserve">
-    <value>创建时间早-晚</value>
-  </data>
-  <data name="CZ" xml:space="preserve">
-    <value>创建时间晚-早</value>
-  </data>
-  <data name="PA" xml:space="preserve">
-    <value>阅读进度小-大</value>
-  </data>
-  <data name="PZ" xml:space="preserve">
-    <value>阅读进度大-小</value>
-  </data>
-  <data name="RA" xml:space="preserve">
-    <value>阅读时间早-晚</value>
-  </data>
-  <data name="RZ" xml:space="preserve">
-    <value>阅读时间晚-早</value>
-  </data>
-  <data name="ZA" xml:space="preserve">
-    <value>字母顺序Z-A</value>
   </data>
   <data name="FolderDescription" xml:space="preserve">
     <value>设置文件夹位置</value>
@@ -294,9 +258,6 @@
   <data name="Delete" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="Rename" xml:space="preserve">
-    <value>重命名</value>
-  </data>
   <data name="Shadow.String.Set" xml:space="preserve">
     <value>修改</value>
   </data>
@@ -311,30 +272,6 @@
   </data>
   <data name="Shadow.String.Affiliation" xml:space="preserve">
     <value>所属</value>
-  </data>
-  <data name="Settings" xml:space="preserve">
-    <value>设置</value>
-  </data>
-  <data name="Add" xml:space="preserve">
-    <value>添加</value>
-  </data>
-  <data name="NewFolder" xml:space="preserve">
-    <value>新建文件夹</value>
-  </data>
-  <data name="ImportFromFolder" xml:space="preserve">
-    <value>从文件夹导入</value>
-  </data>
-  <data name="ImportFromZip" xml:space="preserve">
-    <value>从压缩文件导入</value>
-  </data>
-  <data name="Refresh" xml:space="preserve">
-    <value>刷新</value>
-  </data>
-  <data name="Filter" xml:space="preserve">
-    <value>筛选</value>
-  </data>
-  <data name="Sort" xml:space="preserve">
-    <value>排序</value>
   </data>
   <data name="AppTitle" xml:space="preserve">
     <value>ShadowViewer</value>
@@ -354,38 +291,8 @@
   <data name="PluginsPathDescription" xml:space="preserve">
     <value>存放插件的位置</value>
   </data>
-  <data name="PluginManager" xml:space="preserve">
-    <value>插件管理器</value>
-  </data>
-  <data name="NoPluginTip" xml:space="preserve">
-    <value>没有插件?</value>
-  </data>
-  <data name="GoPluginTip" xml:space="preserve">
-    <value>前往挑选插件</value>
-  </data>
   <data name="LogPathDescription" xml:space="preserve">
     <value>存放日志的文件夹</value>
-  </data>
-  <data name="Status" xml:space="preserve">
-    <value>属性</value>
-  </data>
-  <data name="SimpleView" xml:space="preserve">
-    <value>简单视图</value>
-  </data>
-  <data name="DetailView" xml:space="preserve">
-    <value>详细视图</value>
-  </data>
-  <data name="BookShelfEmpty" xml:space="preserve">
-    <value>什么都没有呢,点击右下角❓查看帮助吧</value>
-  </data>
-  <data name="Object" xml:space="preserve">
-    <value>对象</value>
-  </data>
-  <data name="CurrentFolder" xml:space="preserve">
-    <value>当前文件夹</value>
-  </data>
-  <data name="SelectionHeader" xml:space="preserve">
-    <value>选择</value>
   </data>
   <data name="Search" xml:space="preserve">
     <value>搜索</value>
@@ -395,15 +302,6 @@
   </data>
   <data name="Revise" xml:space="preserve">
     <value>修改</value>
-  </data>
-  <data name="OpenFolder" xml:space="preserve">
-    <value>打开文件夹</value>
-  </data>
-  <data name="DeletePlugin" xml:space="preserve">
-    <value>删除插件</value>
-  </data>
-  <data name="DeletePluginMessage" xml:space="preserve">
-    <value>确定要删除吗?该操作不可逆</value>
   </data>
   <data name="Update" xml:space="preserve">
     <value>更新</value>

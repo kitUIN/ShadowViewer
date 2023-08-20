@@ -342,12 +342,8 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void Caller_NavigationToolKit_NavigateTo(object sender, NavigateToEventArgs e)
         {
-            if (e.Page is not null)
-            {
-                if (Type.Equals(ContentFrame.CurrentSourcePageType,e.Page)&&!e.Force) return;
-                ContentFrame.Navigate(e.Page,e.Parameter);
-            }
-            
+            if (Type.Equals(ContentFrame.CurrentSourcePageType,e.Page)&&!e.Force) return;
+            ContentFrame.Navigate(e.Page,e.Parameter);
         }
 
         /// <summary>
