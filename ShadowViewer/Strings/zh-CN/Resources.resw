@@ -429,4 +429,7 @@
   <data name="BookShelf" xml:space="preserve">
     <value>书架</value>
   </data>
+  <data name="Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
 </root>

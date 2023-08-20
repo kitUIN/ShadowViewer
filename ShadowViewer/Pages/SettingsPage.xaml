@@ -1,7 +1,4 @@
-﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
-<!--  Licensed under the MIT License.  -->
-
-<Page
+﻿<Page
     x:Class="ShadowViewer.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -16,11 +13,15 @@
     xmlns:plugin="using:ShadowViewer.Plugins"
     xmlns:viewModels="using:ShadowViewer.ViewModels"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     mc:Ignorable="d">
+    <Page.Resources>
+        <converters:EmptyObjectToObjectConverter x:Key="EmptyObjectToBoolConverter" EmptyValue="False" NotEmptyValue="True"/>
+    </Page.Resources>
     <Grid
         Background="{ThemeResource LayerFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-        BorderThickness="1"
+        BorderThickness="1" RowSpacing="10"
         CornerRadius="{ThemeResource NavigationViewContentGridCornerRadius}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -123,7 +124,7 @@
                        <DataTemplate x:DataType="plugin:IPlugin">
                            <labs:SettingsCard x:Name="PluginSetting" Tag="{x:Bind MetaData.Id}" Click="PluginSetting_OnClick"
                                IsActionIconVisible="True"
-                               IsClickEnabled="True">
+                               IsClickEnabled="{x:Bind SettingsPage ,Converter={StaticResource EmptyObjectToBoolConverter}}">
                                <labs:SettingsCard.Header>
                                    <local2:ShadowSettingHeader Description="{x:Bind MetaData.Description}" Header="{x:Bind MetaData.Name}">
                                        <local2:PluginLogo
