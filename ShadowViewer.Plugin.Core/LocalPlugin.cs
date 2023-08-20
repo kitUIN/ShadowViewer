@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
-using ShadowViewer.Plugin.Local.Enums;
+using ShadowViewer.Plugin.Core.Enums;
 using ShadowViewer.Plugins;
-using ShadowViewer.Plugin.Local.Models;
+using ShadowViewer.Plugin.Core.Models;
 using SqlSugar;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Services;
@@ -14,13 +14,13 @@ using System.Linq;
 using DryIoc;
 using ShadowViewer.ViewModels;
 using ShadowViewer.Args;
-using ShadowViewer.Plugin.Local.Services;
+using ShadowViewer.Plugin.Core.Services;
 
-namespace ShadowViewer.Plugin.Local;
+namespace ShadowViewer.Plugin.Core;
 
-[PluginMetaData("Local",
-    "本地阅读器",
-    "本地阅读适配器",
+[PluginMetaData("Core",
+    "阅读器应用核心",
+    "阅读器核心功能插件",
     "kitUIN", "0.1.0",
     "https://github.com/kitUIN/ShadowViewer/",
     "fluent://\uEA4E",
@@ -30,10 +30,10 @@ namespace ShadowViewer.Plugin.Local;
 public class LocalPlugin : PluginBase
 {
     public LocalPlugin(ICallableService callableService, ISqlSugarClient sqlSugarClient,
-        CompressService compressServices, IPluginService pluginService) : base(callableService, sqlSugarClient,
+        CompressService compressServices, PluginService pluginService) : base(callableService, sqlSugarClient,
         compressServices, pluginService)
     {
-        DiFactory.Services.Register<PicViewService>(Reuse.Singleton);
+        // DiFactory.Services.Register<PicViewService>(Reuse.Singleton);
     }
 
     /// <summary>

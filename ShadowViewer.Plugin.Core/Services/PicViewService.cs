@@ -3,7 +3,7 @@ using Serilog;
 using ShadowViewer.Args;
 using ShadowViewer.ViewModels; 
 
-namespace ShadowViewer.Plugin.Local.Services;
+namespace ShadowViewer.Plugin.Core.Services;
 
 public class PicViewService
 {

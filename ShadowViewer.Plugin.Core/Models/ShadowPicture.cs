@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using ShadowViewer.Interfaces;
 using System;
 
-namespace ShadowViewer.Plugin.Local.Models;
+namespace ShadowViewer.Plugin.Core.Models;
 
 public partial class ShadowPicture : ObservableObject, IShadowPicture
 {

@@ -123,7 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Core.csproj" />
-    <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
+    <ProjectReference Include="..\ShadowViewer.Plugin.Core\ShadowViewer.Plugin.Core.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\UserPage.xaml">

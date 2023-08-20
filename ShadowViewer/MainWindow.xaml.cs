@@ -7,7 +7,7 @@ public sealed partial class MainWindow : WindowEx
 {
     public ObservableCollection<IShadowSearchItem> SearchItems { get; } = new();
     private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
-    private IPluginService Plugins { get; } = DiFactory.Services.Resolve<IPluginService>();
+    private PluginService Plugins { get; } = DiFactory.Services.Resolve<PluginService>();
 
     public MainWindow()
     {

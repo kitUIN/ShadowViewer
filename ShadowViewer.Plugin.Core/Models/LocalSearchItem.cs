@@ -1,8 +1,8 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using ShadowViewer.Interfaces;
-using ShadowViewer.Plugin.Local.Enums;
+using ShadowViewer.Plugin.Core.Enums;
 
-namespace ShadowViewer.Plugin.Local.Models;
+namespace ShadowViewer.Plugin.Core.Models;
 
 public class LocalSearchItem : IShadowSearchItem
 {

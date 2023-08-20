@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShadowViewer.Plugin.Local.Enums
+namespace ShadowViewer.Plugin.Core.Enums
 {
     /// <summary>
     /// 本地化 键
@@ -55,5 +55,6 @@ namespace ShadowViewer.Plugin.Local.Enums
         Tag,
         AddTag,
         Affiliation,
+        BookShelf,
     }
 }

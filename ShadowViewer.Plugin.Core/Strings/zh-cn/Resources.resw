@@ -171,4 +171,7 @@
   <data name="Affiliation" xml:space="preserve">
     <value>所属</value>
   </data>
+  <data name="BookShelf" xml:space="preserve">
+    <value>书架</value>
+  </data>
 </root>

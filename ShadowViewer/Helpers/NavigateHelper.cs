@@ -13,7 +13,7 @@ namespace ShadowViewer.Helpers
             if (uri.Scheme != "shadow") return;
             var db =  DiFactory.Services.Resolve<ISqlSugarClient>();
             var navigationToolKit = DiFactory.Services.Resolve<ICallableService>();
-            var pluginService = DiFactory.Services.Resolve<IPluginService>();
+            var pluginService = DiFactory.Services.Resolve<PluginService>();
             var urls = uri.AbsolutePath.Split(new char[] { '/',}, StringSplitOptions.RemoveEmptyEntries);
             // 本地
             switch (uri.Host)

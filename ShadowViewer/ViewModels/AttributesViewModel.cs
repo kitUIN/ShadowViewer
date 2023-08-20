@@ -9,8 +9,8 @@ using ShadowViewer.Enums;
 using ShadowViewer.Helpers;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Models;
-using ShadowViewer.Plugin.Local.Enums;
-using ShadowViewer.Plugin.Local.Helpers;
+using ShadowViewer.Plugin.Core.Enums;
+using ShadowViewer.Plugin.Core.Helpers;
 using SqlSugar;
 
 namespace ShadowViewer.ViewModels;
@@ -42,7 +42,7 @@ public partial class AttributesViewModel : ObservableObject
     /// </summary>
     public bool IsHaveEpisodes => Episodes.Count != 0;
 
-    private readonly IPluginService pluginService;
+    private readonly PluginService pluginService;
     private ISqlSugarClient Db { get; }
     private ILogger Logger { get; }
 
@@ -53,7 +53,7 @@ public partial class AttributesViewModel : ObservableObject
         ReLoadEps();
     }
 
-    public AttributesViewModel(IPluginService pluginService, ISqlSugarClient sqlSugarClient, ILogger logger)
+    public AttributesViewModel(PluginService pluginService, ISqlSugarClient sqlSugarClient, ILogger logger)
     {
         this.pluginService = pluginService;
         Db = sqlSugarClient;

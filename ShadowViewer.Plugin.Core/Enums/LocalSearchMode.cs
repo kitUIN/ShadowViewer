@@ -1,4 +1,4 @@
-﻿namespace ShadowViewer.Plugin.Local.Enums;
+﻿namespace ShadowViewer.Plugin.Core.Enums;
 
 public enum LocalSearchMode
 {

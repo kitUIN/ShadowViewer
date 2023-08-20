@@ -4,6 +4,7 @@ using System.Threading;
 using SqlSugar;
 using System.Diagnostics;
 using ShadowViewer.Args;
+using ShadowViewer.Responders;
 using ShadowViewer.Services;
 
 namespace ShadowViewer.Pages
@@ -14,14 +15,14 @@ namespace ShadowViewer.Pages
         private static CancellationTokenSource _cancelTokenSource;
         private NavigationViewModel ViewModel { get; }
         private ICallableService Caller { get; }
-        private IPluginService PluginService { get; }
+        private PluginService PluginService { get; }
 
         public NavigationPage()
         {
             this.InitializeComponent();
             ViewModel = DiFactory.Services.Resolve<NavigationViewModel>();
             Caller = DiFactory.Services.Resolve<ICallableService>();
-            PluginService = DiFactory.Services.Resolve<IPluginService>();
+            PluginService = DiFactory.Services.Resolve<PluginService>();
             Caller.ImportComicEvent += Caller_ImportComicEvent;
             Caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
             Caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
@@ -354,38 +355,19 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            Type page = null;
-            object parameter = null;
+            Type? page = null;
+            object? parameter = null;
             if (args.IsSettingsInvoked)
             {
                 page = typeof(SettingsPage);
                 parameter = new Uri("shadow://settings/");
             }
-            else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag is ShadowNavigationItem item)
+            else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag is IShadowNavigationItem item)
             {
-                switch (item.Id)
+                foreach (var p in DiFactory.Services.ResolveMany<INavigationResponder>())
                 {
-                    case "BookShelf":
-                        page = typeof(BookShelfPage);
-                        parameter = new Uri("shadow://local/");
-                        break;
-                    case "Download":
-                        page = typeof(DownloadPage);
-                        break;
-                    case "User":
-                        page = typeof(UserPage);
-                        break;
-                    case "Plugins":
-                        page = typeof(PluginPage);
-                        break;
-                    default:
-                        foreach (var p in PluginService.EnabledPlugins)
-                        {
-                            p.NavigationViewItemInvokedHandler(item, ref page, ref parameter);
-                            if (page != null) break;
-                        }
-
-                        break;
+                    p.NavigationViewItemInvokedHandler(item, ref page, ref parameter);
+                    if (page != null) break;
                 }
             }
 
@@ -399,8 +381,9 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// ³õÊ¼»¯²å¼þ
         /// </summary>
-        private async void NavView_Loaded(object sender, RoutedEventArgs e)
+        private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
+            
         }
 
         /// <summary>

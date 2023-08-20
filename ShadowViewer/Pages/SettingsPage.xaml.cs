@@ -5,7 +5,7 @@ namespace ShadowViewer.Pages;
 public sealed partial class SettingsPage : Page
 {
     private SettingsViewModel ViewModel { get; }
-    private IPluginService PluginService { get; }
+    private PluginService PluginService { get; }
     private ICallableService Caller { get; }
     public bool IsUnPackaged = !ConfigHelper.IsPackaged;
 
@@ -13,7 +13,7 @@ public sealed partial class SettingsPage : Page
     {
         InitializeComponent();
         ViewModel = DiFactory.Services.Resolve<SettingsViewModel>();
-        PluginService = DiFactory.Services.Resolve<IPluginService>();
+        PluginService = DiFactory.Services.Resolve<PluginService>();
         Caller = DiFactory.Services.Resolve<ICallableService>();
         var currentTheme = ThemeHelper.RootTheme;
         switch (currentTheme)
@@ -32,29 +32,11 @@ public sealed partial class SettingsPage : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        //Caller.NavigateTo(NavigateMode.Type, e.SourcePageType, null, null);
     }
 
     protected override void OnNavigatedFrom(NavigationEventArgs e)
     {
     }
-
-    private void PluginToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-    {
-        var toggle = (ToggleSwitch)sender;
-        var id = toggle.Tag.ToString();
-        if (toggle.IsOn)
-            PluginService.PluginEnabled(id);
-        else
-            PluginService.PluginDisabled(id);
-        //TODO �����ر��¼�MessageHelper.SendNavigationReloadPlugin();
-    }
-
-    private void PluginWebLink_Click(object sender, RoutedEventArgs e)
-    {
-        if (sender is SettingsCard { Tag: Uri webUri }) webUri.LaunchUriAsync();
-    }
-
     private async void LogButton_Click(object sender, RoutedEventArgs e)
     {
         var defaultPath = ConfigHelper.IsPackaged
@@ -86,13 +68,13 @@ public sealed partial class SettingsPage : Page
     private async void TempPath_Click(object sender, RoutedEventArgs e)
     {
         var folder = await FileHelper.SelectFolderAsync(this, "TempPath");
-        if (folder != null) ViewModel.TempPath = folder.Path;
+        ViewModel.TempPath = folder.Path;
     }
 
     private async void ComicsPath_Click(object sender, RoutedEventArgs e)
     {
         var folder = await FileHelper.SelectFolderAsync(this, "ComicsPath");
-        if (folder != null) ViewModel.ComicsPath = folder.Path;
+        ViewModel.ComicsPath = folder.Path;
     }
 
     private void Open_Click(object sender, RoutedEventArgs e)
@@ -109,9 +91,9 @@ public sealed partial class SettingsPage : Page
     /// </summary>
     private void PluginSetting_OnClick(object sender, RoutedEventArgs e)
     {
-        if (sender is FrameworkElement { Tag: string id } && PluginService.GetPlugin(id) is IPlugin
+        if (sender is FrameworkElement { Tag: string id } && PluginService.GetPlugin(id) is
             {
-                SettingsPage: Type page
+                SettingsPage: { } page
             })
             Frame.Navigate(page, null,
                 new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });

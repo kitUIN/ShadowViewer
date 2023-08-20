@@ -1,8 +1,8 @@
 ﻿using Microsoft.UI.Xaml.Markup;
 using ShadowViewer.Enums;
 using ShadowViewer.Helpers;
-using ShadowViewer.Plugin.Local.Enums;
-using ShadowViewer.Plugin.Local.Helpers;
+using ShadowViewer.Plugin.Core.Enums;
+using ShadowViewer.Plugin.Core.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

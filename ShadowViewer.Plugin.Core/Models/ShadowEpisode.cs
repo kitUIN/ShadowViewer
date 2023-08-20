@@ -2,7 +2,7 @@
 using ShadowViewer.Interfaces;
 using ShadowViewer.Models;
 
-namespace ShadowViewer.Plugin.Local.Models;
+namespace ShadowViewer.Plugin.Core.Models;
 
 public partial class ShadowEpisode : ObservableObject, IShadowEpisode
 {

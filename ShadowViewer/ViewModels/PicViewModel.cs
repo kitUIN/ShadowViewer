@@ -4,7 +4,7 @@ using Serilog;
 using ShadowViewer.Args;
 using ShadowViewer.Interfaces;
 using ShadowViewer.Models;
-using ShadowViewer.Plugin.Local.Services;
+using ShadowViewer.Plugin.Core.Services;
 using SqlSugar;
 
 namespace ShadowViewer.ViewModels;

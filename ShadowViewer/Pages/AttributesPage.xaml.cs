@@ -12,8 +12,8 @@ using Microsoft.UI.Xaml.Navigation;
 using ShadowViewer.Extensions;
 using ShadowViewer.Helpers;
 using ShadowViewer.Models;
-using ShadowViewer.Plugin.Local.Enums;
-using ShadowViewer.Plugin.Local.Helpers;
+using ShadowViewer.Plugin.Core.Enums;
+using ShadowViewer.Plugin.Core.Helpers;
 using ShadowViewer.ViewModels; 
 
 namespace ShadowViewer.Pages;

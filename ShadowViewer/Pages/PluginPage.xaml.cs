@@ -5,11 +5,11 @@ namespace ShadowViewer.Pages
     
     public sealed partial class PluginPage : Page
     {
-        public IPluginService PluginService { get; }
+        public PluginService PluginService { get; }
         public PluginPage()
         {
             this.InitializeComponent();
-            PluginService = DiFactory.Services.Resolve<IPluginService>();
+            PluginService = DiFactory.Services.Resolve<PluginService>();
         }
         
         /// <summary>
