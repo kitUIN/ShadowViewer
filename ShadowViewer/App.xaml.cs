@@ -12,13 +12,20 @@ namespace ShadowViewer
     {
         public App()
         {
-
             ApplicationExtensionHost.Initialize(this);
+            InitDi();
             // 配置文件
             Config.Init();
             // 数据库
             InitDatabase();
             this.InitializeComponent();
+        }
+
+        private static void InitDi()
+        {
+            
+            DiFactory.Services.Register<AttributesViewModel>(Reuse.Transient);
+            DiFactory.Services.Register<PicViewModel>(Reuse.Transient);
         }
         /// <summary>
         /// 初始化数据库

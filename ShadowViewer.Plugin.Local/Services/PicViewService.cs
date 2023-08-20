@@ -1,8 +1,7 @@
 ﻿using System;
 using Serilog;
 using ShadowViewer.Args;
-using ShadowViewer.ViewModels;
-using PicViewModel = ShadowViewer.Plugin.Local.ViewModels.PicViewModel;
+using ShadowViewer.ViewModels; 
 
 namespace ShadowViewer.Plugin.Local.Services;
 
@@ -22,7 +21,7 @@ public class PicViewService
     /// 图片页面加载图片事件
     /// </summary>
     public event EventHandler<PicViewArg> PicturesLoadStartingEvent;
-    public void CurrentEpisodeIndexChanged(PicViewModel sender, string affiliation, int oldValue, int newValue)
+    /*public void CurrentEpisodeIndexChanged(PicViewModel sender, string affiliation, int oldValue, int newValue)
     {
         Logger.Debug("触发事件{Event}", nameof(CurrentEpisodeIndexChangedEvent));
         CurrentEpisodeIndexChangedEvent?.Invoke(sender,
@@ -33,5 +32,5 @@ public class PicViewService
     {
         Logger.Debug("触发事件{Event}", nameof(PicturesLoadStartingEvent));
         PicturesLoadStartingEvent?.Invoke(sender, arg);
-    }
+    }*/
 }

@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml.Navigation;
 using ShadowViewer.Interfaces;
 using ShadowViewer.ViewModels;
 
-namespace ShadowViewer.Plugin.Local.Pages;
+namespace ShadowViewer.Pages;
 
 public sealed partial class BookShelfSettingsPage : Page
 {

@@ -17,8 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Pages\PicPage.xaml">
-      <SubType>Designer</SubType>
-    </Page>
+    <Folder Include="Pages\" />
   </ItemGroup>
 </Project>

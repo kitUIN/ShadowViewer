@@ -7,7 +7,7 @@ using ShadowViewer.Models;
 using ShadowViewer.Plugin.Local.Services;
 using SqlSugar;
 
-namespace ShadowViewer.Plugin.Local.ViewModels;
+namespace ShadowViewer.ViewModels;
 
 public partial class PicViewModel : ObservableObject
 {
@@ -34,12 +34,12 @@ public partial class PicViewModel : ObservableObject
         Affiliation = arg.Affiliation;
         Images.Clear();
         Episodes.Clear();
-        PicViewService.PicturesLoadStarting(this, arg);
+        //PicViewService.PicturesLoadStarting(this, arg);
     }
 
 
     partial void OnCurrentEpisodeIndexChanged(int oldValue, int newValue)
     {
-        PicViewService.CurrentEpisodeIndexChanged(this, Affiliation, oldValue, newValue);
+        //PicViewService.CurrentEpisodeIndexChanged(this, Affiliation, oldValue, newValue);
     }
 }

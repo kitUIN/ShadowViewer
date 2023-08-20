@@ -1,4 +1,3 @@
-using ShadowViewer.Plugin.Local.Pages;
 using SqlSugar;
 
 namespace ShadowViewer.Pages
@@ -118,7 +117,7 @@ namespace ShadowViewer.Pages
         private void ShadowCommandStatus_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            Frame.Navigate(typeof(Plugin.Local.Pages.BookShelfSettingsPage), ContentGridView.SelectedItems[0] as LocalComic);
+            Frame.Navigate(typeof(BookShelfSettingsPage), ContentGridView.SelectedItems[0] as LocalComic);
         }
 
         /// <summary>
@@ -412,7 +411,7 @@ namespace ShadowViewer.Pages
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             HomeCommandBarFlyout.Hide();
-            this.Frame.Navigate(typeof(Plugin.Local.Pages.BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
+            this.Frame.Navigate(typeof(BookShelfSettingsPage), null, new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
         }
 
         private void HistoryButton_Click(object sender, RoutedEventArgs e)

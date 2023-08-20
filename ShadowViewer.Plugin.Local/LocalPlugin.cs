@@ -14,10 +14,7 @@ using System.Linq;
 using DryIoc;
 using ShadowViewer.ViewModels;
 using ShadowViewer.Args;
-using ShadowViewer.Plugin.Local.Pages;
 using ShadowViewer.Plugin.Local.Services;
-using ShadowViewer.Plugin.Local.ViewModels;
-using AttributesViewModel = ShadowViewer.Plugin.Local.ViewModels.AttributesViewModel;
 
 namespace ShadowViewer.Plugin.Local;
 
@@ -37,8 +34,6 @@ public class LocalPlugin : PluginBase
         compressServices, pluginService)
     {
         DiFactory.Services.Register<PicViewService>(Reuse.Singleton);
-        DiFactory.Services.Register<AttributesViewModel>(Reuse.Transient);
-        DiFactory.Services.Register<PicViewModel>(Reuse.Transient);
     }
 
     /// <summary>
@@ -54,7 +49,7 @@ public class LocalPlugin : PluginBase
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public override Type SettingsPage { get; } = typeof(BookShelfSettingsPage);
+    public override Type SettingsPage { get; }
 
     /// <summary>
     /// <inheritdoc/>
@@ -75,9 +70,9 @@ public class LocalPlugin : PluginBase
     /// </summary>
     protected override void PluginEnabled()
     {
-        var picViewService = DiFactory.Services.Resolve<PicViewService>();
+        /*var picViewService = DiFactory.Services.Resolve<PicViewService>();
         picViewService.CurrentEpisodeIndexChangedEvent += LoadLocalImage;
-        picViewService.PicturesLoadStartingEvent += LoadImageFormLocalComic;
+        picViewService.PicturesLoadStartingEvent += LoadImageFormLocalComic;*/
     }
 
     /// <summary>
@@ -85,11 +80,12 @@ public class LocalPlugin : PluginBase
     /// </summary>
     protected override void PluginDisabled()
     {
-        var picViewService = DiFactory.Services.Resolve<PicViewService>();
+        /*var picViewService = DiFactory.Services.Resolve<PicViewService>();
         picViewService.CurrentEpisodeIndexChangedEvent -= LoadLocalImage;
-        picViewService.PicturesLoadStartingEvent -= LoadImageFormLocalComic;
+        picViewService.PicturesLoadStartingEvent -= LoadImageFormLocalComic;*/
     }
 
+    /*
     /// <summary>
     /// Episode变化响应
     /// </summary>
@@ -123,7 +119,7 @@ public class LocalPlugin : PluginBase
         });
         if (viewModel.CurrentEpisodeIndex == -1 && orders.Count > 0)
             viewModel.CurrentEpisodeIndex = orders[0];
-    }
+    }*/
 
     /// <summary>
     /// <inheritdoc/>

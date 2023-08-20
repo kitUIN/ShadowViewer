@@ -19,13 +19,19 @@
 	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
 	  <AppxBundle>Never</AppxBundle>
+	  <Nullable>enable</Nullable>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="ViewModels\**" />
+    <Compile Include="ViewModels\AttributesViewModel.cs" />
+    <Compile Include="ViewModels\PicViewModel.cs" />
     <EmbeddedResource Remove="ViewModels\**" />
     <None Remove="ViewModels\**" />
     <Page Remove="ViewModels\**" />
+    <Page Update="Pages\PicPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Config.cs" />

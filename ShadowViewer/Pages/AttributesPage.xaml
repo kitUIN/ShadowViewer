@@ -1,11 +1,11 @@
 <Page
-    x:Class="ShadowViewer.Plugin.Local.Pages.AttributesPage"
+    x:Class="ShadowViewer.Pages.AttributesPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:converters="using:ShadowViewer.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ex="using:ShadowViewer.Plugin.Local.Extensions"
+    xmlns:ex="using:ShadowViewer.Extensions"
     xmlns:icons="using:FluentIcon"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -19,14 +19,14 @@
         <Flyout x:Name="TagSelectFlyout">
             <StackPanel Orientation="Vertical" Spacing="10">
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock VerticalAlignment="Center" Text="{ex:LocalLocale Key=TagName}" />
+                    <TextBlock VerticalAlignment="Center" Text="{ex:Locale Key=TagName}" />
                     <TextBox
                         x:Name="TagName"
                         MaxWidth="450"
                         KeyDown="TagName_KeyDown" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock Text="{ex:LocalLocale Key=BackgroundColor}" />
+                    <TextBlock Text="{ex:Locale Key=BackgroundColor}" />
                     <controls:ColorPickerButton x:Name="BackgroundColorPicker" SelectedColor="Gold">
                         <controls:ColorPickerButton.ColorPickerStyle>
                             <Style TargetType="controls:ColorPicker">
@@ -38,7 +38,7 @@
                     </controls:ColorPickerButton>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Spacing="10">
-                    <TextBlock Text="{ex:LocalLocale Key=ForegroundColor}" />
+                    <TextBlock Text="{ex:Locale Key=ForegroundColor}" />
                     <controls:ColorPickerButton x:Name="ForegroundColorPicker" SelectedColor="Black">
                         <controls:ColorPickerButton.ColorPickerStyle>
                             <Style TargetType="controls:ColorPicker">
@@ -58,7 +58,7 @@
                         HorizontalAlignment="Center"
                         Click="RemoveTagButton_Click"
                         CornerRadius="10"
-                        ToolTipService.ToolTip="{ex:LocalLocale Key=Delete}"
+                        ToolTipService.ToolTip="{ex:Locale Key=Delete}"
                         Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <icons:FluentIcon
@@ -66,7 +66,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="18"
                                 Symbol="TagDismissFilled" />
-                            <TextBlock Text="{ex:LocalLocale Key=Delete}" />
+                            <TextBlock Text="{ex:Locale Key=Delete}" />
                         </StackPanel>
                     </Button>
                     <Button
@@ -112,7 +112,7 @@
                                 VerticalAlignment="Center"
                                 Source="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}"
                                 Tapped="Image_Tapped"
-                                ToolTipService.ToolTip="{ex:LocalLocale Key=Revise}" />
+                                ToolTipService.ToolTip="{ex:Locale Key=Revise}" />
                             <!--#endregion-->
                             <StackPanel
                                 x:Name="InfoStackPanel1"
@@ -137,7 +137,7 @@
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     FontWeight="Bold"
                                                     IsTextSelectionEnabled="True"
-                                                    Text="{ex:LocalLocale Key=FileName}" />
+                                                    Text="{ex:Locale Key=FileName}" />
                                                 <TextBlock
                                                     MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                     FontSize="{StaticResource AttributesFontSize}"
@@ -150,7 +150,7 @@
                                                     Padding="3"
                                                     VerticalAlignment="Bottom"
                                                     Click="FileNameButton_Click"
-                                                    ToolTipService.ToolTip="{ex:LocalLocale Key=Revise}">
+                                                    ToolTipService.ToolTip="{ex:Locale Key=Revise}">
                                                     <icons:FluentIcon FontSize="15" Symbol="EditFilled" />
                                                 </HyperlinkButton>
                                             </StackPanel>
@@ -162,7 +162,7 @@
                                                     Width="{StaticResource AttributesTitleWidth}"
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     IsTextSelectionEnabled="True"
-                                                    Text="{ex:LocalLocale Key=Author}" />
+                                                    Text="{ex:Locale Key=Author}" />
                                                 <TextBlock
                                                     MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                     FontSize="{StaticResource AttributesFontSize}"
@@ -174,7 +174,7 @@
                                                     Padding="3"
                                                     VerticalAlignment="Bottom"
                                                     Click="AuthorButton_Click"
-                                                    ToolTipService.ToolTip="{ex:LocalLocale Key=Revise}">
+                                                    ToolTipService.ToolTip="{ex:Locale Key=Revise}">
                                                     <icons:FluentIcon FontSize="15" Symbol="EditFilled" />
                                                 </HyperlinkButton>
                                             </StackPanel>
@@ -182,7 +182,7 @@
 
                                             <!--#region 翻译组-->
                                             <StackPanel Orientation="Horizontal" Spacing="6">
-                                                <TextBlock Text="{ex:LocalLocale Key=Group}"
+                                                <TextBlock Text="{ex:Locale Key=Group}"
                                                     Width="{StaticResource AttributesTitleWidth}"
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     IsTextSelectionEnabled="True" />
@@ -197,7 +197,7 @@
                                                     Padding="3"
                                                     VerticalAlignment="Bottom"
                                                     Click="GrouprButton_Click"
-                                                    ToolTipService.ToolTip="{ex:LocalLocale Key=Revise}">
+                                                    ToolTipService.ToolTip="{ex:Locale Key=Revise}">
                                                     <icons:FluentIcon FontSize="15" Symbol="EditFilled" />
                                                 </HyperlinkButton>
                                             </StackPanel>
@@ -219,7 +219,7 @@
                                                 Width="{StaticResource AttributesTitleWidth}"
                                                 FontSize="{StaticResource AttributesFontSize}"
                                                 IsTextSelectionEnabled="True"
-                                                Text="{ex:LocalLocale Key=Percent}" />
+                                                Text="{ex:Locale Key=Percent}" />
                                             <TextBlock
                                                 MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                 FontSize="{StaticResource AttributesFontSize}"
@@ -235,7 +235,7 @@
                                                 Width="{StaticResource AttributesTitleWidth}"
                                                 FontSize="{StaticResource AttributesFontSize}"
                                                 IsTextSelectionEnabled="True"
-                                                Text="{ex:LocalLocale Key=Pages}" />
+                                                Text="{ex:Locale Key=Pages}" />
                                             <StackPanel
                                                 MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                 Orientation="Horizontal"
@@ -247,7 +247,7 @@
                                                 <TextBlock
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     IsTextSelectionEnabled="True"
-                                                    Text="{ex:LocalLocale Key=Episode}" />
+                                                    Text="{ex:Locale Key=Episode}" />
                                                 <TextBlock
                                                     Margin="5,0,0,0"
                                                     FontSize="{StaticResource AttributesFontSize}"
@@ -256,7 +256,7 @@
                                                 <TextBlock
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     IsTextSelectionEnabled="True"
-                                                    Text="{ex:LocalLocale Key=Page}" />
+                                                    Text="{ex:Locale Key=Page}" />
                                             </StackPanel>
                                         </StackPanel>
                                         <!--#endregion-->
@@ -267,7 +267,7 @@
                                                 Width="{StaticResource AttributesTitleWidth}"
                                                 FontSize="{StaticResource AttributesFontSize}"
                                                 IsTextSelectionEnabled="True"
-                                                Text="{ex:LocalLocale Key=Size}" />
+                                                Text="{ex:Locale Key=Size}" />
                                             <TextBlock
                                                 MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                 FontSize="{StaticResource AttributesFontSize}"
@@ -292,7 +292,7 @@
                                                     Width="{StaticResource AttributesTitleWidth}"
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     IsTextSelectionEnabled="True"
-                                                    Text="{ex:LocalLocale Key=CreateTime}" />
+                                                    Text="{ex:Locale Key=CreateTime}" />
                                                 <TextBlock
                                                     MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                     FontSize="{StaticResource AttributesFontSize}"
@@ -309,7 +309,7 @@
                                                     Width="{StaticResource AttributesTitleWidth}"
                                                     FontSize="{StaticResource AttributesFontSize}"
                                                     IsTextSelectionEnabled="True"
-                                                    Text="{ex:LocalLocale Key=LastReadTime}" />
+                                                    Text="{ex:Locale Key=LastReadTime}" />
                                                 <TextBlock
                                                     MaxWidth="{x:Bind ViewModel.TextBlockMaxWidth, Mode=OneWay}"
                                                     FontSize="{StaticResource AttributesFontSize}"
@@ -325,7 +325,7 @@
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Bottom"
                                             Click="IDButton_Click"
-                                            ToolTipService.ToolTip="{ex:LocalLocale Key=More}">
+                                            ToolTipService.ToolTip="{ex:Locale Key=More}">
                                             <FlyoutBase.AttachedFlyout>
                                                 <Flyout Placement="Left">
                                                     <StackPanel Orientation="Vertical" Spacing="4">
@@ -340,7 +340,7 @@
                                                                 Grid.Column="0"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True"
-                                                                Text="{ex:LocalLocale Key=Id}" />
+                                                                Text="{ex:Locale Key=Id}" />
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 MaxWidth="250"
@@ -355,7 +355,7 @@
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
                                                                 Tag="{x:Bind ViewModel.CurrentComic.Id, Mode=OneWay}"
-                                                                ToolTipService.ToolTip="{ex:LocalLocale Key=Copy}">
+                                                                ToolTipService.ToolTip="{ex:Locale Key=Copy}">
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyRegular" />
                                                             </HyperlinkButton>
                                                         </Grid>
@@ -372,7 +372,7 @@
                                                                 Grid.Column="0"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True"
-                                                                Text="{ex:LocalLocale Key=Thumb}" />
+                                                                Text="{ex:Locale Key=Thumb}" />
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 MaxWidth="250"
@@ -386,7 +386,7 @@
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
                                                                 Tag="{x:Bind ViewModel.CurrentComic.Img, Mode=OneWay}"
-                                                                ToolTipService.ToolTip="{ex:LocalLocale Key=Copy}">
+                                                                ToolTipService.ToolTip="{ex:Locale Key=Copy}">
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyRegular" />
                                                             </HyperlinkButton>
                                                         </Grid>
@@ -403,7 +403,7 @@
                                                                 Grid.Column="0"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True"
-                                                                Text="{ex:LocalLocale Key=Path}" />
+                                                                Text="{ex:Locale Key=Path}" />
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 MaxWidth="250"
@@ -417,7 +417,7 @@
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
                                                                 Tag="{x:Bind ViewModel.CurrentComic.Path, Mode=OneWay}"
-                                                                ToolTipService.ToolTip="{ex:LocalLocale Key=Copy}">
+                                                                ToolTipService.ToolTip="{ex:Locale Key=Copy}">
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyRegular" />
                                                             </HyperlinkButton>
                                                         </Grid>
@@ -434,7 +434,7 @@
                                                                 Grid.Column="0"
                                                                 FontSize="{StaticResource AttributesFontSize}"
                                                                 IsTextSelectionEnabled="True"
-                                                                Text="{ex:LocalLocale Key=Link}" />
+                                                                Text="{ex:Locale Key=Link}" />
                                                             <TextBlock
                                                                 Grid.Column="1"
                                                                 MaxWidth="250"
@@ -448,7 +448,7 @@
                                                                 VerticalAlignment="Bottom"
                                                                 Click="CopyButton_Click"
                                                                 Tag="{x:Bind ViewModel.CurrentComic.Link, Mode=OneWay}"
-                                                                ToolTipService.ToolTip="{ex:LocalLocale Key=Copy}">
+                                                                ToolTipService.ToolTip="{ex:Locale Key=Copy}">
                                                                 <icons:FluentIcon FontSize="15" Symbol="CopyRegular" />
                                                             </HyperlinkButton>
                                                         </Grid>

@@ -108,5 +108,12 @@
         OpenFolder, 
         DeletePlugin,
         DeletePluginMessage,
+        AddNew,
+        Update,
+        Set,
+        Tag,
+        AddTag,
+        Affiliation,
+        Group,
     }
 }

@@ -13,7 +13,7 @@ using ShadowViewer.Plugin.Local.Enums;
 using ShadowViewer.Plugin.Local.Helpers;
 using SqlSugar;
 
-namespace ShadowViewer.Plugin.Local.ViewModels;
+namespace ShadowViewer.ViewModels;
 
 public partial class AttributesViewModel : ObservableObject
 {
@@ -80,7 +80,7 @@ public partial class AttributesViewModel : ObservableObject
         {
             shadow.IsEnable = false;
             shadow.Icon = "\uE23F";
-            shadow.ToolTip = LocalResourcesHelper.GetString(LocalResourceKey.Affiliation) + ": " + shadow.Name;
+            shadow.ToolTip = ResourcesHelper.GetString(ResourceKey.Affiliation) + ": " + shadow.Name;
             Tags.Add(shadow);
         }
 
@@ -88,7 +88,7 @@ public partial class AttributesViewModel : ObservableObject
             foreach (var item in CurrentComic.Tags)
             {
                 item.Icon = "\uEEDB";
-                item.ToolTip = LocalResourcesHelper.GetString(LocalResourceKey.Tag) + ": " + item.Name;
+                item.ToolTip = ResourcesHelper.GetString(ResourceKey.Tag) + ": " + item.Name;
                 Tags.Add(item);
             }
 
@@ -99,8 +99,8 @@ public partial class AttributesViewModel : ObservableObject
             // Background = (SolidColorBrush)Application.Current.Resources["SystemControlBackgroundBaseMediumLowBrush"],
             Foreground = new SolidColorBrush((ThemeHelper.IsDarkTheme() ? "#FFFFFFFF" : "#FF000000").ToColor()),
             IsEnable = true,
-            Name = LocalResourcesHelper.GetString(LocalResourceKey.AddTag),
-            ToolTip = LocalResourcesHelper.GetString(LocalResourceKey.AddTag)
+            Name = ResourcesHelper.GetString(ResourceKey.AddTag),
+            ToolTip = ResourcesHelper.GetString(ResourceKey.AddTag)
         });
     }
 
@@ -113,7 +113,7 @@ public partial class AttributesViewModel : ObservableObject
         {
             tag.ComicId = localTag.ComicId;
             tag.Icon = "\uEEDB";
-            tag.ToolTip = LocalResourcesHelper.GetString(LocalResourceKey.Tag) + ": " + localTag.Name;
+            tag.ToolTip = ResourcesHelper.GetString(ResourceKey.Tag) + ": " + localTag.Name;
             Db.Updateable(tag).ExecuteCommand();
             if (Tags.FirstOrDefault(x => x.Id == tag.Id) is LocalTag lo) Tags[Tags.IndexOf(lo)] = tag;
         }
@@ -122,7 +122,7 @@ public partial class AttributesViewModel : ObservableObject
             tag.Id = LocalTag.RandomId();
             tag.ComicId = CurrentComic.Id;
             tag.Icon = "\uEEDB";
-            tag.ToolTip = LocalResourcesHelper.GetString(LocalResourceKey.Tag) + ": " + tag.Name;
+            tag.ToolTip = ResourcesHelper.GetString(ResourceKey.Tag) + ": " + tag.Name;
             Db.Insertable(tag).ExecuteCommand();
             Tags.Insert(Math.Max(0, Tags.Count - 1), tag);
         }
