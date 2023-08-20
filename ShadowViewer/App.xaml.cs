@@ -5,6 +5,7 @@ using ShadowViewer.Plugin.Local;
 using ShadowViewer.Plugins;
 using SqlSugar;
 using System.Globalization;
+using ShadowViewer.Plugin.Local.ViewModels;
 using ShadowViewer.Responders;
 
 namespace ShadowViewer
@@ -24,8 +25,7 @@ namespace ShadowViewer
 
         private static void InitDi()
         {
-            DiFactory.Services.Register<AttributesViewModel>(Reuse.Transient);
-            DiFactory.Services.Register<PicViewModel>(Reuse.Transient);
+            
         }
         /// <summary>
         /// 初始化数据库

@@ -1,4 +1,6 @@
-﻿namespace ShadowViewer.Helpers;
+﻿using ShadowViewer.Responders;
+
+namespace ShadowViewer.Helpers;
 
 public static class NavigateHelper
 {
@@ -7,7 +9,6 @@ public static class NavigateHelper
     /// </summary>
     public static void ShadowNavigate(Uri uri)
     {
-        Log.Information(uri.AbsolutePath);
         if (uri.Scheme != "shadow") return;
         var navigationToolKit = DiFactory.Services.Resolve<ICallableService>();
         var responderService = DiFactory.Services.Resolve<ResponderService>();
@@ -18,7 +19,7 @@ public static class NavigateHelper
                 navigationToolKit.NavigateTo(typeof(SettingsPage), null);
                 return;
             default:
-                if (responderService.GetEnabledNavigationViewResponder(uri.Host) is { } responder)
+                if (responderService.GetEnabledResponder<INavigationResponder>(uri.Host) is { } responder)
                     responder.Navigate(uri, urls);
                 break;
         }
