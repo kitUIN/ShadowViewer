@@ -88,9 +88,8 @@
                                 Style="{ThemeResource PointerOverButtonStyle}" />
                             
                         </Grid>
-                        <ListView
+                        <ListView MaxHeight="400"
                             Grid.Row="1"
-                            Height="240"
                             IsItemClickEnabled="True"
                             ItemClick="{x:Bind ViewModel.HistoryView_OnItemClick}"
                             ItemsSource="{x:Bind ViewModel.Histories}"
