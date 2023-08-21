@@ -82,7 +82,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Button
-                                Grid.Column="0"
+                                Grid.Column="0" FontSize="18"
                                 HorizontalAlignment="Left"
                                 Content="{ex:Locale Key=History}"
                                 Style="{ThemeResource PointerOverButtonStyle}" />
