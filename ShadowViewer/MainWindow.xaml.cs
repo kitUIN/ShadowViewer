@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using ShadowViewer.Plugin.Local.Models;
 using WinUIEx;
 
 namespace ShadowViewer;
@@ -6,6 +7,16 @@ namespace ShadowViewer;
 public sealed partial class MainWindow : WindowEx
 {
     public ObservableCollection<IShadowSearchItem> SearchItems { get; } = new();
+    public ObservableCollection<IHistory> HistoryHistories { get; } = new()
+    {
+        new LocalHistory()
+        {
+            Icon = @"C:\Users\15854\AppData\Local\Packages\27e531ce-1721-4ddf-80ef-f4c28f27a46d_fka8f3r9nhqje\LocalState\Temps\da793ecd6fcf510eac1b97dd93b0482b.png",
+            Id = "114514",
+            Time = DateTime.Now,
+            Title = "PINK SEMINAR (¥Ö¥ë©`¥¢©`¥«¥¤¥Ö) [ÖÐ¹ú·­ÔU] [DL°æ]"
+        }
+    };
     private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
     private PluginService Plugins { get; } = DiFactory.Services.Resolve<PluginService>();
 

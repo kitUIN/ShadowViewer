@@ -109,5 +109,8 @@
         Affiliation,
         Group,
         BookShelf,
+        Back,
+        PaneMenu,
+        History,
     }
 }

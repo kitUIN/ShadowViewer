@@ -15,6 +15,10 @@ public partial class TitleBar : Control
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Title"/> property.
     /// </summary>
     public static readonly DependencyProperty TitleProperty = DependencyProperty.Register(nameof(Title), typeof(string), typeof(TitleBar), new PropertyMetadata(default(string)));
+    /// <summary>
+    /// The backing <see cref="DependencyProperty"/> for the <see cref="HistoryFlyout"/> property.
+    /// </summary>
+    public static readonly DependencyProperty HistoryFlyoutProperty = DependencyProperty.Register(nameof(HistoryFlyout), typeof(Flyout), typeof(TitleBar), new PropertyMetadata(null, HistoryFlyoutChanged));
 
     /// <summary>
     /// The backing <see cref="DependencyProperty"/> for the <see cref="Subtitle"/> property.
@@ -79,6 +83,14 @@ public partial class TitleBar : Control
     {
         get => (IconElement)GetValue(IconProperty);
         set => SetValue(IconProperty, value);
+    }
+    /// <summary>
+    /// Gets or sets the HistoryFlyout
+    /// </summary>
+    public Flyout HistoryFlyout
+    {
+        get => (Flyout)GetValue(HistoryFlyoutProperty);
+        set => SetValue(HistoryFlyoutProperty, value);
     }
 
     /// <summary>
@@ -197,6 +209,12 @@ public partial class TitleBar : Control
     }
 
     private static void IconChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        ((TitleBar)d).Update();
+    }
+
+
+    private static void HistoryFlyoutChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         ((TitleBar)d).Update();
     }

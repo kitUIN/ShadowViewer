@@ -16,7 +16,7 @@
 
     <Grid
         MinWidth="650"
-         Loaded="NavView_Loaded">
+        Loaded="NavView_Loaded">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -72,7 +72,56 @@
                     </AutoSuggestBox.ItemTemplate>
                 </AutoSuggestBox>
             </controls:TitleBar.Content>
-
+            <controls:TitleBar.HistoryFlyout>
+                <Flyout Placement="BottomEdgeAlignedRight">
+                    <Grid Width="300" RowSpacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Button Grid.Column="0" HorizontalAlignment="Left" Content="{ex:Locale Key=History}"
+                                    Style="{ThemeResource PointerOverButtonStyle}" />
+                            <HyperlinkButton Content="Clear" Grid.Column="1" />
+                        </Grid>
+                        <ListView IsItemClickEnabled="True" SelectionMode="None" ItemsSource="{x:Bind HistoryHistories}" Grid.Row="1" Height="240">
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="interfaces:IHistory">
+                                    <Grid ColumnSpacing="10" Padding="3">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="40" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" Source="{x:Bind Icon}" />
+                                        <Grid Grid.Column="1">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" MaxLines="2" TextWrapping="Wrap"
+                                                       TextTrimming="CharacterEllipsis" Text="{x:Bind Title}" />
+                                            <TextBlock Grid.Row="1" FontSize="12" Foreground="Gray"
+                                                       Text="{x:Bind Time}" />
+                                        </Grid>
+                                        <Button Tag="{x:Bind Id}" Padding="6,4" Height="28" Width="30" HorizontalAlignment="Center"
+                                                VerticalAlignment="Center" Grid.Column="2"
+                                                Style="{ThemeResource PointerOverButtonStyle}">
+                                            <FontIcon FontSize="12" Glyph="&#xE711;" />
+                                        </Button>
+                                        <TextBlock Grid.Column="2" FontSize="12" Foreground="Gray"
+                                                   Text="{x:Bind Plugin}" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </Flyout>
+            </controls:TitleBar.HistoryFlyout>
         </controls:TitleBar>
         <pages:NavigationPage Grid.Row="1" />
     </Grid>
