@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.WinUI.UI;
 using ShadowViewer.Responders;
 
 namespace ShadowViewer.ViewModels;
@@ -73,6 +74,10 @@ public partial class MainViewModel : ObservableObject
         if (e.ClickedItem is not IHistory history) return;
         var responder = ResponderService.GetEnabledResponder<IHistoryResponder>(history.Plugin);
         responder?.ClickHistoryHandler(history);
+        if (sender is ListView {Parent:Grid{Parent:FlyoutPresenter{Parent:Popup popup}}} )
+        {
+            popup.IsOpen = false;
+        }
     }
     /// <summary>
     /// 删除历史记录
