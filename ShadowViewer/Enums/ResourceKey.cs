@@ -112,5 +112,6 @@
         Back,
         PaneMenu,
         History,
+        ClearAll,
     }
 }

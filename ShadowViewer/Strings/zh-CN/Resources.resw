@@ -441,4 +441,7 @@
   <data name="History" xml:space="preserve">
     <value>历史记录</value>
   </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>清除全部</value>
+  </data>
 </root>

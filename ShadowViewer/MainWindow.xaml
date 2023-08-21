@@ -86,7 +86,7 @@
                                 HorizontalAlignment="Left"
                                 Content="{ex:Locale Key=History}"
                                 Style="{ThemeResource PointerOverButtonStyle}" />
-                            <HyperlinkButton Grid.Column="1" Content="Clear" />
+                            
                         </Grid>
                         <ListView
                             Grid.Row="1"
