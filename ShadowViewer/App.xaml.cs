@@ -25,7 +25,7 @@ namespace ShadowViewer
 
         private static void InitDi()
         {
-            
+            DiFactory.Services.Register<MainViewModel>(reuse:Reuse.Singleton);
         }
         /// <summary>
         /// 初始化数据库
