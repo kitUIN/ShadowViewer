@@ -73,7 +73,7 @@
                 </AutoSuggestBox>
             </controls:TitleBar.Content>
             <controls:TitleBar.HistoryFlyout>
-                <Flyout Placement="BottomEdgeAlignedRight">
+                <Flyout Opening="FlyoutBase_OnOpening" Placement="BottomEdgeAlignedRight">
                     <Grid Width="300" RowSpacing="10">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -105,17 +105,23 @@
                                             </Grid.RowDefinitions>
                                             <TextBlock Grid.Row="0" MaxLines="2" TextWrapping="Wrap"
                                                        TextTrimming="CharacterEllipsis" Text="{x:Bind Title}" />
-                                            <TextBlock Grid.Row="1" FontSize="12" Foreground="Gray"
-                                                       Text="{x:Bind Time}" />
+                                            <Grid Grid.Row="1" ColumnSpacing="10">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" FontSize="12" Foreground="Gray"
+                                                           Text="{x:Bind Time}" />
+                                                <TextBlock Grid.Column="1" FontSize="12" Foreground="Gray"
+                                                           Text="{x:Bind Plugin}"  TextTrimming="CharacterEllipsis" />
+                                            </Grid>
                                         </Grid>
                                         <Button Tag="{x:Bind Id}" Padding="6,4" Height="28" Width="30" HorizontalAlignment="Center"
                                                 VerticalAlignment="Center" Grid.Column="2"
                                                 Style="{ThemeResource PointerOverButtonStyle}">
                                             <FontIcon FontSize="12" Glyph="&#xE711;" />
                                         </Button>
-                                        <TextBlock Grid.Column="2" FontSize="12" Foreground="Gray"
-                                                   Text="{x:Bind Plugin}" VerticalAlignment="Bottom" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" />
-                                    </Grid>
+                                        </Grid>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>

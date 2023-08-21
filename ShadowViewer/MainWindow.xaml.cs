@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using DryIoc.ImTools;
 using ShadowViewer.Plugin.Local.Models;
+using ShadowViewer.Responders;
 using WinUIEx;
 
 namespace ShadowViewer;
@@ -7,15 +9,9 @@ namespace ShadowViewer;
 public sealed partial class MainWindow : WindowEx
 {
     public ObservableCollection<IShadowSearchItem> SearchItems { get; } = new();
-    public ObservableCollection<IHistory> HistoryHistories { get; } = new()
+    public ObservableCollection<IHistory> HistoryHistories { get; set; } = new()
     {
-        new LocalHistory()
-        {
-            Icon = @"C:\Users\15854\AppData\Local\Packages\27e531ce-1721-4ddf-80ef-f4c28f27a46d_fka8f3r9nhqje\LocalState\Temps\da793ecd6fcf510eac1b97dd93b0482b.png",
-            Id = "114514",
-            Time = DateTime.Now,
-            Title = "PINK SEMINAR (¥Ö¥ë©`¥¢©`¥«¥¤¥Ö) [ÖÐ¹ú·­ÔU] [DL°æ]"
-        }
+ 
     };
     private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
     private PluginService Plugins { get; } = DiFactory.Services.Resolve<PluginService>();
@@ -120,5 +116,24 @@ public sealed partial class MainWindow : WindowEx
     private void UIElement_OnLostFocus(object sender, RoutedEventArgs e)
     {
         SearchItems.Clear();
+    }
+
+    private void FlyoutBase_OnOpening(object? sender, object e)
+    {
+        var responderService = DiFactory.Services.Resolve<ResponderService>();
+        var responders = responderService.GetEnabledResponders<IHistoryResponder>();
+        var temp = new SortedSet<IHistory>(new HistoryExtension());
+        foreach (var responder in responders)
+        {
+            foreach (var item in responder.GetHistories())
+            {
+                temp.Add(item);
+            }
+        }
+        HistoryHistories.Clear();
+        foreach (var t in temp)
+        {
+            HistoryHistories.Add(t);
+        }
     }
 }
