@@ -396,12 +396,10 @@ namespace ShadowViewer.Pages
                 var list1 = groups.FirstOrDefault(x => x.Key)?.ToList();
                 if (list1 is not null && list1.Count > 0)
                 {
-                    Caller.ImportPlugin(this, list1);
+                    // Caller.ImportPlugin(this, list1);
                 }
-
                 var list2 = groups.FirstOrDefault(x => !x.Key)?.ToList();
-                if (list2 is null) return;
-                if (list2.Count == 0) return;
+                if (list2 is null || list2.Count == 0) return;
                 var passwords = new string[list2.Count];
                 Caller.ImportComic(list2, passwords, 0);
             }
