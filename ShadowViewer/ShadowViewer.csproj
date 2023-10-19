@@ -21,6 +21,7 @@
 	  <AppxBundle>Never</AppxBundle>
 	  <Nullable>enable</Nullable>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+	  <AppxPackageDir>D:\VsProjects\WASDK\ShadowViewer\ShadowViewer\AppPackages\</AppxPackageDir>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
