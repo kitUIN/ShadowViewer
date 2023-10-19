@@ -29,7 +29,7 @@
 | Bika | 哔咔漫画 | 适配哔咔漫画             | [kitUIN](https://github.com/kitUIN) | [Github](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) |![bika](https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Plugin.Bika?color=blue&include_prereleases)|
 
 ## 导入插件📦
-将插件项目的发行版压缩包下载后,直接拖入应用即可自动导入
+将插件项目的发行版压缩包下载后,在`插件管理器`页面选择`添加插件`进行导入
 
 ## 依赖 📂
 [ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Core) - 核心功能组件  
