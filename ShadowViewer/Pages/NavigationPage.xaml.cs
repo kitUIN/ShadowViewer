@@ -57,19 +57,17 @@ namespace ShadowViewer.Pages
                 {
                     if (item is StorageFile file)
                     {
-                        var pluginPath = Path.Combine(path, file.DisplayName);
-                        if (!Directory.Exists(pluginPath))
+                        var f = file.DisplayName.Split(".")[2];
+                        var pluginPath = Path.Combine(path, f);
+                        var compressToolKit = DiFactory.Services.Resolve<CompressService>();
+                        await Task.Run(async () =>
                         {
-                            var compressToolKit = DiFactory.Services.Resolve<CompressService>();
-                            await Task.Run(async () =>
+                            compressToolKit.DeCompress(file.Path, pluginPath);
+                            await DispatcherQueue.EnqueueAsync(async () =>
                             {
-                                compressToolKit.DeCompress(file.Path, pluginPath);
-                                await DispatcherQueue.EnqueueAsync(async () =>
-                                {
-                                    await PluginService.ImportAsync();
-                                });
+                                await PluginService.ImportAsync();
                             });
-                        }
+                        });
                     }
                 }
             });

@@ -175,7 +175,7 @@
     <value>正在导入,请稍后...</value>
   </data>
   <data name="ImportText" xml:space="preserve">
-    <value>将文件拖到这并导入为漫画/插件</value>
+    <value>将文件拖到这并导入为漫画</value>
   </data>
   <data name="Shadow.String.ZipPassword" xml:space="preserve">
     <value>解压密码</value>
