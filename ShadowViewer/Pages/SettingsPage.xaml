@@ -2,9 +2,10 @@
     x:Class="ShadowViewer.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Extensions"
-    xmlns:icons="using:FluentIcon"
+    xmlns:icons="using:FluentIcon.WinUI"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:local2="using:ShadowViewer.Controls"
@@ -13,16 +14,19 @@
     xmlns:plugin="using:ShadowViewer.Plugins"
     xmlns:viewModels="using:ShadowViewer.ViewModels"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     mc:Ignorable="d">
     <Page.Resources>
-        <converters:EmptyObjectToObjectConverter x:Key="EmptyObjectToBoolConverter" EmptyValue="False" NotEmptyValue="True"/>
+        <converters:EmptyObjectToObjectConverter
+            x:Key="EmptyObjectToBoolConverter"
+            EmptyValue="False"
+            NotEmptyValue="True" />
     </Page.Resources>
     <Grid
         Background="{ThemeResource LayerFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
-        BorderThickness="1" RowSpacing="10"
-        CornerRadius="{ThemeResource NavigationViewContentGridCornerRadius}">
+        BorderThickness="1"
+        CornerRadius="{ThemeResource NavigationViewContentGridCornerRadius}"
+        RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -39,27 +43,33 @@
                     <RepositionThemeTransition IsStaggeringEnabled="False" />
                 </StackPanel.ChildrenTransitions>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=MainSetting}" />
-                <labs:SettingsCard >
+                <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:Locale Key=ThemeDescription}" Header="{ex:Locale Key=Theme}">
-                            <icons:FluentIcon Width="30" Height="30" FontSize="25"  
-                                              Symbol="ColorRegular" />
+                            <icons:FluentRegularIcon
+                                Width="30"
+                                Height="30"
+                                FontSize="25"
+                                Symbol="Color24Regular" />
                         </local2:ShadowSettingHeader>
-                    </labs:SettingsCard.Header>  
+                    </labs:SettingsCard.Header>
                     <ComboBox x:Name="ThemeModeSetting" SelectionChanged="ThemeModeSetting_SelectionChanged">
                         <ComboBoxItem Content="{ex:Locale Key=Light}" Tag="Light" />
                         <ComboBoxItem Content="{ex:Locale Key=Dark}" Tag="Dark" />
                         <ComboBoxItem Content="{ex:Locale Key=Default}" Tag="Default" />
                     </ComboBox>
                 </labs:SettingsCard>
-                <labs:SettingsExpander >
+                <labs:SettingsExpander>
                     <labs:SettingsExpander.Header>
                         <local2:ShadowSettingHeader Description="{ex:Locale Key=FolderDescription}" Header="{ex:Locale Key=DataFolder}">
-                            <icons:FluentIcon Width="30" Height="30" FontSize="25"  
-                                              Symbol="ArchiveRegular" />
+                            <icons:FluentRegularIcon
+                                Width="30"
+                                Height="30"
+                                FontSize="25"
+                                Symbol="Archive24Regular" />
                         </local2:ShadowSettingHeader>
-                    </labs:SettingsExpander.Header> 
-                    <labs:SettingsExpander.Items> 
+                    </labs:SettingsExpander.Header>
+                    <labs:SettingsExpander.Items>
                         <labs:SettingsCard Description="{ex:Locale Key=ComicsPathDescription}" Header="{ex:Locale Key=ComicsPath}">
                             <StackPanel Orientation="Horizontal">
                                 <Button
@@ -100,46 +110,55 @@
                         </labs:SettingsCard>
                     </labs:SettingsExpander.Items>
                 </labs:SettingsExpander>
-                <labs:SettingsCard >
+                <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:Locale Key=LogPathDescription}" Header="{ex:Locale Key=LogPath}">
-                            <icons:FluentIcon Width="30" Height="30" FontSize="25"  
-                                Symbol="BookDatabaseRegular" />
+                            <icons:FluentRegularIcon
+                                Width="30"
+                                Height="30"
+                                FontSize="25"
+                                Symbol="BookDatabase24Regular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <Button Click="LogButton_Click" Content="{ex:Locale Key=Open}" />
                 </labs:SettingsCard>
-                <labs:SettingsCard >
+                <labs:SettingsCard>
                     <labs:SettingsCard.Header>
                         <local2:ShadowSettingHeader Description="{ex:Locale Key=DebugDescription}" Header="{ex:Locale Key=Debug}">
-                            <icons:FluentIcon Width="30" Height="30" FontSize="25"  
-                                              Symbol="BugRegular" />
+                            <icons:FluentRegularIcon
+                                Width="30"
+                                Height="30"
+                                FontSize="25"
+                                Symbol="Bug24Regular" />
                         </local2:ShadowSettingHeader>
                     </labs:SettingsCard.Header>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsDebug, Mode=TwoWay}" />
                 </labs:SettingsCard>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
-                <ItemsRepeater  ItemsSource="{x:Bind PluginService.Plugins,Mode=OneWay}">
+                <ItemsRepeater ItemsSource="{x:Bind PluginService.Plugins, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
-                       <DataTemplate x:DataType="plugin:IPlugin">
-                           <labs:SettingsCard x:Name="PluginSetting" Tag="{x:Bind MetaData.Id}" Click="PluginSetting_OnClick"
-                               IsActionIconVisible="True"
-                               IsClickEnabled="{x:Bind SettingsPage ,Converter={StaticResource EmptyObjectToBoolConverter}}">
-                               <labs:SettingsCard.Header>
-                                   <local2:ShadowSettingHeader Description="{x:Bind MetaData.Description}" Header="{x:Bind MetaData.Name}">
-                                       <local2:PluginLogo
-                                           Width="30" 
-                                           FontSize="25"
-                                           FontIconSize="20"
-                                           Height="30" Logo="{x:Bind MetaData.Logo}"
-                                       />
-                                   </local2:ShadowSettingHeader>
-                               </labs:SettingsCard.Header>
-                               <labs:SettingsCard.ActionIcon>
-                                   <FontIcon Glyph="&#xE76C;" />
-                               </labs:SettingsCard.ActionIcon>
-                           </labs:SettingsCard>
-                       </DataTemplate>
+                        <DataTemplate x:DataType="plugin:IPlugin">
+                            <labs:SettingsCard
+                                x:Name="PluginSetting"
+                                Click="PluginSetting_OnClick"
+                                IsActionIconVisible="True"
+                                IsClickEnabled="{x:Bind SettingsPage, Converter={StaticResource EmptyObjectToBoolConverter}}"
+                                Tag="{x:Bind MetaData.Id}">
+                                <labs:SettingsCard.Header>
+                                    <local2:ShadowSettingHeader Description="{x:Bind MetaData.Description}" Header="{x:Bind MetaData.Name}">
+                                        <local2:PluginLogo
+                                            Width="30"
+                                            Height="30"
+                                            FontIconSize="20"
+                                            FontSize="25"
+                                            Logo="{x:Bind MetaData.Logo}" />
+                                    </local2:ShadowSettingHeader>
+                                </labs:SettingsCard.Header>
+                                <labs:SettingsCard.ActionIcon>
+                                    <FontIcon Glyph="&#xE76C;" />
+                                </labs:SettingsCard.ActionIcon>
+                            </labs:SettingsCard>
+                        </DataTemplate>
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
                 <!--  About  -->

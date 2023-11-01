@@ -7,6 +7,7 @@ using SqlSugar;
 using System.Globalization;
 using ShadowViewer.Plugin.Local.ViewModels;
 using ShadowViewer.Responders;
+using System.Diagnostics;
 
 namespace ShadowViewer
 {
@@ -64,7 +65,7 @@ namespace ShadowViewer
             }
 #if DEBUG
             // 这里是测试插件用的, ImportAsync里填入你Debug出来的插件dll位置
-            await pluginServices.ImportAsync( @"D:\VsProjects\WASDK\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
+            await pluginServices.ImportAsync(@"C:\Users\15854\Documents\GitHub\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
 #endif
             // 导航
             var firstUri = new Uri("shadow://local/");
@@ -76,8 +77,6 @@ namespace ShadowViewer
             }
             startupWindow.Activate();
             NavigateHelper.ShadowNavigate(firstUri);
-            
         }
-          
     }
 }
