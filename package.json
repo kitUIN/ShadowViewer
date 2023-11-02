@@ -1,0 +1,26 @@
+{
+  "name": "chatimage",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "node --max_old_space_size=4096 ./node_modules/vuepress/cli.js dev docs",
+    "build": "node --max_old_space_size=4096 ./node_modules/vuepress/cli.js build docs",
+    "deploy": "bash deploy.sh",
+    "editFm": "node ../../PycharmProjects/vuepress-theme-vdoing/utils/editFrontmatter.js",
+    "baiduPush": "node ../../PycharmProjects/vuepress-theme-vdoing/utils/baiduPush.js https://xugaoyi.com && bash baiduPush.sh",
+    "publish": "cd ./vdoing && npm publish && cd ../../PycharmProjects && yarn updateTheme",
+    "updateTheme": "yarn remove vuepress-theme-vdoing && rm -rf ../../PycharmProjects/vuepress-theme-vdoing/node_modules && yarn && yarn add vuepress-theme-vdoing -D"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "dayjs": "^1.9.7",
+    "inquirer": "^7.1.0",
+    "json2yaml": "^1.1.0",
+    "vuepress": "1.9.5",
+    "vuepress-plugin-comment-plus": "^1.1.0",
+    "vuepress-plugin-fulltext-search": "^2.2.1",
+    "vuepress-plugin-one-click-copy": "^1.0.2",
+    "vuepress-plugin-zooming": "^1.1.7",
+    "vuepress-theme-vdoing": "^1.12.8",
+    "yamljs": "^0.3.0"
+  }
+}
