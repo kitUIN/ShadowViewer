@@ -11,8 +11,8 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
     locales: {
         '/': {
             lang: 'zh-CN',
-            title: "ChatImage",
-            description: '✨ 在Minecraft聊天栏中显示图片 ✨',
+            title: "ShadowViewer",
+            description: '✨使用Windows App SDK 构建的漫画阅读器✨',
         }
     },
     // base: '/', // 默认'/'。如果你想将你的网站部署到如 https://foo.github.io/bar/，那么 base 应该被设置成 "/bar/",（否则页面将失去样式等文件）
@@ -23,21 +23,21 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
         nav: [
             {text: '首页', link: '/'},
             {
-                text: '指南',
-                link: '/wiki/chatimage/quick',
-                items: [
-                    {text: '快速开始🎈', link: '/wiki/chatimage/quick/'},
-                    {text: 'ChatImageCode', link: '/wiki/chatimage/code/'},
-                    {text: 'ChatImageStyle', link: '/wiki/chatimage/style/'},
-                    {text: '常见错误🐛', link: '/wiki/chatimage/error/'},
-
-
-                ]
+                text: '快速开始',
+                link: '/wiki/shadowviewer/quick',
+            },
+            {
+                text: '安装使用',
+                link: '/wiki/shadowviewer/use',
+            },
+            {
+                text: '参与开发',
+                link: '/wiki/shadowviewer/develop',
             }
         ],
         sidebarDepth: 2, // 侧边栏显示深度，默认1，最大2（显示到h3标题）
         logo: '/img/logo.png', // 导航栏logo
-        repo: 'kitUIN/ChatImage', // 导航栏右侧生成Github链接
+        repo: 'kitUIN/ShadowViewer', // 导航栏右侧生成Github链接
         searchMaxSuggestions: 10, // 搜索结果显示最大数
         lastUpdated: '上次更新', // 开启更新时间，并配置前缀文字   string | boolean (取值为git提交时间)
         docsDir: 'docs', // 编辑的文件夹
@@ -80,8 +80,8 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
         // 扩展自动生成frontmatter。（当md文件的frontmatter不存在相应的字段时将自动添加。不会覆盖已有的数据。）
         extendFrontmatter: {
             author: {
-                name: 'xugaoyi',
-                link: 'https://github.com/xugaoyi'
+                name: 'kitUIN',
+                link: 'https://github.com/kitUIN'
             }
         },
 

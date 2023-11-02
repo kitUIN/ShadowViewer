@@ -1,5 +1,5 @@
 {
-  "name": "chatimage",
+  "name": "shadowviewerdocs",
   "version": "1.0.0",
   "scripts": {
     "dev": "node --max_old_space_size=4096 ./node_modules/vuepress/cli.js dev docs",
