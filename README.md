@@ -17,6 +17,11 @@
     <img src="https://img.shields.io/badge/插件管理器-20230821-8A2BE2" alt="chajian">
   </a>
 </p> 
+<p align="center">
+  <a href="https://shadowviewer.kituin.fun/">📖文档施工中</a>
+  ·
+  <a href="https://github.com/kitUIN/ShadowViewer/issues/new/choose">🐛提交建议</a>
+</p>
 
 ## 安装 ▶️
 
