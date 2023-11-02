@@ -18,14 +18,14 @@
   </a>
 </p> 
 <p align="center">
-  <a href="https://shadowviewer.kituin.fun/">📖文档施工中</a>
+  <a href="https://shadowviewer.kituin.fun/">📖文档</a>
   ·
   <a href="https://github.com/kitUIN/ShadowViewer/issues/new/choose">🐛提交建议</a>
 </p>
 
 ## 安装 ▶️
 
-- [Wiki](https://github.com/kitUIN/ShadowViewer/wiki/)
+- [侧加载安装教程]([https://github.com/kitUIN/ShadowViewer/wiki/](https://shadowviewer.kituin.fun/wiki/shadowviewer/use/install/#%E5%BE%AE%E8%BD%AF%E5%95%86%E5%BA%97-%E6%9C%AA%E6%94%AF%E6%8C%81))
 
 ## 插件列表🔩
 | ID | 名称                                    |       简述           | 开发者  | 链接                    |最新版本 |
