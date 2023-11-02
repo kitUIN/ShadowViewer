@@ -25,7 +25,7 @@
 
 ## 安装 ▶️
 
-- [侧加载安装教程]([https://github.com/kitUIN/ShadowViewer/wiki/](https://shadowviewer.kituin.fun/wiki/shadowviewer/use/install/#%E5%BE%AE%E8%BD%AF%E5%95%86%E5%BA%97-%E6%9C%AA%E6%94%AF%E6%8C%81))
+- [侧加载安装教程](https://shadowviewer.kituin.fun/wiki/shadowviewer/use/install/#%E5%BE%AE%E8%BD%AF%E5%95%86%E5%BA%97-%E6%9C%AA%E6%94%AF%E6%8C%81)
 
 ## 插件列表🔩
 | ID | 名称                                    |       简述           | 开发者  | 链接                    |最新版本 |
