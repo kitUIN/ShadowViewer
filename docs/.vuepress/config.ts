@@ -24,15 +24,15 @@ export default defineConfig4CustomTheme<VdoingThemeConfig>({
             {text: '首页', link: '/'},
             {
                 text: '快速开始',
-                link: '/wiki/shadowviewer/quick',
+                link: '/wiki/shadowviewer/quick/',
             },
             {
                 text: '安装使用',
-                link: '/wiki/shadowviewer/use',
+                link: '/wiki/shadowviewer/use/',
             },
             {
                 text: '参与开发',
-                link: '/wiki/shadowviewer/develop',
+                link: '/wiki/shadowviewer/develop/',
             }
         ],
         sidebarDepth: 2, // 侧边栏显示深度，默认1，最大2（显示到h3标题）
