@@ -1,0 +1,15 @@
+{
+    "pluginManagerCore":20230821,
+    "marketplace":"https://github.com/kitUIN/ShadowViewer#%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8",
+    "plugins":[
+        {
+            "id":"Bika",
+            "name":"哔咔漫画",
+            "description":"哔咔漫画漫画插件",
+            "author":"kitUIN",
+            "github":"https://github.com/kitUIN/ShadowViewer.Plugin.Bika",
+            "url":"",
+            "version":"1.0.0"
+        }
+    ]
+}
