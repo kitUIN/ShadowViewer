@@ -1,20 +1,18 @@
 using ShadowViewer.Plugins;
+using ShadowViewer.Services.Interfaces;
 
 namespace ShadowViewer.Pages;
 
 public sealed partial class SettingsPage : Page
 {
-    private SettingsViewModel ViewModel { get; }
-    private PluginService PluginService { get; }
-    private ICallableService Caller { get; }
+    private SettingsViewModel ViewModel { get; } = DiFactory.Services.Resolve<SettingsViewModel>();
+    private IPluginService PluginService { get; } = DiFactory.Services.Resolve<IPluginService>();
+    private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
     public bool IsUnPackaged = !ConfigHelper.IsPackaged;
-
+    public ObservableCollection<IPlugin> Plugins { get; } = new ObservableCollection<IPlugin>();
     public SettingsPage()
     {
         InitializeComponent();
-        ViewModel = DiFactory.Services.Resolve<SettingsViewModel>();
-        PluginService = DiFactory.Services.Resolve<PluginService>();
-        Caller = DiFactory.Services.Resolve<ICallableService>();
         var currentTheme = ThemeHelper.RootTheme;
         switch (currentTheme)
         {
@@ -84,7 +82,6 @@ public sealed partial class SettingsPage : Page
         var uri = new Uri(tag);
         uri.LaunchUriAsync();
     }
-
 
     /// <summary>
     /// 前往插件设置

@@ -6,6 +6,7 @@ using System.Diagnostics;
 using ShadowViewer.Args;
 using ShadowViewer.Responders;
 using ShadowViewer.Services;
+using ShadowViewer.Services.Interfaces;
 
 namespace ShadowViewer.Pages
 {
@@ -15,14 +16,14 @@ namespace ShadowViewer.Pages
         private static CancellationTokenSource _cancelTokenSource;
         private NavigationViewModel ViewModel { get; }
         private ICallableService Caller { get; }
-        private PluginService PluginService { get; }
+        private IPluginService PluginService { get; }
 
         public NavigationPage()
         {
             this.InitializeComponent();
             ViewModel = DiFactory.Services.Resolve<NavigationViewModel>();
             Caller = DiFactory.Services.Resolve<ICallableService>();
-            PluginService = DiFactory.Services.Resolve<PluginService>();
+            PluginService = DiFactory.Services.Resolve<IPluginService>();
             Caller.ImportComicEvent += Caller_ImportComicEvent;
             Caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
             Caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
@@ -63,10 +64,10 @@ namespace ShadowViewer.Pages
                         await Task.Run(async () =>
                         {
                             compressToolKit.DeCompress(file.Path, pluginPath);
-                            await DispatcherQueue.EnqueueAsync(async () =>
+/*                            await DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 await PluginService.ImportAsync();
-                            });
+                            });*/
                         });
                     }
                 }

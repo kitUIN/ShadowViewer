@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
 using ShadowViewer.Responders;
+using ShadowViewer.Services.Interfaces;
 
 namespace ShadowViewer.ViewModels;
 
@@ -8,10 +9,10 @@ public partial class MainViewModel : ObservableObject
 {
     private ILogger Logger { get; }
     private ICallableService Caller { get; }
-    private PluginService PluginService { get; }
+    private IPluginService PluginService { get; }
     private ResponderService ResponderService { get; }
 
-    public MainViewModel(ICallableService callableService, PluginService pluginService, ILogger logger,
+    public MainViewModel(ICallableService callableService, IPluginService pluginService, ILogger logger,
         ResponderService responderService)
     {
         Logger = logger;
@@ -102,9 +103,9 @@ public partial class MainViewModel : ObservableObject
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             SearchItems.Clear();
-            foreach (var plugin in PluginService.EnabledPlugins)
-            foreach (var i in plugin.SearchTextChanged(sender, args))
-                SearchItems.Add(i);
+            foreach (var plugin in PluginService.GetEnabledPlugins())
+                foreach (var i in plugin.SearchTextChanged(sender, args))
+                    SearchItems.Add(i);
             if (!string.IsNullOrEmpty(sender.Text))
                 SearchItems.Add(new NavigateSearchItem(sender.Text));
         }
@@ -114,7 +115,7 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     public void AutoSuggestBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
     {
-        foreach (var plugin in PluginService.EnabledPlugins) plugin.SearchSuggestionChosen(sender, args);
+        foreach (var plugin in PluginService.GetEnabledPlugins()) plugin.SearchSuggestionChosen(sender, args);
     }
     /// <summary>
     /// 搜索栏提交响应
@@ -126,7 +127,7 @@ public partial class MainViewModel : ObservableObject
             if (args.ChosenSuggestion is NavigateSearchItem item)
                 NavigateHelper.ShadowNavigate(new Uri(item.Title));
             else
-                foreach (var plugin in PluginService.EnabledPlugins)
+                foreach (var plugin in PluginService.GetEnabledPlugins())
                     plugin.SearchQuerySubmitted(sender, args);
         }
         else if (sender.Items.Count != 0)
@@ -134,7 +135,7 @@ public partial class MainViewModel : ObservableObject
             if (sender.Items[0] is NavigateSearchItem item)
                 NavigateHelper.ShadowNavigate(new Uri(item.Title));
             else
-                foreach (var plugin in PluginService.EnabledPlugins)
+                foreach (var plugin in PluginService.GetEnabledPlugins())
                     plugin.SearchQuerySubmitted(sender, args);
         }
 
