@@ -26,7 +26,7 @@
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
         BorderThickness="1"
         CornerRadius="{ThemeResource NavigationViewContentGridCornerRadius}"
-        RowSpacing="10">
+        RowSpacing="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -36,12 +36,8 @@
             Margin="20,10,0,0"
             FontSize="25"
             Text="{ex:Locale Key=Settings}" />
-        <ScrollViewer Grid.Row="1" Padding="20,0">
+        <ScrollViewer Grid.Row="1" Padding="20,5">
             <StackPanel HorizontalAlignment="Stretch" Spacing="{StaticResource SettingsCardSpacing}">
-                <StackPanel.ChildrenTransitions>
-                    <EntranceThemeTransition FromVerticalOffset="50" />
-                    <RepositionThemeTransition IsStaggeringEnabled="False" />
-                </StackPanel.ChildrenTransitions>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=MainSetting}" />
                 <labs:SettingsCard>
                     <labs:SettingsCard.Header>

@@ -20,7 +20,9 @@ public static class NavigateHelper
                 return;
             default:
                 if (responderService.GetEnabledResponder<INavigationResponder>(uri.Host) is { } responder)
+                {
                     responder.Navigate(uri, urls);
+                }
                 break;
         }
     }
