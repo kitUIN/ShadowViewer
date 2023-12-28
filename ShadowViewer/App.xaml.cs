@@ -28,6 +28,7 @@ namespace ShadowViewer
         private static void InitDi()
         {
             DiFactory.Services.Register<MainViewModel>(reuse:Reuse.Singleton);
+            DiFactory.Services.Register<SettingsViewModel>(Reuse.Singleton);
         }
         /// <summary>
         /// 初始化数据库
@@ -65,8 +66,8 @@ namespace ShadowViewer
                 Log.Error("{E}", ex);
             }
 #if DEBUG
-            // 这里是测试插件用的, ImportAsync里填入你Debug出来的插件dll位置
-            // await pluginServices.ImportAsync(@"C:\Users\15854\Documents\GitHub\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net6.0-windows10.0.19041.0\ShadowViewer.Plugin.Bika.dll");
+            // 这里是测试插件用的, ImportFromPathAsync里填入你Debug出来的插件dll的文件夹位置
+            // await pluginServices.ImportFromPathAsync(@"C:\Users\15854\Documents\GitHub\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\");
 #endif
             // 导航
             var firstUri = new Uri("shadow://Local/");

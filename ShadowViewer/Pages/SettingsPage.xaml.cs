@@ -9,7 +9,6 @@ public sealed partial class SettingsPage : Page
     private IPluginService PluginService { get; } = DiFactory.Services.Resolve<IPluginService>();
     private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
     public bool IsUnPackaged = !ConfigHelper.IsPackaged;
-    public ObservableCollection<IPlugin> Plugins { get; } = new ObservableCollection<IPlugin>();
     public SettingsPage()
     {
         InitializeComponent();
@@ -26,6 +25,7 @@ public sealed partial class SettingsPage : Page
                 ThemeModeSetting.SelectedIndex = 2;
                 break;
         }
+        ViewModel.InitPlugins();
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)

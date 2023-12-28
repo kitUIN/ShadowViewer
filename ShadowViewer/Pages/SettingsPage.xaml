@@ -131,7 +131,7 @@
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsDebug, Mode=TwoWay}" />
                 </labs:SettingsCard>
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
-                <ItemsRepeater ItemsSource="{x:Bind Plugins, Mode=OneWay}">
+                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Plugins, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="plugin:IPlugin">
                             <labs:SettingsCard
