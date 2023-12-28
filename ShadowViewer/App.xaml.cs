@@ -29,6 +29,7 @@ namespace ShadowViewer
         {
             DiFactory.Services.Register<MainViewModel>(reuse:Reuse.Singleton);
             DiFactory.Services.Register<SettingsViewModel>(Reuse.Singleton);
+            DiFactory.Services.Register<NavigationViewModel>(Reuse.Singleton);
         }
         /// <summary>
         /// 初始化数据库
