@@ -226,7 +226,7 @@ namespace ShadowViewer.Pages
                         LoadingProgressBar.IsIndeterminate = true;
                         LoadingProgressBar.Value = 0;
                         LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
-                        LoadingControlText.Text = ResourcesHelper.GetString(ResourceKey.IsDecompressing);
+                        LoadingControlText.Text = ShadowResourcesHelper.GetString(ResourceKey.IsDecompressing);
                         LoadingFileName.Text = file.Name;
                         var options = new ReaderOptions
                         {
@@ -251,7 +251,7 @@ namespace ShadowViewer.Pages
                             {
                                 LoadingProgressBar.IsIndeterminate = true;
                                 LoadingProgressText.Visibility = Visibility.Collapsed;
-                                LoadingControlText.Text = ResourcesHelper.GetString(ResourceKey.IsImporting);
+                                LoadingControlText.Text = ShadowResourcesHelper.GetString(ResourceKey.IsImporting);
                             });
                             switch (res)
                             {
@@ -305,7 +305,7 @@ namespace ShadowViewer.Pages
                             LoadingControl.IsLoading = true;
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressText.Visibility = Visibility.Collapsed;
-                            LoadingControlText.Text = ResourcesHelper.GetString(ResourceKey.IsImporting);
+                            LoadingControlText.Text = ShadowResourcesHelper.GetString(ResourceKey.IsImporting);
                             LoadingFileName.Text = folder.Name;
                         });
 
@@ -412,7 +412,7 @@ namespace ShadowViewer.Pages
             if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
             {
                 e.AcceptedOperation = DataPackageOperation.Link;
-                e.DragUIOverride.Caption = ResourcesHelper.GetString(ResourceKey.Import);
+                e.DragUIOverride.Caption = ShadowResourcesHelper.GetString(ResourceKey.Import);
                 OverBorder.Visibility = Visibility.Visible;
                 OverBorder.Width = Root.ActualWidth - 30;
                 OverBorder.Height = Root.ActualHeight - 30;

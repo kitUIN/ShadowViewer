@@ -25,11 +25,12 @@ public sealed partial class SettingsPage : Page
                 ThemeModeSetting.SelectedIndex = 2;
                 break;
         }
-        ViewModel.InitPlugins();
+        
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
+        ViewModel.InitPlugins();
     }
 
     protected override void OnNavigatedFrom(NavigationEventArgs e)

@@ -13,6 +13,6 @@ public class NavigateSearchItem : IShadowSearchItem
             Title = title;
         else
             Title = "shadow://" + title;
-        SubTitle = ResourcesHelper.GetString(ResourceKey.Navigate);
+        SubTitle = ShadowResourcesHelper.GetString(ResourceKey.Navigate);
     }
 }

@@ -13,9 +13,9 @@ public sealed partial class MainWindow : Window
         AppTitleBar.Window = this;
         SystemBackdrop = new MicaBackdrop();
         Title = "ShadowViewer";
-        AppTitleBar.Subtitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+        AppTitleBar.Subtitle = Config.IsDebug ? ShadowResourcesHelper.GetString(ResourceKey.Debug) : "";
         Caller.DebugEvent += (_, _) =>
-            AppTitleBar.Subtitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+            AppTitleBar.Subtitle = Config.IsDebug ? ShadowResourcesHelper.GetString(ResourceKey.Debug) : "";
     }
 
 
