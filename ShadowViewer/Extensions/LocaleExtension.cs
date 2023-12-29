@@ -16,7 +16,7 @@ namespace ShadowViewer.Extensions
         /// <inheritdoc/>
         protected override object ProvideValue()
         {
-            return ResourcesHelper.GetString(Key);
+            return ShadowResourcesHelper.GetString(Key);
         }
     }
 }
