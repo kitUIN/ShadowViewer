@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /.idea/.idea.ShadowViewer/.idea
 /ShadowViewer.Plugin.Example
+/nuget.config
