@@ -4,9 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer", "ShadowViewer\ShadowViewer.csproj", "{4F92FB1F-2A83-4125-8B87-FBB96A0858B6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{3544E882-806F-4237-8C06-8216FDCAABD5} = {3544E882-806F-4237-8C06-8216FDCAABD5}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Plugin.Bika", "..\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika.csproj", "{3544E882-806F-4237-8C06-8216FDCAABD5}"
 EndProject
@@ -14,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Core", "..\Sha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Plugin.Local", "..\ShadowViewer.Core\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj", "{EE5EC82D-1F98-42A4-979C-F54A1E40BE63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShadowViewer.Plugin.Example", "ShadowViewer.Plugin.Example\ShadowViewer.Plugin.Example.csproj", "{3D5AC38A-975B-4818-BB94-86BFC7385095}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Plugin.Example", "ShadowViewer.Plugin.Example\ShadowViewer.Plugin.Example.csproj", "{3D5AC38A-975B-4818-BB94-86BFC7385095}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
