@@ -364,3 +364,5 @@ FodyWeavers.xsd
 /.idea/.idea.ShadowViewer/.idea
 /ShadowViewer.Plugin.Example
 /nuget.config
+/ShadowViewer/Assets/FluentSystemIcons-Filled.ttf
+/ShadowViewer/Assets/FluentSystemIcons-Regular.ttf
