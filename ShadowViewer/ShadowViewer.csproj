@@ -21,7 +21,7 @@
 	  <AppxBundle>Never</AppxBundle>
 	  <Nullable>enable</Nullable>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
-	  <AppxPackageDir>D:\VsProjects\WASDK\ShadowViewer\ShadowViewer\AppPackages\</AppxPackageDir>
+	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
@@ -49,14 +49,20 @@
   </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="kitUIN.FluentIcon.WinUI.Filled" Version="1.2.224" />
-      <PackageReference Include="kitUIN.FluentIcon.WinUI.Regular" Version="1.2.224" />
+      <PackageReference Include="kitUIN.FluentIcon.WinUI.Filled" Version="1.2.224.2" GeneratePathProperty="true"/>
+      <PackageReference Include="kitUIN.FluentIcon.WinUI.Regular" Version="1.2.224.2"  GeneratePathProperty="true"/>
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.1" />
+    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.3" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
+	<Target Name="CopyPackageFiles" BeforeTargets="Build">
+		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Regular)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Regular\Assets\FluentSystemIcons-Regular.ttf"
+			  DestinationFolder="Assets\" />
 
+		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Filled)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Filled\Assets\FluentSystemIcons-Filled.ttf"
+			  DestinationFolder="Assets\" />
+	</Target>
   <!-- 
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
     Tools extension to be activated for this project even if the Windows App SDK Nuget

@@ -13,7 +13,7 @@ namespace ShadowViewer.Pages
     public sealed partial class NavigationPage : Page
     {
         public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
-        private static CancellationTokenSource _cancelTokenSource;
+        private static CancellationTokenSource _cancelTokenSource = new();
         private NavigationViewModel ViewModel { get; }
         private ICallableService Caller { get; }
         private IPluginService PluginService { get; }
