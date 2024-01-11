@@ -117,55 +117,55 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Shadow.Error.Message.NoFile" xml:space="preserve">
+  <data name="NoFile" xml:space="preserve">
     <value>文件不存在</value>
   </data>
-  <data name="Shadow.Error.Message.NotEmpty" xml:space="preserve">
+  <data name="NotEmpty" xml:space="preserve">
     <value>不能为空</value>
   </data>
-  <data name="Shadow.Error.Message.NotImage" xml:space="preserve">
+  <data name="NotImage" xml:space="preserve">
     <value>选择的文件不是合规图片(png,jpg,jpeg,bmp)</value>
   </data>
-  <data name="Shadow.Error.Message.Repeat" xml:space="preserve">
+  <data name="Repeat" xml:space="preserve">
     <value>你所输入的对象已存在</value>
   </data>
-  <data name="Shadow.Error.Message.TagExists" xml:space="preserve">
+  <data name="TagExists" xml:space="preserve">
     <value>标签已存在</value>
   </data>
-  <data name="Shadow.Error.Message.UriFormatException" xml:space="preserve">
+  <data name="UriFormatException" xml:space="preserve">
     <value>不规范的地址,请重试</value>
   </data>
-  <data name="Shadow.Error.SQLite.Unique" xml:space="preserve">
+  <data name="SQLiteUnique" xml:space="preserve">
     <value>数据库中已存在该值</value>
   </data>
-  <data name="Shadow.Error.Title" xml:space="preserve">
+  <data name="Error" xml:space="preserve">
     <value>错误</value>
   </data>
-  <data name="Shadow.FileType.Comic" xml:space="preserve">
+  <data name="Comic" xml:space="preserve">
     <value>漫画</value>
   </data>
-  <data name="Shadow.FileType.ComicFolder" xml:space="preserve">
+  <data name="ComicFolder" xml:space="preserve">
     <value>漫画文件夹</value>
   </data>
   <data name="Confirm" xml:space="preserve">
     <value>确认</value>
   </data>
-  <data name="Shadow.String.CreateFolder.Img" xml:space="preserve">
+  <data name="Icon" xml:space="preserve">
     <value>图标</value>
   </data>
-  <data name="Shadow.String.CreateFolder.Name" xml:space="preserve">
+  <data name="Name" xml:space="preserve">
     <value>名称</value>
   </data>
-  <data name="Shadow.String.CreateFolder.Title" xml:space="preserve">
+  <data name="CreateNewFolder" xml:space="preserve">
     <value>新建文件夹</value>
   </data>
   <data name="Import" xml:space="preserve">
     <value>导入</value>
   </data>
-  <data name="Shadow.String.ImportAgainMessage" xml:space="preserve">
+  <data name="ImportAgainMessage" xml:space="preserve">
     <value>该漫画已经存在</value>
   </data>
-  <data name="Shadow.String.ImportAgainTitle" xml:space="preserve">
+  <data name="ImportAgainTitle" xml:space="preserve">
     <value>重复导入</value>
   </data>
   <data name="IsDecompressing" xml:space="preserve">
@@ -177,13 +177,13 @@
   <data name="ImportText" xml:space="preserve">
     <value>将文件拖到这并导入为漫画</value>
   </data>
-  <data name="Shadow.String.ZipPassword" xml:space="preserve">
+  <data name="ZipPassword" xml:space="preserve">
     <value>解压密码</value>
   </data>
-  <data name="Shadow.String.ZipPasswordTitle" xml:space="preserve">
+  <data name="ZipPasswordTitle" xml:space="preserve">
     <value>解压密码</value>
   </data>
-  <data name="Shadow.Tag.Local" xml:space="preserve">
+  <data name="Local" xml:space="preserve">
     <value>本地</value>
   </data>
   <data name="Cancel" xml:space="preserve">
@@ -258,19 +258,7 @@
   <data name="Delete" xml:space="preserve">
     <value>删除</value>
   </data>
-  <data name="Shadow.String.Set" xml:space="preserve">
-    <value>修改</value>
-  </data>
-  <data name="Shadow.String.AddNew" xml:space="preserve">
-    <value>新增</value>
-  </data>
-  <data name="Shadow.String.Update" xml:space="preserve">
-    <value>更新</value>
-  </data>
-  <data name="Shadow.String.Tag" xml:space="preserve">
-    <value>标签</value>
-  </data>
-  <data name="Shadow.String.Affiliation" xml:space="preserve">
+  <data name="Affiliation1" xml:space="preserve">
     <value>所属</value>
   </data>
   <data name="AppTitle" xml:space="preserve">

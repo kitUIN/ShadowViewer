@@ -22,7 +22,11 @@
 	  <Nullable>enable</Nullable>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
+	  <NoWarn>MSB3277</NoWarn>
   </PropertyGroup>
+	<ItemGroup>
+		<AdditionalFiles Include="Strings/**/*"   />
+	</ItemGroup>
   <ItemGroup>
     <None Remove="Assets\Default\folder.png" />
     <None Remove="Assets\Default\import.png" />
@@ -49,19 +53,17 @@
   </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="kitUIN.FluentIcon.WinUI.Filled" Version="1.2.224.2" GeneratePathProperty="true"/>
-      <PackageReference Include="kitUIN.FluentIcon.WinUI.Regular" Version="1.2.224.2"  GeneratePathProperty="true"/>
+      <PackageReference Include="kitUIN.FluentIcon.WinUI.Filled" Version="1.2.224.2" GeneratePathProperty="true" />
+      <PackageReference Include="kitUIN.FluentIcon.WinUI.Regular" Version="1.2.224.2" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.3" />
+    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.5.4" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 	<Target Name="CopyPackageFiles" BeforeTargets="Build">
-		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Regular)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Regular\Assets\FluentSystemIcons-Regular.ttf"
-			  DestinationFolder="Assets\" />
+		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Regular)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Regular\Assets\FluentSystemIcons-Regular.ttf" DestinationFolder="Assets\" />
 
-		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Filled)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Filled\Assets\FluentSystemIcons-Filled.ttf"
-			  DestinationFolder="Assets\" />
+		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Filled)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Filled\Assets\FluentSystemIcons-Filled.ttf" DestinationFolder="Assets\" />
 	</Target>
   <!-- 
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
@@ -92,6 +94,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Extensions\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="TitleBar\" />
   </ItemGroup>
