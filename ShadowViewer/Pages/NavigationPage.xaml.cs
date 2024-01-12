@@ -63,7 +63,7 @@ namespace ShadowViewer.Pages
                         var compressToolKit = DiFactory.Services.Resolve<CompressService>();
                         await Task.Run(async () =>
                         {
-                            compressToolKit.DeCompress(file.Path, pluginPath);
+                            //compressToolKit.DeCompress(file.Path, pluginPath);
 /*                            await DispatcherQueue.EnqueueAsync(async () =>
                             {
                                 await PluginService.ImportAsync();

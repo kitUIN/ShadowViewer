@@ -1,8 +1,8 @@
+
 namespace ShadowViewer;
 
 public sealed partial class MainWindow : Window
 {
-    
 
     private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>(); 
     private MainViewModel ViewModel { get; } = DiFactory.Services.Resolve<MainViewModel>();
@@ -17,12 +17,6 @@ public sealed partial class MainWindow : Window
         Caller.DebugEvent += (_, _) =>
             AppTitleBar.Subtitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
     }
-
-
-    
-
-    
-
 
     private void DeleteHistory_OnClick(object sender, RoutedEventArgs e)
     {
