@@ -1,5 +1,5 @@
 ﻿using ShadowViewer.Responders;
-using ShadowViewer.Services.Interfaces;
+using System.Diagnostics;
 
 namespace ShadowViewer.ViewModels;
 
@@ -65,19 +65,19 @@ public partial class NavigationViewModel : ObservableObject
     /// </summary>
     public void ReloadItems()
     {
-            foreach (var responder in ResponderService.GetResponders<INavigationResponder>())
-            {
-                if (PluginService.GetPlugin(responder.Id) is not { } plugin) continue;
-                foreach (var item2 in responder.NavigationViewMenuItems)
-                    if (plugin.IsEnabled)
-                        AddMenuItem(item2);
-                    else
-                        DeleteMenuItem(item2);
-                foreach (var item1 in responder.NavigationViewFooterItems)
-                    if (plugin.IsEnabled)
-                        AddFooterMenuItems(item1);
-                    else
-                        DeleteFooterMenuItems(item1);
-            }
+        foreach (var responder in ResponderService.GetResponders<INavigationResponder>())
+        {
+            if (PluginService.GetPlugin(responder.Id) is not { } plugin) continue;
+            foreach (var item2 in responder.NavigationViewMenuItems)
+                if (plugin.IsEnabled)
+                    AddMenuItem(item2);
+                else
+                    DeleteMenuItem(item2);
+            foreach (var item1 in responder.NavigationViewFooterItems)
+                if (plugin.IsEnabled)
+                    AddFooterMenuItems(item1);
+                else
+                    DeleteFooterMenuItems(item1);
+        }
     }
 }

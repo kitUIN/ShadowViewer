@@ -25,22 +25,8 @@
 	  <NoWarn>MSB3277</NoWarn>
   </PropertyGroup>
 	<ItemGroup>
-		<AdditionalFiles Include="Strings/**/*"   />
+		<AdditionalFiles Include="Strings/**/*" />
 	</ItemGroup>
-  <ItemGroup>
-    <None Remove="Assets\Default\folder.png" />
-    <None Remove="Assets\Default\import.png" />
-    <None Remove="MainPage.xaml" />
-    <None Remove="Pages\AttributesPage.xaml" />
-    <None Remove="Pages\BookShelfPage.xaml" />
-    <None Remove="Pages\BookShelfSettingsPage.xaml" />
-    <None Remove="Pages\ComicPage.xaml" />
-    <None Remove="Pages\NavigationPage.xaml" />
-    <None Remove="Pages\PicPage.xaml" />
-    <None Remove="Pages\PluginPage.xaml" />
-    <None Remove="Pages\SettingsPage.xaml" />
-    <None Remove="Pages\UserPage.xaml" />
-  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -53,16 +39,15 @@
   </ItemGroup>
 
   <ItemGroup>
-      <PackageReference Include="kitUIN.FluentIcon.WinUI.Filled" Version="1.2.224.2" GeneratePathProperty="true" />
-      <PackageReference Include="kitUIN.FluentIcon.WinUI.Regular" Version="1.2.224.2" GeneratePathProperty="true" />
+    <PackageReference Include="kitUIN.FluentIcon.WinUI.Filled" Version="1.2.224.2" GeneratePathProperty="true" />
+    <PackageReference Include="kitUIN.FluentIcon.WinUI.Regular" Version="1.2.224.2" GeneratePathProperty="true" />
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.5.8" />
+    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.5.16" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 	<Target Name="CopyPackageFiles" BeforeTargets="Build">
 		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Regular)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Regular\Assets\FluentSystemIcons-Regular.ttf" DestinationFolder="Assets\" />
-
 		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Filled)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Filled\Assets\FluentSystemIcons-Filled.ttf" DestinationFolder="Assets\" />
 	</Target>
   <!-- 
@@ -114,5 +99,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PRIResource Remove="ViewModels\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
   </ItemGroup>
 </Project>

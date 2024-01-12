@@ -6,7 +6,6 @@ using System.Diagnostics;
 using ShadowViewer.Args;
 using ShadowViewer.Responders;
 using ShadowViewer.Services;
-using ShadowViewer.Services.Interfaces;
 
 namespace ShadowViewer.Pages
 {

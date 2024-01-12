@@ -1,5 +1,4 @@
 using ShadowViewer.Plugins;
-using ShadowViewer.Services.Interfaces;
 
 namespace ShadowViewer.Pages;
 

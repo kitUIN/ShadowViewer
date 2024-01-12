@@ -1,5 +1,5 @@
 ﻿using Windows.ApplicationModel;
-using ShadowViewer.Services.Interfaces;
+
 using ShadowViewer.Plugins;
 
 namespace ShadowViewer.ViewModels

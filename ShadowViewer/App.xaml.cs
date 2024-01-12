@@ -1,14 +1,8 @@
 ﻿using CustomExtensions.WinUI;
-using Serilog;
-using ShadowViewer.Interfaces;
 using ShadowViewer.Plugin.Local;
-using ShadowViewer.Plugins;
+using ShadowViewer.Plugin.PluginManager;
 using SqlSugar;
 using System.Globalization;
-using ShadowViewer.Plugin.Local.ViewModels;
-using ShadowViewer.Responders;
-using System.Diagnostics;
-using ShadowViewer.Services.Interfaces;
 
 namespace ShadowViewer
 {
@@ -27,6 +21,7 @@ namespace ShadowViewer
 
         private static void InitDi()
         {
+            PluginManagerPlugin.PluginServiceInit();
             DiFactory.Services.Register<MainViewModel>(reuse:Reuse.Singleton);
             DiFactory.Services.Register<SettingsViewModel>(Reuse.Singleton);
             DiFactory.Services.Register<NavigationViewModel>(Reuse.Singleton);
@@ -51,15 +46,17 @@ namespace ShadowViewer
         /// <param name="args">Details about the launch request and process.</param>
         protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
+            // 插件依赖注入
+            var pluginServices = DiFactory.Services.Resolve<IPluginService>();
+
             var currentCulture = CultureInfo.CurrentUICulture;
+            pluginServices.ImportOnePlugin<LocalPlugin>();
             var startupWindow = new MainWindow();
             WindowHelper.TrackWindow(startupWindow);
             ThemeHelper.Initialize(startupWindow);
-            // 插件依赖注入
-            var pluginServices = DiFactory.Services.Resolve<IPluginService>();
-            pluginServices.ImportOnePlugin<LocalPlugin>();
             try
             {
+                pluginServices.ImportOnePlugin<PluginManagerPlugin>();
                 await pluginServices.ImportFromPluginsPathAsync();
             }
             catch(Exception ex)
@@ -78,7 +75,7 @@ namespace ShadowViewer
             {
                 firstUri = data.Uri;
             }
-            startupWindow.Activate();
+            startupWindow.Activate(); 
             NavigateHelper.ShadowNavigate(firstUri);
         }
     }
