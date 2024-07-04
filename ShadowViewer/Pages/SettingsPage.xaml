@@ -9,10 +9,8 @@
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:local2="using:ShadowViewer.Controls"
-    xmlns:m="using:ShadowViewer.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:plugin="using:ShadowViewer.Plugins"
-    xmlns:viewModels="using:ShadowViewer.ViewModels"
     xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     mc:Ignorable="d">
     <Page.Resources>
@@ -133,7 +131,7 @@
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Plugins, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="plugin:IPlugin">
+                        <DataTemplate x:DataType="plugin:PluginBase">
                             <labs:SettingsCard
                                 x:Name="PluginSetting"
                                 Click="PluginSetting_OnClick"

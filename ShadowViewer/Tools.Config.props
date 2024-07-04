@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <!-- Whether the current project is a PluginLoader -->
+        <IsPluginLoader>false</IsPluginLoader>
+        <!-- Whether the current project is a Plugin -->
+        <IsPlugin>false</IsPlugin>
+        <!-- Auto Pack Plugin -->
+        <AutoPluginPackage>false</AutoPluginPackage>
+        <!-- Auto Generate I18N -->
+        <AutoGenerateI18N>true</AutoGenerateI18N>
+    </PropertyGroup>
+</Project>

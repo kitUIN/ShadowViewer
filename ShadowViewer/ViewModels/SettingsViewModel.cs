@@ -12,8 +12,8 @@ namespace ShadowViewer.ViewModels
         #region DI
         private ICallableService Caller { get; }
         private ILogger Logger { get; }
-        private IPluginService PluginService { get; }
-        public SettingsViewModel(ICallableService callableService, IPluginService pluginService, ILogger logger)
+        private PluginLoader PluginService { get; }
+        public SettingsViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger)
         {
             Caller = callableService;
             PluginService = pluginService;
@@ -27,7 +27,7 @@ namespace ShadowViewer.ViewModels
         /// </summary>
         public string Version { get; }
 
-        public ObservableCollection<IPlugin> Plugins { get; } = new ObservableCollection<IPlugin>();
+        public ObservableCollection<PluginBase> Plugins { get; } = new();
 
         [ObservableProperty] private bool isDebug = Config.IsDebug;
         [ObservableProperty] private string comicsPath = Config.ComicsPath;

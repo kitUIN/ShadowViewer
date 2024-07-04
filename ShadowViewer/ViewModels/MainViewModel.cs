@@ -8,10 +8,10 @@ public partial class MainViewModel : ObservableObject
 {
     private ILogger Logger { get; }
     private ICallableService Caller { get; }
-    private IPluginService PluginService { get; }
+    private PluginLoader PluginService { get; }
     private ResponderService ResponderService { get; }
 
-    public MainViewModel(ICallableService callableService, IPluginService pluginService, ILogger logger,
+    public MainViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger,
         ResponderService responderService)
     {
         Logger = logger;

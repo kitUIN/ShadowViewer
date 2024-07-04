@@ -3,9 +3,11 @@ using SharpCompress.Readers;
 using System.Threading;
 using SqlSugar;
 using System.Diagnostics;
+using ShadowPluginLoader.WinUI;
 using ShadowViewer.Args;
 using ShadowViewer.Responders;
 using ShadowViewer.Services;
+using ShadowPluginLoader.WinUI.Args;
 
 namespace ShadowViewer.Pages
 {
@@ -15,26 +17,27 @@ namespace ShadowViewer.Pages
         private static CancellationTokenSource _cancelTokenSource = new();
         private NavigationViewModel ViewModel { get; }
         private ICallableService Caller { get; }
-        private IPluginService PluginService { get; }
+        private PluginLoader PluginService { get; }
 
         public NavigationPage()
         {
             this.InitializeComponent();
             ViewModel = DiFactory.Services.Resolve<NavigationViewModel>();
             Caller = DiFactory.Services.Resolve<ICallableService>();
-            PluginService = DiFactory.Services.Resolve<IPluginService>();
+            PluginService = DiFactory.Services.Resolve<PluginLoader>();
             Caller.ImportComicEvent += Caller_ImportComicEvent;
             Caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
             Caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
             Caller.ImportComicThumbEvent += Caller_ImportComicThumbEvent;
             Caller.ImportComicCompletedEvent += Caller_ImportComicCompletedEvent;
             Caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
-            Caller.PluginEnabledEvent += CallerOnPluginEnabledEvent;
-            Caller.PluginDisabledEvent += CallerOnPluginEnabledEvent;
+            PluginEventService.PluginLoaded += CallerOnPluginEnabledEvent;
+            PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
             Caller.TopGridEvent += Caller_TopGridEvent;
             Caller.ImportPluginEvent += CallerOnImportPluginEvent;
             Caller.NavigationViewBackRequestedEvent += Caller_NavigationViewBackRequestedEvent;
             Caller.NavigationViewPaneEvent += Caller_NavigationViewPaneEvent;
+            ViewModel.ReloadItems();
         }
 
         private void Caller_NavigationViewPaneEvent(object? sender, EventArgs e)
@@ -128,7 +131,7 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 启用或禁用插件时更新左侧导航栏
         /// </summary>
-        private void CallerOnPluginEnabledEvent(object? sender, PluginEventArg e)
+        private void CallerOnPluginEnabledEvent(object? sender, PluginEventArgs e)
         {
             ViewModel.ReloadItems();
         }

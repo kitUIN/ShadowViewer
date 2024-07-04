@@ -5,7 +5,7 @@ namespace ShadowViewer.Pages;
 public sealed partial class SettingsPage : Page
 {
     private SettingsViewModel ViewModel { get; } = DiFactory.Services.Resolve<SettingsViewModel>();
-    private IPluginService PluginService { get; } = DiFactory.Services.Resolve<IPluginService>();
+    private PluginLoader PluginService { get; } = DiFactory.Services.Resolve<PluginLoader>();
     private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
     public bool IsUnPackaged = !ConfigHelper.IsPackaged;
     public SettingsPage()

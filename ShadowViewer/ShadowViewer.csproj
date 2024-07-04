@@ -23,6 +23,7 @@
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
 	  <NoWarn>MSB3277</NoWarn>
+	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="Strings/**/*" />
@@ -41,9 +42,6 @@
   <ItemGroup>
     <PackageReference Include="kitUIN.FluentIcon.WinUI.Filled" Version="1.2.224.2" GeneratePathProperty="true" />
     <PackageReference Include="kitUIN.FluentIcon.WinUI.Regular" Version="1.2.224.2" GeneratePathProperty="true" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.4.231008000" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
-    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.5.16" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 	<Target Name="CopyPackageFiles" BeforeTargets="Build">
@@ -101,6 +99,7 @@
     <PRIResource Remove="ViewModels\**" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
     <ProjectReference Include="..\..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
   </ItemGroup>
 </Project>

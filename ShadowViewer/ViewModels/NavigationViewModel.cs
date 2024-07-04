@@ -7,10 +7,10 @@ public partial class NavigationViewModel : ObservableObject
 {
     private ILogger Logger { get; }
     private ICallableService Caller { get; }
-    private IPluginService PluginService { get; }
+    private PluginLoader PluginService { get; }
     private ResponderService ResponderService { get; }
 
-    public NavigationViewModel(ICallableService callableService, IPluginService pluginService, ILogger logger,
+    public NavigationViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger,
         ResponderService responderService)
     {
         Logger = logger;
@@ -65,6 +65,7 @@ public partial class NavigationViewModel : ObservableObject
     /// </summary>
     public void ReloadItems()
     {
+        Logger.Information(ResponderService.GetResponders<INavigationResponder>().Count().ToString());
         foreach (var responder in ResponderService.GetResponders<INavigationResponder>())
         {
             if (PluginService.GetPlugin(responder.Id) is not { } plugin) continue;
