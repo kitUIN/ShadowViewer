@@ -72,7 +72,7 @@ public partial class MainViewModel : ObservableObject
     public void HistoryView_OnItemClick(object sender, ItemClickEventArgs e)
     {
         if (e.ClickedItem is not IHistory history) return;
-        var responder = ResponderService.GetEnabledResponder<IHistoryResponder>(history.Plugin);
+        var responder = ResponderService.GetEnabledResponder<IHistoryResponder>(history.PluginId);
         responder?.ClickHistoryHandler(history);
         if (sender is ListView {Parent:Grid{Parent:FlyoutPresenter{Parent:Popup popup}}} )
         {
@@ -85,7 +85,7 @@ public partial class MainViewModel : ObservableObject
     public void HistoryDelete(object? sender)
     {
         if (sender is not FrameworkElement { Tag: IHistory history }) return;
-        var responder = ResponderService.GetEnabledResponder<IHistoryResponder>(history.Plugin);
+        var responder = ResponderService.GetEnabledResponder<IHistoryResponder>(history.PluginId);
         responder?.DeleteHistoryHandler(history);
         ReLoad();
     }

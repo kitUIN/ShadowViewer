@@ -24,6 +24,7 @@
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
 	  <NoWarn>MSB3277</NoWarn>
 	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+	  <LangVersion>12</LangVersion>
   </PropertyGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="Strings/**/*" />
@@ -99,7 +100,6 @@
     <PRIResource Remove="ViewModels\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShadowViewer.Core\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
     <ProjectReference Include="..\..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
   </ItemGroup>
 </Project>

@@ -1,10 +1,11 @@
-﻿{
-    "profiles": {
-      "ShadowViewer (Package)": {
-        "commandName": "MsixPackage"
-      },
-      "ShadowViewer (Unpackaged)": {
-        "commandName": "Project"
-      }
+{
+  "profiles": {
+    "ShadowViewer (Package)": {
+      "commandName": "MsixPackage",
+      "nativeDebugging": false
+    },
+    "ShadowViewer (Unpackaged)": {
+      "commandName": "Project"
     }
+  }
 }

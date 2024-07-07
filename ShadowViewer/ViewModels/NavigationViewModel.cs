@@ -10,6 +10,11 @@ public partial class NavigationViewModel : ObservableObject
     private PluginLoader PluginService { get; }
     private ResponderService ResponderService { get; }
 
+    /// <summary />
+    /// <param name="callableService"></param>
+    /// <param name="pluginService"></param>
+    /// <param name="logger"></param>
+    /// <param name="responderService"></param>
     public NavigationViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger,
         ResponderService responderService)
     {
@@ -22,12 +27,19 @@ public partial class NavigationViewModel : ObservableObject
     /// <summary>
     /// 导航栏菜单
     /// </summary>
-    public readonly ObservableCollection<IShadowNavigationItem> MenuItems = new();
+    public readonly ObservableCollection<IShadowNavigationItem> MenuItems = [];
 
     /// <summary>
     /// 导航栏底部菜单
     /// </summary>
-    public readonly ObservableCollection<IShadowNavigationItem> FooterMenuItems = new();
+    public readonly ObservableCollection<IShadowNavigationItem> FooterMenuItems = [];
+
+    public ShadowNavigation? NavigationViewItemInvokedHandler(IShadowNavigationItem item)
+    {
+        var responder = ResponderService.GetEnabledResponder<INavigationResponder>(item.PluginId);
+        return responder?.NavigationViewItemInvokedHandler(item);
+    }
+
     /// <summary>
     /// 添加导航栏个体
     /// </summary>

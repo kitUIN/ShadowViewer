@@ -1,5 +1,5 @@
 ﻿using CustomExtensions.WinUI;
-using ShadowViewer.Plugin.Local;
+//using ShadowViewer.Plugin.Local;
 using SqlSugar;
 using System.Globalization;
 using ShadowViewer.Plugin.PluginManager;
@@ -52,10 +52,9 @@ namespace ShadowViewer
             
             try
             {
+                //pluginServices.Import(typeof(LocalPlugin));
                 pluginServices.Import(typeof(PluginManagerPlugin));
-                pluginServices.Import(typeof(LocalPlugin));
                 await pluginServices.ImportFromDirAsync(Config.PluginsPath);
-                Log.Information(pluginServices.GetPlugins().Count.ToString());
             }
             catch(Exception ex)
             {

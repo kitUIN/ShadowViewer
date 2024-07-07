@@ -354,24 +354,26 @@ namespace ShadowViewer.Pages
         {
             Type? page = null;
             object? parameter = null;
+            NavigationTransitionInfo? info = null;
             if (args.IsSettingsInvoked)
             {
                 page = typeof(SettingsPage);
                 parameter = new Uri("shadow://settings/");
             }
-            else if (args.InvokedItemContainer != null && args.InvokedItemContainer.Tag is IShadowNavigationItem item)
+            else if (args.InvokedItemContainer != null && 
+                     args.InvokedItemContainer.Tag is IShadowNavigationItem item &&
+                     ViewModel.NavigationViewItemInvokedHandler(item) is { } navigation
+                     )
             {
-                foreach (var p in DiFactory.Services.ResolveMany<INavigationResponder>())
-                {
-                    p.NavigationViewItemInvokedHandler(item, ref page, ref parameter);
-                    if (page != null) break;
-                }
+                parameter = navigation.Parameter;
+                page = navigation.PageType;
+                info = navigation.TransitionInfo;
             }
-
+            info ??= args.RecommendedNavigationTransitionInfo;
             var preNavPageType = ContentFrame.CurrentSourcePageType;
             if (page is not null && !Type.Equals(preNavPageType, page))
             {
-                ContentFrame.Navigate(page, parameter, args.RecommendedNavigationTransitionInfo);
+                ContentFrame.Navigate(page, parameter, info);
             }
         }
 

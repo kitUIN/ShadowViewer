@@ -82,14 +82,16 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Button
-                                Grid.Column="0" FontSize="18"
+                                Grid.Column="0"
                                 HorizontalAlignment="Left"
                                 Content="{ex:Locale Key=History}"
+                                FontSize="18"
                                 Style="{ThemeResource PointerOverButtonStyle}" />
-                            
+
                         </Grid>
-                        <ListView MaxHeight="400"
+                        <ListView
                             Grid.Row="1"
+                            MaxHeight="400"
                             IsItemClickEnabled="True"
                             ItemClick="{x:Bind ViewModel.HistoryView_OnItemClick}"
                             ItemsSource="{x:Bind ViewModel.Histories}"
@@ -128,7 +130,7 @@
                                                     Grid.Column="1"
                                                     FontSize="12"
                                                     Foreground="Gray"
-                                                    Text="{x:Bind Plugin}"
+                                                    Text="{x:Bind PluginId}"
                                                     TextTrimming="CharacterEllipsis" />
                                             </Grid>
                                         </Grid>

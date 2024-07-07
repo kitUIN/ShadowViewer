@@ -15,5 +15,8 @@ public partial class ShadowNavigationItem : ObservableObject, IShadowNavigationI
     /// <summary>
     /// <inheritdoc />
     /// </summary>
-    public string? Id { get; set; }
+    public string? Id { get;  }
+
+    /// <inheritdoc />
+    public string PluginId { get; }
 }
