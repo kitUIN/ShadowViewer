@@ -1,3 +1,12 @@
 [submodule "ShadowViewer.Core"]
 	path = ShadowViewer.Core
 	url = https://github.com/kitUIN/ShadowViewer.Core
+[submodule "ShadowViewer.Plugin.Local"]
+	path = ShadowViewer.Plugin.Local
+	url = https://github.com/kitUIN/ShadowViewer.Plugin.Local
+[submodule "ShadowViewer.Plugin.PluginManager"]
+	path = ShadowViewer.Plugin.PluginManager
+	url = https://github.com/kitUIN/ShadowViewer.Plugin.PluginManager
+[submodule "ShadowViewer.Analyzer"]
+	path = ShadowViewer.Analyzer
+	url = https://github.com/kitUIN/ShadowViewer.Analyzer
