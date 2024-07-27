@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.WinUI.UI;
-using ShadowViewer.Responders;
+﻿using ShadowViewer.Responders;
 
 namespace ShadowViewer.ViewModels;
 

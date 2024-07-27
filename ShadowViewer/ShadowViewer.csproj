@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	  <OutputType>WinExe</OutputType>
-	  <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+	  <TargetFramework>net6.0-windows10.0.22621</TargetFramework>
 	  <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 	  <RootNamespace>ShadowViewer</RootNamespace>
 	  <ApplicationManifest>app.manifest</ApplicationManifest>
@@ -80,7 +80,6 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="TitleBar\" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\UserPage.xaml">
@@ -100,6 +99,8 @@
     <PRIResource Remove="ViewModels\**" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
+    <ProjectReference Include="..\..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
     <ProjectReference Include="..\..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
   </ItemGroup>
 </Project>

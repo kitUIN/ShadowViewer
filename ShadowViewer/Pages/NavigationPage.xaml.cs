@@ -142,7 +142,7 @@ namespace ShadowViewer.Pages
         private void Caller_ImportComicCompletedEvent(object sender, EventArgs e)
         {
             Caller.RefreshBook();
-            LoadingControl.IsLoading = false;
+            //LoadingControl.IsLoading = false;
         }
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace ShadowViewer.Pages
                     if (item is StorageFile file && file.IsZip())
                     {
                         ZipThumb.Source = null;
-                        LoadingControl.IsLoading = true;
+                        //LoadingControl.IsLoading = true;
                         LoadingProgressBar.IsIndeterminate = true;
                         LoadingProgressBar.Value = 0;
                         LoadingProgressText.Visibility = LoadingProgressBar.Visibility = Visibility.Visible;
@@ -298,13 +298,13 @@ namespace ShadowViewer.Pages
                             again = await ComicHelper.CheckImportAgain(XamlRoot, path: folder.Path)));
                         if (again)
                         {
-                            DispatcherQueue.TryEnqueue(() => LoadingControl.IsLoading = false);
+                            //DispatcherQueue.TryEnqueue(() => LoadingControl.IsLoading = false);
                             continue;
                         }
 
                         DispatcherQueue.TryEnqueue(() =>
                         {
-                            LoadingControl.IsLoading = true;
+                            //LoadingControl.IsLoading = true;
                             LoadingProgressBar.IsIndeterminate = true;
                             LoadingProgressText.Visibility = Visibility.Collapsed;
                             LoadingControlText.Text = ResourcesHelper.GetString(ResourceKey.IsImporting);
@@ -334,7 +334,7 @@ namespace ShadowViewer.Pages
             catch (TaskCanceledException)
             {
                 Log.ForContext<NavigationPage>().Information("ÖÐ¶Ïµ¼Èë");
-                DispatcherQueue.TryEnqueue(() => { LoadingControl.IsLoading = false; });
+                //DispatcherQueue.TryEnqueue(() => { LoadingControl.IsLoading = false; });
             }
         }
 
@@ -391,7 +391,9 @@ namespace ShadowViewer.Pages
         private async void Root_Drop(object sender, DragEventArgs e)
         {
             OverBorder.Visibility = Visibility.Collapsed;
-            if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) 
+                //&& !LoadingControl.IsLoading
+                )
             {
                 var items = await e.DataView.GetStorageItemsAsync();
                 var groups = items.GroupBy(x =>
@@ -413,7 +415,9 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void Root_DragOver(object sender, DragEventArgs e)
         {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems) && !LoadingControl.IsLoading)
+            if (e.DataView.Contains(StandardDataFormats.StorageItems) 
+                //&& !LoadingControl.IsLoading
+                )
             {
                 e.AcceptedOperation = DataPackageOperation.Link;
                 e.DragUIOverride.Caption = ResourcesHelper.GetString(ResourceKey.Import);

@@ -40,7 +40,6 @@ global using Windows.ApplicationModel.Activation;
 global using Windows.Foundation;
 global using Windows.Foundation.Collections;
 global using System.Collections.Specialized;
-global using CommunityToolkit.Labs.WinUI;
 global using Windows.System;
 global using Microsoft.UI;
 global using CommunityToolkit.Mvvm.Messaging;

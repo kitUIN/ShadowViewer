@@ -11,6 +11,7 @@
     xmlns:interfaces="using:ShadowViewer.Interfaces"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="using:ShadowViewer.Pages"
+    xmlns:shadow="using:ShadowViewer.Controls"
     mc:Ignorable="d">
 
     <Grid MinWidth="650">
@@ -18,7 +19,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <controls:TitleBar
+        <shadow:TitleBar
             x:Name="AppTitleBar"
             Title="ShadowViewer"
             Grid.Row="0"
@@ -29,10 +30,10 @@
             IsBackButtonVisible="True"
             IsPaneButtonVisible="True"
             PaneButtonClick="{x:Bind ViewModel.AppTitleBar_OnPaneButtonClick}">
-            <controls:TitleBar.Icon>
+            <shadow:TitleBar.Icon>
                 <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/AppTitleBarIcon.png" />
-            </controls:TitleBar.Icon>
-            <controls:TitleBar.Content>
+            </shadow:TitleBar.Icon>
+            <shadow:TitleBar.Content>
                 <AutoSuggestBox
                     GotFocus="{x:Bind ViewModel.AutoSuggestBox_OnGotFocus}"
                     ItemsSource="{x:Bind ViewModel.SearchItems, Mode=OneWay}"
@@ -68,8 +69,8 @@
                         </DataTemplate>
                     </AutoSuggestBox.ItemTemplate>
                 </AutoSuggestBox>
-            </controls:TitleBar.Content>
-            <controls:TitleBar.HistoryFlyout>
+            </shadow:TitleBar.Content>
+            <shadow:TitleBar.HistoryFlyout>
                 <Flyout Opening="{x:Bind ViewModel.HistoryFlyout_OnOpening}" Placement="BottomEdgeAlignedRight">
                     <Grid Width="300" RowSpacing="10">
                         <Grid.RowDefinitions>
@@ -152,8 +153,8 @@
                         </ListView>
                     </Grid>
                 </Flyout>
-            </controls:TitleBar.HistoryFlyout>
-        </controls:TitleBar>
+            </shadow:TitleBar.HistoryFlyout>
+        </shadow:TitleBar>
         <pages:NavigationPage Grid.Row="1" />
     </Grid>
 </Window>

@@ -2,6 +2,7 @@
 //using ShadowViewer.Plugin.Local;
 using SqlSugar;
 using System.Globalization;
+using ShadowViewer.Plugin.Local;
 using ShadowViewer.Plugin.PluginManager;
 
 namespace ShadowViewer
@@ -52,7 +53,7 @@ namespace ShadowViewer
             
             try
             {
-                //pluginServices.Import(typeof(LocalPlugin));
+                pluginServices.Import(typeof(LocalPlugin));
                 pluginServices.Import(typeof(PluginManagerPlugin));
                 await pluginServices.ImportFromDirAsync(Config.PluginsPath);
             }

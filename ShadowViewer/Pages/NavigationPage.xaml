@@ -3,14 +3,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:co="using:ShadowViewer.Controls"
-    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Extensions"
+    xmlns:interfaces="using:ShadowViewer.Interfaces"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:media="using:CommunityToolkit.WinUI.UI.Media"
     xmlns:models="using:ShadowViewer.Models"
-    xmlns:interfaces="using:ShadowViewer.Interfaces"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Grid
@@ -67,11 +66,12 @@
                     Text="{ex:Locale Key=ImportText}" />
             </StackPanel>
         </Border>
-        <controls:Loading
+        <Grid
             x:Name="LoadingControl"
             Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
             Opacity=".95"
-            RightTapped="SmokeGrid_RightTapped">
+            RightTapped="SmokeGrid_RightTapped"
+            Visibility="Collapsed">
 
             <StackPanel
                 Padding="12"
@@ -129,7 +129,7 @@
                         TextWrapping="WrapWholeWords" />
                 </StackPanel>
             </StackPanel>
-        </controls:Loading>
+        </Grid>
         <Grid x:Name="TopGrid" Canvas.ZIndex="1" />
         <StackPanel
             x:Name="TipContainer"
