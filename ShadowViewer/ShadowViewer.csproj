@@ -41,14 +41,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="kitUIN.FluentIcon.WinUI.Filled" Version="1.2.224.2" GeneratePathProperty="true" />
-    <PackageReference Include="kitUIN.FluentIcon.WinUI.Regular" Version="1.2.224.2" GeneratePathProperty="true" />
-    <Manifest Include="$(ApplicationManifest)" />
+	  <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
-	<Target Name="CopyPackageFiles" BeforeTargets="Build">
-		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Regular)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Regular\Assets\FluentSystemIcons-Regular.ttf" DestinationFolder="Assets\" />
-		<Copy SourceFiles="$(PkgkitUIN_FluentIcon_WinUI_Filled)\lib\net6.0-windows10.0.19041\kitUIN.FluentIcon.WinUI.Filled\Assets\FluentSystemIcons-Filled.ttf" DestinationFolder="Assets\" />
-	</Target>
   <!-- 
     Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
     Tools extension to be activated for this project even if the Windows App SDK Nuget
@@ -99,8 +93,8 @@
     <PRIResource Remove="ViewModels\**" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
-    <ProjectReference Include="..\..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
-    <ProjectReference Include="..\..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
+    <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
+    <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
+    <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
   </ItemGroup>
 </Project>
