@@ -1,0 +1,3 @@
+[submodule "ShadowViewer.Core"]
+	path = ShadowViewer.Core
+	url = https://github.com/kitUIN/ShadowViewer.Core
