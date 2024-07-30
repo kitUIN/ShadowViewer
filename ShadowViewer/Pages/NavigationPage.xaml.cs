@@ -34,7 +34,6 @@ namespace ShadowViewer.Pages
             PluginEventService.PluginLoaded += CallerOnPluginEnabledEvent;
             PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
             Caller.TopGridEvent += Caller_TopGridEvent;
-            Caller.ImportPluginEvent += CallerOnImportPluginEvent;
             Caller.NavigationViewBackRequestedEvent += Caller_NavigationViewBackRequestedEvent;
             Caller.NavigationViewPaneEvent += Caller_NavigationViewPaneEvent;
             ViewModel.ReloadItems();
@@ -51,31 +50,7 @@ namespace ShadowViewer.Pages
             ContentFrame.GoBack();
         }
 
-        private async void CallerOnImportPluginEvent(object sender, ImportPluginEventArg e)
-        {
-            await DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var path = ConfigHelper.GetString("PluginsPath");
-                foreach (var item in e.Items)
-                {
-                    if (item is StorageFile file)
-                    {
-                        var f = file.DisplayName.Split(".")[2];
-                        var pluginPath = Path.Combine(path, f);
-                        var compressToolKit = DiFactory.Services.Resolve<CompressService>();
-                        await Task.Run(async () =>
-                        {
-                            //compressToolKit.DeCompress(file.Path, pluginPath);
-/*                            await DispatcherQueue.EnqueueAsync(async () =>
-                            {
-                                await PluginService.ImportAsync();
-                            });*/
-                        });
-                    }
-                }
-            });
-            
-        }
+        
 
         /// <summary>
         /// 顶部窗体事件
@@ -105,19 +80,19 @@ namespace ShadowViewer.Pages
 
                         break;
                     case TopGridMode.Tip:
-                        if (e.Element is TipPopup popup)
-                        {
-                            TipContainer.Visibility = Visibility.Visible;
-                            TipContainer.Children.Add(popup);
-                            popup.Visibility = Visibility.Visible;
-                            await Task.Delay(TimeSpan.FromSeconds(popup.DisplaySeconds));
-                            popup.Visibility = Visibility.Collapsed;
-                            TipContainer.Children.Remove(popup);
-                            if (TipContainer.Children.Count == 0)
-                            {
-                                TipContainer.Visibility = Visibility.Collapsed;
-                            }
-                        }
+                        //if (e.Element is TipPopup popup)
+                        //{
+                        //    TipContainer.Visibility = Visibility.Visible;
+                        //    TipContainer.Children.Add(popup);
+                        //    popup.Visibility = Visibility.Visible;
+                        //    await Task.Delay(TimeSpan.FromSeconds(popup.DisplaySeconds));
+                        //    popup.Visibility = Visibility.Collapsed;
+                        //    TipContainer.Children.Remove(popup);
+                        //    if (TipContainer.Children.Count == 0)
+                        //    {
+                        //        TipContainer.Visibility = Visibility.Collapsed;
+                        //    }
+                        //}
 
                         break;
                 }

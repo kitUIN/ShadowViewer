@@ -1,7 +1,4 @@
 ﻿using CustomExtensions.WinUI;
-//using ShadowViewer.Plugin.Local;
-using SqlSugar;
-using System.Globalization;
 using ShadowViewer.Plugin.Local;
 using ShadowViewer.Plugin.PluginManager;
 
@@ -12,9 +9,9 @@ namespace ShadowViewer
         public App()
         {
             ApplicationExtensionHost.Initialize(this);
-            InitDi();
             // 配置文件
             Config.Init();
+            InitDi();
             // 数据库
             InitDatabase();
             this.InitializeComponent();
@@ -22,6 +19,25 @@ namespace ShadowViewer
 
         private static void InitDi()
         {
+            var defaultPath = ConfigHelper.IsPackaged ? ApplicationData.Current.LocalFolder.Path : System.Environment.CurrentDirectory;
+            DiFactory.Services.RegisterInstance<ISqlSugarClient>(new SqlSugarScope(new ConnectionConfig()
+                {
+                    DbType = SqlSugar.DbType.Sqlite,
+                    ConnectionString = $"DataSource={Path.Combine(defaultPath, "ShadowViewer.sqlite")}",
+                    IsAutoCloseConnection = true,
+                },
+                db =>
+                {
+                    //单例参数配置，所有上下文生效
+                    db.Aop.OnLogExecuting = (sql, pars) =>
+                    {
+                        Log.ForContext<ISqlSugarClient>().Debug("{Sql}", sql);
+                    };
+                }));
+            DiFactory.Services.Register<PluginLoader>(reuse: Reuse.Singleton);
+            DiFactory.Services.Register<ICallableService, CallableService>(Reuse.Singleton);
+            DiFactory.Services.Register<CompressService>(Reuse.Singleton);
+            DiFactory.Services.Register<ResponderService>(Reuse.Singleton);
             DiFactory.Services.Register<MainViewModel>(reuse:Reuse.Singleton);
             DiFactory.Services.Register<SettingsViewModel>(Reuse.Singleton);
             DiFactory.Services.Register<NavigationViewModel>(Reuse.Singleton);

@@ -52,3 +52,6 @@ global using Windows.ApplicationModel.DataTransfer;
 global using Windows.Foundation.Metadata;
 global using Microsoft.Windows.AppLifecycle;
 global using System.Reflection;
+global using SqlSugar;
+global using System.Globalization;
+global using ShadowPluginLoader.WinUI;
