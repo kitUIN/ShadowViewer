@@ -13,3 +13,6 @@
 [submodule "ShadowViewer.Controls"]
 	path = ShadowViewer.Controls
 	url = https://github.com/kitUIN/ShadowViewer.Controls
+[submodule "ShadowViewer.Plugin.Example"]
+	path = ShadowViewer.Plugin.Example
+	url = https://github.com/kitUIN/ShadowViewer.Plugin.Example
