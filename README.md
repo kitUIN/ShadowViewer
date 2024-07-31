@@ -39,16 +39,14 @@
 
 ## 依赖 📂
 [ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Core) - 核心功能组件  
+[ShadowPluginLoader.WinUI](https://github.com/kitUIN/ShadowPluginLoader.WinUI) Windows App SDK插件加载器  
 [Windows App SDK](https://github.com/microsoft/WindowsAppSDK) - Windows App SDK  
 [Windows Community Toolkit](https://github.com/CommunityToolkit/dotnet)/[Windows Community Toolkit Labs](https://github.com/CommunityToolkit/Labs-Windows) - 控件及其他帮助类  
-[CustomExtensions.WinUI](https://github.com/dnchattan/winui-extensions) - 使Windows App SDK支持外置插件  
 [SQLSugarCore](https://github.com/DotNetNext/SqlSugar) - ORM框架  
 [Serilog](https://serilog.net) - 日志系统  
 [SharpCompress](https://github.com/adamhathcock/sharpcompress) - 提供压缩解压支持  
-[FluentIcon](https://github.com/KitUIN/FluentIcon) - FluentIcon新图标  
+[FluentIcon](https://github.com/KitUIN/FluentIcon) - FluentIcon图标  
 [DryIoc](https://github.com/dadhi/DryIoc) - 依赖注入
 
 ## 感谢以下项目 ❤️
 [WinUI-Gallery](https://github.com/microsoft/WinUI-Gallery) - WinUI3示例 - 参考了部分控件编写  
-[Bili.Uwp](https://github.com/Richasy/Bili.Uwp) - 哔哩客户端 - 参考了部分功能实现  
-[Windows Community Toolkit Labs(TitleBar)](https://github.com/CommunityToolkit/Labs-Windows/discussions/454) - 实验性社区包 - 参考了标题栏实现  
