@@ -1,0 +1,25 @@
+﻿namespace ShadowViewer.Converters;
+
+public class ThemeComboConverter : IValueConverter
+{
+    /// <inheritdoc />
+    public object Convert(object value, Type targetType, object parameter, string language)
+    {
+        if (value is ElementTheme)
+        {
+            return (int)value;
+        }
+
+        return -1;
+    }
+
+    /// <inheritdoc />
+    public object ConvertBack(object value, Type targetType, object parameter, string language)
+    {
+        if (value is >= 0 and <= 2)
+        {
+            return (ElementTheme)value;
+        }
+        return ThemeHelper.RootTheme;
+    }
+}

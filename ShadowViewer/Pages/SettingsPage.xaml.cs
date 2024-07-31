@@ -11,20 +11,6 @@ public sealed partial class SettingsPage : Page
     public SettingsPage()
     {
         InitializeComponent();
-        var currentTheme = ThemeHelper.RootTheme;
-        switch (currentTheme)
-        {
-            case ElementTheme.Light:
-                ThemeModeSetting.SelectedIndex = 0;
-                break;
-            case ElementTheme.Dark:
-                ThemeModeSetting.SelectedIndex = 1;
-                break;
-            case ElementTheme.Default:
-                ThemeModeSetting.SelectedIndex = 2;
-                break;
-        }
-        
     }
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -46,34 +32,6 @@ public sealed partial class SettingsPage : Page
         folder.LaunchFolderAsync();
     }
 
-    private void ThemeModeSetting_SelectionChanged(object sender, RoutedEventArgs e)
-    {
-        var selectedTheme = ((ComboBoxItem)((ComboBox)sender).SelectedItem)?.Tag?.ToString();
-        if (selectedTheme == null) return;
-        ThemeHelper.RootTheme = EnumHelper.GetEnum<ElementTheme>(selectedTheme);
-        UIHelper.AnnounceActionForAccessibility((UIElement)sender, $"Theme changed to {selectedTheme}",
-            "ThemeChangedNotificationActivityId");
-    }
-
-    private void Uri_Click(object sender, RoutedEventArgs e)
-    {
-        var source = sender as FrameworkElement;
-        if (source == null || source.Tag.ToString() is not { } tag) return;
-        var uri = new Uri(tag);
-        uri.LaunchUriAsync();
-    }
-
-    private async void TempPath_Click(object sender, RoutedEventArgs e)
-    {
-        var folder = await FileHelper.SelectFolderAsync(this, "TempPath");
-        ViewModel.TempPath = folder.Path;
-    }
-
-    private async void ComicsPath_Click(object sender, RoutedEventArgs e)
-    {
-        var folder = await FileHelper.SelectFolderAsync(this, "ComicsPath");
-        ViewModel.ComicsPath = folder.Path;
-    }
 
     private void Open_Click(object sender, RoutedEventArgs e)
     {
