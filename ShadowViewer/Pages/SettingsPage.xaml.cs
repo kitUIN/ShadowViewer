@@ -7,7 +7,6 @@ public sealed partial class SettingsPage : Page
     private SettingsViewModel ViewModel { get; } = DiFactory.Services.Resolve<SettingsViewModel>();
     private PluginLoader PluginService { get; } = DiFactory.Services.Resolve<PluginLoader>();
     private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
-    public bool IsUnPackaged = !ConfigHelper.IsPackaged;
     public SettingsPage()
     {
         InitializeComponent();
@@ -16,6 +15,7 @@ public sealed partial class SettingsPage : Page
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
         ViewModel.InitPlugins();
+        ViewModel.InitSettingsFolders();
     }
 
     protected override void OnNavigatedFrom(NavigationEventArgs e)

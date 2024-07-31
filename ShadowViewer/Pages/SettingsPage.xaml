@@ -11,6 +11,7 @@
     xmlns:helper="using:ShadowViewer.Helpers"
     xmlns:icons="using:FluentIcon.WinUI"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:interfaces="using:ShadowViewer.Interfaces"
     xmlns:local2="using:ShadowViewer.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:plugin="using:ShadowViewer.Plugins"
@@ -63,7 +64,7 @@
                         <ComboBoxItem Content="{ex:Locale Key=Dark}" Tag="Dark" />
                     </ComboBox>
                 </controls:SettingsCard>
-                <controls:SettingsExpander>
+                <controls:SettingsExpander ItemsSource="{x:Bind ViewModel.SettingsFolders}">
                     <controls:SettingsExpander.Header>
                         <local2:ShadowSettingHeader Description="{ex:Locale Key=FolderDescription}" Header="{ex:Locale Key=DataFolder}">
                             <icons:FluentRegularIcon
@@ -73,32 +74,21 @@
                                 Symbol="Archive24Regular" />
                         </local2:ShadowSettingHeader>
                     </controls:SettingsExpander.Header>
-                    <controls:SettingsExpander.Items>
-                        <controls:SettingsCard Description="{ex:Locale Key=ComicsPathDescription}" Header="{ex:Locale Key=ComicsPath}">
-                            <StackPanel Orientation="Horizontal">
-                                <Button
-                                    Click="Open_Click"
-                                    Content="{ex:Locale Key=Open}"
-                                    Tag="{x:Bind ViewModel.ComicsPath, Mode=OneWay}" />
-                            </StackPanel>
-                        </controls:SettingsCard>
-                        <controls:SettingsCard Description="{ex:Locale Key=TempPathDescription}" Header="{ex:Locale Key=TempPath}">
-                            <StackPanel Orientation="Horizontal">
-                                <Button
-                                    Click="Open_Click"
-                                    Content="{ex:Locale Key=Open}"
-                                    Tag="{x:Bind ViewModel.TempPath, Mode=OneWay}" />
-                            </StackPanel>
-                        </controls:SettingsCard>
-                        <controls:SettingsCard Description="{ex:Locale Key=PluginsPathDescription}" Header="{ex:Locale Key=PluginsPath}">
-                            <StackPanel Orientation="Horizontal">
-                                <Button
-                                    Click="Open_Click"
-                                    Content="{ex:Locale Key=Open}"
-                                    Tag="{x:Bind ViewModel.PluginsPath, Mode=OneWay}" />
-                            </StackPanel>
-                        </controls:SettingsCard>
-                    </controls:SettingsExpander.Items>
+                    <controls:SettingsExpander.ItemTemplate>
+                        <DataTemplate x:DataType="interfaces:ISettingFolder">
+                            <controls:SettingsCard Description="{x:Bind Description}" Header="{x:Bind Name}">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="{ex:Locale Key=Open}" Visibility="{x:Bind CanOpen}">
+                                        <interactivity:Interaction.Behaviors>
+                                            <core:EventTriggerBehavior EventName="Click">
+                                                <behaviors:NavigateToUriAction NavigateUri="{x:Bind Path}" />
+                                            </core:EventTriggerBehavior>
+                                        </interactivity:Interaction.Behaviors>
+                                    </Button>
+                                </StackPanel>
+                            </controls:SettingsCard>
+                        </DataTemplate>
+                    </controls:SettingsExpander.ItemTemplate>
                 </controls:SettingsExpander>
                 <controls:SettingsCard>
                     <controls:SettingsCard.Header>

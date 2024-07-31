@@ -207,12 +207,6 @@
   <data name="FolderDescription" xml:space="preserve">
     <value>设置文件夹位置</value>
   </data>
-  <data name="ComicsPathDescription" xml:space="preserve">
-    <value>存放缓存的漫画</value>
-  </data>
-  <data name="ComicsPath" xml:space="preserve">
-    <value>漫画文件夹</value>
-  </data>
   <data name="DebugDescription" xml:space="preserve">
     <value>将影响一些事件的运行</value>
   </data>

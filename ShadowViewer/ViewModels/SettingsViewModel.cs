@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel;
+﻿using System.Diagnostics;
+using Windows.ApplicationModel;
 
 using ShadowViewer.Plugins;
 
@@ -28,6 +29,7 @@ namespace ShadowViewer.ViewModels
         public string Version { get; }
 
         public ObservableCollection<AShadowViewerPlugin> Plugins { get; } = [];
+        public ObservableCollection<ISettingFolder> SettingsFolders { get; } = [];
 
         [ObservableProperty] private bool isDebug = Config.IsDebug;
         [ObservableProperty] private string comicsPath = Config.ComicsPath;
@@ -42,6 +44,15 @@ namespace ShadowViewer.ViewModels
             {
                 Plugins.Add(plugin);
             }
+        }
+        public void InitSettingsFolders()
+        {
+            SettingsFolders.Clear();
+            foreach (var folder in DiFactory.Services.ResolveMany<ISettingFolder>())
+            {
+                SettingsFolders.Add(folder);
+            }
+            Debug.WriteLine(SettingsFolders.Count);
         }
         partial void OnPluginsUriChanged(string? oldValue, string newValue)
         {
