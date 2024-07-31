@@ -33,7 +33,8 @@
             IsPaneButtonVisible="True"
             PaneButtonClick="{x:Bind MainPage.AppTitleBar_OnPaneButtonClick}"
             Subtitle="{x:Bind ViewModel.SubTitle, Mode=OneWay}"
-            SubtitleForeground="Goldenrod">
+            SubtitleForeground="Goldenrod"
+            Window="{x:Bind ThisWindow}">
             <controls:TitleBar.Icon>
                 <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/AppTitleBarIcon.png" />
             </controls:TitleBar.Icon>
