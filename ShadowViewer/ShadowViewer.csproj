@@ -26,10 +26,6 @@
 	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 	  <LangVersion>12</LangVersion>
   </PropertyGroup>
-	<ItemGroup>
-		<AdditionalFiles Include="Strings/**/*" />
-	</ItemGroup>
-
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -90,13 +86,8 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
-    <PRIResource Remove="ViewModels\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.6.2" />
-    <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.0.1.1" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
+    <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
+    <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
   </ItemGroup>
 </Project>

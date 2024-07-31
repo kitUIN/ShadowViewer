@@ -130,7 +130,7 @@
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Plugins, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="plugin:PluginBase">
+                        <DataTemplate x:DataType="plugin:AShadowViewerPlugin">
                             <controls:SettingsCard
                                 x:Name="PluginSetting"
                                 Click="PluginSetting_OnClick"

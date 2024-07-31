@@ -11,10 +11,10 @@
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!--  Other merged dictionaries here  -->
             </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="ButtonHoverBackgroundColor">Gray</Color>
             <!--  Other app resources here  -->
             <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
-            <SolidColorBrush x:Key="NavigationViewContentBackground"
-                             Color="{ThemeResource NavigationViewDefaultPaneBackground}" />
+            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="{ThemeResource NavigationViewDefaultPaneBackground}" />
             <!--  Style  -->
             <!--#region Tag Button-->
             <Style x:Key="NoOverButton" TargetType="Button">
@@ -65,7 +65,8 @@
                             <Grid
                                 x:Name="RootGrid"
                                 Padding="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{TemplateBinding CornerRadius}">
                                 <ContentPresenter
@@ -81,25 +82,21 @@
                                         <VisualState x:Name="Normal" />
                                         <VisualState x:Name="PointerOver">
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                                               Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource NavigationViewButtonBackgroundPointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonBackgroundPointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
 
                                         <VisualState x:Name="Pressed">
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
-                                                                               Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0"
-                                                                            Value="{ThemeResource NavigationViewButtonBackgroundPressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonBackgroundPressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
 
-                                        
+
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
                             </Grid>

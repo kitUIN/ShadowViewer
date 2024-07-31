@@ -27,7 +27,7 @@ namespace ShadowViewer.ViewModels
         /// </summary>
         public string Version { get; }
 
-        public ObservableCollection<PluginBase> Plugins { get; } = new();
+        public ObservableCollection<AShadowViewerPlugin> Plugins { get; } = [];
 
         [ObservableProperty] private bool isDebug = Config.IsDebug;
         [ObservableProperty] private string comicsPath = Config.ComicsPath;

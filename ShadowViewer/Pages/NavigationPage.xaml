@@ -10,6 +10,7 @@
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:ShadowViewer.Models"
+    xmlns:shadow="using:ShadowViewer.Controls"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Grid
@@ -131,9 +132,8 @@
             </StackPanel>
         </Grid>
         <Grid x:Name="TopGrid" Canvas.ZIndex="1" />
-        <StackPanel
+        <shadow:NotificationPanel
             x:Name="TipContainer"
-            MinWidth="100"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Canvas.ZIndex="1"

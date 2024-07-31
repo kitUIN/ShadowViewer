@@ -8,7 +8,7 @@ public partial class MainViewModel : ObservableObject
     private ICallableService Caller { get; }
     private PluginLoader PluginService { get; }
     private ResponderService ResponderService { get; }
-
+    [ObservableProperty] private string subTitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
     public MainViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger,
         ResponderService responderService)
     {
@@ -16,12 +16,14 @@ public partial class MainViewModel : ObservableObject
         Caller = callableService;
         PluginService = pluginService;
         ResponderService = responderService;
+        Caller.DebugEvent += (_, _) =>
+            SubTitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
     }
     
     /// <summary>
     /// 历史记录
     /// </summary>
-    public ObservableCollection<IHistory> Histories { get; } = new();
+    public ObservableCollection<IHistory> Histories { get; } = [];
 
     /// <summary>
     /// 后退按钮
