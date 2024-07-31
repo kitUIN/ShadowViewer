@@ -1,4 +1,5 @@
-﻿using ShadowViewer.Responders;
+﻿using CommunityToolkit.Mvvm.Input;
+using ShadowViewer.Responders;
 
 namespace ShadowViewer.ViewModels;
 
@@ -8,9 +9,11 @@ public partial class MainViewModel : ObservableObject
     private ICallableService Caller { get; }
     private PluginLoader PluginService { get; }
     private ResponderService ResponderService { get; }
+
     [ObservableProperty] private string subTitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
-    public MainViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger,
-        ResponderService responderService)
+    
+    public MainViewModel(ICallableService callableService, PluginLoader pluginService, 
+        ILogger logger, ResponderService responderService)
     {
         Logger = logger;
         Caller = callableService;
@@ -25,24 +28,11 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     public ObservableCollection<IHistory> Histories { get; } = [];
 
-    /// <summary>
-    /// 后退按钮
-    /// </summary>
-    public void AppTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
-    {
-        Caller.NavigationViewBackRequested(sender);
-    }
-    /// <summary>
-    /// 导航栏面板按钮
-    /// </summary>
-    public void AppTitleBar_OnPaneButtonClick(object sender, RoutedEventArgs e)
-    {
-        Caller.NavigationViewPane(sender);
-    }
+    
     /// <summary>
     /// 刷新历史记录
     /// </summary>
-    private void ReLoad()
+    private void ReLoadHistory()
     {
         var responders = ResponderService.GetEnabledResponders<IHistoryResponder>();
         var temp = new SortedSet<IHistory>(new HistoryExtension());
@@ -64,7 +54,7 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     public void HistoryFlyout_OnOpening(object? sender, object e)
     {
-        ReLoad();
+        ReLoadHistory();
     }
     /// <summary>
     /// 点击历史记录
@@ -82,17 +72,18 @@ public partial class MainViewModel : ObservableObject
     /// <summary>
     /// 删除历史记录
     /// </summary>
-    public void HistoryDelete(object? sender)
+    [RelayCommand]
+    private void HistoryDelete(object iHistory)
     {
-        if (sender is not FrameworkElement { Tag: IHistory history }) return;
+        if (iHistory is not  IHistory history) return;
         var responder = ResponderService.GetEnabledResponder<IHistoryResponder>(history.PluginId);
         responder?.DeleteHistoryHandler(history);
-        ReLoad();
+        ReLoadHistory();
     }
     /// <summary>
     /// 搜索项
     /// </summary>
-    public ObservableCollection<IShadowSearchItem> SearchItems { get; } = new();
+    public ObservableCollection<IShadowSearchItem> SearchItems { get; } = [];
     /// <summary>
     /// 搜索栏修改文字响应
     /// </summary>

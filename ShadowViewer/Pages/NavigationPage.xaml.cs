@@ -1,30 +1,17 @@
-using CommunityToolkit.WinUI;
-using SharpCompress.Readers;
-using System.Threading;
-using SqlSugar;
-using System.Diagnostics;
-using ShadowPluginLoader.WinUI;
-using ShadowViewer.Args;
-using ShadowViewer.Responders;
-using ShadowViewer.Services;
-using ShadowPluginLoader.WinUI.Args;
-
 namespace ShadowViewer.Pages
 {
     public sealed partial class NavigationPage : Page
     {
         public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
         private static CancellationTokenSource _cancelTokenSource = new();
-        private NavigationViewModel ViewModel { get; }
-        private ICallableService Caller { get; }
-        private PluginLoader PluginService { get; }
+        private NavigationViewModel ViewModel { get; } = DiFactory.Services.Resolve<NavigationViewModel>();
+        private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
+        private INotifyService NotifyService { get; } = DiFactory.Services.Resolve<INotifyService>();
+        private PluginLoader PluginService { get; } = DiFactory.Services.Resolve<PluginLoader>();
 
         public NavigationPage()
         {
             this.InitializeComponent();
-            ViewModel = DiFactory.Services.Resolve<NavigationViewModel>();
-            Caller = DiFactory.Services.Resolve<ICallableService>();
-            PluginService = DiFactory.Services.Resolve<PluginLoader>();
             Caller.ImportComicEvent += Caller_ImportComicEvent;
             Caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
             Caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
@@ -33,21 +20,14 @@ namespace ShadowViewer.Pages
             Caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
             PluginEventService.PluginLoaded += CallerOnPluginEnabledEvent;
             PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
+            NotifyService.TipPopupEvent += NotifyService_TipPopupEvent;
             Caller.TopGridEvent += Caller_TopGridEvent;
-            Caller.NavigationViewBackRequestedEvent += Caller_NavigationViewBackRequestedEvent;
-            Caller.NavigationViewPaneEvent += Caller_NavigationViewPaneEvent;
             ViewModel.ReloadItems();
         }
 
-        private void Caller_NavigationViewPaneEvent(object? sender, EventArgs e)
+        private void NotifyService_TipPopupEvent(object? sender, TipPopupEventArgs e)
         {
-            NavView.IsPaneOpen = !NavView.IsPaneOpen;
-        }
-
-        private void Caller_NavigationViewBackRequestedEvent(object? sender, EventArgs e)
-        {
-            if (!ContentFrame.CanGoBack) return;
-            ContentFrame.GoBack();
+            TipContainer.Show(e.Text, e.Level, e.DisplaySeconds);
         }
 
         
@@ -78,9 +58,6 @@ namespace ShadowViewer.Pages
                             TopGrid.Children.Add(e.Element);
                         }
 
-                        break;
-                    case TopGridMode.Tip:
-                        if (e.Element is TipPopup popup) TipContainer.Show(popup);
                         break;
                 }
             }
@@ -384,8 +361,8 @@ namespace ShadowViewer.Pages
                 e.AcceptedOperation = DataPackageOperation.Link;
                 e.DragUIOverride.Caption = ResourcesHelper.GetString(ResourceKey.Import);
                 OverBorder.Visibility = Visibility.Visible;
-                OverBorder.Width = Root.ActualWidth - 30;
-                OverBorder.Height = Root.ActualHeight - 30;
+                //OverBorder.Width = Root.ActualWidth - 30;
+                //OverBorder.Height = Root.ActualHeight - 30;
             }
         }
 
@@ -408,6 +385,22 @@ namespace ShadowViewer.Pages
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             _cancelTokenSource.Cancel();
+        }
+
+        /// <summary>
+        /// 导航栏后退按钮 点击
+        /// </summary>
+        public void AppTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (!ContentFrame.CanGoBack) return;
+            ContentFrame.GoBack();
+        }
+        /// <summary>
+        /// 导航栏面板按钮 点击
+        /// </summary>
+        public void AppTitleBar_OnPaneButtonClick(object sender, RoutedEventArgs e)
+        {
+            NavView.IsPaneOpen = !NavView.IsPaneOpen;
         }
     }
 }

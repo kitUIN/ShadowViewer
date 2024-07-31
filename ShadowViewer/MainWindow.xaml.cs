@@ -2,7 +2,7 @@ namespace ShadowViewer;
 
 public sealed partial class MainWindow : Window
 {
-    private MainViewModel ViewModel { get; } = DiFactory.Services.Resolve<MainViewModel>();
+    public MainViewModel ViewModel { get; } = DiFactory.Services.Resolve<MainViewModel>();
 
     public MainWindow()
     {
@@ -12,8 +12,4 @@ public sealed partial class MainWindow : Window
         Log.Information("Theme:{Theme}", ((FrameworkElement)this.Content).RequestedTheme);
     }
 
-    private void DeleteHistory_OnClick(object sender, RoutedEventArgs e)
-    {
-        ViewModel.HistoryDelete(sender);
-    }
 }

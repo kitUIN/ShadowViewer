@@ -13,12 +13,7 @@
     xmlns:shadow="using:ShadowViewer.Controls"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-    <Grid
-        x:Name="Root"
-        AllowDrop="True"
-        DragLeave="Root_DragLeave"
-        DragOver="Root_DragOver"
-        Drop="Root_Drop">
+    <Grid>
         <NavigationView
             x:Name="NavView"
             Background="Transparent"
@@ -33,7 +28,38 @@
             MenuItemsSource="{x:Bind ViewModel.MenuItems, Mode=OneWay}"
             OpenPaneLength="220">
 
-            <Frame x:Name="ContentFrame" />
+            <Grid
+                x:Name="Root"
+                AllowDrop="True"
+                DragLeave="Root_DragLeave"
+                DragOver="Root_DragOver"
+                Drop="Root_Drop">
+                <Frame x:Name="ContentFrame" />
+                <Grid
+                    x:Name="OverBorder"
+                    Width="{x:Bind Root.ActualWidth, Mode=OneWay}"
+                    Height="{x:Bind Root.ActualHeight, Mode=OneWay}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource FocusStrokeColorOuterBrush}"
+                    BorderThickness="2"
+                    CornerRadius="8"
+                    Visibility="Collapsed">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical"
+                        Spacing="20">
+                        <FontIcon FontSize="100" Glyph="&#xE74B;" />
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            FontSize="30"
+                            Text="{ex:Locale Key=ImportText}" />
+                    </StackPanel>
+                </Grid>
+            </Grid>
             <NavigationView.MenuItemTemplate>
                 <DataTemplate x:DataType="interfaces:IShadowNavigationItem">
                     <NavigationViewItem
@@ -42,31 +68,7 @@
                         Tag="{x:Bind}" />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
-
         </NavigationView>
-        <Border
-            x:Name="OverBorder"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource FocusStrokeColorOuterBrush}"
-            BorderThickness="2"
-            Canvas.ZIndex="2"
-            CornerRadius="8"
-            Visibility="Collapsed">
-            <StackPanel
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Orientation="Vertical"
-                Spacing="20">
-                <FontIcon FontSize="100" Glyph="&#xE74B;" />
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    FontSize="30"
-                    Text="{ex:Locale Key=ImportText}" />
-            </StackPanel>
-        </Border>
         <Grid
             x:Name="LoadingControl"
             Background="{ThemeResource AcrylicBackgroundFillColorDefaultBrush}"

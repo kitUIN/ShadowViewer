@@ -55,3 +55,7 @@ global using System.Reflection;
 global using SqlSugar;
 global using System.Globalization;
 global using ShadowPluginLoader.WinUI;
+global using CommunityToolkit.WinUI;
+global using SharpCompress.Readers;
+global using System.Threading;
+global using ShadowPluginLoader.WinUI.Args;

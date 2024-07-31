@@ -11,6 +11,8 @@
     xmlns:interfaces="using:ShadowViewer.Interfaces"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="using:ShadowViewer.Pages"
+    xmlns:shadowViewer="using:ShadowViewer"
+    x:Name="ThisWindow"
     Title="ShadowViewer"
     mc:Ignorable="d">
 
@@ -25,11 +27,11 @@
             Grid.Row="0"
             VerticalAlignment="Top"
             AutoConfigureCustomTitleBar="True"
-            BackButtonClick="{x:Bind ViewModel.AppTitleBar_BackButtonClick}"
+            BackButtonClick="{x:Bind MainPage.AppTitleBar_BackButtonClick}"
             DisplayMode="Tall"
             IsBackButtonVisible="True"
             IsPaneButtonVisible="True"
-            PaneButtonClick="{x:Bind ViewModel.AppTitleBar_OnPaneButtonClick}"
+            PaneButtonClick="{x:Bind MainPage.AppTitleBar_OnPaneButtonClick}"
             Subtitle="{x:Bind ViewModel.SubTitle, Mode=OneWay}"
             SubtitleForeground="Goldenrod">
             <controls:TitleBar.Icon>
@@ -144,9 +146,9 @@
                                             Padding="6,4"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
-                                            Click="DeleteHistory_OnClick"
-                                            Style="{ThemeResource PointerOverButtonStyle}"
-                                            Tag="{x:Bind}">
+                                            Command="{Binding ElementName=ThisWindow, Path=ViewModel.HistoryDeleteCommand}"
+                                            CommandParameter="{x:Bind}"
+                                            Style="{ThemeResource PointerOverButtonStyle}">
                                             <FontIcon FontSize="12" Glyph="&#xE711;" />
                                         </Button>
                                     </Grid>
@@ -157,6 +159,6 @@
                 </Flyout>
             </controls:TitleBar.HistoryFlyout>
         </controls:TitleBar>
-        <pages:NavigationPage Grid.Row="1" />
+        <pages:NavigationPage x:Name="MainPage" Grid.Row="1" />
     </Grid>
 </Window>
