@@ -7,8 +7,7 @@ namespace ShadowViewer.Pages
         private NavigationViewModel ViewModel { get; } = DiFactory.Services.Resolve<NavigationViewModel>();
         private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
         private INotifyService NotifyService { get; } = DiFactory.Services.Resolve<INotifyService>();
-        private PluginLoader PluginService { get; } = DiFactory.Services.Resolve<PluginLoader>();
-
+        
         public NavigationPage()
         {
             this.InitializeComponent();
@@ -21,7 +20,6 @@ namespace ShadowViewer.Pages
             PluginEventService.PluginLoaded += CallerOnPluginEnabledEvent;
             PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
             NotifyService.TipPopupEvent += NotifyService_TipPopupEvent;
-            Caller.TopGridEvent += Caller_TopGridEvent;
             ViewModel.ReloadItems();
         }
 
@@ -30,42 +28,6 @@ namespace ShadowViewer.Pages
             TipContainer.Show(e.Text, e.Level, e.DisplaySeconds);
         }
 
-        
-
-        /// <summary>
-        /// 顶部窗体事件
-        /// </summary>
-        private async void Caller_TopGridEvent(object sender, TopGridEventArg e)
-        {
-            try
-            {
-                switch (e.Mode)
-                {
-                    case TopGridMode.ContentDialog:
-                        if (e.Element is ContentDialog dialog)
-                        {
-                            dialog.XamlRoot = XamlRoot;
-                        
-                                await dialog.ShowAsync();
-
-                        }
-
-                        break;
-                    case TopGridMode.Dialog:
-                        TopGrid.Children.Clear();
-                        if (e.Element != null)
-                        {
-                            TopGrid.Children.Add(e.Element);
-                        }
-
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("顶部窗体事件报错:{E}", ex);
-            }
-        }
 
         /// <summary>
         /// 启用或禁用插件时更新左侧导航栏
