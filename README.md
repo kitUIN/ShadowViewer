@@ -1,3 +1,6 @@
+<div align="right">
+🌍<a href="https://github.com/kitUIN/ShadowViewer/blob/master/README_EN.md">English</a> / 中文
+</div>
 <div align="center">
 
 # ShadowViewer
@@ -13,8 +16,8 @@
   <a href="https://github.com/kitUIN/ShadowViewer/releases">
     <img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer" alt="release">
   </a>
-    <a href="[https://t.me/+fEYa0cq8iwA4NmVl](https://github.com/kitUIN/ShadowViewer.Core/releases)">
-    <img src="https://img.shields.io/badge/插件管理器-20230821-8A2BE2" alt="chajian">
+    <a href="https://github.com/kitUIN/ShadowViewer.Core/releases">
+    <img src="https://img.shields.io/badge/Core-20230821-8A2BE2" alt="chajian">
   </a>
 </p> 
 <p align="center">
@@ -37,8 +40,26 @@
 ## 导入插件📦
 将插件项目的发行版压缩包下载后,在`插件管理器`页面选择`添加插件`进行导入
 
+## 参与贡献🥰
+
+- 环境要求
+  - SDK: .NET 6.0及以上
+  - IDE: Visual Studio 2022及以上
+  - C# Version: 12
+
+- 项目初始化
+```bash
+git clone https://github.com/kitUIN/ShadowViewer.git
+cd ShadowViewer
+git submodule init
+git submodule update
+```
+
+- 按照我们的开发准则(施工中)进行开发
+
 ## 依赖 📂
-[ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Core) - 核心功能组件  
+[ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Core) - 核心功能  
+[ShadowViewer.Analyzer](https://github.com/kitUIN/ShadowViewer.Analyzer) - 源代码生成器  
 [ShadowPluginLoader.WinUI](https://github.com/kitUIN/ShadowPluginLoader.WinUI) Windows App SDK插件加载器  
 [Windows App SDK](https://github.com/microsoft/WindowsAppSDK) - Windows App SDK  
 [Windows Community Toolkit](https://github.com/CommunityToolkit/dotnet)/[Windows Community Toolkit Labs](https://github.com/CommunityToolkit/Labs-Windows) - 控件及其他帮助类  
