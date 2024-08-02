@@ -16,8 +16,8 @@
   <a href="https://github.com/kitUIN/ShadowViewer/releases">
     <img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer" alt="release">
   </a>
-    <a href="[https://t.me/+fEYa0cq8iwA4NmVl](https://github.com/kitUIN/ShadowViewer.Core/releases)">
-    <img src="https://img.shields.io/badge/插件管理器-20230821-8A2BE2" alt="chajian">
+    <a href="https://github.com/kitUIN/ShadowViewer.Core/releases">
+    <img src="https://img.shields.io/badge/Core-20230821-8A2BE2" alt="chajian">
   </a>
 </p> 
 <p align="center">
@@ -47,7 +47,7 @@
   - IDE: Visual Studio 2022及以上
   - C# Version: 12
 
-- 项目构建
+- 项目初始化
 ```bash
 git clone https://github.com/kitUIN/ShadowViewer.git
 cd ShadowViewer
