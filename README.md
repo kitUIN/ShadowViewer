@@ -55,11 +55,11 @@ git submodule init
 git submodule update
 ```
 
-按照我们的开发准则(施工中)进行开发
+- 按照我们的开发准则(施工中)进行开发
 
 ## 依赖 📂
-[ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Core) - 核心功能
-[ShadowViewer.Analyzer](https://github.com/kitUIN/ShadowViewer.Analyzer) - 源代码生成器
+[ShadowViewer.Core](https://github.com/kitUIN/ShadowViewer.Core) - 核心功能  
+[ShadowViewer.Analyzer](https://github.com/kitUIN/ShadowViewer.Analyzer) - 源代码生成器  
 [ShadowPluginLoader.WinUI](https://github.com/kitUIN/ShadowPluginLoader.WinUI) Windows App SDK插件加载器  
 [Windows App SDK](https://github.com/microsoft/WindowsAppSDK) - Windows App SDK  
 [Windows Community Toolkit](https://github.com/CommunityToolkit/dotnet)/[Windows Community Toolkit Labs](https://github.com/CommunityToolkit/Labs-Windows) - 控件及其他帮助类  
