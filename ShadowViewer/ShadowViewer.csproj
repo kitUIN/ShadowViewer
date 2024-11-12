@@ -13,7 +13,7 @@
 	  <DefaultLanguage>zh-CN</DefaultLanguage>
 	  <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-	  <PackageCertificateThumbprint>1326D648CA36685EE85219156A5F27B35F00958A</PackageCertificateThumbprint>
+	  <PackageCertificateThumbprint>E1AA2FACACACC5E18B4AECB54449FFD9A1F6F43D</PackageCertificateThumbprint>
 	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 	  <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
@@ -87,8 +87,11 @@
   </PropertyGroup>
   <ItemGroup>
 	  <PackageReference Include="ShadowViewer.Controls.Notification" Version="1.0.2.4" />
-    <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
+	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.2.4" />
+	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.8.4" />
+	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.0.2.6" />
+    <!--<ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
     <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
-    <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
+    <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />-->
   </ItemGroup>
 </Project>
