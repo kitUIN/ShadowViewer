@@ -13,7 +13,7 @@
 	  <DefaultLanguage>zh-CN</DefaultLanguage>
 	  <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-	  <PackageCertificateThumbprint>E1AA2FACACACC5E18B4AECB54449FFD9A1F6F43D</PackageCertificateThumbprint>
+	  <PackageCertificateThumbprint>F5166A58921AC22FF7AFB47DF60279ED2529DE8E</PackageCertificateThumbprint>
 	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 	  <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
@@ -25,7 +25,14 @@
 	  <NoWarn>MSB3277</NoWarn>
 	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 	  <LangVersion>12</LangVersion>
+	  <PublishReadyToRun>false</PublishReadyToRun>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Extensions\**" />
+    <EmbeddedResource Remove="Extensions\**" />
+    <None Remove="Extensions\**" />
+    <Page Remove="Extensions\**" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -68,7 +75,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Extensions\" />
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
   <ItemGroup>
@@ -88,10 +94,12 @@
   <ItemGroup>
 	  <PackageReference Include="ShadowViewer.Controls.Notification" Version="1.0.2.4" />
 	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.2.4" />
-	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.0.8.4" />
-	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.0.2.6" />
-    <!--<ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
-    <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
-    <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />-->
+  </ItemGroup>
+  <ItemGroup>
+	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
+	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Remove="Extensions\**" />
   </ItemGroup>
 </Project>

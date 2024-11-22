@@ -1,6 +1,7 @@
 ﻿using CustomExtensions.WinUI;
 using ShadowViewer.Plugin.Local;
 using ShadowViewer.Plugin.PluginManager;
+using System.Diagnostics;
 
 namespace ShadowViewer
 {
@@ -48,14 +49,14 @@ namespace ShadowViewer
             var pluginServices = DiFactory.Services.Resolve<PluginLoader>();
 
             var currentCulture = CultureInfo.CurrentUICulture;
-            
+
             try
             {
                 pluginServices.Import(typeof(LocalPlugin));
                 pluginServices.Import(typeof(PluginManagerPlugin));
                 await pluginServices.ImportFromDirAsync(Config.PluginsPath);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Log.Error("{E}", ex);
             }
