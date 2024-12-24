@@ -17,6 +17,7 @@ namespace ShadowViewer.Pages
             Caller.ImportComicThumbEvent += Caller_ImportComicThumbEvent;
             Caller.ImportComicCompletedEvent += Caller_ImportComicCompletedEvent;
             Caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
+            Caller.TopGridEvent += Caller_TopGridEvent;
             PluginEventService.PluginLoaded += CallerOnPluginEnabledEvent;
             PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
             NotifyService.TipPopupEvent += NotifyService_TipPopupEvent;
@@ -30,7 +31,7 @@ namespace ShadowViewer.Pages
 
 
         /// <summary>
-        /// ÆôÓÃ»ò½ûÓÃ²å¼şÊ±¸üĞÂ×ó²àµ¼º½À¸
+        /// å¯ç”¨æˆ–ç¦ç”¨æ’ä»¶æ—¶æ›´æ–°å·¦ä¾§å¯¼èˆªæ 
         /// </summary>
         private void CallerOnPluginEnabledEvent(object? sender, PluginEventArgs e)
         {
@@ -38,7 +39,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// µ¼ÈëÍê³É
+        /// å¯¼å…¥å®Œæˆ
         /// </summary>
         private void Caller_ImportComicCompletedEvent(object sender, EventArgs e)
         {
@@ -47,7 +48,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// µ¼ÈëµÄËõÂÔÍ¼
+        /// å¯¼å…¥çš„ç¼©ç•¥å›¾
         /// </summary>
         private async void Caller_ImportComicThumbEvent(object sender, ImportComicThumbEventArgs e)
         {
@@ -60,7 +61,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// µ¼ÈëÊ§°Ü
+        /// å¯¼å…¥å¤±è´¥
         /// </summary>
         private async void Caller_ImportComicErrorEvent(object sender, ImportComicErrorEventArgs args)
         {
@@ -70,14 +71,14 @@ namespace ShadowViewer.Pages
                 var dialog = XamlHelper.CreateOneLineTextBoxDialog(args.Message, XamlRoot);
                 dialog.PrimaryButtonClick += (s, e) =>
                 {
-                    // ÖØĞÂ¿ªÊ¼
+                    // é‡æ–°å¼€å§‹
                     var password = ((TextBox)((StackPanel)((StackPanel)s.Content).Children[0]).Children[1]).Text;
                     args.Password[args.Index] = password == "" ? null : password;
                     Caller.ImportComic(args.Items, args.Password, args.Index);
                 };
                 dialog.CloseButtonClick += (s, e) =>
                 {
-                    // Ìø¹ı±¾¸ö
+                    // è·³è¿‡æœ¬ä¸ª
                     if (args.Items.Count > args.Index + 1)
                     {
                         Caller.ImportComic(args.Items, args.Password, args.Index + 1);
@@ -92,7 +93,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// µ¼Èë½ø¶È
+        /// å¯¼å…¥è¿›åº¦
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -110,7 +111,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// ¿ªÊ¼µ¼Èë
+        /// å¼€å§‹å¯¼å…¥
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -138,7 +139,7 @@ namespace ShadowViewer.Pages
                         var flag = CompressService.CheckPassword(file.Path, ref options);
                         if (!flag)
                         {
-                            Caller.ImportComicError(ImportComicError.Password, "ÃÜÂë´íÎó", e.Items, i, e.Passwords);
+                            Caller.ImportComicError(ImportComicError.Password, "å¯†ç é”™è¯¯", e.Items, i, e.Passwords);
                             return;
                         }
 
@@ -170,7 +171,7 @@ namespace ShadowViewer.Pages
                                         }
                                         catch (Exception)
                                         {
-                                            Log.Error("ÎŞĞ§ÎÄ¼ş¼Ğ{F},ºöÂÔ", folder.Path);
+                                            Log.Error("æ— æ•ˆæ–‡ä»¶å¤¹{F},å¿½ç•¥", folder.Path);
                                         }
                                     }, _cancelTokenSource.Token);
                                     break;
@@ -220,13 +221,13 @@ namespace ShadowViewer.Pages
                             }
                             catch (Exception ex)
                             {
-                                Log.Warning("µ¼ÈëÎŞĞ§ÎÄ¼ş¼Ğ:{F},ºöÂÔ\n{ex}", folder.Path, ex);
+                                Log.Warning("å¯¼å…¥æ— æ•ˆæ–‡ä»¶å¤¹:{F},å¿½ç•¥\n{ex}", folder.Path, ex);
                             }
                         }, _cancelTokenSource.Token);
                     }
                     else
                     {
-                        Log.Warning("µ¼ÈëÎŞĞ§ÎÄ¼ş:{F},ºöÂÔ", item.Path);
+                        Log.Warning("å¯¼å…¥æ— æ•ˆæ–‡ä»¶:{F},å¿½ç•¥", item.Path);
                     }
                 }
 
@@ -234,13 +235,43 @@ namespace ShadowViewer.Pages
             }
             catch (TaskCanceledException)
             {
-                Log.ForContext<NavigationPage>().Information("ÖĞ¶Ïµ¼Èë");
+                Log.ForContext<NavigationPage>().Information("ä¸­æ–­å¯¼å…¥");
                 //DispatcherQueue.TryEnqueue(() => { LoadingControl.IsLoading = false; });
             }
         }
-
         /// <summary>
-        /// µ¼º½ÊÂ¼ş
+        /// é¡¶éƒ¨çª—ä½“äº‹ä»¶
+        /// </summary>
+        private async void Caller_TopGridEvent(object sender, TopGridEventArg e)
+        {
+            try
+            {
+                switch (e.Mode)
+                {
+                    case TopGridMode.ContentDialog:
+                        if (e.Element is ContentDialog dialog)
+                        {
+                            dialog.XamlRoot = XamlRoot;
+                        
+                            await dialog.ShowAsync();
+                        }
+                        break;
+                    case TopGridMode.Dialog:
+                        TopGrid.Children.Clear();
+                        if (e.Element != null)
+                        {
+                            TopGrid.Children.Add(e.Element);
+                        }
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("é¡¶éƒ¨çª—ä½“äº‹ä»¶æŠ¥é”™:{E}", ex);
+            }
+        }
+        /// <summary>
+        /// å¯¼èˆªäº‹ä»¶
         /// </summary>
         private void Caller_NavigationToolKit_NavigateTo(object sender, NavigateToEventArgs e)
         {
@@ -249,7 +280,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// ×ó²àµã»÷µ¼º½À¸
+        /// å·¦ä¾§ç‚¹å‡»å¯¼èˆªæ 
         /// </summary>
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
@@ -279,7 +310,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// ³õÊ¼»¯²å¼ş
+        /// åˆå§‹åŒ–æ’ä»¶
         /// </summary>
         private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -287,7 +318,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// Íâ²¿ÎÄ¼şÍÏÈë½øĞĞÏìÓ¦
+        /// å¤–éƒ¨æ–‡ä»¶æ‹–å…¥è¿›è¡Œå“åº”
         /// </summary>
         private async void Root_Drop(object sender, DragEventArgs e)
         {
@@ -312,7 +343,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// Íâ²¿ÎÄ¼şÍÏ¶¯Ğü¸¡ÏÔÊ¾
+        /// å¤–éƒ¨æ–‡ä»¶æ‹–åŠ¨æ‚¬æµ®æ˜¾ç¤º
         /// </summary>
         private void Root_DragOver(object sender, DragEventArgs e)
         {
@@ -329,7 +360,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// Íâ²¿ÎÄ¼şÍÏ¶¯Àë¿ª
+        /// å¤–éƒ¨æ–‡ä»¶æ‹–åŠ¨ç¦»å¼€
         /// </summary>
         private void Root_DragLeave(object sender, DragEventArgs e)
         {
@@ -342,7 +373,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// È¡Ïûµ¼Èë
+        /// å–æ¶ˆå¯¼å…¥
         /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
@@ -350,7 +381,7 @@ namespace ShadowViewer.Pages
         }
 
         /// <summary>
-        /// µ¼º½À¸ºóÍË°´Å¥ µã»÷
+        /// å¯¼èˆªæ åé€€æŒ‰é’® ç‚¹å‡»
         /// </summary>
         public void AppTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
         {
@@ -358,7 +389,7 @@ namespace ShadowViewer.Pages
             ContentFrame.GoBack();
         }
         /// <summary>
-        /// µ¼º½À¸Ãæ°å°´Å¥ µã»÷
+        /// å¯¼èˆªæ é¢æ¿æŒ‰é’® ç‚¹å‡»
         /// </summary>
         public void AppTitleBar_OnPaneButtonClick(object sender, RoutedEventArgs e)
         {
