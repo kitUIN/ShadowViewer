@@ -95,7 +95,7 @@ public partial class NavigationViewModel : ObservableObject
         if (responder == null) return;
         switch (status)
         {
-            case PluginStatus.Enabled:
+            case PluginStatus.Enabled or PluginStatus.Loaded:
             {
                 foreach (var item2 in responder.NavigationViewMenuItems)
                     AddMenuItem(item2);
@@ -111,18 +111,10 @@ public partial class NavigationViewModel : ObservableObject
                     DeleteFooterMenuItems(item1);
                 break;
             }
-            case PluginStatus.Loaded:
-                break;
-            case PluginStatus.Upgraded:
-                break;
-            case PluginStatus.PlanUpgrade:
-                break;
-            case PluginStatus.PlanRemove:
-                break;
-            case PluginStatus.Removed:
-                break;
             default:
+            {
                 break;
+            }
         }
     }
 }

@@ -92,6 +92,7 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
+	  <PackageReference Include="ShadowViewer.Core" Version="2024.12.26.13"/>
 	  <PackageReference Include="ShadowViewer.Controls.Notification" Version="1.0.2.4" />
 	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.2.4" />
   </ItemGroup>
