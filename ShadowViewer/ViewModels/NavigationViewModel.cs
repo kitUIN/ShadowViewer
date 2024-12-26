@@ -1,5 +1,6 @@
 ﻿using ShadowViewer.Responders;
 using System.Diagnostics;
+using ShadowPluginLoader.WinUI.Enums;
 
 namespace ShadowViewer.ViewModels;
 
@@ -53,7 +54,7 @@ public partial class NavigationViewModel : ObservableObject
     /// </summary>
     private void DeleteMenuItem(IShadowNavigationItem item)
     {
-        if (MenuItems.FirstOrDefault(x => x.Id == item.Id) is { } i) MenuItems.Remove(i);
+        if (MenuItems.Any(x => x.Id == item.Id)) MenuItems.Remove(item);
     }
 
     /// <summary>
@@ -69,28 +70,59 @@ public partial class NavigationViewModel : ObservableObject
     /// </summary>
     private void DeleteFooterMenuItems(IShadowNavigationItem item)
     {
-        if (FooterMenuItems.FirstOrDefault(x => x.Id == item.Id) is { } i) FooterMenuItems.Remove(i);
+        if (FooterMenuItems.Any(x => x.Id == item.Id)) FooterMenuItems.Remove(item);
     }
 
     /// <summary>
     /// 重载导航栏
     /// </summary>
-    public void ReloadItems()
+    public void InitItems()
     {
-        Logger.Information(ResponderService.GetResponders<INavigationResponder>().Count().ToString());
         foreach (var responder in ResponderService.GetResponders<INavigationResponder>())
         {
             if (PluginService.GetPlugin(responder.Id) is not { } plugin) continue;
             foreach (var item2 in responder.NavigationViewMenuItems)
-                if (plugin.IsEnabled)
-                    AddMenuItem(item2);
-                else
-                    DeleteMenuItem(item2);
+                if (plugin.IsEnabled) AddMenuItem(item2);
+                else DeleteMenuItem(item2);
             foreach (var item1 in responder.NavigationViewFooterItems)
-                if (plugin.IsEnabled)
+                if (plugin.IsEnabled) AddFooterMenuItems(item1);
+                else DeleteFooterMenuItems(item1);
+        }
+    }
+    public void ReloadItems(string pluginId, PluginStatus status)
+    {
+        var responder = ResponderService.GetResponder<INavigationResponder>(pluginId);
+        if (responder == null) return;
+        switch (status)
+        {
+            case PluginStatus.Enabled:
+            {
+                foreach (var item2 in responder.NavigationViewMenuItems)
+                    AddMenuItem(item2);
+                foreach (var item1 in responder.NavigationViewFooterItems)
                     AddFooterMenuItems(item1);
-                else
+                break;
+            }
+            case PluginStatus.Disabled:
+            {
+                foreach (var item2 in responder.NavigationViewMenuItems)
+                    DeleteMenuItem(item2);
+                foreach (var item1 in responder.NavigationViewFooterItems)
                     DeleteFooterMenuItems(item1);
+                break;
+            }
+            case PluginStatus.Loaded:
+                break;
+            case PluginStatus.Upgraded:
+                break;
+            case PluginStatus.PlanUpgrade:
+                break;
+            case PluginStatus.PlanRemove:
+                break;
+            case PluginStatus.Removed:
+                break;
+            default:
+                break;
         }
     }
 }

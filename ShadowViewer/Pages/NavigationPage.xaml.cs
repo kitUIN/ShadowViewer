@@ -7,10 +7,12 @@ namespace ShadowViewer.Pages
         private NavigationViewModel ViewModel { get; } = DiFactory.Services.Resolve<NavigationViewModel>();
         private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
         private INotifyService NotifyService { get; } = DiFactory.Services.Resolve<INotifyService>();
+        private PluginEventService PluginEventService { get; } = DiFactory.Services.Resolve<PluginEventService>();
         
         public NavigationPage()
         {
             this.InitializeComponent();
+            ViewModel.InitItems();
             Caller.ImportComicEvent += Caller_ImportComicEvent;
             Caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
             Caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
@@ -19,9 +21,9 @@ namespace ShadowViewer.Pages
             Caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
             Caller.TopGridEvent += Caller_TopGridEvent;
             PluginEventService.PluginLoaded += CallerOnPluginEnabledEvent;
+            PluginEventService.PluginEnabled += CallerOnPluginEnabledEvent;
             PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
             NotifyService.TipPopupEvent += NotifyService_TipPopupEvent;
-            ViewModel.ReloadItems();
         }
 
         private void NotifyService_TipPopupEvent(object? sender, TipPopupEventArgs e)
@@ -35,7 +37,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void CallerOnPluginEnabledEvent(object? sender, PluginEventArgs e)
         {
-            ViewModel.ReloadItems();
+            ViewModel.ReloadItems(e.PluginId,e.Status);
         }
 
         /// <summary>
