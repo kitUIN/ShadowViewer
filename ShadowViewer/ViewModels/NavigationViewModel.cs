@@ -101,7 +101,6 @@ public partial class NavigationViewModel : ObservableObject
                 foreach (var item2 in responder.NavigationViewMenuItems)
                 {
                     AddMenuItem(item2);
-                    Logger.Information("增加{Id}",item2.Id);
                 }
                 foreach (var item1 in responder.NavigationViewFooterItems)
                     AddFooterMenuItems(item1);

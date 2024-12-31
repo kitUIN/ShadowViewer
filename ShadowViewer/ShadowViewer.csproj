@@ -13,12 +13,12 @@
 	  <DefaultLanguage>zh-CN</DefaultLanguage>
 	  <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-	  <PackageCertificateThumbprint>F5166A58921AC22FF7AFB47DF60279ED2529DE8E</PackageCertificateThumbprint>
+	  <PackageCertificateThumbprint>B6C9305EB6489529C724543D90C55EFFDF6DE08B</PackageCertificateThumbprint>
 	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 	  <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
-	  <AppxBundle>Never</AppxBundle>
+	  <AppxBundle>Auto</AppxBundle>
 	  <Nullable>enable</Nullable>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
@@ -26,6 +26,8 @@
 	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 	  <LangVersion>12</LangVersion>
 	  <PublishReadyToRun>false</PublishReadyToRun>
+	  <AppxBundlePlatforms>arm64</AppxBundlePlatforms>
+
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Extensions\**" />
@@ -94,11 +96,13 @@
   <ItemGroup>
 	  <PackageReference Include="ShadowViewer.Controls.Notification" Version="1.0.2.4" />
 	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.2.4" />
+	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.2.0" />
+	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.2.0" />
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
 	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <PRIResource Remove="Extensions\**" />
   </ItemGroup>
