@@ -17,7 +17,7 @@
     <img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer" alt="release">
   </a>
     <a href="https://github.com/kitUIN/ShadowViewer.Core/releases">
-    <img src="https://img.shields.io/badge/Core-20230821-8A2BE2" alt="chajian">
+    <img src="https://img.shields.io/badge/Core-2024.12.31.6-8A2BE2" alt="chajian">
   </a>
 </p> 
 <p align="center">
