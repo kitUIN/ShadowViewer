@@ -1,6 +1,7 @@
 ﻿using ShadowViewer.Responders;
 using System.Diagnostics;
 using ShadowPluginLoader.WinUI.Enums;
+using DryIoc;
 
 namespace ShadowViewer.ViewModels;
 
@@ -95,10 +96,13 @@ public partial class NavigationViewModel : ObservableObject
         if (responder == null) return;
         switch (status)
         {
-            case PluginStatus.Enabled or PluginStatus.Loaded:
+            case PluginStatus.Enabled:
             {
                 foreach (var item2 in responder.NavigationViewMenuItems)
+                {
                     AddMenuItem(item2);
+                    Logger.Information("增加{Id}",item2.Id);
+                }
                 foreach (var item1 in responder.NavigationViewFooterItems)
                     AddFooterMenuItems(item1);
                 break;
