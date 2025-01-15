@@ -39,7 +39,7 @@ namespace ShadowViewer.ViewModels
 
         public void InitPlugins()
         {
-            Plugins.Clear();
+            if( Plugins.Count > 0) Plugins.Clear();
             foreach (var plugin in PluginService.GetPlugins())
             {
                 Plugins.Add(plugin);
@@ -52,7 +52,6 @@ namespace ShadowViewer.ViewModels
             {
                 SettingsFolders.Add(folder);
             }
-            Debug.WriteLine(SettingsFolders.Count);
         }
         partial void OnPluginsUriChanged(string? oldValue, string newValue)
         {

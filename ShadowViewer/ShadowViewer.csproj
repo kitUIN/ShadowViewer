@@ -83,6 +83,9 @@
     <Page Update="Pages\UserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="Themes\AppTheme.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
 
   <!-- 
@@ -94,15 +97,17 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
+	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
+	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
 	  <PackageReference Include="ShadowViewer.Controls.Notification" Version="1.0.2.4" />
 	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.2.4" />
-	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.2.0" />
-	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.2.0" />
+	  <!--<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.2.0" />-->
+	  <!--<PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.2.0" />-->
   </ItemGroup>
-  <!--<ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
 	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
-  </ItemGroup>-->
+  </ItemGroup>
   <ItemGroup>
     <PRIResource Remove="Extensions\**" />
   </ItemGroup>
