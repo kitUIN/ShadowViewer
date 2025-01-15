@@ -4,13 +4,14 @@
 <Application
     x:Class="ShadowViewer.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:cw="using:CustomExtensions.WinUI"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:cw="using:CustomExtensions.WinUI">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
                 <!--  Other merged dictionaries here  -->
+                <ResourceDictionary Source="ms-appx:///Themes/AppTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <cw:PluginUriConverter x:Key="PluginUriConverter" />
             <cw:PluginPathConverter x:Key="PluginPathConverter" />
