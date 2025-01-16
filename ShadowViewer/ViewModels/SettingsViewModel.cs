@@ -14,13 +14,25 @@ namespace ShadowViewer.ViewModels
         private ICallableService Caller { get; }
         private ILogger Logger { get; }
         private PluginLoader PluginService { get; }
-        public SettingsViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger)
+        public SettingsViewModel(ICallableService callableService, PluginLoader pluginService, PluginEventService pluginEventService, ILogger logger)
         {
             Caller = callableService;
             PluginService = pluginService;
             var v = Package.Current.Id.Version;
             Version = $"v{v.Major}.{v.Minor}.{v.Build}.{v.Revision}";
             Logger = logger;
+            pluginEventService.PluginLoaded -= PluginEventService_PluginLoaded;
+            pluginEventService.PluginLoaded += PluginEventService_PluginLoaded;
+            // InitPlugins();
+            InitSettingsFolders();
+        }
+
+        private void PluginEventService_PluginLoaded(object? sender, PluginEventArgs e)
+        {
+            if (PluginService.GetPlugin(e.PluginId) is { } plugin)
+            {
+                Plugins.Add(plugin);
+            }
         }
         #endregion
         /// <summary>
@@ -39,7 +51,6 @@ namespace ShadowViewer.ViewModels
 
         public void InitPlugins()
         {
-            if( Plugins.Count > 0) Plugins.Clear();
             foreach (var plugin in PluginService.GetPlugins())
             {
                 Plugins.Add(plugin);

@@ -1,5 +1,3 @@
-using ShadowViewer.Plugins;
-
 namespace ShadowViewer.Pages;
 
 public sealed partial class SettingsPage : Page
@@ -14,8 +12,7 @@ public sealed partial class SettingsPage : Page
 
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
-        ViewModel.InitPlugins();
-        ViewModel.InitSettingsFolders();
+        
     }
 
     protected override void OnNavigatedFrom(NavigationEventArgs e)
