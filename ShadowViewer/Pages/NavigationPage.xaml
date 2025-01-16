@@ -149,7 +149,7 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Canvas.ZIndex="1"
-            FlowDirection="RightToLeft"
+            FlowDirection="LeftToRight"
             Orientation="Vertical"
             TipPosition="RightToLeft"
             Visibility="Collapsed" />
