@@ -16,7 +16,7 @@
     Title="ShadowViewer"
     mc:Ignorable="d">
 
-    <Grid MinWidth="650">
+    <Grid MinWidth="650" Loaded="FrameworkElement_OnLoaded">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

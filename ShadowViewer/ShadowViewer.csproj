@@ -99,7 +99,7 @@
   <ItemGroup>
 	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
-	  <PackageReference Include="ShadowViewer.Controls.Notification" Version="1.0.3" />
+	  <PackageReference Include="ShadowViewer.Controls.Notification" Version="1.1.1" />
 	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.2.4" />
 	  <!--<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.2.0" />-->
 	  <!--<PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.2.0" />-->

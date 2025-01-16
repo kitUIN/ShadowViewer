@@ -23,7 +23,7 @@ namespace ShadowViewer.ViewModels
             Logger = logger;
             pluginEventService.PluginLoaded -= PluginEventService_PluginLoaded;
             pluginEventService.PluginLoaded += PluginEventService_PluginLoaded;
-            // InitPlugins();
+            InitPlugins();
             InitSettingsFolders();
         }
 

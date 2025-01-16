@@ -136,11 +136,22 @@
         <Grid x:Name="TopGrid" Canvas.ZIndex="1" />
         <shadow:NotificationPanel
             x:Name="TipContainer"
+            Margin="0,0,0,52"
             HorizontalAlignment="Center"
             VerticalAlignment="Bottom"
             Canvas.ZIndex="1"
             FlowDirection="RightToLeft"
             Orientation="Vertical"
+            Visibility="Collapsed" />
+        <shadow:NotificationPanel
+            x:Name="TipContainerRight"
+            Margin="0,52,0,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Canvas.ZIndex="1"
+            FlowDirection="RightToLeft"
+            Orientation="Vertical"
+            TipPosition="RightToLeft"
             Visibility="Collapsed" />
     </Grid>
 </Page>

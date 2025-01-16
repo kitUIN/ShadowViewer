@@ -28,7 +28,7 @@ namespace ShadowViewer.Pages
 
         private void NotifyService_TipPopupEvent(object? sender, TipPopupEventArgs e)
         {
-            TipContainer.Show(e.Text, e.Level, e.DisplaySeconds);
+            TipContainerRight.Show(e.Text, e.Level, e.DisplaySeconds);
         }
 
 

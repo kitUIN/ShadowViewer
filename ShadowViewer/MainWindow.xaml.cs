@@ -1,3 +1,7 @@
+using ShadowViewer.Plugin.Local;
+using ShadowViewer.Plugin.PluginManager;
+using System.Diagnostics;
+
 namespace ShadowViewer;
 
 public sealed partial class MainWindow : Window
@@ -9,12 +13,26 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
         SystemBackdrop = new MicaBackdrop();
-        Log.Information("Theme:{Theme}", ((FrameworkElement)this.Content).RequestedTheme);
         Caller.ThemeChangedEvent += AppTitleBar_ThemeChangedEvent;
     }
+
 
     private void AppTitleBar_ThemeChangedEvent(object? sender, EventArgs e)
     {
         AppTitleBar.InvokeThemeChanged(this);
+    }
+
+    private async void FrameworkElement_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            var pluginServices = DiFactory.Services.Resolve<PluginLoader>();
+            pluginServices.Import(typeof(PluginManagerPlugin));
+            await pluginServices.ImportFromDirAsync(Config.PluginsPath);
+        }
+        catch (Exception ex)
+        {
+            Log.Error("{E}", ex);
+        }
     }
 }
