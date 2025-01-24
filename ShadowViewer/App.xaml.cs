@@ -68,7 +68,7 @@ namespace ShadowViewer
             // await pluginServices.ImportFromPathAsync(@"C:\Users\15854\Documents\GitHub\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\");
 #endif
             // 导航
-            var firstUri = new Uri("shadow://Local/");
+            var firstUri = new Uri("shadow://local/bookshelf");
             var actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
             if (actEventArgs.Kind == ExtendedActivationKind.Protocol
                 && actEventArgs.Data is IProtocolActivatedEventArgs data)
