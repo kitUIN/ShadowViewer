@@ -24,15 +24,6 @@ public sealed partial class MainWindow : Window
 
     private async void FrameworkElement_OnLoaded(object sender, RoutedEventArgs e)
     {
-        try
-        {
-            var pluginServices = DiFactory.Services.Resolve<PluginLoader>();
-            pluginServices.Import(typeof(PluginManagerPlugin));
-            await pluginServices.ImportFromDirAsync(Config.PluginsPath);
-        }
-        catch (Exception ex)
-        {
-            Log.Error("{E}", ex);
-        }
+
     }
 }

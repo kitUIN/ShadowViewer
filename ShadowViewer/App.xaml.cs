@@ -53,8 +53,8 @@ namespace ShadowViewer
             try
             {
                 pluginServices.Import(typeof(LocalPlugin));
-                //pluginServices.Import(typeof(PluginManagerPlugin));
-                //await pluginServices.ImportFromDirAsync(Config.PluginsPath);
+                pluginServices.Import(typeof(PluginManagerPlugin));
+                await pluginServices.ImportFromDirAsync(Config.PluginsPath);
             }
             catch (Exception ex)
             {
