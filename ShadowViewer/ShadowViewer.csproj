@@ -101,12 +101,15 @@
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.241114003" />
 	  <PackageReference Include="ShadowViewer.Controls.Notification" Version="1.1.2" />
 	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.2.4" />
-	  <!--<PackageReference Include="ShadowViewer.Plugin.Local" Version="1.2.0" />-->
-	  <!--<PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.2.0" />-->
+	  
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
 	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)' == 'Release'">
+	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.2.0" />
+	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
     <PRIResource Remove="Extensions\**" />
