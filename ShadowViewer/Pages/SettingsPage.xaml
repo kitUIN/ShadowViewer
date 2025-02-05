@@ -11,7 +11,7 @@
     xmlns:helper="using:ShadowViewer.Helpers"
     xmlns:icons="using:FluentIcon.WinUI"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:interfaces="using:ShadowViewer.Interfaces"
+    xmlns:interfaces="using:ShadowViewer.Models.Interfaces"
     xmlns:local2="using:ShadowViewer.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:plugin="using:ShadowViewer.Plugins"
