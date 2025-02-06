@@ -1,7 +1,10 @@
 ﻿using CustomExtensions.WinUI;
 using ShadowViewer.Plugin.Local;
+using ShadowViewer.Plugin.Local.Models;
 using ShadowViewer.Plugin.PluginManager;
 using System.Diagnostics;
+using LocalEpisode = ShadowViewer.Models.LocalEpisode;
+using LocalPicture = ShadowViewer.Models.LocalPicture;
 
 namespace ShadowViewer
 {
@@ -33,9 +36,9 @@ namespace ShadowViewer
         /// </summary>
         private static void InitDatabase()
         {
+            SnowFlakeSingle.WorkId = 4;
             var db = DiFactory.Services.Resolve<ISqlSugarClient>();
             db.DbMaintenance.CreateDatabase();
-            db.CodeFirst.InitTables<LocalComic>();
             db.CodeFirst.InitTables<LocalEpisode>();
             db.CodeFirst.InitTables<LocalPicture>();
             db.CodeFirst.InitTables<LocalTag>();

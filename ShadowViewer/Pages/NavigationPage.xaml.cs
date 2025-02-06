@@ -1,3 +1,5 @@
+using ShadowViewer.Plugin.Local.Models;
+
 namespace ShadowViewer.Pages
 {
     public sealed partial class NavigationPage : Page
@@ -126,7 +128,7 @@ namespace ShadowViewer.Pages
         /// <param name="e"></param>
         private async void Caller_ImportComicEvent(object sender, ImportComicEventArgs e)
         {
-            try
+            /*try
             {
                 for (var i = e.Index; i < e.Items.Count; i++)
                 {
@@ -246,7 +248,7 @@ namespace ShadowViewer.Pages
             {
                 Log.ForContext<NavigationPage>().Information("中断导入");
                 //DispatcherQueue.TryEnqueue(() => { LoadingControl.IsLoading = false; });
-            }
+            }*/
         }
         /// <summary>
         /// 顶部窗体事件
