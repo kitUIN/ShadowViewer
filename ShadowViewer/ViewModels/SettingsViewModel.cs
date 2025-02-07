@@ -5,9 +5,9 @@ using DryIoc;
 using Serilog;
 using ShadowPluginLoader.WinUI;
 using ShadowPluginLoader.WinUI.Args;
-using ShadowViewer.Plugins;
 using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core;
+using ShadowViewer.Core.Plugins;
 using ShadowViewer.Core.Services;
 
 namespace ShadowViewer.ViewModels

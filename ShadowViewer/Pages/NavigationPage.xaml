@@ -5,7 +5,6 @@
     xmlns:co="using:ShadowViewer.Controls"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:ex="using:ShadowViewer.Extensions"
     xmlns:i18N="using:ShadowViewer.I18n"
     xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
     xmlns:local="using:ShadowViewer.Pages"
