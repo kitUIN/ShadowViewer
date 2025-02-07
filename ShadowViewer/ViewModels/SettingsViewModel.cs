@@ -1,7 +1,14 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
-
+using CommunityToolkit.Mvvm.ComponentModel;
+using DryIoc;
+using Serilog;
+using ShadowPluginLoader.WinUI;
+using ShadowPluginLoader.WinUI.Args;
 using ShadowViewer.Plugins;
+using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Core;
+using ShadowViewer.Core.Services;
 
 namespace ShadowViewer.ViewModels
 {
@@ -43,11 +50,11 @@ namespace ShadowViewer.ViewModels
         public ObservableCollection<AShadowViewerPlugin> Plugins { get; } = [];
         public ObservableCollection<ISettingFolder> SettingsFolders { get; } = [];
 
-        [ObservableProperty] private bool isDebug = Config.IsDebug;
-        [ObservableProperty] private string comicsPath = Config.ComicsPath;
-        [ObservableProperty] private string tempPath = Config.TempPath;
-        [ObservableProperty] private string pluginsPath = Config.PluginsPath;
-        [ObservableProperty] private string pluginsUri = Config.PluginsUri;
+        [ObservableProperty] private bool isDebug = CoreSettings.IsDebug;
+        [ObservableProperty] private string comicsPath = CoreSettings.ComicsPath;
+        [ObservableProperty] private string tempPath = CoreSettings.TempPath;
+        [ObservableProperty] private string pluginsPath = CoreSettings.PluginsPath;
+        [ObservableProperty] private string pluginsUri = CoreSettings.PluginsUri;
 
         public void InitPlugins()
         {
@@ -68,28 +75,28 @@ namespace ShadowViewer.ViewModels
         {
             if (oldValue != newValue)
             {
-                Config.PluginsUri = PluginsUri;
+                CoreSettings.PluginsUri = PluginsUri;
             }
         }
         partial void OnPluginsPathChanged(string? oldValue, string newValue)
         {
             if (oldValue != newValue)
             {
-                Config.PluginsPath = PluginsPath;
+                CoreSettings.PluginsPath = PluginsPath;
             }
         }
         partial void OnComicsPathChanged(string? oldValue, string newValue)
         {
             if (oldValue != newValue)
             {
-                Config.ComicsPath = ComicsPath;
+                CoreSettings.ComicsPath = ComicsPath;
             }
         }
 
         partial void OnIsDebugChanged(bool oldValue, bool newValue)
         {
             if (oldValue == newValue) return;
-            Config.IsDebug = IsDebug;
+            CoreSettings.IsDebug = IsDebug;
             Caller.Debug();
         }
 
@@ -97,7 +104,7 @@ namespace ShadowViewer.ViewModels
         {
             if (oldValue != newValue)
             {
-                Config.TempPath = TempPath;
+                CoreSettings.TempPath = TempPath;
             }
         }
 

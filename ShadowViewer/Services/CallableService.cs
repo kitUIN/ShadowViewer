@@ -1,5 +1,14 @@
-﻿using Microsoft.UI.Windowing;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.UI.Windowing;
+using ShadowViewer.Core.Args;
+using ShadowViewer.Core.Enums;
+using ShadowViewer.Core.Services;
 using Windows.Foundation;
+using Windows.Storage;
+using Microsoft.UI.Xaml;
+using Serilog;
 
 namespace ShadowViewer.Services;
 

@@ -1,6 +1,10 @@
-using ShadowViewer.Plugin.Local;
-using ShadowViewer.Plugin.PluginManager;
-using System.Diagnostics;
+using System;
+using ShadowViewer.Core.Services;
+using DryIoc;
+using Microsoft.UI.Xaml;
+using ShadowPluginLoader.WinUI;
+using ShadowViewer.ViewModels;
+using Microsoft.UI.Xaml.Media;
 
 namespace ShadowViewer;
 

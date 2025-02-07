@@ -8,7 +8,8 @@
     xmlns:controls="using:ShadowViewer.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Extensions"
-    xmlns:interfaces="using:ShadowViewer.Models.Interfaces"
+    xmlns:i18N="using:ShadowViewer.I18n"
+    xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:pages="using:ShadowViewer.Pages"
     xmlns:shadowViewer="using:ShadowViewer"
@@ -43,7 +44,7 @@
                     GotFocus="{x:Bind ViewModel.AutoSuggestBox_OnGotFocus}"
                     ItemsSource="{x:Bind ViewModel.SearchItems, Mode=OneWay}"
                     LostFocus="{x:Bind ViewModel.AutoSuggestBox_OnLostFocus}"
-                    PlaceholderText="{ex:Locale Key=Search}"
+                    PlaceholderText="{i18N:Locale Key=Search}"
                     QuerySubmitted="{x:Bind ViewModel.AutoSuggestBox_OnQuerySubmitted}"
                     SuggestionChosen="{x:Bind ViewModel.AutoSuggestBox_OnSuggestionChosen}"
                     TextChanged="{x:Bind ViewModel.AutoSuggestBox_OnTextChanged}"
@@ -90,7 +91,7 @@
                             <Button
                                 Grid.Column="0"
                                 HorizontalAlignment="Left"
-                                Content="{ex:Locale Key=History}"
+                                Content="{i18N:Locale Key=History}"
                                 FontSize="18"
                                 Style="{ThemeResource PointerOverButtonStyle}" />
 

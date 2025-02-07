@@ -1,7 +1,13 @@
-﻿using ShadowViewer.Responders;
-using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using CommunityToolkit.Mvvm.ComponentModel;
 using ShadowPluginLoader.WinUI.Enums;
-using DryIoc;
+using Serilog;
+using ShadowViewer.Core.Responders;
+using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Core.Services;
+using ShadowViewer.Core;
+using ShadowViewer.Core.Models;
 
 namespace ShadowViewer.ViewModels;
 

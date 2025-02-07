@@ -1,4 +1,8 @@
-﻿namespace ShadowViewer.Models;
+﻿using Microsoft.UI.Xaml.Controls;
+using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.I18n;
+
+namespace ShadowViewer.Models;
 
 public class NavigateSearchItem : IShadowSearchItem
 {

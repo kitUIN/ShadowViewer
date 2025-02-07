@@ -1,4 +1,8 @@
-﻿namespace ShadowViewer.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml.Controls;
+using ShadowViewer.Core.Models.Interfaces;
+
+namespace ShadowViewer.Models;
 
 public partial class ShadowNavigationItem : ObservableObject, IShadowNavigationItem
 {

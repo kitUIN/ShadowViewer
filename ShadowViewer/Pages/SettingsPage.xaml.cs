@@ -1,3 +1,18 @@
+using System;
+using System.IO;
+using Windows.Storage;
+using DryIoc;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml.Navigation;
+using ShadowPluginLoader.WinUI;
+using ShadowViewer.Core;
+using ShadowViewer.Core.Extensions;
+using ShadowViewer.Core.Helpers;
+using ShadowViewer.Core.Services;
+using ShadowViewer.ViewModels;
+
 namespace ShadowViewer.Pages;
 
 public sealed partial class SettingsPage : Page

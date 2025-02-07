@@ -1,5 +1,20 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using ShadowViewer.Responders;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Serilog;
+using ShadowViewer.Core;
+using ShadowViewer.Core.Extensions;
+using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Core.Responders;
+using ShadowViewer.Core.Services;
+using ShadowViewer.Helpers;
+using ShadowViewer.I18n;
+using ShadowViewer.Models;
 
 namespace ShadowViewer.ViewModels;
 
@@ -10,7 +25,7 @@ public partial class MainViewModel : ObservableObject
     private PluginLoader PluginService { get; }
     private ResponderService ResponderService { get; }
 
-    [ObservableProperty] private string subTitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+    [ObservableProperty] private string subTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
     
     public MainViewModel(ICallableService callableService, PluginLoader pluginService, 
         ILogger logger, ResponderService responderService)
@@ -20,7 +35,7 @@ public partial class MainViewModel : ObservableObject
         PluginService = pluginService;
         ResponderService = responderService;
         Caller.DebugEvent += (_, _) =>
-            SubTitle = Config.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+            SubTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
     }
     
     /// <summary>
@@ -35,7 +50,7 @@ public partial class MainViewModel : ObservableObject
     private void ReLoadHistory()
     {
         var responders = ResponderService.GetEnabledResponders<IHistoryResponder>();
-        var temp = new SortedSet<IHistory>(new HistoryExtension());
+        var temp = new SortedSet<IHistory>(new HistoryComparer());
         foreach (var responder in responders)
         {
             foreach (var item in responder.GetHistories())

@@ -1,4 +1,9 @@
-﻿namespace ShadowViewer.Converters;
+﻿using System;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
+using ShadowViewer.Core.Helpers;
+
+namespace ShadowViewer.Converters;
 
 public class ThemeComboConverter : IValueConverter
 {

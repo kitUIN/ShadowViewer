@@ -1,4 +1,10 @@
-﻿using static System.Net.Mime.MediaTypeNames;
+﻿using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Serilog;
+using ShadowViewer.Core.Args;
+using ShadowViewer.Core.Enums;
+using ShadowViewer.Core.Services;
+using System;
 
 namespace ShadowViewer.Services;
 

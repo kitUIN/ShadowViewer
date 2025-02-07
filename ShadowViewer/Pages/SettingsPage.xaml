@@ -8,10 +8,11 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:ex="using:ShadowViewer.Extensions"
-    xmlns:helper="using:ShadowViewer.Helpers"
+    xmlns:helper="using:ShadowViewer.Core.Helpers"
+    xmlns:i18N="using:ShadowViewer.I18n"
     xmlns:icons="using:FluentIcon.WinUI"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:interfaces="using:ShadowViewer.Models.Interfaces"
+    xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
     xmlns:local2="using:ShadowViewer.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:plugin="using:ShadowViewer.Plugins"
@@ -45,13 +46,13 @@
             Grid.Row="0"
             Margin="20,10,0,0"
             FontSize="25"
-            Text="{ex:Locale Key=Settings}" />
+            Text="{i18N:Locale Key=Settings}" />
         <ScrollViewer Grid.Row="1" Padding="20,5">
             <StackPanel HorizontalAlignment="Stretch" Spacing="{StaticResource SettingsCardSpacing}">
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=MainSetting}" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{i18N:Locale Key=MainSetting}" />
                 <controls:SettingsCard>
                     <controls:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Description="{ex:Locale Key=ThemeDescription}" Header="{ex:Locale Key=Theme}">
+                        <local2:ShadowSettingHeader Description="{i18N:Locale Key=ThemeDescription}" Header="{i18N:Locale Key=Theme}">
                             <icons:FluentRegularIcon
                                 Width="{StaticResource SettingIconWidth}"
                                 Height="{StaticResource SettingIconHeight}"
@@ -60,14 +61,14 @@
                         </local2:ShadowSettingHeader>
                     </controls:SettingsCard.Header>
                     <ComboBox SelectedIndex="{x:Bind helper:ThemeHelper.RootTheme, Mode=TwoWay, Converter={StaticResource ThemeComboConverter}}">
-                        <ComboBoxItem Content="{ex:Locale Key=Default}" Tag="Default" />
-                        <ComboBoxItem Content="{ex:Locale Key=Light}" Tag="Light" />
-                        <ComboBoxItem Content="{ex:Locale Key=Dark}" Tag="Dark" />
+                        <ComboBoxItem Content="{i18N:Locale Key=Default}" Tag="Default" />
+                        <ComboBoxItem Content="{i18N:Locale Key=Light}" Tag="Light" />
+                        <ComboBoxItem Content="{i18N:Locale Key=Dark}" Tag="Dark" />
                     </ComboBox>
                 </controls:SettingsCard>
                 <controls:SettingsExpander ItemsSource="{x:Bind ViewModel.SettingsFolders}">
                     <controls:SettingsExpander.Header>
-                        <local2:ShadowSettingHeader Description="{ex:Locale Key=FolderDescription}" Header="{ex:Locale Key=DataFolder}">
+                        <local2:ShadowSettingHeader Description="{i18N:Locale Key=FolderDescription}" Header="{i18N:Locale Key=DataFolder}">
                             <icons:FluentRegularIcon
                                 Width="{StaticResource SettingIconWidth}"
                                 Height="{StaticResource SettingIconHeight}"
@@ -79,7 +80,7 @@
                         <DataTemplate x:DataType="interfaces:ISettingFolder">
                             <controls:SettingsCard Description="{x:Bind Description}" Header="{x:Bind Name}">
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="{ex:Locale Key=Open}" Visibility="{x:Bind CanOpen}">
+                                    <Button Content="{i18N:Locale Key=Open}" Visibility="{x:Bind CanOpen}">
                                         <interactivity:Interaction.Behaviors>
                                             <core:EventTriggerBehavior EventName="Click">
                                                 <behaviors:NavigateToUriAction NavigateUri="{x:Bind Path}" />
@@ -93,7 +94,7 @@
                 </controls:SettingsExpander>
                 <controls:SettingsCard>
                     <controls:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Description="{ex:Locale Key=LogPathDescription}" Header="{ex:Locale Key=LogPath}">
+                        <local2:ShadowSettingHeader Description="{i18N:Locale Key=LogPathDescription}" Header="{i18N:Locale Key=LogPath}">
                             <icons:FluentRegularIcon
                                 Width="{StaticResource SettingIconWidth}"
                                 Height="{StaticResource SettingIconHeight}"
@@ -101,11 +102,11 @@
                                 Symbol="BookDatabase24Regular" />
                         </local2:ShadowSettingHeader>
                     </controls:SettingsCard.Header>
-                    <Button Click="LogButton_Click" Content="{ex:Locale Key=Open}" />
+                    <Button Click="LogButton_Click" Content="{i18N:Locale Key=Open}" />
                 </controls:SettingsCard>
                 <controls:SettingsCard>
                     <controls:SettingsCard.Header>
-                        <local2:ShadowSettingHeader Description="{ex:Locale Key=DebugDescription}" Header="{ex:Locale Key=Debug}">
+                        <local2:ShadowSettingHeader Description="{i18N:Locale Key=DebugDescription}" Header="{i18N:Locale Key=Debug}">
                             <icons:FluentRegularIcon
                                 Width="{StaticResource SettingIconWidth}"
                                 Height="{StaticResource SettingIconHeight}"
@@ -115,7 +116,7 @@
                     </controls:SettingsCard.Header>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsDebug, Mode=TwoWay}" />
                 </controls:SettingsCard>
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=PluginSetting}" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{i18N:Locale Key=PluginSetting}" />
                 <ItemsRepeater ItemsSource="{x:Bind ViewModel.Plugins, Mode=OneWay}">
                     <ItemsRepeater.ItemTemplate>
                         <DataTemplate x:DataType="plugin:AShadowViewerPlugin">
@@ -141,10 +142,10 @@
                     </ItemsRepeater.ItemTemplate>
                 </ItemsRepeater>
                 <!--  About  -->
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{ex:Locale Key=About}" />
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{i18N:Locale Key=About}" />
                 <controls:SettingsExpander
                     Description="© 2023-2024 kitUIN. All rights reserved."
-                    Header="{ex:Locale Key=AppTitle}"
+                    Header="{i18N:Locale Key=AppTitle}"
                     HeaderIcon="{ui:BitmapIcon ShowAsMonochrome=False,
                                                Source=ms-appx:///Assets/AppTitleBar.scale-200.png}">
                     <TextBlock
@@ -155,7 +156,7 @@
                     <controls:SettingsExpander.Items>
                         <controls:SettingsCard
                             ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
-                            Header="{ex:Locale Key=BugRequest}"
+                            Header="{i18N:Locale Key=BugRequest}"
                             IsClickEnabled="True">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Click">
@@ -165,7 +166,7 @@
                         </controls:SettingsCard>
                         <controls:SettingsCard
                             ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
-                            Header="{ex:Locale Key=Sponsor}"
+                            Header="{i18N:Locale Key=Sponsor}"
                             IsClickEnabled="True">
                             <interactivity:Interaction.Behaviors>
                                 <core:EventTriggerBehavior EventName="Click">
@@ -176,7 +177,7 @@
                         <controls:SettingsCard
                             HorizontalContentAlignment="Left"
                             ContentAlignment="Vertical"
-                            Header="{ex:Locale Key=Dependencies}">
+                            Header="{i18N:Locale Key=Dependencies}">
                             <StackPanel Orientation="Vertical">
                                 <HyperlinkButton Content="📦Windows App SDK" NavigateUri="https://github.com/microsoft/WindowsAppSDK" />
                                 <HyperlinkButton Content="📦FluentIcon" NavigateUri="https://github.com/KitUIN/FluentIcon" />

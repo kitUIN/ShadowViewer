@@ -1,10 +1,23 @@
-﻿using CustomExtensions.WinUI;
+﻿using System;
+using System.Globalization;
+using Windows.ApplicationModel.Activation;
+using CustomExtensions.WinUI;
+using DryIoc;
+using Microsoft.Windows.AppLifecycle;
+using Serilog;
+using ShadowPluginLoader.WinUI;
+using ShadowViewer.Core;
+using ShadowViewer.Core.Cache;
+using ShadowViewer.Core.Helpers;
+using ShadowViewer.Core.Models;
+using ShadowViewer.Core.Services;
+using ShadowViewer.Helpers;
 using ShadowViewer.Plugin.Local;
-using ShadowViewer.Plugin.Local.Models;
 using ShadowViewer.Plugin.PluginManager;
-using System.Diagnostics;
-using LocalEpisode = ShadowViewer.Models.LocalEpisode;
-using LocalPicture = ShadowViewer.Models.LocalPicture;
+using ShadowViewer.Services;
+using ShadowViewer.ViewModels;
+using SqlSugar;
+using Microsoft.UI.Xaml;
 
 namespace ShadowViewer
 {
@@ -14,7 +27,7 @@ namespace ShadowViewer
         {
             ApplicationExtensionHost.Initialize(this);
             // 配置文件
-            Config.Init();
+            CoreSettings.Init();
             InitDi();
             // 数据库
             InitDatabase();
@@ -60,7 +73,7 @@ namespace ShadowViewer
             {
                 pluginServices.Import(typeof(LocalPlugin));
                 pluginServices.Import(typeof(PluginManagerPlugin));
-                await pluginServices.ImportFromDirAsync(Config.PluginsPath);
+                await pluginServices.ImportFromDirAsync(CoreSettings.PluginsPath);
             }
             catch (Exception ex)
             {
@@ -75,7 +88,7 @@ namespace ShadowViewer
 #endif
             // 导航
             var firstUri = new Uri("shadow://local/bookshelf");
-            var actEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+            var actEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
             if (actEventArgs.Kind == ExtendedActivationKind.Protocol
                 && actEventArgs.Data is IProtocolActivatedEventArgs data)
             {
