@@ -1,10 +1,12 @@
-using System;
+﻿using System;
+using System.Diagnostics;
 using ShadowViewer.Core.Services;
 using DryIoc;
 using Microsoft.UI.Xaml;
 using ShadowPluginLoader.WinUI;
 using ShadowViewer.ViewModels;
 using Microsoft.UI.Xaml.Media;
+using WinUIEx;
 
 namespace ShadowViewer;
 
