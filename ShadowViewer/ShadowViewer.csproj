@@ -100,11 +100,12 @@
 	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
 	  <PackageReference Include="ShadowViewer.Controls.Notification" Version="1.1.2" />
-	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.2.4" />
+	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.3" />
 	  <PackageReference Include="WinUIEx" Version="2.5.1" />
-	  
+
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+	  <!-- <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />	 -->
 	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
   </ItemGroup>
@@ -114,14 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <PRIResource Remove="Extensions\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="LoadingWindow.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="LoadingWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
 	  <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
