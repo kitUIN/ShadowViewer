@@ -173,6 +173,15 @@
                     MaxHeight="400"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center" Spacing="10" Orientation="Vertical">
+            <animations:Explicit.Animations>
+                <animations:AnimationSet x:Name="InAnimationLoadingGrid">
+                    <animations:TranslationAnimation From="0,225" To="0,0" Duration="0:0:0.7" EasingMode="EaseOut"/>
+                    <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.7" EasingMode="EaseOut"/>
+                </animations:AnimationSet>
+                <animations:AnimationSet x:Name="OutAnimationLoadingGrid">
+                    <animations:OpacityAnimation From="1" To="0" Duration="0:0:0.4" EasingMode="EaseIn"/>
+                </animations:AnimationSet>
+            </animations:Explicit.Animations>
             <TextBlock
                 HorizontalAlignment="Center"
                 FontFamily="Segoe UI Variable Display"

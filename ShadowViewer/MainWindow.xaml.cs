@@ -51,15 +51,7 @@ public sealed partial class MainWindow : Window
 
     private async void Content_Loaded(object sender, RoutedEventArgs e)
     {
-        await AnimationBuilder.Create()
-            .Translation(
-                from: new Vector2(0, 255),
-                to: new Vector2(0, 0))
-            .Opacity(
-                from: 0,
-                to: 1.0,
-                duration: TimeSpan.FromSeconds(0.5))
-            .StartAsync(LoadingGrid);
+        InAnimationLoadingGrid.Start();
         await OnLoading(new Progress<string>(s => DispatcherQueue.TryEnqueue(() => LoadingText.Text = s)));
         LoadingText.Text = "加载标题栏...";
         MainGrid.Visibility = Visibility.Visible;
@@ -77,12 +69,7 @@ public sealed partial class MainWindow : Window
         AppTitleBar.BackButtonClick += navigationPage.AppTitleBar_BackButtonClick;
         SuggestBox.Visibility = Visibility.Visible;
         if (firstUri != null) NavigateHelper.ShadowNavigate(firstUri);
-        await AnimationBuilder.Create()
-            .Opacity(
-                from: 1.0,
-                to: 0,
-                duration: TimeSpan.FromSeconds(0.5))
-            .StartAsync(LoadingGrid);
+        await OutAnimationLoadingGrid.StartAsync();
         LoadingGrid.Visibility = Visibility.Collapsed;
     }
 
@@ -90,7 +77,7 @@ public sealed partial class MainWindow : Window
     {
         loadingProgress?.Report("初始化插件加载器...");
         ApplicationExtensionHost.Initialize(Application.Current);
-        // await Task.Delay(5000); // 测试用
+        await Task.Delay(5000); // 测试用
         Debug.WriteLine("123123");
         // 配置文件
         loadingProgress?.Report("加载配置文件与数据库...");
