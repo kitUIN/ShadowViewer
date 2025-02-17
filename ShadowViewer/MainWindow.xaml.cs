@@ -30,6 +30,7 @@ public sealed partial class MainWindow : Window
     public MainViewModel ViewModel { get; set; }
     private NavigationPage? navigationPage;
     private readonly Uri? firstUri;
+
     public MainWindow()
     {
         InitializeComponent();
@@ -70,7 +71,7 @@ public sealed partial class MainWindow : Window
         AppTitleBar.PaneButtonClick += navigationPage.AppTitleBar_OnPaneButtonClick;
         AppTitleBar.BackButtonClick += navigationPage.AppTitleBar_BackButtonClick;
         SuggestBox.Visibility = Visibility.Visible;
-        NavigateHelper.ShadowNavigate(firstUri);
+        if (firstUri != null) NavigateHelper.ShadowNavigate(firstUri);
         await AnimationBuilder.Create()
             .Opacity(
                 from: 1.0,

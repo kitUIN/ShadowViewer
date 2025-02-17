@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -55,11 +55,11 @@ namespace ShadowViewer.Pages
         {
             if (e.Position == TipPopupPosition.Right)
             {
-                TipContainerRight.Show(e.TipPopup, e.DisplaySeconds);
+                TipContainerRight.Notify(e.TipPopup, e.DisplaySeconds);
             }
             else
             {
-                TipContainer.Show(e.TipPopup, e.DisplaySeconds);
+                TipContainer.Notify(e.TipPopup, e.DisplaySeconds);
             }
         }
 
@@ -417,7 +417,7 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 导航栏后退按钮 点击
         /// </summary>
-        public void AppTitleBar_BackButtonClick(object sender, RoutedEventArgs e)
+        public void AppTitleBar_BackButtonClick(object? sender, RoutedEventArgs e)
         {
             if (!ContentFrame.CanGoBack) return;
             ContentFrame.GoBack();
@@ -425,7 +425,7 @@ namespace ShadowViewer.Pages
         /// <summary>
         /// 导航栏面板按钮 点击
         /// </summary>
-        public void AppTitleBar_OnPaneButtonClick(object sender, RoutedEventArgs e)
+        public void AppTitleBar_OnPaneButtonClick(object? sender, RoutedEventArgs e)
         {
             NavView.IsPaneOpen = !NavView.IsPaneOpen;
         }
