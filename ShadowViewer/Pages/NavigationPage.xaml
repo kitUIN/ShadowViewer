@@ -151,7 +151,7 @@
             Canvas.ZIndex="1"
             FlowDirection="LeftToRight"
             Orientation="Vertical"
-            TipPosition="RightToLeft"
+            ShowDirection="RightToLeft"
             Visibility="Collapsed" />
     </Grid>
 </Page>
