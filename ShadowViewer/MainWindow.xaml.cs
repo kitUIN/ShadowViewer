@@ -21,6 +21,7 @@ using Microsoft.UI.Xaml.Controls;
 using ShadowViewer.Pages;
 using CommunityToolkit.WinUI.Animations;
 using CustomExtensions.WinUI;
+using Microsoft.UI.Windowing;
 using ShadowViewer.Helpers;
 
 namespace ShadowViewer;
@@ -34,6 +35,8 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
     }
 
     public MainWindow(Uri firstUri) : this()
@@ -57,7 +60,9 @@ public sealed partial class MainWindow : Window
                 to: 1.0,
                 duration: TimeSpan.FromSeconds(0.5))
             .StartAsync(LoadingGrid);
-        await OnLoading();
+        await OnLoading(new Progress<string>(s => DispatcherQueue.TryEnqueue(() => LoadingText.Text = s)));
+        LoadingText.Text = "加载标题栏...";
+        MainGrid.Visibility = Visibility.Visible;
         var caller = DiFactory.Services.Resolve<ICallableService>();
         caller.ThemeChangedEvent -= AppTitleBar_ThemeChangedEvent;
         caller.ThemeChangedEvent += AppTitleBar_ThemeChangedEvent;
@@ -81,12 +86,14 @@ public sealed partial class MainWindow : Window
         LoadingGrid.Visibility = Visibility.Collapsed;
     }
 
-    private async Task OnLoading()
+    private async Task OnLoading(IProgress<string>? loadingProgress)
     {
+        loadingProgress?.Report("初始化插件加载器...");
         ApplicationExtensionHost.Initialize(Application.Current);
         // await Task.Delay(5000); // 测试用
         Debug.WriteLine("123123");
         // 配置文件
+        loadingProgress?.Report("加载配置文件与数据库...");
         CoreSettings.Init();
         InitDi();
         // 数据库
@@ -97,6 +104,7 @@ public sealed partial class MainWindow : Window
 
         var currentCulture = CultureInfo.CurrentUICulture;
 
+        loadingProgress?.Report("加载插件...");
         try
         {
             pluginServices.Import(typeof(LocalPlugin));

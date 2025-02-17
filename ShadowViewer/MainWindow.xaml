@@ -1,4 +1,4 @@
-<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
+﻿<!--  Copyright (c) Microsoft Corporation and Contributors.  -->
 <!--  Licensed under the MIT License.  -->
 
 <Window
@@ -19,9 +19,8 @@
     <Window.SystemBackdrop>
         <MicaBackdrop />
     </Window.SystemBackdrop>
-    <Grid Loaded="Content_Loaded">
-
-        <Grid x:Name="MainGrid" MinWidth="650">
+    <Grid >
+        <Grid x:Name="MainGrid" MinWidth="650" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
@@ -168,32 +167,23 @@
             </controls:TitleBar>
             <!-- <pages:NavigationPage x:Name="MainPage" Grid.Row="1" /> -->
         </Grid>
-        <Grid
-            x:Name="LoadingGrid"
-            MaxWidth="600"
-            MaxHeight="400"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Border Margin="0,0,0,0" HorizontalAlignment="Center">
-                <Grid>
-                    <TextBlock
-                        Padding="0,0,0,10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        FontFamily="Segoe UI Variable Display"
-                        FontSize="45"
-                        FontWeight="ExtraBlack"
-                        Text="ShadowViewer" />
-                </Grid>
-            </Border>
-            <ProgressBar
-                Grid.Row="1"
-                HorizontalAlignment="Stretch"
+        <StackPanel Loaded="Content_Loaded"
+                    x:Name="LoadingGrid"
+                    MaxWidth="600"
+                    MaxHeight="400"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Spacing="10" Orientation="Vertical">
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontFamily="Segoe UI Variable Display"
+                FontSize="45"
+                FontWeight="ExtraBlack"
+                Text="ShadowViewer" />
+            <ProgressRing
+                HorizontalAlignment="Center"
+                IsActive="True"
                 IsIndeterminate="True" />
-        </Grid>
+            <TextBlock HorizontalAlignment="Center" x:Name="LoadingText"></TextBlock>
+        </StackPanel>
     </Grid>
 </Window>
