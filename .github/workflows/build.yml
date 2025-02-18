@@ -35,7 +35,7 @@ jobs:
         uses: microsoft/setup-msbuild@v2
         
       - name: Restore the application
-        run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj /t:Restore /p:Configuration=$env:Configuration
         env:
           Configuration: ${{ matrix.configuration }}
 
@@ -46,7 +46,7 @@ jobs:
           [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
 
       - name: Create the app package
-        run: msbuild $env:Solution_Name /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
+        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GenerateAppxPackageOnBuild=true
         env:
           Appx_Bundle: Never
           Appx_Package_Build_Mode: SideloadOnly
@@ -54,11 +54,11 @@ jobs:
           Configuration: ${{ matrix.configuration }}
           Platform: ${{ matrix.platform }}
 
-      # Remove the pfx
       - name: Remove the pfx
-        run: Remove-Item -path GitHubActionsWorkflow.pfx
-
-      # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
+        run: |
+          Remove-Item -path GitHubActionsWorkflow.pfx
+          ls
+      
       - name: Upload MSIX package
         uses: actions/upload-artifact@v4
         with:
