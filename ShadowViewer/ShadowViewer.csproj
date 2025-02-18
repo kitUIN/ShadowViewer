@@ -27,7 +27,6 @@
 	  <LangVersion>12</LangVersion>
 	  <PublishReadyToRun>false</PublishReadyToRun>
 	  <AppxBundlePlatforms>arm64</AppxBundlePlatforms>
-
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Extensions\**" />

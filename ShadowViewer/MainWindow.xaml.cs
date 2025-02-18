@@ -34,7 +34,13 @@ public sealed partial class MainWindow : Window
 
     public MainWindow()
     {
+        Stopwatch sw = new Stopwatch();
+        sw.Start();
         InitializeComponent();
+        sw.Stop();
+        TimeSpan ts2 = sw.Elapsed;
+        Debug.WriteLine("Stopwatch总共花费{0}ms.", ts2.TotalMilliseconds);
+        
         ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
     }
@@ -51,10 +57,17 @@ public sealed partial class MainWindow : Window
 
     private async void Content_Loaded(object sender, RoutedEventArgs e)
     {
-        InAnimationLoadingGrid.Start();
+        await InAnimationLoadingGrid.StartAsync();
+#if DEBUG
+        var sw = new Stopwatch();
+        sw.Start();
+#endif
         await OnLoading(new Progress<string>(s => DispatcherQueue.TryEnqueue(() => LoadingText.Text = s)));
+#if DEBUG
+        sw.Stop();
+        Debug.WriteLine("加载插件总共花费{0}ms.", sw.Elapsed.TotalMilliseconds);
+#endif
         LoadingText.Text = "加载标题栏...";
-        MainGrid.Visibility = Visibility.Visible;
         var caller = DiFactory.Services.Resolve<ICallableService>();
         caller.ThemeChangedEvent -= AppTitleBar_ThemeChangedEvent;
         caller.ThemeChangedEvent += AppTitleBar_ThemeChangedEvent;
@@ -67,17 +80,20 @@ public sealed partial class MainWindow : Window
         AppTitleBar.IsHistoryButtonVisible = true;
         AppTitleBar.PaneButtonClick += navigationPage.AppTitleBar_OnPaneButtonClick;
         AppTitleBar.BackButtonClick += navigationPage.AppTitleBar_BackButtonClick;
+        // await OutAnimationLoadingGrid.StartAsync();
+        LoadingGrid.Visibility = Visibility.Collapsed;
+        MainGrid.Visibility = Visibility.Visible;
         SuggestBox.Visibility = Visibility.Visible;
         if (firstUri != null) NavigateHelper.ShadowNavigate(firstUri);
-        await OutAnimationLoadingGrid.StartAsync();
-        LoadingGrid.Visibility = Visibility.Collapsed;
     }
+
 
     private async Task OnLoading(IProgress<string>? loadingProgress)
     {
+        // await Task.Delay(5000);
         loadingProgress?.Report("初始化插件加载器...");
         ApplicationExtensionHost.Initialize(Application.Current);
-        await Task.Delay(5000); // 测试用
+        // await Task.Delay(5000); // 测试用
         Debug.WriteLine("123123");
         // 配置文件
         loadingProgress?.Report("加载配置文件与数据库...");
