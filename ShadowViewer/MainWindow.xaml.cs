@@ -34,13 +34,7 @@ public sealed partial class MainWindow : Window
 
     public MainWindow()
     {
-        Stopwatch sw = new Stopwatch();
-        sw.Start();
         InitializeComponent();
-        sw.Stop();
-        TimeSpan ts2 = sw.Elapsed;
-        Debug.WriteLine("Stopwatch总共花费{0}ms.", ts2.TotalMilliseconds);
-        
         ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
     }
