@@ -10,19 +10,11 @@
 </div>
 
 <p align="center">
-  <a href="https://github.com/kitUIN/ShadowViewer/blob/master/LICENSE">
-    <img src="https://img.shields.io/badge/license-MIT-green" alt="license">
-  </a>
-  <a href="https://github.com/kitUIN/ShadowViewer/releases">
-    <img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer" alt="release">
-  </a>
-    <a href="https://github.com/kitUIN/ShadowViewer.Core/releases">
-    <img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Core?color=blueviolet&include_prereleases&label=Core" alt="chajian">
-  </a>
-  <a href="https://github.com/kitUIN/ShadowViewer/actions">
-    <img src="https://img.shields.io/github/actions/workflow/status/kitUIN/ShadowViewer/build.yml?logo=github&label=build" alt="action">
-  </a>
-</p> 
+  <a href="https://github.com/kitUIN/ShadowViewer/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="license"></a>
+  <a href="https://github.com/kitUIN/ShadowViewer/releases"><img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer?style=flat-square" alt="release"></a>
+  <a href="https://github.com/kitUIN/ShadowViewer.Core/releases"><img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Core?color=blueviolet&include_prereleases&label=Core&style=flat-square"></a>
+  <a href="https://github.com/kitUIN/ShadowViewer/actions"><img src="https://img.shields.io/github/actions/workflow/status/kitUIN/ShadowViewer/build.yml?logo=github&label=build&style=flat-square" alt="action"></a>
+</p>
 <p align="center">
   <a href="https://shadowviewer.kituin.fun/">📖文档</a>
   ·
