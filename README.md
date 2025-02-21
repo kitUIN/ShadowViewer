@@ -20,7 +20,7 @@
     <img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Core?color=blueviolet&include_prereleases&label=Core" alt="chajian">
   </a>
   <a href="https://github.com/kitUIN/ShadowViewer/actions">
-    <img src="https://github.com/kitUIN/ShadowViewer/actions/workflows/build.yml/badge.svg" alt="action">
+    <img src="https://img.shields.io/github/actions/workflow/status/kitUIN/ShadowViewer/build.yml?logo=github&label=build" alt="action">
   </a>
 </p> 
 <p align="center">
