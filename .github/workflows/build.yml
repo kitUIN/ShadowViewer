@@ -3,17 +3,17 @@ name: Build
 on:
   push:
     branches: [ master ]
-    paths:
-      - '!.github/**'
-      - '!.editorconfig'
-      - '!.gitattributes'
-      - '!.gitignore'
-      - '!.gitmodules'
-      - '!LICENSE.txt'
-      - '!README.md'
-      - '!README_EN.md'
-      - '!ShadowViewer.sln'
-      - '!vercel.json'
+    paths-ignore:
+      - '.github/**'
+      - '.editorconfig'
+      - '.gitattributes'
+      - '.gitignore'
+      - '.gitmodules'
+      - 'LICENSE.txt'
+      - 'README.md'
+      - 'README_EN.md'
+      - 'ShadowViewer.sln'
+      - 'vercel.json'
   workflow_dispatch:
   
 
