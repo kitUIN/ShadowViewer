@@ -22,7 +22,7 @@ jobs:
     strategy:
         matrix:
           configuration: [Debug]
-          platform: [x64,arm64]
+          platform: [AnyCPU]
 
     runs-on: windows-latest
     env:
