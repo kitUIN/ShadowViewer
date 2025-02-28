@@ -19,7 +19,7 @@ on:
 
 jobs:
 
-  envs:
+  install-dotnet:
     runs-on: windows-latest
     steps:
       - uses: mickem/clean-after-action@v1
@@ -50,6 +50,7 @@ jobs:
           Configuration: ${{ matrix.configuration }}
 
   build:
+    needs: install-dotnet
     strategy:
         matrix:
           configuration: [Debug]
