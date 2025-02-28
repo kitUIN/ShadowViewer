@@ -18,15 +18,9 @@ on:
   
 
 jobs:
-  build:
-    strategy:
-        matrix:
-          configuration: [Debug]
-          platform: [x64,x86,ARM64]
 
+  envs:
     runs-on: windows-latest
-    env:
-      Solution_Name: ShadowViewer
     steps:
       - uses: mickem/clean-after-action@v1
 
@@ -55,6 +49,16 @@ jobs:
         env:
           Configuration: ${{ matrix.configuration }}
 
+  build:
+    strategy:
+        matrix:
+          configuration: [Debug]
+          platform: [x64,x86,ARM64]
+
+    runs-on: windows-latest
+    env:
+      Solution_Name: ShadowViewer
+    steps:
       - name: Decode the pfx
         run: |
           $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
