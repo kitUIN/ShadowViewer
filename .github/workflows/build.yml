@@ -21,6 +21,8 @@ jobs:
 
   install-dotnet:
     runs-on: windows-latest
+    env:
+      Solution_Name: ShadowViewer
     steps:
       - uses: mickem/clean-after-action@v1
 
@@ -45,7 +47,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
       - name: Restore the application
-        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj /t:Restore /p:Configuration=$env:Configuration
+        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj /t:Restore /p:Configuration=Debug
         env:
           Configuration: ${{ matrix.configuration }}
 
