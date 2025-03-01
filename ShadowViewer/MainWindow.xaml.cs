@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using ShadowViewer.Core.Services;
 using DryIoc;
@@ -23,6 +23,7 @@ using CommunityToolkit.WinUI.Animations;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Windowing;
 using ShadowViewer.Helpers;
+using ShadowViewer.Plugin.Local.Models;
 
 namespace ShadowViewer;
 
