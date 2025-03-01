@@ -140,7 +140,6 @@ public sealed partial class MainWindow : Window
         db.CodeFirst.InitTables<LocalEpisode>();
         db.CodeFirst.InitTables<LocalPicture>();
         db.CodeFirst.InitTables<LocalTag>();
-        db.CodeFirst.InitTables<CacheImg>();
         db.CodeFirst.InitTables<CacheZip>();
     }
 }
