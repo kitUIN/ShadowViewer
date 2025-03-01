@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     x:Class="ShadowViewer.Pages.NavigationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -145,7 +145,7 @@
             Visibility="Collapsed" />
         <shadow:NotificationPanel
             x:Name="TipContainerRight"
-            Margin="0,52,0,0"
+            Margin="0,52,6,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Canvas.ZIndex="1"
