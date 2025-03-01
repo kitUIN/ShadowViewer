@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ShadowPluginLoader.WinUI.Enums;
@@ -8,6 +8,7 @@ using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core.Services;
 using ShadowViewer.Core;
 using ShadowViewer.Core.Models;
+using ShadowViewer.Core.Helpers;
 
 namespace ShadowViewer.ViewModels;
 
@@ -16,20 +17,16 @@ public partial class NavigationViewModel : ObservableObject
     private ILogger Logger { get; }
     private ICallableService Caller { get; }
     private PluginLoader PluginService { get; }
-    private ResponderService ResponderService { get; }
 
     /// <summary />
     /// <param name="callableService"></param>
     /// <param name="pluginService"></param>
     /// <param name="logger"></param>
-    /// <param name="responderService"></param>
-    public NavigationViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger,
-        ResponderService responderService)
+    public NavigationViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger)
     {
         Logger = logger;
         Caller = callableService;
         PluginService = pluginService;
-        ResponderService = responderService;
     }
 
     /// <summary>
@@ -44,7 +41,7 @@ public partial class NavigationViewModel : ObservableObject
 
     public ShadowNavigation? NavigationViewItemInvokedHandler(IShadowNavigationItem item)
     {
-        var responder = ResponderService.GetEnabledResponder<INavigationResponder>(item.PluginId);
+        var responder = ResponderHelper.GetEnabledResponder<INavigationResponder>(item.PluginId);
         return responder?.NavigationViewItemInvokedHandler(item);
     }
 
@@ -85,7 +82,7 @@ public partial class NavigationViewModel : ObservableObject
     /// </summary>
     public void InitItems()
     {
-        foreach (var responder in ResponderService.GetResponders<INavigationResponder>())
+        foreach (var responder in ResponderHelper.GetResponders<INavigationResponder>())
         {
             if (PluginService.GetPlugin(responder.Id) is not { } plugin) continue;
             foreach (var item2 in responder.NavigationViewMenuItems)
@@ -98,7 +95,7 @@ public partial class NavigationViewModel : ObservableObject
     }
     public void ReloadItems(string pluginId, PluginStatus status)
     {
-        var responder = ResponderService.GetResponder<INavigationResponder>(pluginId);
+        var responder = ResponderHelper.GetResponder<INavigationResponder>(pluginId);
         if (responder == null) return;
         switch (status)
         {

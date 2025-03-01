@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using DryIoc;
 using ShadowPluginLoader.WinUI;
+using ShadowViewer.Core.Helpers;
 using ShadowViewer.Core.Responders;
 using ShadowViewer.Core.Services;
 using ShadowViewer.Pages;
@@ -16,7 +17,6 @@ public static class NavigateHelper
     {
         if (uri.Scheme != "shadow") return;
         var navigationToolKit = DiFactory.Services.Resolve<ICallableService>();
-        var responderService = DiFactory.Services.Resolve<ResponderService>();
         var urls = uri.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
         switch (uri.Host)
         {
@@ -24,7 +24,7 @@ public static class NavigateHelper
                 navigationToolKit.NavigateTo(typeof(SettingsPage), null);
                 return;
             default:
-                if (responderService.GetEnabledResponder<INavigationResponder>(uri.Host) is { } responder)
+                if (ResponderHelper.GetEnabledResponder<INavigationResponder>(uri.Host) is { } responder)
                 {
                     responder.Navigate(uri, urls);
                 }

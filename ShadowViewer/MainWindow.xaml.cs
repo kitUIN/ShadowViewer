@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using ShadowViewer.Core.Services;
 using DryIoc;
@@ -22,6 +23,7 @@ using ShadowViewer.Pages;
 using CommunityToolkit.WinUI.Animations;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Windowing;
+using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Helpers;
 using ShadowViewer.Plugin.Local.Models;
 
@@ -29,7 +31,7 @@ namespace ShadowViewer;
 
 public sealed partial class MainWindow : Window
 {
-    public MainViewModel ViewModel { get; set; }
+    public MainViewModel ViewModel { get;  } = new();
     private NavigationPage? navigationPage;
     private readonly Uri? firstUri;
 
@@ -64,9 +66,9 @@ public sealed partial class MainWindow : Window
 #endif
         LoadingText.Text = "加载标题栏...";
         var caller = DiFactory.Services.Resolve<ICallableService>();
+        ViewModel.PluginService = DiFactory.Services.Resolve<PluginLoader>();
         caller.ThemeChangedEvent -= AppTitleBar_ThemeChangedEvent;
         caller.ThemeChangedEvent += AppTitleBar_ThemeChangedEvent;
-        ViewModel = DiFactory.Services.Resolve<MainViewModel>();
         navigationPage = new NavigationPage();
         Grid.SetRow(navigationPage, 1);
         MainGrid.Children.Add(navigationPage);
@@ -125,7 +127,6 @@ public sealed partial class MainWindow : Window
         DiFactory.Services.Register<INotifyService, NotifyService>(reuse: Reuse.Singleton);
         DiFactory.Services.Register<ICallableService, CallableService>(reuse: Reuse.Singleton);
 
-        DiFactory.Services.Register<MainViewModel>(reuse: Reuse.Singleton);
         DiFactory.Services.Register<SettingsViewModel>(reuse: Reuse.Singleton);
         DiFactory.Services.Register<NavigationViewModel>(reuse: Reuse.Singleton);
     }
@@ -142,5 +143,12 @@ public sealed partial class MainWindow : Window
         db.CodeFirst.InitTables<LocalPicture>();
         db.CodeFirst.InitTables<LocalTag>();
         db.CodeFirst.InitTables<CacheZip>();
+    }
+    /// <summary>
+    /// 历史记录显示
+    /// </summary>
+    public void HistoryFlyout_OnOpening(object? sender, object e)
+    {
+        ViewModel.ReLoadHistory();
     }
 }

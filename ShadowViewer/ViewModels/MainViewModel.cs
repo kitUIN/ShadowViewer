@@ -1,14 +1,18 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using DryIoc;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Serilog;
+using ShadowPluginLoader.WinUI;
 using ShadowViewer.Core;
 using ShadowViewer.Core.Extensions;
+using ShadowViewer.Core.Helpers;
 using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core.Responders;
 using ShadowViewer.Core.Services;
@@ -20,36 +24,33 @@ namespace ShadowViewer.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    private ILogger Logger { get; }
-    private ICallableService Caller { get; }
-    private PluginLoader PluginService { get; }
-    private ResponderService ResponderService { get; }
-
-    [ObservableProperty] private string subTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
-    
-    public MainViewModel(ICallableService callableService, PluginLoader pluginService, 
-        ILogger logger, ResponderService responderService)
-    {
-        Logger = logger;
-        Caller = callableService;
-        PluginService = pluginService;
-        ResponderService = responderService;
-        Caller.DebugEvent += (_, _) =>
-            SubTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
-    }
-    
     /// <summary>
     /// 历史记录
     /// </summary>
-    public ObservableCollection<IHistory> Histories { get; } = [];
+    public ObservableCollection<IHistory> HistoryCollection { get; } = new();
+
+    public PluginLoader? PluginService { get; set; }
+    [ObservableProperty] private string subTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+    
+    // public MainViewModel(ICallableService callableService, PluginLoader pluginService, 
+    //     ILogger logger, ResponderService responderService)
+    // {
+    //     Logger = logger;
+    //     Caller = callableService;
+    //     PluginService = pluginService;
+    //     ResponderService = responderService;
+    //     Caller.DebugEvent += (_, _) =>
+    //         SubTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+    // }
+    
 
     
     /// <summary>
     /// 刷新历史记录
     /// </summary>
-    private void ReLoadHistory()
+    public void ReLoadHistory()
     {
-        var responders = ResponderService.GetEnabledResponders<IHistoryResponder>();
+        var responders = ResponderHelper.GetEnabledResponders<IHistoryResponder>();
         var temp = new SortedSet<IHistory>(new HistoryComparer());
         foreach (var responder in responders)
         {
@@ -58,26 +59,20 @@ public partial class MainViewModel : ObservableObject
                 temp.Add(item);
             }
         }
-        Histories.Clear();
+        HistoryCollection.Clear();
         foreach (var t in temp)
         {
-            Histories.Add(t);
+            HistoryCollection.Add(t);
         }
     }
-    /// <summary>
-    /// 历史记录显示
-    /// </summary>
-    public void HistoryFlyout_OnOpening(object? sender, object e)
-    {
-        ReLoadHistory();
-    }
+    
     /// <summary>
     /// 点击历史记录
     /// </summary>
     public void HistoryView_OnItemClick(object sender, ItemClickEventArgs e)
     {
         if (e.ClickedItem is not IHistory history) return;
-        var responder = ResponderService.GetEnabledResponder<IHistoryResponder>(history.PluginId);
+        var responder = ResponderHelper.GetEnabledResponder<IHistoryResponder>(history.PluginId);
         responder?.ClickHistoryHandler(history);
         if (sender is ListView {Parent:Grid{Parent:FlyoutPresenter{Parent:Popup popup}}} )
         {
@@ -91,7 +86,7 @@ public partial class MainViewModel : ObservableObject
     private void HistoryDelete(object iHistory)
     {
         if (iHistory is not  IHistory history) return;
-        var responder = ResponderService.GetEnabledResponder<IHistoryResponder>(history.PluginId);
+        var responder = ResponderHelper.GetEnabledResponder<IHistoryResponder>(history.PluginId);
         responder?.DeleteHistoryHandler(history);
         ReLoadHistory();
     }
@@ -108,7 +103,7 @@ public partial class MainViewModel : ObservableObject
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             SearchItems.Clear();
-            foreach (var plugin in PluginService.GetEnabledPlugins())
+            foreach (var plugin in PluginService!.GetEnabledPlugins())
                 foreach (var i in plugin.SearchTextChanged(sender, args))
                     SearchItems.Add(i);
             if (!string.IsNullOrEmpty(sender.Text))
@@ -120,7 +115,7 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     public void AutoSuggestBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
     {
-        foreach (var plugin in PluginService.GetEnabledPlugins()) plugin.SearchSuggestionChosen(sender, args);
+        foreach (var plugin in PluginService!.GetEnabledPlugins()) plugin.SearchSuggestionChosen(sender, args);
     }
     /// <summary>
     /// 搜索栏提交响应
@@ -132,7 +127,7 @@ public partial class MainViewModel : ObservableObject
             if (args.ChosenSuggestion is NavigateSearchItem item)
                 NavigateHelper.ShadowNavigate(new Uri(item.Title));
             else
-                foreach (var plugin in PluginService.GetEnabledPlugins())
+                foreach (var plugin in PluginService!.GetEnabledPlugins())
                     plugin.SearchQuerySubmitted(sender, args);
         }
         else if (sender.Items.Count != 0)
@@ -140,7 +135,7 @@ public partial class MainViewModel : ObservableObject
             if (sender.Items[0] is NavigateSearchItem item)
                 NavigateHelper.ShadowNavigate(new Uri(item.Title));
             else
-                foreach (var plugin in PluginService.GetEnabledPlugins())
+                foreach (var plugin in PluginService!.GetEnabledPlugins())
                     plugin.SearchQuerySubmitted(sender, args);
         }
 
