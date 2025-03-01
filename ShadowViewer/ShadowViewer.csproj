@@ -114,4 +114,12 @@
   <ItemGroup>
     <PRIResource Remove="Extensions\**" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="Pages\ShadowTitleBar.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\ShadowTitleBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 </Project>

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using ShadowViewer.Core.Services;
 using DryIoc;
@@ -16,23 +15,19 @@ using ShadowViewer.Plugin.PluginManager;
 using ShadowViewer.Services;
 using SqlSugar;
 using System.Globalization;
-using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
 using ShadowViewer.Pages;
-using CommunityToolkit.WinUI.Animations;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Windowing;
-using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Helpers;
-using ShadowViewer.Plugin.Local.Models;
 
 namespace ShadowViewer;
 
 public sealed partial class MainWindow : Window
 {
-    public MainViewModel ViewModel { get;  } = new();
     private NavigationPage? navigationPage;
+    private ShadowTitleBar? shadowTitleBar;
     private readonly Uri? firstUri;
 
     public MainWindow()
@@ -47,10 +42,6 @@ public sealed partial class MainWindow : Window
         this.firstUri = firstUri;
     }
 
-    private void AppTitleBar_ThemeChangedEvent(object? sender, EventArgs e)
-    {
-        AppTitleBar.InvokeThemeChanged(this);
-    }
 
     private async void Content_Loaded(object sender, RoutedEventArgs e)
     {
@@ -66,32 +57,27 @@ public sealed partial class MainWindow : Window
 #endif
         LoadingText.Text = "加载标题栏...";
         var caller = DiFactory.Services.Resolve<ICallableService>();
-        ViewModel.PluginService = DiFactory.Services.Resolve<PluginLoader>();
-        caller.ThemeChangedEvent -= AppTitleBar_ThemeChangedEvent;
-        caller.ThemeChangedEvent += AppTitleBar_ThemeChangedEvent;
         navigationPage = new NavigationPage();
+        shadowTitleBar = new ShadowTitleBar(this);
+        MainGrid.Children.Add(shadowTitleBar);
         Grid.SetRow(navigationPage, 1);
         MainGrid.Children.Add(navigationPage);
-        AppTitleBar.IsBackButtonVisible = true;
-        AppTitleBar.IsPaneButtonVisible = true;
-        AppTitleBar.IsHistoryButtonVisible = true;
-        AppTitleBar.PaneButtonClick += navigationPage.AppTitleBar_OnPaneButtonClick;
-        AppTitleBar.BackButtonClick += navigationPage.AppTitleBar_BackButtonClick;
+        shadowTitleBar.InitAppTitleBar_BackButtonClick(navigationPage.AppTitleBar_BackButtonClick);
+        shadowTitleBar.InitAppTitleBar_OnPaneButtonClick(navigationPage.AppTitleBar_OnPaneButtonClick);
+        caller.ThemeChangedEvent += shadowTitleBar.AppTitleBar_ThemeChangedEvent;
+        caller.DebugEvent += shadowTitleBar.AppTitleBar_DebugEvent;
         // await OutAnimationLoadingGrid.StartAsync();
         LoadingGrid.Visibility = Visibility.Collapsed;
         MainGrid.Visibility = Visibility.Visible;
-        SuggestBox.Visibility = Visibility.Visible;
         if (firstUri != null) NavigateHelper.ShadowNavigate(firstUri);
     }
 
 
     private async Task OnLoading(IProgress<string>? loadingProgress)
     {
-        // await Task.Delay(5000);
         loadingProgress?.Report("初始化插件加载器...");
         ApplicationExtensionHost.Initialize(Application.Current);
         // await Task.Delay(5000); // 测试用
-        Debug.WriteLine("123123");
         // 配置文件
         loadingProgress?.Report("加载配置文件与数据库...");
         CoreSettings.Init();
@@ -129,6 +115,7 @@ public sealed partial class MainWindow : Window
 
         DiFactory.Services.Register<SettingsViewModel>(reuse: Reuse.Singleton);
         DiFactory.Services.Register<NavigationViewModel>(reuse: Reuse.Singleton);
+        DiFactory.Services.Register<TitleBarViewModel>(reuse: Reuse.Singleton);
     }
 
     /// <summary>
@@ -139,16 +126,8 @@ public sealed partial class MainWindow : Window
         SnowFlakeSingle.WorkId = 4;
         var db = DiFactory.Services.Resolve<ISqlSugarClient>();
         db.DbMaintenance.CreateDatabase();
-        db.CodeFirst.InitTables<LocalEpisode>();
-        db.CodeFirst.InitTables<LocalPicture>();
         db.CodeFirst.InitTables<LocalTag>();
         db.CodeFirst.InitTables<CacheZip>();
     }
-    /// <summary>
-    /// 历史记录显示
-    /// </summary>
-    public void HistoryFlyout_OnOpening(object? sender, object e)
-    {
-        ViewModel.ReLoadHistory();
-    }
+
 }

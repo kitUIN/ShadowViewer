@@ -9,6 +9,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Serilog;
+using ShadowPluginLoader.MetaAttributes;
 using ShadowPluginLoader.WinUI;
 using ShadowViewer.Core;
 using ShadowViewer.Core.Extensions;
@@ -22,28 +23,19 @@ using ShadowViewer.Models;
 
 namespace ShadowViewer.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public partial class TitleBarViewModel : ObservableObject
 {
     /// <summary>
     /// 历史记录
     /// </summary>
     public ObservableCollection<IHistory> HistoryCollection { get; } = new();
+    [Autowired]
+    public PluginLoader PluginService { get;}
+    [Autowired]
+    public ICallableService Caller { get;}
 
-    public PluginLoader? PluginService { get; set; }
     [ObservableProperty] private string subTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
     
-    // public MainViewModel(ICallableService callableService, PluginLoader pluginService, 
-    //     ILogger logger, ResponderService responderService)
-    // {
-    //     Logger = logger;
-    //     Caller = callableService;
-    //     PluginService = pluginService;
-    //     ResponderService = responderService;
-    //     Caller.DebugEvent += (_, _) =>
-    //         SubTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
-    // }
-    
-
     
     /// <summary>
     /// 刷新历史记录
