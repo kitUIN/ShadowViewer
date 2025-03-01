@@ -5,7 +5,8 @@
     x:Class="ShadowViewer.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cw="using:CustomExtensions.WinUI">
+    xmlns:cw="using:CustomExtensions.WinUI"
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -16,6 +17,7 @@
             <cw:PluginUriConverter x:Key="PluginUriConverter" />
             <cw:PluginPathConverter x:Key="PluginPathConverter" />
             <cw:PluginImageSourceConverter x:Key="PluginImageSourceConverter" />
+            <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <Color x:Key="ButtonHoverBackgroundColor">Gray</Color>
             <!--  Other app resources here  -->
             <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>

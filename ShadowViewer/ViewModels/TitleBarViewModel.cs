@@ -75,9 +75,8 @@ public partial class TitleBarViewModel : ObservableObject
     /// 删除历史记录
     /// </summary>
     [RelayCommand]
-    private void HistoryDelete(object iHistory)
+    private void HistoryDelete(IHistory history)
     {
-        if (iHistory is not  IHistory history) return;
         var responder = ResponderHelper.GetEnabledResponder<IHistoryResponder>(history.PluginId);
         responder?.DeleteHistoryHandler(history);
         ReLoadHistory();

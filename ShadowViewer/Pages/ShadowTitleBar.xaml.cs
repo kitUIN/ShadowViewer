@@ -6,6 +6,9 @@ using ShadowViewer.Core;
 using ShadowViewer.ViewModels;
 using System;
 using ShadowViewer.I18n;
+using ShadowViewer.Core.Helpers;
+using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Core.Responders;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -76,5 +79,17 @@ public sealed partial class ShadowTitleBar : UserControl
     public void InitAppTitleBar_OnPaneButtonClick(EventHandler<RoutedEventArgs> action)
     {
         AppTitleBar.PaneButtonClick += action;
+    }
+    /// <summary>
+    /// 删除历史记录
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void HistoryDelete_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button { Tag: IHistory history }) return;
+        var responder = ResponderHelper.GetEnabledResponder<IHistoryResponder>(history.PluginId);
+        responder?.DeleteHistoryHandler(history);
+        ViewModel.ReLoadHistory();
     }
 }

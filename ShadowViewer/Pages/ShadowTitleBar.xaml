@@ -8,7 +8,7 @@
     xmlns:controls="using:ShadowViewer.Controls"
     xmlns:i18N="using:ShadowViewer.I18n"
     xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
-    x:Name="Root"
+    x:Name="RootElement"
     mc:Ignorable="d">
 
     <controls:TitleBar
@@ -136,8 +136,8 @@
                                         Padding="6,4"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Center"
-                                        Command="{Binding ElementName=Root, Path=ViewModel.HistoryDeleteCommand}"
-                                        CommandParameter="{x:Bind}"
+                                        Click="HistoryDelete_OnClick"
+                                        Tag="{x:Bind}"
                                         Style="{ThemeResource PointerOverButtonStyle}">
                                         <FontIcon FontSize="12" Glyph="&#xE711;" />
                                     </Button>
