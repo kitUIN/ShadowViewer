@@ -126,7 +126,7 @@ public sealed partial class MainWindow : Window
         SnowFlakeSingle.WorkId = 4;
         var db = DiFactory.Services.Resolve<ISqlSugarClient>();
         db.DbMaintenance.CreateDatabase();
-        db.CodeFirst.InitTables<LocalTag>();
+        db.CodeFirst.InitTables<ShadowTag>();
         db.CodeFirst.InitTables<CacheZip>();
     }
 
