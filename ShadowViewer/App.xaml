@@ -18,6 +18,8 @@
             <cw:PluginPathConverter x:Key="PluginPathConverter" />
             <cw:PluginImageSourceConverter x:Key="PluginImageSourceConverter" />
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
+            <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+
             <Color x:Key="ButtonHoverBackgroundColor">Gray</Color>
             <!--  Other app resources here  -->
             <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using ShadowViewer.Core.Services;
 using DryIoc;
@@ -105,6 +106,28 @@ public sealed partial class MainWindow : Window
         {
             Log.Error("{E}", ex);
         }
+
+        // 添加类别标签
+        var db = DiFactory.Services.Resolve<ISqlSugarClient>();
+        var insertTags = new List<ShadowTag>();
+        var updateTags = new List<ShadowTag>();
+        foreach (var plugin in pluginServices.GetPlugins())
+        {
+            var tagId = await db.Queryable<ShadowTag>().Where(x =>
+                x.PluginId == plugin.Id && x.TagType == 0).Select(it => it.Id).ToListAsync();
+            if (tagId is { Count: > 0 })
+            {
+                plugin.AffiliationTag.Id = tagId[0];
+                updateTags.Add(plugin.AffiliationTag);
+            }
+            else
+            {
+                insertTags.Add(plugin.AffiliationTag);
+            }
+        }
+
+        if (insertTags.Count != 0) await db.Insertable(insertTags).ExecuteReturnSnowflakeIdListAsync();
+        if (updateTags.Count != 0) await db.Updateable(updateTags).ExecuteCommandAsync();
     }
 
     private static void InitDi()
@@ -129,5 +152,4 @@ public sealed partial class MainWindow : Window
         db.CodeFirst.InitTables<ShadowTag>();
         db.CodeFirst.InitTables<CacheZip>();
     }
-
 }
