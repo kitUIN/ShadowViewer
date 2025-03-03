@@ -28,9 +28,9 @@
 ## 插件列表🔩
 | ID | 名称                                    |       简述           | 开发者  | 链接                    |最新版本 |
 |--------------------------------|--------------------------------|---------|-----------------------|-----------------------|----|
-| Local | 本地阅读器 | 支持本地阅读漫画             | [kitUIN](https://github.com/kitUIN) | [内置](https://github.com/kitUIN/ShadowViewer.Plugin.Local) | - |
-| PluginManager | 插件管理器 | 本地管理插件             | [kitUIN](https://github.com/kitUIN) | [内置](https://github.com/kitUIN/ShadowViewer.Plugin.PluginManager) | - |
-| Bika | 哔咔漫画 | 适配哔咔漫画             | [kitUIN](https://github.com/kitUIN) | [Github](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) |![bika](https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Plugin.Bika?color=blue&include_prereleases)|
+| Local | 本地阅读器 | 支持本地阅读漫画             | [kitUIN](https://github.com/kitUIN) | [内置](https://github.com/kitUIN/ShadowViewer.Plugin.Local) | [![l](https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Plugin.Local?color=blue&label=%E5%86%85%E7%BD%AE&include_prereleases&style=flat-square)](https://github.com/kitUIN/ShadowViewer.Plugin.Local/releases) |
+| PluginManager | 插件管理器 | 本地管理插件             | [kitUIN](https://github.com/kitUIN) | [内置](https://github.com/kitUIN/ShadowViewer.Plugin.PluginManager) | [![p](https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Plugin.PluginManager?color=blue&label=%E5%86%85%E7%BD%AE&include_prereleases&style=flat-square)](https://github.com/kitUIN/ShadowViewer.Plugin.PluginManager/releases) |
+| Bika | 哔咔漫画 | 适配哔咔漫画             | [kitUIN](https://github.com/kitUIN) | [Github](https://github.com/kitUIN/ShadowViewer.Plugin.Bika) | [![bika](https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Plugin.Bika?color=blue&include_prereleases&style=flat-square)](https://github.com/kitUIN/ShadowViewer.Plugin.Bika/releases) |
 
 ## 导入插件📦
 将插件项目的发行版压缩包下载后,在`插件管理器`页面选择`添加插件`进行导入
