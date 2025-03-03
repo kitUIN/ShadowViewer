@@ -42,16 +42,6 @@ internal partial class CallableService(ILogger logger) : ICallableService
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public event EventHandler<ImportComicThumbEventArgs>? ImportComicThumbEvent;
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public event EventHandler<ImportComicProgressEventArgs>? ImportComicProgressEvent;
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
     public event EventHandler? ImportComicCompletedEvent;
 
     /// <summary>
@@ -91,7 +81,6 @@ internal partial class CallableService(ILogger logger) : ICallableService
     /// </summary>
     public void ImportComicThumb(MemoryStream stream)
     {
-        ImportComicThumbEvent?.Invoke(this, new ImportComicThumbEventArgs(stream));
         Logger.Debug("触发事件ImportComicThumbEvent");
     }
 
@@ -110,7 +99,6 @@ internal partial class CallableService(ILogger logger) : ICallableService
     /// </summary>
     public void ImportComicProgress(double progress)
     {
-        ImportComicProgressEvent?.Invoke(this, new ImportComicProgressEventArgs(progress));
         Logger.Debug("触发事件ImportComicProgressEvent");
     }
 

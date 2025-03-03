@@ -132,8 +132,7 @@
                                             Width="{StaticResource SettingIconWidth}"
                                             Height="{StaticResource SettingIconHeight}"
                                             FontIconSize="{StaticResource SettingIconFontIconSize}"
-                                            FontSize="{StaticResource SettingIconFontSize}"
-                                            Logo="{x:Bind MetaData.Logo, Mode=OneWay, Converter={StaticResource PluginPathConverter}}" />
+                                            LogoSource="{x:Bind MetaData.Logo, Mode=OneWay, Converter={StaticResource PluginPathConverter}}" />
                                     </local2:ShadowSettingHeader>
                                 </controls:SettingsCard.Header>
                             </controls:SettingsCard>

@@ -96,7 +96,10 @@ public sealed partial class MainWindow : Window
         {
             pluginServices.Import(typeof(LocalPlugin));
             pluginServices.Import(typeof(PluginManagerPlugin));
-            await pluginServices.ImportFromDirAsync(CoreSettings.PluginsPath);
+            if (PluginManagerPlugin.Setting.PluginSecurityStatement)
+            {
+                await pluginServices.ImportFromDirAsync(CoreSettings.PluginsPath);
+            }
 #if DEBUG
             // 这里是测试插件用的, ImportFromPathAsync里填入你Debug出来的插件dll的文件夹位置
             // await pluginServices.ImportFromPathAsync(@"C:\Users\15854\Documents\GitHub\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\");

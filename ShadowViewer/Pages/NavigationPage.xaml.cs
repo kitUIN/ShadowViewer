@@ -39,9 +39,7 @@ namespace ShadowViewer.Pages
             this.InitializeComponent();
             ViewModel.InitItems();
             Caller.ImportComicEvent += Caller_ImportComicEvent;
-            Caller.ImportComicProgressEvent += Caller_ImportComicProgressEvent;
             Caller.ImportComicErrorEvent += Caller_ImportComicErrorEvent;
-            Caller.ImportComicThumbEvent += Caller_ImportComicThumbEvent;
             Caller.ImportComicCompletedEvent += Caller_ImportComicCompletedEvent;
             Caller.NavigateToEvent += Caller_NavigationToolKit_NavigateTo;
             Caller.TopGridEvent += Caller_TopGridEvent;
@@ -81,18 +79,6 @@ namespace ShadowViewer.Pages
             //LoadingControl.IsLoading = false;
         }
 
-        /// <summary>
-        /// 导入的缩略图
-        /// </summary>
-        private async void Caller_ImportComicThumbEvent(object sender, ImportComicThumbEventArgs e)
-        {
-            await DispatcherQueue.EnqueueAsync(async () =>
-            {
-                var bitmapImage = new BitmapImage();
-                await bitmapImage.SetSourceAsync(e.Thumb.AsRandomAccessStream());
-                ZipThumb.Source = bitmapImage;
-            });
-        }
 
         /// <summary>
         /// 导入失败
@@ -123,24 +109,6 @@ namespace ShadowViewer.Pages
                     }
                 };
                 await dialog.ShowAsync();
-            });
-        }
-
-        /// <summary>
-        /// 导入进度
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Caller_ImportComicProgressEvent(object sender, ImportComicProgressEventArgs e)
-        {
-            DispatcherQueue.TryEnqueue(() =>
-            {
-                if (LoadingProgressBar.IsIndeterminate)
-                {
-                    LoadingProgressBar.IsIndeterminate = false;
-                }
-
-                LoadingProgressBar.Value = e.Progress;
             });
         }
 
