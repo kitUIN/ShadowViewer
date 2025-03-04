@@ -9,8 +9,8 @@
 
   <Identity
     Name="27e531ce-1721-4ddf-80ef-f4c28f27a46d"
-    Publisher="CN=15854"
-    Version="0.2.9.0" />
+    Publisher="CN=kitUIN"
+    Version="0.3.1.0" />
 
   <Properties>
     <DisplayName>ShadowViewer</DisplayName>

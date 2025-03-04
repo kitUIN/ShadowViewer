@@ -18,7 +18,7 @@
 	  <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
-	  <AppxBundle>Auto</AppxBundle>
+	  <AppxBundle>Never</AppxBundle>
 	  <Nullable>enable</Nullable>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
@@ -41,7 +41,7 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />	  
   </ItemGroup>
 
   <ItemGroup>
@@ -96,6 +96,7 @@
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
   <ItemGroup>
+	  <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
 	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.6.250205002" />
 	  <PackageReference Include="ShadowViewer.Controls.TitleBar" Version="1.0.3" />
@@ -123,3 +124,4 @@
     </Page>
   </ItemGroup>
 </Project>
+
