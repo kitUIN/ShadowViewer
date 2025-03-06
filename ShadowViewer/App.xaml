@@ -19,6 +19,7 @@
             <cw:PluginImageSourceConverter x:Key="PluginImageSourceConverter" />
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
             <Color x:Key="ButtonHoverBackgroundColor">Gray</Color>
             <!--  Other app resources here  -->
