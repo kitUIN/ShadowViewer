@@ -30,10 +30,7 @@
 
             <Grid
                 x:Name="Root"
-                AllowDrop="True"
-                DragLeave="Root_DragLeave"
-                DragOver="Root_DragOver"
-                Drop="Root_Drop">
+                AllowDrop="True">
                 <Frame x:Name="ContentFrame" />
                 <Grid
                     x:Name="OverBorder"

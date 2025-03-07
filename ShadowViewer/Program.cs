@@ -84,7 +84,7 @@ public class Program
     public static void RedirectActivationTo(AppActivationArguments args,
         AppInstance keyInstance)
     {
-        _redirectEventHandle = CreateEvent(IntPtr.Zero, true, false, null);
+        _redirectEventHandle = CreateEvent(IntPtr.Zero, true, false, null!);
         Task.Run(() =>
         {
             keyInstance.RedirectActivationToAsync(args).AsTask().Wait();

@@ -1,23 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using DryIoc;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using Serilog;
 using ShadowPluginLoader.MetaAttributes;
-using ShadowPluginLoader.WinUI;
 using ShadowViewer.Core;
 using ShadowViewer.Core.Extensions;
 using ShadowViewer.Core.Helpers;
 using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core.Responders;
 using ShadowViewer.Core.Services;
-using ShadowViewer.Helpers;
 using ShadowViewer.I18n;
 using ShadowViewer.Models;
 
@@ -33,6 +28,8 @@ public partial class TitleBarViewModel : ObservableObject
     public PluginLoader PluginService { get;}
     [Autowired]
     public ICallableService Caller { get;}
+    [Autowired]
+    public INavigateService NavigateService { get;}
 
     [ObservableProperty] private string subTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
     
@@ -116,7 +113,7 @@ public partial class TitleBarViewModel : ObservableObject
         if (args.ChosenSuggestion != null)
         {
             if (args.ChosenSuggestion is NavigateSearchItem item)
-                NavigateHelper.ShadowNavigate(new Uri(item.Title));
+                NavigateService.Navigate(new Uri(item.Title));
             else
                 foreach (var plugin in PluginService!.GetEnabledPlugins())
                     plugin.SearchQuerySubmitted(sender, args);
@@ -124,7 +121,7 @@ public partial class TitleBarViewModel : ObservableObject
         else if (sender.Items.Count != 0)
         {
             if (sender.Items[0] is NavigateSearchItem item)
-                NavigateHelper.ShadowNavigate(new Uri(item.Title));
+                NavigateService.Navigate(new Uri(item.Title));
             else
                 foreach (var plugin in PluginService!.GetEnabledPlugins())
                     plugin.SearchQuerySubmitted(sender, args);

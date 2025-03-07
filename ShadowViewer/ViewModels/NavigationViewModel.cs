@@ -7,8 +7,8 @@ using ShadowViewer.Core.Responders;
 using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core.Services;
 using ShadowViewer.Core;
-using ShadowViewer.Core.Models;
 using ShadowViewer.Core.Helpers;
+using ShadowViewer.Core.Utils;
 
 namespace ShadowViewer.ViewModels;
 

@@ -22,31 +22,6 @@ internal partial class CallableService(ILogger logger) : ICallableService
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public event EventHandler<NavigateToEventArgs>? NavigateToEvent;
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public event EventHandler? RefreshBookEvent;
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public event EventHandler<ImportComicEventArgs>? ImportComicEvent;
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public event EventHandler<ImportComicErrorEventArgs>? ImportComicErrorEvent;
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public event EventHandler? ImportComicCompletedEvent;
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
     public event EventHandler? DebugEvent;
 
     /// <inheritdoc />
@@ -67,68 +42,6 @@ internal partial class CallableService(ILogger logger) : ICallableService
     /// </summary>
     public event TypedEventHandler<AppWindow, AppWindowChangedEventArgs>? OverlappedChangedEvent;
 
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public void ImportComic(IReadOnlyList<IStorageItem> items, string[] passwords, int index)
-    {
-        ImportComicEvent?.Invoke(this, new ImportComicEventArgs(items, passwords, index));
-        Logger.Debug("触发事件ImportComicEvent");
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public void ImportComicThumb(MemoryStream stream)
-    {
-        Logger.Debug("触发事件ImportComicThumbEvent");
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public void ImportComicError(ImportComicError error, string message, IReadOnlyList<IStorageItem> items, int index,
-        string[] password)
-    {
-        ImportComicErrorEvent?.Invoke(this, new ImportComicErrorEventArgs(error, message, items, index, password));
-        Logger.Debug("触发事件ImportComicErrorEvent");
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public void ImportComicProgress(double progress)
-    {
-        Logger.Debug("触发事件ImportComicProgressEvent");
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public void NavigateTo(Type page, object? parameter,bool force=false)
-    {
-        var args = new NavigateToEventArgs(page, parameter, force);
-        NavigateToEvent?.Invoke(this, args);
-        Logger.Debug("触发事件NavigateTo,{Args}", args.ToString());
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public void RefreshBook()
-    {
-        RefreshBookEvent?.Invoke(this, EventArgs.Empty);
-        Logger.Debug("触发事件RefreshBook");
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public void ImportComicCompleted()
-    {
-        ImportComicCompletedEvent?.Invoke(this, EventArgs.Empty);
-        Logger.Debug("触发事件ImportComicCompletedEvent");
-    }
 
     /// <summary>
     /// <inheritdoc/>

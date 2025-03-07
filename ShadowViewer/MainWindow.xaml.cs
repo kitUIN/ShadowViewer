@@ -15,17 +15,15 @@ using ShadowViewer.Plugin.Local;
 using ShadowViewer.Plugin.PluginManager;
 using ShadowViewer.Services;
 using SqlSugar;
-using System.Globalization;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml.Controls;
 using ShadowViewer.Pages;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Windowing;
-using ShadowViewer.Helpers;
 
 namespace ShadowViewer;
 
-public sealed partial class MainWindow : Window
+public sealed partial class MainWindow
 {
     private NavigationPage? navigationPage;
     private ShadowTitleBar? shadowTitleBar;
@@ -59,18 +57,19 @@ public sealed partial class MainWindow : Window
         LoadingText.Text = "加载标题栏...";
         var caller = DiFactory.Services.Resolve<ICallableService>();
         navigationPage = new NavigationPage();
-        shadowTitleBar = new ShadowTitleBar(this);
-        MainGrid.Children.Add(shadowTitleBar);
         Grid.SetRow(navigationPage, 1);
         MainGrid.Children.Add(navigationPage);
+        shadowTitleBar = new ShadowTitleBar(this);
+        MainGrid.Children.Add(shadowTitleBar);
         shadowTitleBar.InitAppTitleBar_BackButtonClick(navigationPage.AppTitleBar_BackButtonClick);
         shadowTitleBar.InitAppTitleBar_OnPaneButtonClick(navigationPage.AppTitleBar_OnPaneButtonClick);
         caller.ThemeChangedEvent += shadowTitleBar.AppTitleBar_ThemeChangedEvent;
         caller.DebugEvent += shadowTitleBar.AppTitleBar_DebugEvent;
         // await OutAnimationLoadingGrid.StartAsync();
-        LoadingGrid.Visibility = Visibility.Collapsed;
         MainGrid.Visibility = Visibility.Visible;
-        if (firstUri != null) NavigateHelper.ShadowNavigate(firstUri);
+        LoadingGrid.Visibility = Visibility.Collapsed;
+        var navigateService = DiFactory.Services.Resolve<INavigateService>();
+        if (firstUri != null) navigateService.Navigate(firstUri);
     }
 
 
@@ -89,7 +88,7 @@ public sealed partial class MainWindow : Window
 
         var pluginServices = DiFactory.Services.Resolve<PluginLoader>();
 
-        var currentCulture = CultureInfo.CurrentUICulture;
+        // var currentCulture = CultureInfo.CurrentUICulture;
 
         loadingProgress?.Report("加载插件...");
         try

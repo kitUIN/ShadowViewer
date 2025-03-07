@@ -31,7 +31,7 @@
             NotEmptyValue="True" />
         <shadowConverters:ThemeComboConverter x:Key="ThemeComboConverter" />
     </Page.Resources>
-    <Grid
+    <Grid Loaded="FrameworkElement_OnLoaded"
         Background="{ThemeResource LayerFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
         BorderThickness="1"
@@ -65,7 +65,7 @@
                         <ComboBoxItem Content="{i18N:Locale Key=Dark}" Tag="Dark" />
                     </ComboBox>
                 </controls:SettingsCard>
-                <controls:SettingsExpander ItemsSource="{x:Bind ViewModel.SettingsFolders}">
+                <controls:SettingsExpander ItemsSource="{x:Bind ViewModel.SettingsFolders,Mode=OneWay}">
                     <controls:SettingsExpander.Header>
                         <local2:ShadowSettingHeader Description="{i18N:Locale Key=FolderDescription}" Header="{i18N:Locale Key=DataFolder}">
                             <icons:FluentRegularIcon
