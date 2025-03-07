@@ -6,7 +6,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cw="using:CustomExtensions.WinUI"
-    xmlns:converters="using:CommunityToolkit.WinUI.Converters">
+    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:converters1="using:ShadowViewer.Core.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,7 +21,17 @@
             <converters:StringFormatConverter x:Key="StringFormatConverter" />
             <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-
+            <converters:FileSizeToFriendlyStringConverter x:Key="SizeConverter" />
+            <!-- 集合count==0 显示 -->
+            <converters1:CollectionCountToObjectConverter
+                x:Key="CollectionToVisibilityConverter"
+                EmptyValue="Visible"
+                NotEmptyValue="Collapsed" />
+            <!-- 集合count!=0 显示 -->
+            <converters1:CollectionCountToObjectConverter
+                x:Key="CollectionToNVisibilityConverter"
+                EmptyValue="Collapsed"
+                NotEmptyValue="Visible" />
             <Color x:Key="ButtonHoverBackgroundColor">Gray</Color>
             <!--  Other app resources here  -->
             <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
