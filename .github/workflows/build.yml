@@ -32,8 +32,9 @@ jobs:
     env:
       Solution_Name: ShadowViewer
     steps:
+      - name: Delay
+        run: sleep 10
       - uses: mickem/clean-after-action@v1
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
