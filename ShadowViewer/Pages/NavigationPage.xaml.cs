@@ -14,10 +14,11 @@ using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core.Services;
 using ShadowViewer.ViewModels;
 using ShadowViewer.Services;
+using ShadowViewer.Core.Controls;
 
 namespace ShadowViewer.Pages
 {
-    public sealed partial class NavigationPage : Page
+    public sealed partial class NavigationPage : ShadowPage
     {
         public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
         private static CancellationTokenSource _cancelTokenSource = new();
@@ -73,9 +74,7 @@ namespace ShadowViewer.Pages
                 {
                     case TopGridMode.ContentDialog:
                         if (e.Element is ContentDialog dialog)
-                        {
-                            dialog.XamlRoot = XamlRoot;
-
+                        { 
                             await dialog.ShowAsync();
                         }
 

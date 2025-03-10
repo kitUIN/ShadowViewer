@@ -31,7 +31,7 @@
             NotEmptyValue="True" />
         <shadowConverters:ThemeComboConverter x:Key="ThemeComboConverter" />
     </Page.Resources>
-    <Grid Loaded="FrameworkElement_OnLoaded"
+    <Grid
         Background="{ThemeResource LayerFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
         BorderThickness="1"
