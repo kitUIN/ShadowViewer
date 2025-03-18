@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Numerics;
 using System.Threading;
+using Windows.Foundation;
+using CommunityToolkit.WinUI;
+using CommunityToolkit.WinUI.Animations;
 using DryIoc;
+using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
@@ -15,6 +20,7 @@ using ShadowViewer.Core.Services;
 using ShadowViewer.ViewModels;
 using ShadowViewer.Services;
 using ShadowViewer.Core.Controls;
+using Microsoft.UI.Xaml.Media;
 
 namespace ShadowViewer.Pages
 {
@@ -74,7 +80,7 @@ namespace ShadowViewer.Pages
                 {
                     case TopGridMode.ContentDialog:
                         if (e.Element is ContentDialog dialog)
-                        { 
+                        {
                             await dialog.ShowAsync();
                         }
 
@@ -117,6 +123,11 @@ namespace ShadowViewer.Pages
                 parameter = navigation.Parameter;
                 page = navigation.Page;
                 info = navigation.Info;
+                if (item.Icon != null)
+                {
+                    var xy = new Vector2(item.Icon.ActualSize.X * 0.5f, item.Icon.ActualSize.Y * 0.5f);
+                    item.StartAnimation?.CenterPoint(xy, xy).Start(item.Icon);
+                }
             }
 
             info ??= args.RecommendedNavigationTransitionInfo;
@@ -134,7 +145,6 @@ namespace ShadowViewer.Pages
         {
         }
 
-        
 
         private void SmokeGrid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
