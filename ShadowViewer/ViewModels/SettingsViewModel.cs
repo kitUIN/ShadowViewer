@@ -4,10 +4,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using DryIoc;
 using Serilog;
 using ShadowPluginLoader.WinUI;
-using ShadowPluginLoader.WinUI.Args;
 using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core;
-using ShadowViewer.Core.Plugins;
 using ShadowViewer.Core.Services;
 
 namespace ShadowViewer.ViewModels
@@ -28,26 +26,15 @@ namespace ShadowViewer.ViewModels
             var v = Package.Current.Id.Version;
             Version = $"v{v.Major}.{v.Minor}.{v.Build}.{v.Revision}";
             Logger = logger;
-            pluginEventService.PluginLoaded -= PluginEventService_PluginLoaded;
-            pluginEventService.PluginLoaded += PluginEventService_PluginLoaded;
-            InitPlugins();
             InitSettingsFolders();
         }
 
-        private void PluginEventService_PluginLoaded(object? sender, PluginEventArgs e)
-        {
-            if (PluginService.GetPlugin(e.PluginId) is { } plugin)
-            {
-                Plugins.Add(plugin);
-            }
-        }
         #endregion
         /// <summary>
         /// 当前版本号
         /// </summary>
         public string Version { get; }
 
-        public ObservableCollection<AShadowViewerPlugin> Plugins { get; } = [];
         public ObservableCollection<ISettingFolder> SettingsFolders { get; } = [];
 
         [ObservableProperty] private bool isDebug = CoreSettings.IsDebug;
@@ -56,13 +43,6 @@ namespace ShadowViewer.ViewModels
         [ObservableProperty] private string pluginsPath = CoreSettings.PluginsPath;
         [ObservableProperty] private string pluginsUri = CoreSettings.PluginsUri;
 
-        public void InitPlugins()
-        {
-            foreach (var plugin in PluginService.GetPlugins())
-            {
-                Plugins.Add(plugin);
-            }
-        }
         public void InitSettingsFolders()
         {
             SettingsFolders.Clear();

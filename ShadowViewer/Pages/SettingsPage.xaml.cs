@@ -53,16 +53,4 @@ public sealed partial class SettingsPage : Page
         uri.LaunchUriAsync();
     }
 
-    /// <summary>
-    /// 前往插件设置
-    /// </summary>
-    private void PluginSetting_OnClick(object sender, RoutedEventArgs e)
-    {
-        if (sender is FrameworkElement { Tag: string id } && PluginService.GetPlugin(id) is
-            {
-                SettingsPage: { } page
-            })
-            Frame.Navigate(page, null,
-                new SlideNavigationTransitionInfo() { Effect = SlideNavigationTransitionEffect.FromRight });
-    }
 }

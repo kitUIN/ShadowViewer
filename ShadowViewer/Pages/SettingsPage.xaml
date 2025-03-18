@@ -115,30 +115,7 @@
                     </controls:SettingsCard.Header>
                     <ToggleSwitch IsOn="{x:Bind ViewModel.IsDebug, Mode=TwoWay}" />
                 </controls:SettingsCard>
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{i18N:Locale Key=PluginSetting}" />
-                <ItemsRepeater ItemsSource="{x:Bind ViewModel.Plugins, Mode=OneWay}">
-                    <ItemsRepeater.ItemTemplate>
-                        <DataTemplate x:DataType="plugin:AShadowViewerPlugin">
-                            <controls:SettingsCard
-                                x:Name="PluginSetting"
-                                ActionIcon="{ui:FontIcon Glyph=&#xE76C;}"
-                                Click="PluginSetting_OnClick"
-                                IsActionIconVisible="True"
-                                IsClickEnabled="{x:Bind SettingsPage, Converter={StaticResource EmptyObjectToBoolConverter}}"
-                                Tag="{x:Bind MetaData.Id}">
-                                <controls:SettingsCard.Header>
-                                    <local2:ShadowSettingHeader Description="{x:Bind MetaData.Description}" Header="{x:Bind MetaData.Name}">
-                                        <local2:PluginLogo
-                                            Width="{StaticResource SettingIconWidth}"
-                                            Height="{StaticResource SettingIconHeight}"
-                                            FontIconSize="{StaticResource SettingIconFontIconSize}"
-                                            LogoSource="{x:Bind MetaData.Logo, Mode=OneWay, Converter={StaticResource PluginPathConverter}}" />
-                                    </local2:ShadowSettingHeader>
-                                </controls:SettingsCard.Header>
-                            </controls:SettingsCard>
-                        </DataTemplate>
-                    </ItemsRepeater.ItemTemplate>
-                </ItemsRepeater>
+               
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{i18N:Locale Key=About}" />
                 <controls:SettingsExpander
