@@ -1,6 +1,10 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Numerics;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.WinUI.Animations;
+using Microsoft.UI.Xaml.Controls;
 using ShadowPluginLoader.WinUI.Enums;
 using Serilog;
 using ShadowViewer.Core.Responders;
@@ -8,7 +12,9 @@ using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core.Services;
 using ShadowViewer.Core;
 using ShadowViewer.Core.Helpers;
+using ShadowViewer.Core.Models;
 using ShadowViewer.Core.Utils;
+using ShadowViewer.Plugin.Local;
 
 namespace ShadowViewer.ViewModels;
 
@@ -66,7 +72,7 @@ public partial class NavigationViewModel : ObservableObject
     /// </summary>
     private void AddFooterMenuItems(IShadowNavigationItem item)
     {
-        if (FooterMenuItems.All(x => x.Id != item.Id)) FooterMenuItems.Add(item);
+        if (FooterMenuItems.All(x => x.Id != item.Id)) FooterMenuItems.Insert(0, item);
     }
 
     /// <summary>
@@ -93,6 +99,7 @@ public partial class NavigationViewModel : ObservableObject
                 else DeleteFooterMenuItems(item1);
         }
     }
+
     public void ReloadItems(string pluginId, PluginStatus status)
     {
         var responder = ResponderHelper.GetResponder<INavigationResponder>(pluginId);
@@ -102,9 +109,7 @@ public partial class NavigationViewModel : ObservableObject
             case PluginStatus.Enabled:
             {
                 foreach (var item2 in responder.NavigationViewMenuItems)
-                {
                     AddMenuItem(item2);
-                }
                 foreach (var item1 in responder.NavigationViewFooterItems)
                     AddFooterMenuItems(item1);
                 break;
