@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using DryIoc;
 using Microsoft.UI.Xaml;
@@ -20,7 +20,6 @@ namespace ShadowViewer.Pages
     public sealed partial class NavigationPage : ShadowPage
     {
         public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
-        private static CancellationTokenSource _cancelTokenSource = new();
         private NavigationViewModel ViewModel { get; } = DiFactory.Services.Resolve<NavigationViewModel>();
         private ICallableService Caller { get; } = DiFactory.Services.Resolve<ICallableService>();
         private INotifyService NotifyService { get; } = DiFactory.Services.Resolve<INotifyService>();
@@ -33,7 +32,6 @@ namespace ShadowViewer.Pages
             DiFactory.Services.Register<INavigateService, NavigateService>(reuse: Reuse.Singleton,
                 made: Parameters.Of.Type(_ => ContentFrame));
             ViewModel.InitItems();
-            Caller.TopGridEvent += Caller_TopGridEvent;
             PluginEventService.PluginLoaded += CallerOnPluginEnabledEvent;
             PluginEventService.PluginEnabled += CallerOnPluginEnabledEvent;
             PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
@@ -137,7 +135,7 @@ namespace ShadowViewer.Pages
         /// </summary>
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            _cancelTokenSource.Cancel();
+            // _cancelTokenSource.Cancel();
         }
 
         /// <summary>

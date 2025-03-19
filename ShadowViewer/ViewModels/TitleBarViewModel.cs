@@ -92,9 +92,9 @@ public partial class TitleBarViewModel : ObservableObject
         if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             SearchItems.Clear();
-            foreach (var plugin in PluginService!.GetEnabledPlugins())
-                foreach (var i in plugin.SearchTextChanged(sender, args))
-                    SearchItems.Add(i);
+            // foreach (var plugin in PluginService!.GetEnabledPlugins())
+            //     foreach (var i in plugin.SearchTextChanged(sender, args))
+            //         SearchItems.Add(i);
             if (!string.IsNullOrEmpty(sender.Text))
                 SearchItems.Add(new NavigateSearchItem(sender.Text));
         }
@@ -104,7 +104,7 @@ public partial class TitleBarViewModel : ObservableObject
     /// </summary>
     public void AutoSuggestBox_OnSuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
     {
-        foreach (var plugin in PluginService!.GetEnabledPlugins()) plugin.SearchSuggestionChosen(sender, args);
+        // foreach (var plugin in PluginService!.GetEnabledPlugins()) plugin.SearchSuggestionChosen(sender, args);
     }
     /// <summary>
     /// 搜索栏提交响应
@@ -115,17 +115,17 @@ public partial class TitleBarViewModel : ObservableObject
         {
             if (args.ChosenSuggestion is NavigateSearchItem item)
                 NavigateService.Navigate(new Uri(item.Title));
-            else
-                foreach (var plugin in PluginService!.GetEnabledPlugins())
-                    plugin.SearchQuerySubmitted(sender, args);
+            // else
+            //     foreach (var plugin in PluginService!.GetEnabledPlugins())
+            //         plugin.SearchQuerySubmitted(sender, args);
         }
         else if (sender.Items.Count != 0)
         {
             if (sender.Items[0] is NavigateSearchItem item)
                 NavigateService.Navigate(new Uri(item.Title));
-            else
-                foreach (var plugin in PluginService!.GetEnabledPlugins())
-                    plugin.SearchQuerySubmitted(sender, args);
+            // else
+            //     foreach (var plugin in PluginService!.GetEnabledPlugins())
+            //         plugin.SearchQuerySubmitted(sender, args);
         }
 
         sender.Text = string.Empty;
