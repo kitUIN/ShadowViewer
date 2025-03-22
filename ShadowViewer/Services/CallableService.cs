@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Microsoft.UI.Windowing;
@@ -30,16 +30,6 @@ internal partial class CallableService(ILogger logger) : ICallableService
     /// <summary>
     /// <inheritdoc/>
     /// </summary>
-    public event EventHandler<TopGridEventArg>? TopGridEvent;
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public event EventHandler<ImportPluginEventArg>? ImportPluginEvent; 
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
     public event TypedEventHandler<AppWindow, AppWindowChangedEventArgs>? OverlappedChangedEvent;
 
 
@@ -57,26 +47,6 @@ internal partial class CallableService(ILogger logger) : ICallableService
     {
         ThemeChangedEvent?.Invoke(this, EventArgs.Empty);
         Logger.Debug("触发事件{EventName}",nameof(ThemeChangedEvent));
-    }
-
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public void TopGrid(object sender, UIElement element, TopGridMode mode)
-    {
-        Logger.Debug("{Sender}触发事件{Event}", sender.GetType().FullName,
-            nameof(TopGridEvent));
-        TopGridEvent?.Invoke(sender, new TopGridEventArg(element, mode));
-    }
-
-    /// <summary>
-    /// <inheritdoc/>
-    /// </summary>
-    public void ImportPlugin(object sender, IReadOnlyList<IStorageItem> items)
-    {
-        ImportPluginEvent?.Invoke(sender, new ImportPluginEventArg(items));
-        Logger.Debug("触发事件{Event}", nameof(ImportPluginEvent));
     }
 
     /// <summary>

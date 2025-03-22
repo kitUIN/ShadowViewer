@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
-using ShadowPluginLoader.MetaAttributes;
+using ShadowPluginLoader.Attributes;
 using ShadowViewer.Core;
 using ShadowViewer.Core.Extensions;
 using ShadowViewer.Core.Helpers;

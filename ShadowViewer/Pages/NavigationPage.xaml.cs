@@ -61,39 +61,6 @@ namespace ShadowViewer.Pages
 
 
         /// <summary>
-        /// 顶部窗体事件
-        /// </summary>
-        private async void Caller_TopGridEvent(object sender, TopGridEventArg e)
-        {
-            try
-            {
-                switch (e.Mode)
-                {
-                    case TopGridMode.ContentDialog:
-                        if (e.Element is ContentDialog dialog)
-                        {
-                            await dialog.ShowAsync();
-                        }
-
-                        break;
-                    case TopGridMode.Dialog:
-                        TopGrid.Children.Clear();
-                        if (e.Element != null)
-                        {
-                            TopGrid.Children.Add(e.Element);
-                        }
-
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error("顶部窗体事件报错:{E}", ex);
-            }
-        }
-
-
-        /// <summary>
         /// 左侧点击导航栏
         /// </summary>
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)

@@ -1,7 +1,7 @@
-﻿using System;
+using System;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
-using ShadowPluginLoader.MetaAttributes;
+using ShadowPluginLoader.Attributes;
 using ShadowViewer.Core.Helpers;
 using ShadowViewer.Core.Responders;
 using ShadowViewer.Core.Services;
