@@ -50,7 +50,7 @@ public sealed partial class MainWindow
         var sw = new Stopwatch();
         sw.Start();
 #endif
-        await OnLoading(new Progress<string>(s => DispatcherQueue.TryEnqueue(() => LoadingText.Text = s)));
+        await OnLoading();
 #if DEBUG
         sw.Stop();
         Debug.WriteLine("加载插件总共花费{0}ms.", sw.Elapsed.TotalMilliseconds);
@@ -73,39 +73,38 @@ public sealed partial class MainWindow
         if (firstUri != null) navigateService.Navigate(firstUri);
     }
 
-
-    private async Task OnLoading(IProgress<string>? loadingProgress)
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    private async Task OnLoading()
     {
-        loadingProgress?.Report("初始化插件加载器...");
         ApplicationExtensionHost.Initialize(Application.Current);
-        // await Task.Delay(5000); // 测试用
         // 配置文件
-        loadingProgress?.Report("加载配置文件与数据库...");
         CoreSettings.Init();
         InitDi();
         // 数据库
         InitDatabase();
         // 插件依赖注入
-
         var pluginServices = DiFactory.Services.Resolve<PluginLoader>();
 
         // var currentCulture = CultureInfo.CurrentUICulture;
-
-        loadingProgress?.Report("加载插件...");
         try
         {
-            pluginServices.Import<LocalPlugin>();
-            pluginServices.Import<PluginManagerPlugin>();
+            pluginServices.Scan<LocalPlugin>();
+            pluginServices.Scan<PluginManagerPlugin>();
             if (PluginManagerPlugin.Settings.PluginSecurityStatement)
             {
-                pluginServices.Import(new DirectoryInfo(CoreSettings.PluginsPath));
+                pluginServices.Scan(new DirectoryInfo(CoreSettings.PluginsPath));
             }
-
-            await pluginServices.Load();
 #if DEBUG
-            // 这里是测试插件用的, ImportFromPathAsync里填入你Debug出来的插件dll的文件夹位置
-            // await pluginServices.ImportFromPathAsync(@"C:\Users\15854\Documents\GitHub\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\");
+            // 这里是测试插件用的, Scan里填入你Debug出来的插件dll的文件夹位置
+            // pluginServices.Scan(new DirectoryInfo(
+            //     @"C:\Users\15854\Documents\GitHub\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\"
+            //     ));
 #endif
+            await pluginServices.Load();
+
         }
         catch (Exception ex)
         {
@@ -113,26 +112,30 @@ public sealed partial class MainWindow
         }
 
         // 添加类别标签
-        var db = DiFactory.Services.Resolve<ISqlSugarClient>();
-        var insertTags = new List<ShadowTag>();
-        var updateTags = new List<ShadowTag>();
-        foreach (var plugin in pluginServices.GetPlugins())
+        _ = Task.Run(async () =>
         {
-            var tagId = await db.Queryable<ShadowTag>().Where(x =>
-                x.PluginId == plugin.Id && x.TagType == 0).Select(it => it.Id).ToListAsync();
-            if (tagId is { Count: > 0 })
+            var db = DiFactory.Services.Resolve<ISqlSugarClient>();
+            var insertTags = new List<ShadowTag>();
+            var updateTags = new List<ShadowTag>();
+            foreach (var plugin in pluginServices.GetPlugins())
             {
-                plugin.AffiliationTag.Id = tagId[0];
-                updateTags.Add(plugin.AffiliationTag);
+                if (plugin.MetaData.AffiliationTag == null) continue;
+                var tagId = await db.Queryable<ShadowTag>().Where(x =>
+                    x.PluginId == plugin.Id && x.TagType == 0).Select(it => it.Id).ToListAsync();
+                if (tagId is { Count: > 0 })
+                {
+                    plugin.MetaData.AffiliationTag.Id = tagId[0];
+                    updateTags.Add(plugin.MetaData.AffiliationTag);
+                }
+                else
+                {
+                    insertTags.Add(plugin.MetaData.AffiliationTag);
+                }
             }
-            else
-            {
-                insertTags.Add(plugin.AffiliationTag);
-            }
-        }
 
-        if (insertTags.Count != 0) await db.Insertable(insertTags).ExecuteReturnSnowflakeIdListAsync();
-        if (updateTags.Count != 0) await db.Updateable(updateTags).ExecuteCommandAsync();
+            if (insertTags.Count != 0) await db.Insertable(insertTags).ExecuteReturnSnowflakeIdListAsync();
+            if (updateTags.Count != 0) await db.Updateable(updateTags).ExecuteCommandAsync();
+        });
     }
 
     private static void InitDi()
