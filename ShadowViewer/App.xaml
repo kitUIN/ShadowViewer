@@ -35,7 +35,8 @@
             <Color x:Key="ButtonHoverBackgroundColor">Gray</Color>
             <!--  Other app resources here  -->
             <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
-            <SolidColorBrush x:Key="NavigationViewContentBackground" Color="{ThemeResource NavigationViewDefaultPaneBackground}" />
+            <SolidColorBrush x:Key="NavigationViewContentBackground"
+                             Color="{ThemeResource NavigationViewDefaultPaneBackground}" />
             <!--  Style  -->
             <!--#region Tag Button-->
             <Style x:Key="NoOverButton" TargetType="Button">
@@ -103,16 +104,20 @@
                                         <VisualState x:Name="Normal" />
                                         <VisualState x:Name="PointerOver">
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonBackgroundPointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource NavigationViewButtonBackgroundPointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
 
                                         <VisualState x:Name="Pressed">
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonBackgroundPressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource NavigationViewButtonBackgroundPressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
@@ -138,7 +143,7 @@
                     <Setter Property="Margin" Value="1,20,0,5" />
                 </Style.Setters>
             </Style>
-            <Style x:Key="PointerOverToggleButtonStyle" TargetType="ToggleButton" >
+            <Style x:Key="PointerOverToggleButtonStyle" TargetType="ToggleButton">
                 <Setter Property="Background" Value="Transparent" />
                 <Setter Property="BorderThickness" Value="0" />
                 <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
@@ -156,7 +161,19 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
-                            <ContentPresenter x:Name="ContentPresenter" Background="{TemplateBinding Background}" Foreground="{TemplateBinding Foreground}" BackgroundSizing="{TemplateBinding BackgroundSizing}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" CornerRadius="{TemplateBinding CornerRadius}" Padding="{TemplateBinding Padding}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" AutomationProperties.AccessibilityView="Raw">
+                            <ContentPresenter x:Name="ContentPresenter" Background="{TemplateBinding Background}"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                              CornerRadius="{TemplateBinding CornerRadius}"
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              AutomationProperties.AccessibilityView="Raw">
                                 <ContentPresenter.BackgroundTransition>
                                     <BrushTransition Duration="0:0:0.083" />
                                 </ContentPresenter.BackgroundTransition>
@@ -168,14 +185,20 @@
                                         <VisualState x:Name="PointerOver">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonBackgroundPointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource NavigationViewButtonBackgroundPointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushPointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushPointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundPointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundPointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
@@ -183,14 +206,20 @@
                                         <VisualState x:Name="Pressed">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundPressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundPressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushPressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushPressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundPressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundPressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
@@ -198,14 +227,20 @@
                                         <VisualState x:Name="Disabled">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundDisabled}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundDisabled}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundDisabled}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundDisabled}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushDisabled}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushDisabled}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
@@ -213,121 +248,175 @@
                                         <VisualState x:Name="Checked">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundChecked}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundChecked}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundChecked}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundChecked}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushChecked}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushChecked}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BackgroundSizing">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonCheckedStateBackgroundSizing}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BackgroundSizing">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonCheckedStateBackgroundSizing}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="CheckedPointerOver">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundCheckedPointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundCheckedPointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushCheckedPointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushCheckedPointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundCheckedPointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundCheckedPointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BackgroundSizing">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonCheckedStateBackgroundSizing}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BackgroundSizing">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonCheckedStateBackgroundSizing}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="CheckedPressed">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundCheckedPressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundCheckedPressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundCheckedPressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundCheckedPressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushCheckedPressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushCheckedPressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BackgroundSizing">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonCheckedStateBackgroundSizing}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BackgroundSizing">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonCheckedStateBackgroundSizing}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="CheckedDisabled">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundCheckedDisabled}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundCheckedDisabled}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundCheckedDisabled}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundCheckedDisabled}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushCheckedDisabled}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushCheckedDisabled}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="Indeterminate">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundIndeterminate}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundIndeterminate}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundIndeterminate}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundIndeterminate}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushIndeterminate}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushIndeterminate}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="IndeterminatePointerOver">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundIndeterminatePointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundIndeterminatePointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushIndeterminatePointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushIndeterminatePointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundIndeterminatePointerOver}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundIndeterminatePointerOver}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="IndeterminatePressed">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundIndeterminatePressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundIndeterminatePressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushIndeterminatePressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushIndeterminatePressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundIndeterminatePressed}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundIndeterminatePressed}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="IndeterminateDisabled">
 
                                             <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBackgroundIndeterminateDisabled}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBackgroundIndeterminateDisabled}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonForegroundIndeterminateDisabled}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonForegroundIndeterminateDisabled}" />
                                                 </ObjectAnimationUsingKeyFrames>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ToggleButtonBorderBrushIndeterminateDisabled}" />
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                               Storyboard.TargetProperty="BorderBrush">
+                                                    <DiscreteObjectKeyFrame KeyTime="0"
+                                                                            Value="{ThemeResource ToggleButtonBorderBrushIndeterminateDisabled}" />
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
                                         </VisualState>
@@ -341,6 +430,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+          
         </ResourceDictionary>
     </Application.Resources>
 </Application>

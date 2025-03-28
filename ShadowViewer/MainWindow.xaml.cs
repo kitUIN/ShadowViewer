@@ -96,7 +96,7 @@ public sealed partial class MainWindow
         
         // 插件依赖注入
         var pluginServices = DiFactory.Services.Resolve<PluginLoader>();
-
+        
         // var currentCulture = CultureInfo.CurrentUICulture;
         try
         {
