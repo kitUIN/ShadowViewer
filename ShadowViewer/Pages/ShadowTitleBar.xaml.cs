@@ -2,13 +2,13 @@ using DryIoc;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core;
 using ShadowViewer.ViewModels;
 using System;
 using ShadowViewer.I18n;
 using ShadowViewer.Core.Helpers;
 using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core.Responders;
+using ShadowViewer.Core.Settings;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -60,7 +60,7 @@ public sealed partial class ShadowTitleBar : UserControl
     /// <param name="e"></param>
     public void AppTitleBar_DebugEvent(object? sender, EventArgs e)
     {
-        ViewModel.SubTitle = CoreSettings.IsDebug ? I18N.Debug : "";
+        ViewModel.SubTitle = CoreSettings.Instance.IsDebug ? I18N.Debug : "";
     }
 
     /// <summary>

@@ -13,9 +13,11 @@ using ShadowViewer.Core.Helpers;
 using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core.Responders;
 using ShadowViewer.Core.Services;
+using ShadowViewer.Core.Settings;
 using ShadowViewer.Core.Utils;
 using ShadowViewer.I18n;
 using ShadowViewer.Models;
+using static DryIoc.Setup;
 
 namespace ShadowViewer.ViewModels;
 
@@ -32,7 +34,7 @@ public partial class TitleBarViewModel : ObservableObject
     [Autowired]
     public INavigateService NavigateService { get;}
 
-    [ObservableProperty] private string subTitle = CoreSettings.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+    [ObservableProperty] private string subTitle = CoreSettings.Instance.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
     
     
     /// <summary>

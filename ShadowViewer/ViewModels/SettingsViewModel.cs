@@ -1,4 +1,4 @@
-﻿using System.Collections.ObjectModel;
+using System.Collections.ObjectModel;
 using Windows.ApplicationModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using DryIoc;
@@ -7,6 +7,7 @@ using ShadowPluginLoader.WinUI;
 using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core;
 using ShadowViewer.Core.Services;
+using ShadowViewer.Core.Settings;
 
 namespace ShadowViewer.ViewModels
 {
@@ -37,54 +38,12 @@ namespace ShadowViewer.ViewModels
 
         public ObservableCollection<ISettingFolder> SettingsFolders { get; } = [];
 
-        [ObservableProperty] private bool isDebug = CoreSettings.IsDebug;
-        [ObservableProperty] private string comicsPath = CoreSettings.ComicsPath;
-        [ObservableProperty] private string tempPath = CoreSettings.TempPath;
-        [ObservableProperty] private string pluginsPath = CoreSettings.PluginsPath;
-        [ObservableProperty] private string pluginsUri = CoreSettings.PluginsUri;
-
         public void InitSettingsFolders()
         {
             SettingsFolders.Clear();
             foreach (var folder in DiFactory.Services.ResolveMany<ISettingFolder>())
             {
                 SettingsFolders.Add(folder);
-            }
-        }
-        partial void OnPluginsUriChanged(string? oldValue, string newValue)
-        {
-            if (oldValue != newValue)
-            {
-                CoreSettings.PluginsUri = PluginsUri;
-            }
-        }
-        partial void OnPluginsPathChanged(string? oldValue, string newValue)
-        {
-            if (oldValue != newValue)
-            {
-                CoreSettings.PluginsPath = PluginsPath;
-            }
-        }
-        partial void OnComicsPathChanged(string? oldValue, string newValue)
-        {
-            if (oldValue != newValue)
-            {
-                CoreSettings.ComicsPath = ComicsPath;
-            }
-        }
-
-        partial void OnIsDebugChanged(bool oldValue, bool newValue)
-        {
-            if (oldValue == newValue) return;
-            CoreSettings.IsDebug = IsDebug;
-            Caller.Debug();
-        }
-
-        partial void OnTempPathChanged(string? oldValue, string newValue)
-        {
-            if (oldValue != newValue)
-            {
-                CoreSettings.TempPath = TempPath;
             }
         }
 

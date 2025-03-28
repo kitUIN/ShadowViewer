@@ -21,6 +21,7 @@ using Microsoft.UI.Xaml.Controls;
 using ShadowViewer.Pages;
 using CustomExtensions.WinUI;
 using Microsoft.UI.Windowing;
+using ShadowViewer.Core.Settings;
 
 namespace ShadowViewer;
 
@@ -84,8 +85,7 @@ public sealed partial class MainWindow
         sw.Start();
 #endif
         ApplicationExtensionHost.Initialize(Application.Current);
-        // 配置文件
-        CoreSettings.Init();
+
         InitDi();
         // 数据库
         InitDatabase();
@@ -104,7 +104,7 @@ public sealed partial class MainWindow
             pluginServices.Scan<PluginManagerPlugin>();
             if (PluginManagerPlugin.Settings.PluginSecurityStatement)
             {
-                pluginServices.Scan(new DirectoryInfo(CoreSettings.PluginsPath));
+                pluginServices.Scan(new DirectoryInfo(CoreSettings.Instance.PluginsPath));
             }
 #if DEBUG
             // 这里是测试插件用的, Scan里填入你Debug出来的插件dll的文件夹位置

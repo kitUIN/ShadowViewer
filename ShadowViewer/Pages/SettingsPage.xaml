@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="ShadowViewer.Pages.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,6 +8,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:ShadowViewer.Core.Helpers"
+    xmlns:settings="using:ShadowViewer.Core.Settings"
     xmlns:i18N="using:ShadowViewer.I18n"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
@@ -88,7 +89,7 @@
                                        Description="{i18N:Locale Key=DebugDescription}"
                                        Header="{i18N:Locale Key=Debug}">
 
-                    <ToggleSwitch IsOn="{x:Bind ViewModel.IsDebug, Mode=TwoWay}" />
+                    <ToggleSwitch IsOn="{x:Bind settings:CoreSettings.Instance.IsDebug, Mode=TwoWay}" />
                 </controls:SettingsCard>
 
                 <!--  About  -->
