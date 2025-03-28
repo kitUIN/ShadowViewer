@@ -79,12 +79,21 @@ public sealed partial class MainWindow
     /// <returns></returns>
     private async Task OnLoading()
     {
+#if DEBUG
+        var sw = new Stopwatch();
+        sw.Start();
+#endif
         ApplicationExtensionHost.Initialize(Application.Current);
         // 配置文件
         CoreSettings.Init();
         InitDi();
         // 数据库
         InitDatabase();
+#if DEBUG
+        sw.Stop();
+        Debug.WriteLine("插件加载前总共花费{0}ms.", sw.Elapsed.TotalMilliseconds);
+#endif
+        
         // 插件依赖注入
         var pluginServices = DiFactory.Services.Resolve<PluginLoader>();
 
