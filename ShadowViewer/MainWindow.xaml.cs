@@ -85,7 +85,7 @@ public sealed partial class MainWindow
         sw.Start();
 #endif
         ApplicationExtensionHost.Initialize(Application.Current);
-
+        Debug.WriteLine(CoreSettings.Instance.IsDebug);
         InitDi();
         // 数据库
         InitDatabase();
