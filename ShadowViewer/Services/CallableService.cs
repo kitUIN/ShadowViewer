@@ -1,14 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
+using DryIoc;
 using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Serilog;
 using ShadowViewer.Core.Args;
 using ShadowViewer.Core.Enums;
 using ShadowViewer.Core.Services;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using Windows.Foundation;
 using Windows.Storage;
-using Microsoft.UI.Xaml;
-using Serilog;
+using TopLevelControlEventArgs = ShadowViewer.Core.Args.TopLevelControlEventArgs;
 
 namespace ShadowViewer.Services;
 
@@ -23,6 +25,9 @@ internal partial class CallableService(ILogger logger) : ICallableService
     /// <inheritdoc/>
     /// </summary>
     public event EventHandler? DebugEvent;
+
+    /// <inheritdoc />
+    public event EventHandler<TopLevelControlEventArgs>? TopLevelControlEvent;
 
     /// <inheritdoc />
     public event EventHandler? ThemeChangedEvent;
@@ -42,11 +47,13 @@ internal partial class CallableService(ILogger logger) : ICallableService
         Logger.Debug("触发事件{EventName}", nameof(DebugEvent));
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
     public void ThemeChanged()
     {
         ThemeChangedEvent?.Invoke(this, EventArgs.Empty);
-        Logger.Debug("触发事件{EventName}",nameof(ThemeChangedEvent));
+        Logger.Debug("触发事件{EventName}", nameof(ThemeChangedEvent));
     }
 
     /// <summary>
@@ -56,5 +63,21 @@ internal partial class CallableService(ILogger logger) : ICallableService
     {
         OverlappedChangedEvent?.Invoke(sender, args);
         Logger.Debug("触发事件{Event}", nameof(OverlappedChangedEvent));
+    }
+
+    /// <inheritdoc />
+    public void CreateTopLevelControl(UIElement control)
+    {
+        TopLevelControlEvent?.Invoke(this, 
+            new TopLevelControlEventArgs(control, TopLevelControlMode.Add));
+        Logger.Debug("触发事件{Event}", nameof(TopLevelControlEvent));
+    }
+
+    /// <inheritdoc />
+    public void RemoveTopLevelControl(UIElement control)
+    {
+        TopLevelControlEvent?.Invoke(this,
+            new TopLevelControlEventArgs(control, TopLevelControlMode.Remove));
+        Logger.Debug("触发事件{Event}", nameof(TopLevelControlEvent));
     }
 }

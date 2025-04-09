@@ -36,6 +36,22 @@ namespace ShadowViewer.Pages
             PluginEventService.PluginEnabled += CallerOnPluginEnabledEvent;
             PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
             NotifyService.TipPopupEvent += NotifyService_TipPopupEvent;
+            Caller.TopLevelControlEvent += CallerTopLevelControlEvent;
+        }
+
+        /// <summary>
+        /// TopLevelControlEvent
+        /// </summary>
+        private void CallerTopLevelControlEvent(object? sender, TopLevelControlEventArgs e)
+        {
+            if (e.Mode == TopLevelControlMode.Add)
+            {
+                TopGrid.Children.Add(e.Control);
+            }
+            else
+            {
+                TopGrid.Children.Remove(e.Control);
+            }
         }
 
         private void NotifyService_TipPopupEvent(object? sender, TipPopupEventArgs e)
@@ -73,13 +89,14 @@ namespace ShadowViewer.Pages
                 page = typeof(SettingsPage);
             }
             else if (args.InvokedItemContainer != null &&
-                args.InvokedItemContainer.Tag is IShadowNavigationItem item &&
-                ViewModel.NavigationViewItemInvokedHandler(item) is { } navigation)
+                     args.InvokedItemContainer.Tag is IShadowNavigationItem item &&
+                     ViewModel.NavigationViewItemInvokedHandler(item) is { } navigation)
             {
                 parameter = navigation.Parameter;
                 page = navigation.Page;
                 info = navigation.Info;
             }
+
             if (page == null || ContentFrame.CurrentSourcePageType == page) return;
             ContentFrame.Navigate(page, parameter, info);
         }
