@@ -1,9 +1,10 @@
-﻿using System;
+using System;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using ShadowViewer.Core.Helpers;
 using System.Diagnostics;
 using Windows.ApplicationModel.Activation;
+using CustomExtensions.WinUI;
 
 namespace ShadowViewer
 {
@@ -11,6 +12,7 @@ namespace ShadowViewer
     {
         public App()
         {
+            ApplicationExtensionHost.Initialize(this);
             this.InitializeComponent();
         }
 

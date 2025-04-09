@@ -84,7 +84,6 @@ public sealed partial class MainWindow
         var sw = new Stopwatch();
         sw.Start();
 #endif
-        ApplicationExtensionHost.Initialize(Application.Current);
         Debug.WriteLine(CoreSettings.Instance.IsDebug);
         InitDi();
         // 数据库
@@ -93,27 +92,29 @@ public sealed partial class MainWindow
         sw.Stop();
         Debug.WriteLine("插件加载前总共花费{0}ms.", sw.Elapsed.TotalMilliseconds);
 #endif
-        
+
         // 插件依赖注入
         var pluginServices = DiFactory.Services.Resolve<PluginLoader>();
-        
+
         // var currentCulture = CultureInfo.CurrentUICulture;
         try
         {
             pluginServices.Scan<LocalPlugin>();
             pluginServices.Scan<PluginManagerPlugin>();
+            await pluginServices.Load();
             if (PluginManagerPlugin.Settings.PluginSecurityStatement)
             {
                 pluginServices.Scan(new DirectoryInfo(CoreSettings.Instance.PluginsPath));
+                
             }
 #if DEBUG
             // 这里是测试插件用的, Scan里填入你Debug出来的插件dll的文件夹位置
-            // pluginServices.Scan(new DirectoryInfo(
-            //     @"C:\Users\15854\Documents\GitHub\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\"
-            //     ));
+            pluginServices.Scan(new FileInfo(
+                @"D:\VsProject\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net8.0-windows10.0.22621\ShadowViewer.Plugin.Bika\Assets\plugin.json"
+                ));
+
 #endif
             await pluginServices.Load();
-
         }
         catch (Exception ex)
         {
@@ -128,7 +129,7 @@ public sealed partial class MainWindow
             var updateTags = new List<ShadowTag>();
             foreach (var plugin in pluginServices.GetPlugins())
             {
-                if (plugin.MetaData.AffiliationTag == null) continue;
+                if (plugin.MetaData.AffiliationTag?.Name == null) continue;
                 var tagId = await db.Queryable<ShadowTag>().Where(x =>
                     x.PluginId == plugin.Id && x.TagType == 0).Select(it => it.Id).ToListAsync();
                 if (tagId is { Count: > 0 })

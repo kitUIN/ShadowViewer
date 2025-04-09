@@ -1,4 +1,3 @@
-using DryIoc;
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Serilog;
@@ -6,11 +5,7 @@ using ShadowViewer.Core.Args;
 using ShadowViewer.Core.Enums;
 using ShadowViewer.Core.Services;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using Windows.Foundation;
-using Windows.Storage;
-using TopLevelControlEventArgs = ShadowViewer.Core.Args.TopLevelControlEventArgs;
 
 namespace ShadowViewer.Services;
 
