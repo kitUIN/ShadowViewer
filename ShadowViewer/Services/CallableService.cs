@@ -14,6 +14,9 @@ namespace ShadowViewer.Services;
 /// </summary>
 internal partial class CallableService(ILogger logger) : ICallableService
 {
+    /// <summary>
+    /// Logger
+    /// </summary>
     private ILogger Logger { get; } = logger;
 
     /// <summary>
@@ -23,6 +26,9 @@ internal partial class CallableService(ILogger logger) : ICallableService
 
     /// <inheritdoc />
     public event EventHandler<TopLevelControlEventArgs>? TopLevelControlEvent;
+
+    /// <inheritdoc />
+    public event EventHandler? AppLoadedEvent;
 
     /// <inheritdoc />
     public event EventHandler? ThemeChangedEvent;
@@ -49,6 +55,15 @@ internal partial class CallableService(ILogger logger) : ICallableService
     {
         ThemeChangedEvent?.Invoke(this, EventArgs.Empty);
         Logger.Debug("触发事件{EventName}", nameof(ThemeChangedEvent));
+    }
+
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    public void AppLoaded()
+    {
+        AppLoadedEvent?.Invoke(this, EventArgs.Empty);
+        Logger.Debug("触发事件{EventName}", nameof(AppLoadedEvent));
     }
 
     /// <summary>

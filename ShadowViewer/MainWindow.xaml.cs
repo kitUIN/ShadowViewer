@@ -72,6 +72,7 @@ public sealed partial class MainWindow
         LoadingGrid.Visibility = Visibility.Collapsed;
         var navigateService = DiFactory.Services.Resolve<INavigateService>();
         if (firstUri != null) navigateService.Navigate(firstUri);
+        caller.AppLoaded();
     }
 
     /// <summary>
@@ -99,9 +100,11 @@ public sealed partial class MainWindow
         // var currentCulture = CultureInfo.CurrentUICulture;
         try
         {
-            pluginServices.Scan<LocalPlugin>();
-            pluginServices.Scan<PluginManagerPlugin>();
-            await pluginServices.Load();
+            await pluginServices.CheckUpgradeAndRemoveAsync();
+            await pluginServices
+                .Scan<LocalPlugin>()
+                .Scan<PluginManagerPlugin>()
+                .Load();
             if (PluginManagerPlugin.Settings.PluginSecurityStatement)
             {
                 pluginServices.Scan(new DirectoryInfo(CoreSettings.Instance.PluginsPath));
