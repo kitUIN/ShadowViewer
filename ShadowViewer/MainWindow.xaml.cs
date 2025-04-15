@@ -1,27 +1,26 @@
+using DryIoc;
+using Microsoft.UI.Windowing;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Serilog;
+using ShadowPluginLoader.WinUI;
+using ShadowViewer.Core;
+using ShadowViewer.Core.Cache;
+using ShadowViewer.Core.Helpers;
+using ShadowViewer.Core.Models;
+using ShadowViewer.Core.Services;
+using ShadowViewer.Core.Settings;
+using ShadowViewer.Pages;
+using ShadowViewer.Plugin.Local;
+using ShadowViewer.Plugin.PluginManager;
+using ShadowViewer.Services;
+using ShadowViewer.ViewModels;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using ShadowViewer.Core.Services;
-using DryIoc;
-using Microsoft.UI.Xaml;
-using ShadowPluginLoader.WinUI;
-using ShadowViewer.ViewModels;
-using Serilog;
-using ShadowViewer.Core.Cache;
-using ShadowViewer.Core.Helpers;
-using ShadowViewer.Core.Models;
-using ShadowViewer.Core;
-using ShadowViewer.Plugin.Local;
-using ShadowViewer.Plugin.PluginManager;
-using ShadowViewer.Services;
-using SqlSugar;
 using System.Threading.Tasks;
-using Microsoft.UI.Xaml.Controls;
-using ShadowViewer.Pages;
-using CustomExtensions.WinUI;
-using Microsoft.UI.Windowing;
-using ShadowViewer.Core.Settings;
 
 namespace ShadowViewer;
 
@@ -73,6 +72,7 @@ public sealed partial class MainWindow
         var navigateService = DiFactory.Services.Resolve<INavigateService>();
         if (firstUri != null) navigateService.Navigate(firstUri);
         caller.AppLoaded();
+
     }
 
     /// <summary>
