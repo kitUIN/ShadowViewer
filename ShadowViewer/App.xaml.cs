@@ -5,6 +5,7 @@ using ShadowViewer.Core.Helpers;
 using System.Diagnostics;
 using Windows.ApplicationModel.Activation;
 using CustomExtensions.WinUI;
+using Microsoft.UI.Dispatching;
 
 namespace ShadowViewer
 {
@@ -23,17 +24,16 @@ namespace ShadowViewer
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             var firstUri = new Uri("shadow://local/bookshelf");
-            var startupWindow = new MainWindow(firstUri);
-            WindowHelper.TrackWindow(startupWindow);
-            ThemeHelper.Initialize(startupWindow);
             var actEventArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
             if (actEventArgs.Kind == ExtendedActivationKind.Protocol
                 && actEventArgs.Data is IProtocolActivatedEventArgs data)
             {
                 firstUri = data.Uri;
             }
-
-            Debug.WriteLine("启动");
+            var startupWindow = new MainWindow(firstUri);
+            WindowHelper.TrackWindow(startupWindow);
+            ThemeHelper.Initialize(startupWindow);
+             
             startupWindow.Activate();
             // // 导航
         }

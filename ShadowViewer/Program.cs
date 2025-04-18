@@ -1,11 +1,18 @@
-﻿using System;
+﻿using Microsoft.UI.Dispatching;
+using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
+using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml;
-using Microsoft.Windows.AppLifecycle;
+using Windows.ApplicationModel.Activation;
+using DryIoc;
+using ShadowPluginLoader.WinUI;
+using ShadowViewer.Core.Helpers;
+using ShadowViewer.Core.Services;
+
 namespace ShadowViewer;
 
 /// <summary>
@@ -36,6 +43,7 @@ public class Program
 
         return 0;
     }
+
     /// <summary>
     /// 重定向
     /// </summary>
@@ -45,7 +53,7 @@ public class Program
         var isRedirect = false;
         var args = AppInstance.GetCurrent().GetActivatedEventArgs();
         var kind = args.Kind;
-        var keyInstance = AppInstance.FindOrRegisterForKey("MySingleInstanceApp");
+        var keyInstance = AppInstance.FindOrRegisterForKey("SingleShadowViewer");
 
         if (keyInstance.IsCurrent)
         {
@@ -59,6 +67,7 @@ public class Program
 
         return isRedirect;
     }
+
     [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
     private static extern IntPtr CreateEvent(
         IntPtr lpEventAttributes, bool bManualReset,
@@ -101,6 +110,7 @@ public class Program
         var process = Process.GetProcessById((int)keyInstance.ProcessId);
         SetForegroundWindow(process.MainWindowHandle);
     }
+
     /// <summary>
     /// OnActivated
     /// </summary>
@@ -108,6 +118,14 @@ public class Program
     /// <param name="args"></param>
     private static void OnActivated(object? sender, AppActivationArguments args)
     {
-        var kind = args.Kind;
+        if (args.Kind != ExtendedActivationKind.Protocol) return;
+        var protocolArgs = args.Data as ProtocolActivatedEventArgs;
+        var uri = protocolArgs?.Uri;
+        if (uri == null) return;
+        var window = WindowHelper.ActiveWindows.FirstOrDefault();
+        if (window == null) return;
+        window.DispatcherQueue.TryEnqueue(
+            () => DiFactory.Services.Resolve<INavigateService>().Navigate(uri)
+        );
     }
 }

@@ -1,4 +1,4 @@
-<Window
+<winUiEx:WindowEx
     x:Class="ShadowViewer.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,6 +9,7 @@
     xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shadowViewer="using:ShadowViewer"
+    xmlns:winUiEx="using:WinUIEx"
     x:Name="ThisWindow"
     Title="ShadowViewer"
     mc:Ignorable="d">
@@ -72,4 +73,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-</Window>
+</winUiEx:WindowEx>
