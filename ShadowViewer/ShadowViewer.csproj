@@ -19,6 +19,7 @@
 	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
 	  <AppxBundle>Never</AppxBundle>
 	  <Nullable>enable</Nullable>
+	  <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
 	  <NoWarn>MSB3277</NoWarn>
