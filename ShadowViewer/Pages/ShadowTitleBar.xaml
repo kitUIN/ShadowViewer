@@ -23,7 +23,7 @@
         Subtitle="{x:Bind ViewModel.SubTitle, Mode=OneWay}"
         SubtitleForeground="Goldenrod">
         <controls:TitleBar.Icon>
-            <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/AppTitleBarIcon.png" />
+            <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/StoreLogo.scale-200.png" />
         </controls:TitleBar.Icon>
         <controls:TitleBar.Content>
             <AutoSuggestBox

@@ -95,10 +95,10 @@
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{i18N:Locale Key=About}" />
                 <controls:SettingsExpander IsExpanded="True"
-                    Description="© 2023-2024 kitUIN. All rights reserved."
+                    Description="© 2023-2025 kitUIN. All rights reserved."
                     Header="{i18N:Locale Key=AppTitle}"
                     HeaderIcon="{ui:BitmapIcon ShowAsMonochrome=False,
-                                               Source=ms-appx:///Assets/AppTitleBar.scale-200.png}">
+                                               Source=ms-appx:///Assets/StoreLogo.scale-200.png}">
                     <TextBlock
                         FontSize="16"
                         Foreground="{ThemeResource TextFillColorSecondaryBrush}"

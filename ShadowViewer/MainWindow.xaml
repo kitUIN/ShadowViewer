@@ -50,21 +50,17 @@
                             From="0"
                             To="1"
                             Duration="0:0:0.7" />
-                    </animations:AnimationSet>
-                    <animations:AnimationSet x:Name="OutAnimationLoadingGrid">
-                        <animations:OpacityAnimation
-                            EasingMode="EaseIn"
-                            From="1"
-                            To="0"
-                            Duration="0:0:0.5" />
-                    </animations:AnimationSet>
+                    </animations:AnimationSet> 
                 </animations:Explicit.Animations>
-                <TextBlock
-                    HorizontalAlignment="Center"
-                    FontFamily="Segoe UI Variable Display"
-                    FontSize="45"
-                    FontWeight="ExtraBlack"
-                    Text="ShadowViewer" />
+                <StackPanel Spacing="20" Orientation="Horizontal">
+                    <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/StoreLogo.scale-150.png" />
+                    <TextBlock VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        FontFamily="Segoe UI Variable Display"
+                        FontSize="50"
+                        FontWeight="ExtraBlack"
+                        Text="ShadowViewer" />
+                </StackPanel>
                 <ProgressRing
                     HorizontalAlignment="Center"
                     IsActive="True"

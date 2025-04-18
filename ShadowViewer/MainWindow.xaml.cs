@@ -45,7 +45,7 @@ public sealed partial class MainWindow
 
     private async void Content_Loaded(object sender, RoutedEventArgs e)
     {
-        await InAnimationLoadingGrid.StartAsync();
+        InAnimationLoadingGrid.Start();
 #if DEBUG
         var sw = new Stopwatch();
         sw.Start();

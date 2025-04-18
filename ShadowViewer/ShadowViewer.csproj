@@ -19,7 +19,7 @@
 	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
 	  <AppxBundle>Never</AppxBundle>
 	  <Nullable>enable</Nullable>
-	  <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+	  <GenerateAppxPackageOnBuild Condition="'$(GithubAction)' == 'true'">true</GenerateAppxPackageOnBuild>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
 	  <NoWarn>MSB3277</NoWarn>
@@ -28,21 +28,13 @@
 	  <PublishReadyToRun>false</PublishReadyToRun>
 	  <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 	  <PackageCertificateKeyFile>ShadowViewer_TemporaryKey.pfx</PackageCertificateKeyFile>
-	  <PackageCertificateThumbprint>0D3575E189114D3397A0A7550A3F13FDA158E672</PackageCertificateThumbprint>
+
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Extensions\**" />
     <EmbeddedResource Remove="Extensions\**" />
     <None Remove="Extensions\**" />
     <Page Remove="Extensions\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />	  
   </ItemGroup>
 
   <ItemGroup>
