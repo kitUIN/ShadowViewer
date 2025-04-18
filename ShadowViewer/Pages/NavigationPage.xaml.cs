@@ -1,5 +1,5 @@
 using System;
-using System.Threading;
+using System.Linq;
 using DryIoc;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -37,6 +37,23 @@ namespace ShadowViewer.Pages
             PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
             NotifyService.TipPopupEvent += NotifyService_TipPopupEvent;
             Caller.TopLevelControlEvent += CallerTopLevelControlEvent;
+            DiFactory.Services.Resolve<INavigateService>().TrySelectItemEvent += TrySelectItemCaller;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private void TrySelectItemCaller(object? sender, TrySelectItemEventArgs e)
+        {
+            if (e.Id == null) return;
+            object? item;
+            if (e.Id == "_settings") item = NavView.SettingsItem;
+            else
+            {
+                item = ViewModel.MenuItems.FirstOrDefault(x => x.Id == e.Id) ?? ViewModel.FooterMenuItems.FirstOrDefault(x => x.Id == e.Id);
+            }
+            if (item == null) return;
+            NavView.SelectedItem = item;
         }
 
         /// <summary>
