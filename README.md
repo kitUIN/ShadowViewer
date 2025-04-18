@@ -1,6 +1,10 @@
 <div align="right">
 🌍<a href="https://github.com/kitUIN/ShadowViewer/blob/master/README_EN.md">English</a> / 中文
 </div>
+
+<p align="center">
+  <img src="https://github.com/kitUIN/ShadowViewer/blob/master/ShadowViewer/Assets/StoreLogo.scale-400.png?raw=true" width="128" height="128" alt="ShadowViewer"></a>
+</p>
 <div align="center">
 
 # ShadowViewer
