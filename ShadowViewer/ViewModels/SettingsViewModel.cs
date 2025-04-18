@@ -1,13 +1,19 @@
-using System.Collections.ObjectModel;
-using Windows.ApplicationModel;
+using System;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using DryIoc;
 using Serilog;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core;
+using ShadowViewer.Core.Extensions;
+using ShadowViewer.Core.Models.Interfaces;
 using ShadowViewer.Core.Services;
 using ShadowViewer.Core.Settings;
+using System.Collections.ObjectModel;
+using System.Security.Policy;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.System;
 
 namespace ShadowViewer.ViewModels
 {
@@ -17,10 +23,13 @@ namespace ShadowViewer.ViewModels
     public partial class SettingsViewModel : ObservableObject
     {
         #region DI
+
         private ICallableService Caller { get; }
         private ILogger Logger { get; }
         private PluginLoader PluginService { get; }
-        public SettingsViewModel(ICallableService callableService, PluginLoader pluginService, PluginEventService pluginEventService, ILogger logger)
+
+        public SettingsViewModel(ICallableService callableService, PluginLoader pluginService,
+            PluginEventService pluginEventService, ILogger logger)
         {
             Caller = callableService;
             PluginService = pluginService;
@@ -31,6 +40,7 @@ namespace ShadowViewer.ViewModels
         }
 
         #endregion
+
         /// <summary>
         /// 当前版本号
         /// </summary>
@@ -47,5 +57,15 @@ namespace ShadowViewer.ViewModels
             }
         }
 
+        /// <summary>
+        /// 跳转到uri
+        /// </summary>
+        /// <returns></returns>
+        [RelayCommand]
+        private async Task NavigateToUri(string url)
+        {
+            var uri = new Uri(url);
+            await Launcher.LaunchUriAsync(uri);
+        }
     }
 }

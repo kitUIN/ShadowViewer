@@ -4,7 +4,9 @@ using Microsoft.UI.Xaml.Data;
 using ShadowViewer.Core.Helpers;
 
 namespace ShadowViewer.Converters;
-
+/// <summary>
+/// 
+/// </summary>
 public class ThemeComboConverter : IValueConverter
 {
     /// <inheritdoc />

@@ -105,26 +105,17 @@
                         Style="{StaticResource CaptionTextBlockStyle}"
                         Text="{x:Bind ViewModel.Version}" />
                     <controls:SettingsExpander.Items>
-                        <controls:SettingsCard
+                        <controls:SettingsCard Command="{x:Bind ViewModel.NavigateToUriCommand}"
+                                               CommandParameter="https://github.com/kitUIN/ShadowViewer/issues/new/choose"
                             ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
                             Header="{i18N:Locale Key=BugRequest}"
                             IsClickEnabled="True">
-                            <interactivity:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Click">
-                                    <behaviors:NavigateToUriAction
-                                        NavigateUri="https://github.com/kitUIN/ShadowViewer/issues/new/choose" />
-                                </core:EventTriggerBehavior>
-                            </interactivity:Interaction.Behaviors>
                         </controls:SettingsCard>
                         <controls:SettingsCard
                             ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
-                            Header="{i18N:Locale Key=Sponsor}"
-                            IsClickEnabled="True">
-                            <interactivity:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="Click">
-                                    <behaviors:NavigateToUriAction NavigateUri="https://afdian.net/@kituin" />
-                                </core:EventTriggerBehavior>
-                            </interactivity:Interaction.Behaviors>
+                            Header="{i18N:Locale Key=Sponsor}" Command="{x:Bind ViewModel.NavigateToUriCommand}"
+                            CommandParameter="https://ifdian.net/a/kituin"
+                            IsClickEnabled="True"> 
                         </controls:SettingsCard>
                         <controls:SettingsCard
                             HorizontalContentAlignment="Left"

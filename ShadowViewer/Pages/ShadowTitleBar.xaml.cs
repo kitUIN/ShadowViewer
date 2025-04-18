@@ -54,16 +54,6 @@ public sealed partial class ShadowTitleBar : UserControl
     }
 
     /// <summary>
-    /// 调试模式监听
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public void AppTitleBar_DebugEvent(object? sender, EventArgs e)
-    {
-        ViewModel.SubTitle = CoreSettings.Instance.IsDebug ? I18N.Debug : "";
-    }
-
-    /// <summary>
     /// 初始化后退按钮
     /// </summary>
     /// <param name="action"></param>

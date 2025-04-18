@@ -8,9 +8,13 @@
     xmlns:controls="using:ShadowViewer.Controls"
     xmlns:i18N="using:ShadowViewer.I18n"
     xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
+    xmlns:settings="using:ShadowViewer.Core.Settings"
+    xmlns:converters="using:ShadowViewer.Converters"
     x:Name="RootElement"
     mc:Ignorable="d">
-
+    <UserControl.Resources>
+        <converters:DebugConverter x:Key="DebugConverter" />
+    </UserControl.Resources>
     <controls:TitleBar
         x:Name="AppTitleBar"
         Title="ShadowViewer"
@@ -20,7 +24,7 @@
         IsBackButtonVisible="True"
         IsHistoryButtonVisible="True"
         IsPaneButtonVisible="True"
-        Subtitle="{x:Bind ViewModel.SubTitle, Mode=OneWay}"
+        Subtitle="{x:Bind settings:CoreSettings.Instance.IsDebug, Mode=OneWay, Converter={StaticResource DebugConverter}}"
         SubtitleForeground="Goldenrod">
         <controls:TitleBar.Icon>
             <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/StoreLogo.scale-200.png" />

@@ -65,7 +65,6 @@ public sealed partial class MainWindow
         shadowTitleBar.InitAppTitleBar_BackButtonClick(navigationPage.AppTitleBar_BackButtonClick);
         shadowTitleBar.InitAppTitleBar_OnPaneButtonClick(navigationPage.AppTitleBar_OnPaneButtonClick);
         caller.ThemeChangedEvent += shadowTitleBar.AppTitleBar_ThemeChangedEvent;
-        caller.DebugEvent += shadowTitleBar.AppTitleBar_DebugEvent;
         // await OutAnimationLoadingGrid.StartAsync();
         MainGrid.Visibility = Visibility.Visible;
         LoadingGrid.Visibility = Visibility.Collapsed;
@@ -85,7 +84,7 @@ public sealed partial class MainWindow
         var sw = new Stopwatch();
         sw.Start();
 #endif
-        Debug.WriteLine(CoreSettings.Instance.IsDebug);
+        Log.Information($"Debug Mode: {CoreSettings.Instance.IsDebug}");
         InitDi();
         // 数据库
         InitDatabase();
