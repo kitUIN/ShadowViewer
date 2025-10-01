@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Analyzer", "Sh
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Controls.TitleBar", "ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj", "{237B48C9-C9D1-442C-AAD7-1D9915686E27}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Core", "ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Core.csproj", "{EDB61AA4-B60C-4464-812E-7CFBDE8C588F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Sdk", "ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Sdk.csproj", "{EDB61AA4-B60C-4464-812E-7CFBDE8C588F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShadowViewer.Plugin.Local", "ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj", "{9862CB95-AAF0-4360-A10C-B5ED92E81C4F}"
 EndProject
