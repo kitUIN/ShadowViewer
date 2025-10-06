@@ -35,8 +35,8 @@ public sealed partial class SettingsPage : Page
     {
     }
 
-    private async void LogButton_Click(object sender, RoutedEventArgs e)
+    private void LogButton_Click(object sender, RoutedEventArgs e)
     {
-        await CoreConfig.LaunchLogFolderAsync();
+        CoreConfig.LaunchLogFolder();
     }
 }

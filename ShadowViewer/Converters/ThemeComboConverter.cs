@@ -27,6 +27,6 @@ public class ThemeComboConverter : IValueConverter
         {
             return (ElementTheme)value;
         }
-        return ThemeHelper.RootTheme;
+        return ElementTheme.Default;
     }
 }

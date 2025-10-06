@@ -82,8 +82,7 @@ public sealed partial class MainWindow
         var sw = new Stopwatch();
         sw.Start();
 #endif
-        var coreConfig = CoreConfig.Load();
-        DiFactory.Services.RegisterInstance(coreConfig);
+        var coreConfig = DiFactory.Services.Resolve<CoreConfig>();
         Log.Information($"Debug Mode: {coreConfig.IsDebug}");
         InitDi();
         // 数据库

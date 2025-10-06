@@ -1,12 +1,15 @@
-using System;
+using CustomExtensions.WinUI;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using ShadowViewer.Sdk.Helpers;
-using Windows.ApplicationModel.Activation;
-using Windows.Storage;
-using CustomExtensions.WinUI;
 using ShadowObservableConfig.Json;
 using ShadowObservableConfig.Yaml;
+using ShadowPluginLoader.WinUI;
+using ShadowViewer.Sdk.Configs;
+using ShadowViewer.Sdk.Helpers;
+using System;
+using Windows.ApplicationModel.Activation;
+using Windows.Storage;
+using DryIoc;
 
 namespace ShadowViewer
 {
@@ -22,6 +25,8 @@ namespace ShadowViewer
                     new JsonConfigLoader(),
                     new YamlConfigLoader()
                 ]);
+
+            DiFactory.Services.RegisterInstance(CoreConfig.Load());
         }
 
         /// <summary>
@@ -37,10 +42,9 @@ namespace ShadowViewer
             {
                 firstUri = data.Uri;
             }
+
             var startupWindow = new MainWindow(firstUri);
             WindowHelper.TrackWindow(startupWindow);
-            ThemeHelper.Initialize(startupWindow);
-             
             startupWindow.Activate();
             // // 导航
         }

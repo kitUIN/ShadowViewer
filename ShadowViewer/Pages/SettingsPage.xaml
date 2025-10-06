@@ -52,7 +52,7 @@
                                        Description="{i18N:Locale Key=ThemeDescription}"
                                        Header="{i18N:Locale Key=Theme}">
                     <ComboBox
-                        SelectedIndex="{x:Bind helper:ThemeHelper.RootTheme, Mode=TwoWay, Converter={StaticResource ThemeComboConverter}}">
+                        SelectedIndex="{x:Bind CoreConfig.Theme, Mode=TwoWay, Converter={StaticResource ThemeComboConverter}}">
                         <ComboBoxItem Content="{i18N:Locale Key=Default}" Tag="Default" />
                         <ComboBoxItem Content="{i18N:Locale Key=Light}" Tag="Light" />
                         <ComboBoxItem Content="{i18N:Locale Key=Dark}" Tag="Dark" />

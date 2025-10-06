@@ -96,7 +96,7 @@
 
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Debug' Or '$(GithubAction)' == 'true'">
-	  <ProjectReference Include="..\ShadowViewer.Core\ShadowViewer.Core\ShadowViewer.Sdk.csproj" />
+	  <ProjectReference Include="..\ShadowViewer.Sdk\ShadowViewer.Sdk\ShadowViewer.Sdk.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />	
 	  <!-- <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" /> -->
 	  <!-- <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" /> -->
