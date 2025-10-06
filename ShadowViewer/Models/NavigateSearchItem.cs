@@ -1,5 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
-using ShadowViewer.Core.Models.Interfaces;
+using ShadowViewer.Sdk.Models.Interfaces;
 using ShadowViewer.I18n;
 
 namespace ShadowViewer.Models;

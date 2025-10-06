@@ -1,16 +1,15 @@
-using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using DryIoc;
 using Serilog;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core;
-using ShadowViewer.Core.Extensions;
-using ShadowViewer.Core.Models.Interfaces;
-using ShadowViewer.Core.Services;
-using ShadowViewer.Core.Settings;
+using ShadowPluginLoader.WinUI.Services;
+using ShadowViewer.Sdk;
+using ShadowViewer.Sdk.Configs;
+using ShadowViewer.Sdk.Models.Interfaces;
+using ShadowViewer.Sdk.Services;
+using System;
 using System.Collections.ObjectModel;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.System;
@@ -28,8 +27,7 @@ namespace ShadowViewer.ViewModels
         private ILogger Logger { get; }
         private PluginLoader PluginService { get; }
 
-        public SettingsViewModel(ICallableService callableService, PluginLoader pluginService,
-            PluginEventService pluginEventService, ILogger logger)
+        public SettingsViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger)
         {
             Caller = callableService;
             PluginService = pluginService;

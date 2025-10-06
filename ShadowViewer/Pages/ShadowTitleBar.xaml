@@ -7,8 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:ShadowViewer.Controls"
     xmlns:i18N="using:ShadowViewer.I18n"
-    xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
-    xmlns:settings="using:ShadowViewer.Core.Settings"
+    xmlns:interfaces="using:ShadowViewer.Sdk.Models.Interfaces"
+    xmlns:settings="using:ShadowViewer.Sdk.Settings"
     xmlns:converters="using:ShadowViewer.Converters"
     x:Name="RootElement"
     mc:Ignorable="d">
@@ -24,7 +24,7 @@
         IsBackButtonVisible="True"
         IsHistoryButtonVisible="True"
         IsPaneButtonVisible="True"
-        Subtitle="{x:Bind settings:CoreSettings.Instance.IsDebug, Mode=OneWay, Converter={StaticResource DebugConverter}}"
+        Subtitle="{x:Bind CoreConfig.IsDebug, Mode=OneWay, Converter={StaticResource DebugConverter}}"
         SubtitleForeground="Goldenrod">
         <controls:TitleBar.Icon>
             <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/StoreLogo.scale-200.png" />

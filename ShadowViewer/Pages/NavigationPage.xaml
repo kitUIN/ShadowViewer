@@ -6,12 +6,12 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i18N="using:ShadowViewer.I18n"
-    xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
+    xmlns:interfaces="using:ShadowViewer.Sdk.Models.Interfaces"
     xmlns:local="using:ShadowViewer.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:ShadowViewer.Core.Models"
+    xmlns:models="using:ShadowViewer.Sdk.Models"
     xmlns:shadow="using:ShadowViewer.Controls"
-    xmlns:controls1="using:ShadowViewer.Core.Controls"
+    xmlns:controls1="using:ShadowViewer.Sdk.Controls"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Grid>

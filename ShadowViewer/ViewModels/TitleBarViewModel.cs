@@ -7,17 +7,14 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using ShadowPluginLoader.Attributes;
-using ShadowViewer.Core;
-using ShadowViewer.Core.Extensions;
-using ShadowViewer.Core.Helpers;
-using ShadowViewer.Core.Models.Interfaces;
-using ShadowViewer.Core.Responders;
-using ShadowViewer.Core.Services;
-using ShadowViewer.Core.Settings;
-using ShadowViewer.Core.Utils;
+using ShadowViewer.Sdk;
+using ShadowViewer.Sdk.Helpers;
+using ShadowViewer.Sdk.Models.Interfaces;
+using ShadowViewer.Sdk.Responders;
+using ShadowViewer.Sdk.Services;
+using ShadowViewer.Sdk.Utils;
 using ShadowViewer.I18n;
 using ShadowViewer.Models;
-using static DryIoc.Setup;
 
 namespace ShadowViewer.ViewModels;
 
@@ -27,16 +24,16 @@ public partial class TitleBarViewModel : ObservableObject
     /// 历史记录
     /// </summary>
     public ObservableCollection<IHistory> HistoryCollection { get; } = new();
-    [Autowired]
-    public PluginLoader PluginService { get;}
-    [Autowired]
-    public ICallableService Caller { get;}
-    [Autowired]
-    public INavigateService NavigateService { get;}
 
-    [ObservableProperty] private string subTitle = CoreSettings.Instance.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
-    
-    
+    [Autowired] public PluginLoader PluginService { get; }
+    [Autowired] public ICallableService Caller { get; }
+    [Autowired] public INavigateService NavigateService { get; }
+
+    [ObservableProperty]
+    private string
+        subTitle = ""; // = CoreSettings.Instance.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+
+
     /// <summary>
     /// 刷新历史记录
     /// </summary>
@@ -51,13 +48,14 @@ public partial class TitleBarViewModel : ObservableObject
                 temp.Add(item);
             }
         }
+
         HistoryCollection.Clear();
         foreach (var t in temp)
         {
             HistoryCollection.Add(t);
         }
     }
-    
+
     /// <summary>
     /// 点击历史记录
     /// </summary>
@@ -66,11 +64,12 @@ public partial class TitleBarViewModel : ObservableObject
         if (e.ClickedItem is not IHistory history) return;
         var responder = ResponderHelper.GetEnabledResponder<IHistoryResponder>(history.PluginId);
         responder?.ClickHistoryHandler(history);
-        if (sender is ListView {Parent:Grid{Parent:FlyoutPresenter{Parent:Popup popup}}} )
+        if (sender is ListView { Parent: Grid { Parent: FlyoutPresenter { Parent: Popup popup } } })
         {
             popup.IsOpen = false;
         }
     }
+
     /// <summary>
     /// 删除历史记录
     /// </summary>
@@ -81,10 +80,12 @@ public partial class TitleBarViewModel : ObservableObject
         responder?.DeleteHistoryHandler(history);
         ReLoadHistory();
     }
+
     /// <summary>
     /// 搜索项
     /// </summary>
     public ObservableCollection<IShadowSearchItem> SearchItems { get; } = [];
+
     /// <summary>
     /// 搜索栏修改文字响应
     /// </summary>
@@ -101,6 +102,7 @@ public partial class TitleBarViewModel : ObservableObject
                 SearchItems.Add(new NavigateSearchItem(sender.Text));
         }
     }
+
     /// <summary>
     /// 搜索栏选择响应
     /// </summary>
@@ -108,6 +110,7 @@ public partial class TitleBarViewModel : ObservableObject
     {
         // foreach (var plugin in PluginService!.GetEnabledPlugins()) plugin.SearchSuggestionChosen(sender, args);
     }
+
     /// <summary>
     /// 搜索栏提交响应
     /// </summary>
@@ -132,12 +135,14 @@ public partial class TitleBarViewModel : ObservableObject
 
         sender.Text = string.Empty;
     }
+
     /// <summary>
     /// 搜索栏聚焦
     /// </summary>
     public void AutoSuggestBox_OnGotFocus(object sender, RoutedEventArgs e)
     {
     }
+
     /// <summary>
     /// 搜索栏失焦
     /// </summary>

@@ -10,8 +10,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Activation;
 using DryIoc;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core.Helpers;
-using ShadowViewer.Core.Services;
+using ShadowViewer.Sdk.Helpers;
+using ShadowViewer.Sdk.Services;
 
 namespace ShadowViewer;
 

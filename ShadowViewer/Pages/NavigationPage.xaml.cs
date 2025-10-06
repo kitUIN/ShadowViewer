@@ -7,13 +7,14 @@ using Microsoft.UI.Xaml.Input;
 using Serilog;
 using ShadowPluginLoader.WinUI;
 using ShadowPluginLoader.WinUI.Args;
-using ShadowViewer.Core.Args;
-using ShadowViewer.Core.Enums;
-using ShadowViewer.Core.Models.Interfaces;
-using ShadowViewer.Core.Services;
+using ShadowPluginLoader.WinUI.Services;
+using ShadowViewer.Sdk.Args;
+using ShadowViewer.Sdk.Enums;
+using ShadowViewer.Sdk.Models.Interfaces;
+using ShadowViewer.Sdk.Services;
 using ShadowViewer.ViewModels;
 using ShadowViewer.Services;
-using ShadowViewer.Core.Controls;
+using ShadowViewer.Sdk.Controls;
 
 namespace ShadowViewer.Pages
 {

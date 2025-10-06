@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Data;
-using ShadowViewer.Core.Helpers;
+using ShadowViewer.Sdk.Helpers;
 
 namespace ShadowViewer.Converters;
 /// <summary>

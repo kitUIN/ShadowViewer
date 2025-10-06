@@ -1,20 +1,14 @@
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Numerics;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.WinUI.Animations;
-using Microsoft.UI.Xaml.Controls;
 using ShadowPluginLoader.WinUI.Enums;
 using Serilog;
-using ShadowViewer.Core.Responders;
-using ShadowViewer.Core.Models.Interfaces;
-using ShadowViewer.Core.Services;
-using ShadowViewer.Core;
-using ShadowViewer.Core.Helpers;
-using ShadowViewer.Core.Models;
-using ShadowViewer.Core.Utils;
-using ShadowViewer.Plugin.Local;
+using ShadowViewer.Sdk.Responders;
+using ShadowViewer.Sdk.Models.Interfaces;
+using ShadowViewer.Sdk.Services;
+using ShadowViewer.Sdk;
+using ShadowViewer.Sdk.Helpers;
+using ShadowViewer.Sdk.Utils;
 
 namespace ShadowViewer.ViewModels;
 

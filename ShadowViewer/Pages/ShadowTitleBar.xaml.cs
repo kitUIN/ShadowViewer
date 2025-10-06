@@ -4,11 +4,10 @@ using Microsoft.UI.Xaml.Controls;
 using ShadowPluginLoader.WinUI;
 using ShadowViewer.ViewModels;
 using System;
-using ShadowViewer.I18n;
-using ShadowViewer.Core.Helpers;
-using ShadowViewer.Core.Models.Interfaces;
-using ShadowViewer.Core.Responders;
-using ShadowViewer.Core.Settings;
+using ShadowViewer.Sdk.Configs;
+using ShadowViewer.Sdk.Helpers;
+using ShadowViewer.Sdk.Models.Interfaces;
+using ShadowViewer.Sdk.Responders;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -24,6 +23,8 @@ public sealed partial class ShadowTitleBar : UserControl
     /// 
     /// </summary>
     public TitleBarViewModel ViewModel { get; } = DiFactory.Services.Resolve<TitleBarViewModel>();
+
+    public CoreConfig CoreConfig { get; } = DiFactory.Services.Resolve<CoreConfig>();
 
     /// <summary>
     /// 
@@ -70,6 +71,7 @@ public sealed partial class ShadowTitleBar : UserControl
     {
         AppTitleBar.PaneButtonClick += action;
     }
+
     /// <summary>
     /// 删除历史记录
     /// </summary>

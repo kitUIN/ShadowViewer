@@ -6,15 +6,17 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core.Extensions;
-using ShadowViewer.Core.Helpers;
+using ShadowViewer.Sdk.Configs;
+using ShadowViewer.Sdk.Extensions;
+using ShadowViewer.Sdk.Helpers;
 using ShadowViewer.ViewModels;
 
 namespace ShadowViewer.Pages;
 
 public sealed partial class SettingsPage : Page
 {
-    private SettingsViewModel ViewModel { get;   } = DiFactory.Services.Resolve<SettingsViewModel>();
+    private SettingsViewModel ViewModel { get; } = DiFactory.Services.Resolve<SettingsViewModel>();
+    private CoreConfig CoreConfig { get; } = DiFactory.Services.Resolve<CoreConfig>();
 
     public SettingsPage()
     {
@@ -35,12 +37,6 @@ public sealed partial class SettingsPage : Page
 
     private async void LogButton_Click(object sender, RoutedEventArgs e)
     {
-        var defaultPath = ConfigHelper.IsPackaged
-            ? ApplicationData.Current.LocalFolder.Path
-            : Environment.CurrentDirectory;
-        var folder =
-            await StorageFolder.GetFolderFromPathAsync(Path.Combine(defaultPath,
-                "Logs"));
-        folder.LaunchFolderAsync();
+        await CoreConfig.LaunchLogFolderAsync();
     }
 }

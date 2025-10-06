@@ -6,7 +6,7 @@
     xmlns:controls="using:ShadowViewer.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i18N="using:ShadowViewer.I18n"
-    xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
+    xmlns:interfaces="using:ShadowViewer.Sdk.Models.Interfaces"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shadowViewer="using:ShadowViewer"
     xmlns:winUiEx="using:WinUIEx"

@@ -7,11 +7,11 @@
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:helper="using:ShadowViewer.Core.Helpers"
-    xmlns:settings="using:ShadowViewer.Core.Settings"
+    xmlns:helper="using:ShadowViewer.Sdk.Helpers"
+    xmlns:settings="using:ShadowViewer.Sdk.Settings"
     xmlns:i18N="using:ShadowViewer.I18n"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:interfaces="using:ShadowViewer.Core.Models.Interfaces"
+    xmlns:interfaces="using:ShadowViewer.Sdk.Models.Interfaces"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shadowConverters="using:ShadowViewer.Converters"
     xmlns:ui="using:CommunityToolkit.WinUI"
@@ -89,15 +89,15 @@
                                        Description="{i18N:Locale Key=DebugDescription}"
                                        Header="{i18N:Locale Key=Debug}">
 
-                    <ToggleSwitch IsOn="{x:Bind settings:CoreSettings.Instance.IsDebug, Mode=TwoWay}" />
+                    <ToggleSwitch IsOn="{x:Bind CoreConfig.IsDebug, Mode=TwoWay}" />
                 </controls:SettingsCard>
 
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{i18N:Locale Key=About}" />
                 <controls:SettingsExpander IsExpanded="True"
-                    Description="© 2023-2025 kitUIN. All rights reserved."
-                    Header="{i18N:Locale Key=AppTitle}"
-                    HeaderIcon="{ui:BitmapIcon ShowAsMonochrome=False,
+                                           Description="© 2023-2025 kitUIN. All rights reserved."
+                                           Header="{i18N:Locale Key=AppTitle}"
+                                           HeaderIcon="{ui:BitmapIcon ShowAsMonochrome=False,
                                                Source=ms-appx:///Assets/StoreLogo.scale-200.png}">
                     <TextBlock
                         FontSize="16"
@@ -107,15 +107,15 @@
                     <controls:SettingsExpander.Items>
                         <controls:SettingsCard Command="{x:Bind ViewModel.NavigateToUriCommand}"
                                                CommandParameter="https://github.com/kitUIN/ShadowViewer/issues/new/choose"
-                            ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
-                            Header="{i18N:Locale Key=BugRequest}"
-                            IsClickEnabled="True">
+                                               ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
+                                               Header="{i18N:Locale Key=BugRequest}"
+                                               IsClickEnabled="True">
                         </controls:SettingsCard>
                         <controls:SettingsCard
                             ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
                             Header="{i18N:Locale Key=Sponsor}" Command="{x:Bind ViewModel.NavigateToUriCommand}"
                             CommandParameter="https://ifdian.net/a/kituin"
-                            IsClickEnabled="True"> 
+                            IsClickEnabled="True">
                         </controls:SettingsCard>
                         <controls:SettingsCard
                             HorizontalContentAlignment="Left"

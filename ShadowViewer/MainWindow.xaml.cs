@@ -4,15 +4,12 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Serilog;
 using ShadowPluginLoader.WinUI;
-using ShadowViewer.Core;
-using ShadowViewer.Core.Cache;
-using ShadowViewer.Core.Helpers;
-using ShadowViewer.Core.Models;
-using ShadowViewer.Core.Services;
-using ShadowViewer.Core.Settings;
+using ShadowViewer.Sdk;
+using ShadowViewer.Sdk.Cache;
+using ShadowViewer.Sdk.Helpers;
+using ShadowViewer.Sdk.Models;
+using ShadowViewer.Sdk.Services;
 using ShadowViewer.Pages;
-using ShadowViewer.Plugin.Local;
-using ShadowViewer.Plugin.PluginManager;
 using ShadowViewer.Services;
 using ShadowViewer.ViewModels;
 using SqlSugar;
@@ -21,6 +18,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using ShadowViewer.Sdk.Configs;
 
 namespace ShadowViewer;
 
@@ -84,7 +82,9 @@ public sealed partial class MainWindow
         var sw = new Stopwatch();
         sw.Start();
 #endif
-        Log.Information($"Debug Mode: {CoreSettings.Instance.IsDebug}");
+        var coreConfig = CoreConfig.Load();
+        DiFactory.Services.RegisterInstance(coreConfig);
+        Log.Information($"Debug Mode: {coreConfig.IsDebug}");
         InitDi();
         // 数据库
         InitDatabase();
@@ -100,23 +100,23 @@ public sealed partial class MainWindow
         try
         {
             await pluginServices.CheckUpgradeAndRemoveAsync();
-            await pluginServices
-                .Scan<LocalPlugin>()
-                .Scan<PluginManagerPlugin>()
-                .Load();
-            if (PluginManagerPlugin.Settings.PluginSecurityStatement)
-            {
-                pluginServices.Scan(new DirectoryInfo(CoreSettings.Instance.PluginsPath));
-                
-            }
+            // await pluginServices
+            //     .Scan<LocalPlugin>()
+            //     .Scan<PluginManagerPlugin>()
+            //     .Load();
+            // if (PluginManagerPlugin.Settings.PluginSecurityStatement)
+            // {
+            //     pluginServices.Scan(new DirectoryInfo(CoreSettings.Instance.PluginsPath));
+            //     
+            // }
 #if DEBUG
             // 这里是测试插件用的, Scan里填入你Debug出来的插件dll的文件夹位置
-            pluginServices.Scan(new FileInfo(
-                @"D:\VsProject\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net8.0-windows10.0.22621\ShadowViewer.Plugin.Bika\Assets\plugin.json"
-                ));
+            // pluginServices.Scan(new FileInfo(
+            //     @"D:\VsProject\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net8.0-windows10.0.22621\ShadowViewer.Plugin.Bika\Assets\plugin.json"
+            //     ));
 
 #endif
-            await pluginServices.Load();
+            // await pluginServices.Load();
         }
         catch (Exception ex)
         {

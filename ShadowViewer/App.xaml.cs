@@ -1,11 +1,12 @@
 using System;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
-using ShadowViewer.Core.Helpers;
-using System.Diagnostics;
+using ShadowViewer.Sdk.Helpers;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using CustomExtensions.WinUI;
-using Microsoft.UI.Dispatching;
+using ShadowObservableConfig.Json;
+using ShadowObservableConfig.Yaml;
 
 namespace ShadowViewer
 {
@@ -15,6 +16,12 @@ namespace ShadowViewer
         {
             ApplicationExtensionHost.Initialize(this);
             this.InitializeComponent();
+            ShadowObservableConfig.GlobalSetting.Init(
+                ApplicationData.Current.LocalFolder.Path,
+                [
+                    new JsonConfigLoader(),
+                    new YamlConfigLoader()
+                ]);
         }
 
         /// <summary>

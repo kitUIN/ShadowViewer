@@ -2,11 +2,11 @@ using System;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using ShadowPluginLoader.Attributes;
-using ShadowViewer.Core.Args;
-using ShadowViewer.Core.Helpers;
-using ShadowViewer.Core.Responders;
-using ShadowViewer.Core.Services;
 using ShadowViewer.Pages;
+using ShadowViewer.Sdk.Args;
+using ShadowViewer.Sdk.Helpers;
+using ShadowViewer.Sdk.Responders;
+using ShadowViewer.Sdk.Services;
 
 namespace ShadowViewer.Services;
 

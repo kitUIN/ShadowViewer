@@ -1,11 +1,11 @@
 using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Serilog;
-using ShadowViewer.Core.Args;
-using ShadowViewer.Core.Enums;
-using ShadowViewer.Core.Services;
 using System;
 using Windows.Foundation;
+using ShadowViewer.Sdk.Args;
+using ShadowViewer.Sdk.Enums;
+using ShadowViewer.Sdk.Services;
 
 namespace ShadowViewer.Services;
 

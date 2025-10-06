@@ -7,7 +7,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:cw="using:CustomExtensions.WinUI"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
-    xmlns:converters1="using:ShadowViewer.Core.Converters">
+    xmlns:converters1="using:ShadowViewer.Sdk.Converters">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
