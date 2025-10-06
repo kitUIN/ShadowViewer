@@ -5,12 +5,12 @@
 	  <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
 	  <RootNamespace>ShadowViewer</RootNamespace>
 	  <ApplicationManifest>app.manifest</ApplicationManifest>
-	  <Platforms>x86;x64;ARM64</Platforms>
-	  <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
-	  <PublishProfile>win-$(Platform).pubxml</PublishProfile>
 	  <UseWinUI>true</UseWinUI>
 	  <EnableMsixTooling>true</EnableMsixTooling>
 	  <DefaultLanguage>zh-CN</DefaultLanguage>
+	  <Platforms>x86;x64;ARM64</Platforms>
+	  <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+	  <PublishProfile>win-$(Platform).pubxml</PublishProfile>
 	  <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
 	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
 	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
@@ -30,78 +30,34 @@
 	  <PackageCertificateKeyFile>ShadowViewer_TemporaryKey.pfx</PackageCertificateKeyFile>
 
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="Extensions\**" />
-    <EmbeddedResource Remove="Extensions\**" />
-    <None Remove="Extensions\**" />
-    <Page Remove="Extensions\**" />
-  </ItemGroup>
 
   <ItemGroup>
 	  <Manifest Include="$(ApplicationManifest)" />
-  </ItemGroup>
-  <!-- 
-    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
-    Tools extension to be activated for this project even if the Windows App SDK Nuget
-    package has not yet been restored.
-  -->
+  </ItemGroup> 
   <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <ProjectCapability Include="Msix" />
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\ComicPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\NavigationPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\SettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+  
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
   </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\UserPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="Themes\AppTheme.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-
-  <!-- 
-    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution 
-    Explorer "Package and Publish" context menu entry to be enabled for this project even if 
-    the Windows App SDK Nuget package has not yet been restored.
-  -->
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+
   <ItemGroup>
 	  <PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.2.0" />
 	  <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1742" />
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
 	  <PackageReference Include="WinUIEx" Version="2.5.1" />
-
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Debug' Or '$(GithubAction)' == 'true'">
 	  <ProjectReference Include="..\ShadowViewer.Sdk\ShadowViewer.Sdk\ShadowViewer.Sdk.csproj" />
-	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />	
-	  <!-- <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" /> -->
-	  <!-- <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" /> -->
-	  <!-- <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.3.8" /> -->
-	  <!-- <PackageReference Include="ShadowViewer.Plugin.PluginManager"   Version="1.3.8"/> -->
+	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
+	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
+	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
+	  <!-- <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.4.4.1" /> -->
+	  <!-- <PackageReference Include="ShadowViewer.Plugin.PluginManager"   Version="1.4.4.1"/> -->
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(GithubAction)' != 'true'">
 	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
@@ -113,18 +69,6 @@
 	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PRIResource Remove="Extensions\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Pages\ShadowTitleBar.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\ShadowTitleBar.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
+  </ItemGroup>   
 </Project>
 

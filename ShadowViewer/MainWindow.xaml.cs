@@ -18,6 +18,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using ShadowPluginLoader.WinUI.Config;
+using ShadowViewer.Plugin.Local;
+using ShadowViewer.Plugin.PluginManager;
+using ShadowViewer.Plugin.PluginManager.Configs;
 using ShadowViewer.Sdk.Configs;
 
 namespace ShadowViewer;
@@ -93,21 +97,22 @@ public sealed partial class MainWindow
 #endif
 
         // 插件依赖注入
-        var pluginServices = DiFactory.Services.Resolve<PluginLoader>();
+        var pluginLoader = DiFactory.Services.Resolve<PluginLoader>();
 
         // var currentCulture = CultureInfo.CurrentUICulture;
         try
         {
-            await pluginServices.CheckUpgradeAndRemoveAsync();
-            // await pluginServices
-            //     .Scan<LocalPlugin>()
-            //     .Scan<PluginManagerPlugin>()
-            //     .Load();
-            // if (PluginManagerPlugin.Settings.PluginSecurityStatement)
+            await pluginLoader.CheckUpgradeAndRemoveAsync();
+
+            var session =  pluginLoader.StartScan()
+                .Scan<LocalPlugin>()
+                .Scan<PluginManagerPlugin>();
+
+            // if (DiFactory.Services.Resolve<PluginManagerConfig>().PluginSecurityStatement)
             // {
-            //     pluginServices.Scan(new DirectoryInfo(CoreSettings.Instance.PluginsPath));
             //     
             // }
+            session.Scan(new DirectoryInfo(DiFactory.Services.Resolve<BaseSdkConfig>().PluginFolderPath));
 #if DEBUG
             // 这里是测试插件用的, Scan里填入你Debug出来的插件dll的文件夹位置
             // pluginServices.Scan(new FileInfo(
@@ -115,7 +120,8 @@ public sealed partial class MainWindow
             //     ));
 
 #endif
-            // await pluginServices.Load();
+            var ids = await session.FinishAsync();
+            pluginLoader.Load(ids);
         }
         catch (Exception ex)
         {
@@ -128,7 +134,7 @@ public sealed partial class MainWindow
             var db = DiFactory.Services.Resolve<ISqlSugarClient>();
             var insertTags = new List<ShadowTag>();
             var updateTags = new List<ShadowTag>();
-            foreach (var plugin in pluginServices.GetPlugins())
+            foreach (var plugin in pluginLoader.GetPlugins())
             {
                 if (plugin.MetaData.AffiliationTag?.Name == null) continue;
                 var tagId = await db.Queryable<ShadowTag>().Where(x =>
