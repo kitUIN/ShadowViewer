@@ -87,6 +87,7 @@ public sealed partial class MainWindow
         sw.Start();
 #endif
         var coreConfig = DiFactory.Services.Resolve<CoreConfig>();
+        coreConfig.IsDebug = coreConfig.IsDebug;
         Log.Information($"Debug Mode: {coreConfig.IsDebug}");
         InitDi();
         // 数据库
