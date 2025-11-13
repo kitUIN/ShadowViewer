@@ -50,7 +50,7 @@
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
 	  <PackageReference Include="WinUIEx" Version="2.5.1" />
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)' == 'Debug' Or '$(GithubAction)' == 'true'">
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
 	  <ProjectReference Include="..\ShadowViewer.Sdk\ShadowViewer.Sdk\ShadowViewer.Sdk.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
