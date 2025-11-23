@@ -116,9 +116,9 @@ public sealed partial class MainWindow
             session.Scan(new DirectoryInfo(DiFactory.Services.Resolve<BaseSdkConfig>().PluginFolderPath));
 #if DEBUG
             // 这里是测试插件用的, Scan里填入你Debug出来的插件dll的文件夹位置
-            // pluginServices.Scan(new FileInfo(
-            //     @"D:\VsProject\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net8.0-windows10.0.22621\ShadowViewer.Plugin.Bika\Assets\plugin.json"
-            //     ));
+            session.Scan(new FileInfo(
+                @"C:\Users\Kit_U\source\repos\kitUIN\ShadowViewer.Plugin.Bika\ShadowViewer.Plugin.Bika\bin\Debug\net8.0-windows10.0.22621.0\ShadowViewer.Plugin.Bika\plugin.json"
+                ));
 
 #endif
             var ids = await session.FinishAsync();

@@ -69,9 +69,9 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Button Content="{i18N:Locale Key=Open}" Visibility="{x:Bind CanOpen}">
                                         <interactivity:Interaction.Behaviors>
-                                            <core:EventTriggerBehavior EventName="Click">
+                                            <interactivity:EventTriggerBehavior EventName="Click">
                                                 <behaviors:NavigateToUriAction NavigateUri="{x:Bind Path}" />
-                                            </core:EventTriggerBehavior>
+                                            </interactivity:EventTriggerBehavior>
                                         </interactivity:Interaction.Behaviors>
                                     </Button>
                                 </StackPanel>
