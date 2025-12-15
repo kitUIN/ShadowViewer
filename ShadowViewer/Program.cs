@@ -124,6 +124,7 @@ public class Program
         if (uri == null) return;
         var window = WindowHelper.ActiveWindows.FirstOrDefault();
         if (window == null) return;
+        window.Activate();
         window.DispatcherQueue.TryEnqueue(
             () => DiFactory.Services.Resolve<INavigateService>().Navigate(uri)
         );
