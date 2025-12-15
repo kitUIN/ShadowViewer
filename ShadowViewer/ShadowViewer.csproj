@@ -22,7 +22,7 @@
 	  <GenerateAppxPackageOnBuild Condition="'$(GithubAction)' == 'true'">true</GenerateAppxPackageOnBuild>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
-	  <NoWarn>MSB3277</NoWarn>
+	  <NoWarn>MSB3277;PRI263;NETSDK1198</NoWarn>
 	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
 	  <LangVersion>preview</LangVersion>
 	  <PublishReadyToRun>false</PublishReadyToRun>

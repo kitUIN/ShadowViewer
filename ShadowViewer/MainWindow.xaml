@@ -3,14 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:animations="using:CommunityToolkit.WinUI.Animations"
-    xmlns:controls="using:ShadowViewer.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i18N="using:ShadowViewer.I18n"
-    xmlns:interfaces="using:ShadowViewer.Sdk.Models.Interfaces"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:shadowViewer="using:ShadowViewer"
     xmlns:winUiEx="using:WinUIEx"
-    x:Name="ThisWindow"
     Title="ShadowViewer"
     mc:Ignorable="d">
     <Window.SystemBackdrop>
@@ -53,7 +48,7 @@
                     </animations:AnimationSet> 
                 </animations:Explicit.Animations>
                 <StackPanel Spacing="20" Orientation="Horizontal">
-                    <BitmapIcon ShowAsMonochrome="False" UriSource="ms-appx:///Assets/StoreLogo.scale-150.png" />
+                    <BitmapIcon ShowAsMonochrome="False" Width="120" UriSource="ms-appx:///Assets/StoreLogo.scale-400.png" />
                     <TextBlock VerticalAlignment="Center"
                         HorizontalAlignment="Center"
                         FontFamily="Segoe UI Variable Display"
