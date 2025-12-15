@@ -17,7 +17,7 @@ namespace ShadowViewer.Pages;
 /// <summary>
 /// 
 /// </summary>
-public sealed partial class ShadowTitleBar : UserControl
+public sealed partial class ShadowTitleBar
 {
     /// <summary>
     /// 

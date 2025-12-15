@@ -52,7 +52,6 @@ public class Program
     {
         var isRedirect = false;
         var args = AppInstance.GetCurrent().GetActivatedEventArgs();
-        var kind = args.Kind;
         var keyInstance = AppInstance.FindOrRegisterForKey("SingleShadowViewer");
 
         if (keyInstance.IsCurrent)
@@ -104,7 +103,7 @@ public class Program
         const uint infinite = 0xFFFFFFFF;
         _ = CoWaitForMultipleObjects(
             camoDefault, infinite, 1,
-            [_redirectEventHandle], out var handleIndex);
+            [_redirectEventHandle], out _);
 
         // Bring the window to the foreground
         var process = Process.GetProcessById((int)keyInstance.ProcessId);

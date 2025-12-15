@@ -8,7 +8,6 @@
     xmlns:controls="using:ShadowViewer.Controls"
     xmlns:i18N="using:ShadowViewer.I18n"
     xmlns:interfaces="using:ShadowViewer.Sdk.Models.Interfaces"
-    xmlns:settings="using:ShadowViewer.Sdk.Settings"
     xmlns:converters="using:ShadowViewer.Converters"
     x:Name="RootElement"
     mc:Ignorable="d">

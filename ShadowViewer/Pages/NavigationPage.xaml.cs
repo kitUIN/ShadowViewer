@@ -14,11 +14,10 @@ using ShadowViewer.Sdk.Models.Interfaces;
 using ShadowViewer.Sdk.Services;
 using ShadowViewer.ViewModels;
 using ShadowViewer.Services;
-using ShadowViewer.Sdk.Controls;
 
 namespace ShadowViewer.Pages
 {
-    public sealed partial class NavigationPage : ShadowPage
+    public sealed partial class NavigationPage
     {
         public static ILogger Logger { get; } = Log.ForContext<NavigationPage>();
         private NavigationViewModel ViewModel { get; } = DiFactory.Services.Resolve<NavigationViewModel>();

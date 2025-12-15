@@ -13,7 +13,6 @@ using ShadowViewer.Sdk.Models.Interfaces;
 using ShadowViewer.Sdk.Responders;
 using ShadowViewer.Sdk.Services;
 using ShadowViewer.Sdk.Utils;
-using ShadowViewer.I18n;
 using ShadowViewer.Models;
 
 namespace ShadowViewer.ViewModels;
@@ -23,15 +22,15 @@ public partial class TitleBarViewModel : ObservableObject
     /// <summary>
     /// 历史记录
     /// </summary>
-    public ObservableCollection<IHistory> HistoryCollection { get; } = new();
+    public ObservableCollection<IHistory> HistoryCollection { get; } = [];
 
     [Autowired] public PluginLoader PluginService { get; }
     [Autowired] public ICallableService Caller { get; }
     [Autowired] public INavigateService NavigateService { get; }
 
     [ObservableProperty]
-    private string
-        subTitle = ""; // = CoreSettings.Instance.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
+    public partial string SubTitle { get; set; } = ""; 
+    // = CoreSettings.Instance.IsDebug ? ResourcesHelper.GetString(ResourceKey.Debug) : "";
 
 
     /// <summary>

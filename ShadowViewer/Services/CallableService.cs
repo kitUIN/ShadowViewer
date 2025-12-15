@@ -12,7 +12,7 @@ namespace ShadowViewer.Services;
 /// <summary>
 /// 触发器服务类
 /// </summary>
-internal partial class CallableService(ILogger logger) : ICallableService
+internal class CallableService(ILogger logger) : ICallableService
 {
     /// <summary>
     /// Logger

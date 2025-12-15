@@ -1,5 +1,4 @@
 using CustomExtensions.WinUI;
-using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
 using ShadowObservableConfig.Json;
 using ShadowObservableConfig.Yaml;
@@ -13,7 +12,7 @@ using DryIoc;
 
 namespace ShadowViewer
 {
-    public partial class App : Application
+    public partial class App
     {
         public App()
         {

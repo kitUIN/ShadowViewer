@@ -24,7 +24,7 @@
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
 	  <NoWarn>MSB3277</NoWarn>
 	  <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
-	  <LangVersion>12</LangVersion>
+	  <LangVersion>preview</LangVersion>
 	  <PublishReadyToRun>false</PublishReadyToRun>
 	  <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
 	  <PackageCertificateKeyFile>ShadowViewer_TemporaryKey.pfx</PackageCertificateKeyFile>

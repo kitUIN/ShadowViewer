@@ -21,7 +21,6 @@ using System.Threading.Tasks;
 using ShadowPluginLoader.WinUI.Config;
 using ShadowViewer.Plugin.Local;
 using ShadowViewer.Plugin.PluginManager;
-using ShadowViewer.Plugin.PluginManager.Configs;
 using ShadowViewer.Sdk.Configs;
 
 namespace ShadowViewer;

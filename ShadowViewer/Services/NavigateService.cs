@@ -7,7 +7,6 @@ using ShadowPluginLoader.WinUI;
 using ShadowViewer.Pages;
 using ShadowViewer.Sdk.Args;
 using ShadowViewer.Sdk.Helpers;
-using ShadowViewer.Sdk.Responders;
 using ShadowViewer.Sdk.Services;
 
 namespace ShadowViewer.Services;

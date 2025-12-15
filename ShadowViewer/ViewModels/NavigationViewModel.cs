@@ -2,10 +2,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using ShadowPluginLoader.WinUI.Enums;
-using Serilog;
 using ShadowViewer.Sdk.Responders;
 using ShadowViewer.Sdk.Models.Interfaces;
-using ShadowViewer.Sdk.Services;
 using ShadowViewer.Sdk;
 using ShadowViewer.Sdk.Helpers;
 using ShadowViewer.Sdk.Utils;
@@ -14,18 +12,12 @@ namespace ShadowViewer.ViewModels;
 
 public partial class NavigationViewModel : ObservableObject
 {
-    private ILogger Logger { get; }
-    private ICallableService Caller { get; }
     private PluginLoader PluginService { get; }
 
     /// <summary />
-    /// <param name="callableService"></param>
     /// <param name="pluginService"></param>
-    /// <param name="logger"></param>
-    public NavigationViewModel(ICallableService callableService, PluginLoader pluginService, ILogger logger)
+    public NavigationViewModel(PluginLoader pluginService)
     {
-        Logger = logger;
-        Caller = callableService;
         PluginService = pluginService;
     }
 
@@ -114,10 +106,6 @@ public partial class NavigationViewModel : ObservableObject
                     DeleteMenuItem(item2);
                 foreach (var item1 in responder.NavigationViewFooterItems)
                     DeleteFooterMenuItems(item1);
-                break;
-            }
-            default:
-            {
                 break;
             }
         }
