@@ -41,7 +41,7 @@ public partial class NavigateService : INavigateService
                 Navigate(typeof(SettingsPage), selectItemId: "_settings");
                 return;
             default:
-                if (ResponderHelper.GetEnabledResponder<INavigationResponder>(uri.Host) is { } responder)
+                if (ResponderHelper.GetEnabledNavigateResponder(uri.Host) is { } responder)
                 {
                     var res = responder.Navigate(uri, urls);
                     if (res == null) return;

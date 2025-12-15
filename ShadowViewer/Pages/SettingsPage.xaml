@@ -61,7 +61,7 @@
                 <controls:SettingsExpander HeaderIcon="{fluent:SymbolIcon Symbol=Archive}"
                                            Description="{i18N:Locale Key=FolderDescription}"
                                            Header="{i18N:Locale Key=DataFolder}"
-                                           ItemsSource="{x:Bind ViewModel.SettingsFolders,Mode=OneWay}">
+                                           ItemsSource="{x:Bind ViewModel.SettingsFolders, Mode=OneWay}">
 
                     <controls:SettingsExpander.ItemTemplate>
                         <DataTemplate x:DataType="interfaces:ISettingFolder">
