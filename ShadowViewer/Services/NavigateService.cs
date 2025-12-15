@@ -1,7 +1,9 @@
 using System;
+using DryIoc;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Animation;
 using ShadowPluginLoader.Attributes;
+using ShadowPluginLoader.WinUI;
 using ShadowViewer.Pages;
 using ShadowViewer.Sdk.Args;
 using ShadowViewer.Sdk.Helpers;
@@ -47,7 +49,10 @@ public partial class NavigateService : INavigateService
                     if (res == null) return;
                     Navigate(res.Page, res.Parameter, res.Info, res.Force, res.SelectItemId);
                 }
-
+                else
+                {
+                    DiFactory.Services.Resolve<INotifyService>().NotifyTip(this, $"shadow://{uri.Host}所属的应用不存在,请确认是否安装后重新唤起", InfoBarSeverity.Error, 4D);
+                }
                 break;
         }
     }
