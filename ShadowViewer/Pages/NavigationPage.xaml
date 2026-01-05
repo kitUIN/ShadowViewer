@@ -63,7 +63,7 @@
                     <NavigationViewItem
                         Content="{x:Bind Content, Mode=OneWay}"
                         Icon="{x:Bind Icon, Mode=OneWay}"
-                        Tag="{x:Bind}" />
+                        Tag="{x:Bind Uri, Mode=OneWay}" />
                 </DataTemplate>
             </NavigationView.MenuItemTemplate>
         </NavigationView>

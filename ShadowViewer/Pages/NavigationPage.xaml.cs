@@ -11,7 +11,9 @@ using ShadowPluginLoader.WinUI.Services;
 using ShadowViewer.Sdk.Args;
 using ShadowViewer.Sdk.Enums;
 using ShadowViewer.Sdk.Models.Interfaces;
+using ShadowViewer.Sdk.Navigation;
 using ShadowViewer.Sdk.Services;
+using ShadowViewer.Sdk.Utils;
 using ShadowViewer.ViewModels;
 using ShadowViewer.Services;
 
@@ -25,10 +27,13 @@ namespace ShadowViewer.Pages
         private INotifyService NotifyService { get; } = DiFactory.Services.Resolve<INotifyService>();
         private PluginEventService PluginEventService { get; } = DiFactory.Services.Resolve<PluginEventService>();
 
+        private INavigateService NavigateService { get; }
+
         public NavigationPage()
         {
             this.InitializeComponent();
-
+            ShadowRouteRegistry.RegisterPage(new ShadowNavigation(typeof(SettingsPage), SelectItemId: "_settings"),
+                "settings");
             DiFactory.Services.Register<INavigateService, NavigateService>(reuse: Reuse.Singleton,
                 made: Parameters.Of.Type(_ => ContentFrame));
             ViewModel.InitItems();
@@ -37,7 +42,8 @@ namespace ShadowViewer.Pages
             PluginEventService.PluginDisabled += CallerOnPluginEnabledEvent;
             NotifyService.TipPopupEvent += NotifyService_TipPopupEvent;
             Caller.TopLevelControlEvent += CallerTopLevelControlEvent;
-            DiFactory.Services.Resolve<INavigateService>().TrySelectItemEvent += TrySelectItemCaller;
+            NavigateService = DiFactory.Services.Resolve<INavigateService>();
+            NavigateService.TrySelectItemEvent += TrySelectItemCaller;
         }
 
         /// <summary>
@@ -50,8 +56,10 @@ namespace ShadowViewer.Pages
             if (e.Id == "_settings") item = NavView.SettingsItem;
             else
             {
-                item = ViewModel.MenuItems.FirstOrDefault(x => x.Id == e.Id) ?? ViewModel.FooterMenuItems.FirstOrDefault(x => x.Id == e.Id);
+                item = ViewModel.MenuItems.FirstOrDefault(x => x.Id == e.Id) ??
+                       ViewModel.FooterMenuItems.FirstOrDefault(x => x.Id == e.Id);
             }
+
             if (item == null) return;
             NavView.SelectedItem = item;
         }
@@ -106,12 +114,10 @@ namespace ShadowViewer.Pages
                 page = typeof(SettingsPage);
             }
             else if (args.InvokedItemContainer != null &&
-                     args.InvokedItemContainer.Tag is IShadowNavigationItem item &&
-                     ViewModel.NavigationViewItemInvokedHandler(item) is { } navigation)
+                     args.InvokedItemContainer.Tag is ShadowUri uri)
             {
-                parameter = navigation.Parameter;
-                page = navigation.Page;
-                info = navigation.Info;
+                NavigateService.Navigate(uri);
+                return;
             }
 
             if (page == null || ContentFrame.CurrentSourcePageType == page) return;
