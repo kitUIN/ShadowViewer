@@ -4,12 +4,17 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Serilog;
 using ShadowPluginLoader.WinUI;
+using ShadowPluginLoader.WinUI.Config;
+using ShadowPluginLoader.WinUI.Extensions;
+using ShadowViewer.Pages;
+using ShadowViewer.Plugin.Local;
+using ShadowViewer.Plugin.PluginManager;
 using ShadowViewer.Sdk;
 using ShadowViewer.Sdk.Cache;
+using ShadowViewer.Sdk.Configs;
 using ShadowViewer.Sdk.Helpers;
 using ShadowViewer.Sdk.Models;
 using ShadowViewer.Sdk.Services;
-using ShadowViewer.Pages;
 using ShadowViewer.Services;
 using ShadowViewer.ViewModels;
 using SqlSugar;
@@ -18,10 +23,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
-using ShadowPluginLoader.WinUI.Config;
-using ShadowViewer.Plugin.Local;
-using ShadowViewer.Plugin.PluginManager;
-using ShadowViewer.Sdk.Configs;
 
 namespace ShadowViewer;
 
@@ -104,15 +105,15 @@ public sealed partial class MainWindow
         {
             await pluginLoader.CheckUpgradeAndRemoveAsync();
 
-            var session =  pluginLoader.StartScan()
-                .Scan<LocalPlugin>()
-                .Scan<PluginManagerPlugin>();
+            var session =  pluginLoader.CreatePipeline()
+                .Feed<LocalPlugin>()
+                .Feed<PluginManagerPlugin>();
 
             // if (DiFactory.Services.Resolve<PluginManagerConfig>().PluginSecurityStatement)
             // {
             //     
             // }
-            session.Scan(new DirectoryInfo(DiFactory.Services.Resolve<BaseSdkConfig>().PluginFolderPath));
+            session.Feed(new DirectoryInfo(DiFactory.Services.Resolve<BaseSdkConfig>().PluginFolderPath));
 #if DEBUG
             // 这里是测试插件用的, Scan里填入你Debug出来的插件dll的文件夹位置
             // session.Scan(new FileInfo(
@@ -120,8 +121,7 @@ public sealed partial class MainWindow
             //     ));
 
 #endif
-            var ids = await session.FinishAsync();
-            pluginLoader.Load(ids);
+            await session.ProcessAsync();
         }
         catch (Exception ex)
         {

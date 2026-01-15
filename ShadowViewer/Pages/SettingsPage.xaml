@@ -5,10 +5,8 @@
     xmlns:behaviors="using:CommunityToolkit.WinUI.Behaviors"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:helper="using:ShadowViewer.Sdk.Helpers"
-    xmlns:settings="using:ShadowViewer.Sdk.Settings"
     xmlns:i18N="using:ShadowViewer.I18n"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:interfaces="using:ShadowViewer.Sdk.Models.Interfaces"
@@ -16,6 +14,7 @@
     xmlns:shadowConverters="using:ShadowViewer.Converters"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:fluent="using:FluentIcons.WinUI"
+    xmlns:icx="using:FluentIcons.WinUI.Markup"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.Resources>
@@ -48,7 +47,7 @@
             <StackPanel HorizontalAlignment="Stretch" Spacing="{StaticResource SettingsCardSpacing}">
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
                            Text="{i18N:Locale Key=MainSetting}" />
-                <controls:SettingsCard HeaderIcon="{fluent:SymbolIcon Symbol=Communication}"
+                <controls:SettingsCard HeaderIcon="{icx:SymbolIcon Symbol=Communication}"
                                        Description="{i18N:Locale Key=ThemeDescription}"
                                        Header="{i18N:Locale Key=Theme}">
                     <ComboBox
@@ -58,7 +57,7 @@
                         <ComboBoxItem Content="{i18N:Locale Key=Dark}" Tag="Dark" />
                     </ComboBox>
                 </controls:SettingsCard>
-                <controls:SettingsExpander HeaderIcon="{fluent:SymbolIcon Symbol=Archive}"
+                <controls:SettingsExpander HeaderIcon="{icx:SymbolIcon Symbol=Archive}"
                                            Description="{i18N:Locale Key=FolderDescription}"
                                            Header="{i18N:Locale Key=DataFolder}"
                                            ItemsSource="{x:Bind ViewModel.SettingsFolders, Mode=OneWay}">
@@ -79,13 +78,13 @@
                         </DataTemplate>
                     </controls:SettingsExpander.ItemTemplate>
                 </controls:SettingsExpander>
-                <controls:SettingsCard HeaderIcon="{fluent:SymbolIcon Symbol=BookDatabase}"
+                <controls:SettingsCard HeaderIcon="{icx:SymbolIcon Symbol=BookDatabase}"
                                        Description="{i18N:Locale Key=LogPathDescription}"
                                        Header="{i18N:Locale Key=LogPath}">
 
                     <Button Click="LogButton_Click" Content="{i18N:Locale Key=Open}" />
                 </controls:SettingsCard>
-                <controls:SettingsCard HeaderIcon="{fluent:SymbolIcon Symbol=Bug}"
+                <controls:SettingsCard HeaderIcon="{icx:SymbolIcon Symbol=Bug}"
                                        Description="{i18N:Locale Key=DebugDescription}"
                                        Header="{i18N:Locale Key=Debug}">
 
