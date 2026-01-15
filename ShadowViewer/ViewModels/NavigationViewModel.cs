@@ -6,7 +6,6 @@ using ShadowViewer.Sdk.Responders;
 using ShadowViewer.Sdk.Models.Interfaces;
 using ShadowViewer.Sdk;
 using ShadowViewer.Sdk.Helpers;
-using ShadowViewer.Sdk.Utils;
 
 namespace ShadowViewer.ViewModels;
 
@@ -30,12 +29,7 @@ public partial class NavigationViewModel : ObservableObject
     /// 导航栏底部菜单
     /// </summary>
     public readonly ObservableCollection<IShadowNavigationItem> FooterMenuItems = [];
-
-    public ShadowNavigation? NavigationViewItemInvokedHandler(IShadowNavigationItem item)
-    {
-        var responder = ResponderHelper.GetEnabledResponder<INavigationResponder>(item.PluginId);
-        return responder?.NavigationViewItemInvokedHandler(item);
-    }
+    
 
     /// <summary>
     /// 添加导航栏个体
