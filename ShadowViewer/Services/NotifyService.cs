@@ -1,14 +1,14 @@
-﻿using Microsoft.UI.Xaml;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Serilog;
-using System;
 using ShadowViewer.Sdk.Args;
 using ShadowViewer.Sdk.Enums;
 using ShadowViewer.Sdk.Services;
+using System;
+using System.Threading.Tasks;
 
 namespace ShadowViewer.Services;
-
-
 
 /// <summary>
 /// 通知服务类
@@ -28,7 +28,7 @@ internal class NotifyService(ILogger logger) : INotifyService
         InfoBarSeverity level = InfoBarSeverity.Informational, double displaySeconds = 2,
         TipPopupPosition position = TipPopupPosition.Center)
     {
-        TipPopupEvent?.Invoke(sender,new TipPopupEventArgs(new InfoBar
+        TipPopupEvent?.Invoke(sender, new TipPopupEventArgs(new InfoBar
         {
             Message = message,
             Severity = level,
@@ -36,7 +36,7 @@ internal class NotifyService(ILogger logger) : INotifyService
             IsIconVisible = true,
             IsOpen = true,
             FlowDirection = FlowDirection.LeftToRight
-        }, position,displaySeconds));
+        }, position, displaySeconds));
         Logger.Debug("触发事件{EventName},Message={Message},Level={Level},Time={Time}",
             nameof(TipPopupEvent), message, level, displaySeconds);
     }
@@ -45,10 +45,18 @@ internal class NotifyService(ILogger logger) : INotifyService
     public void NotifyTip(object sender, InfoBar tipPopup, double displaySeconds = 2,
         TipPopupPosition position = TipPopupPosition.Center)
     {
-        TipPopupEvent?.Invoke(sender, 
+        TipPopupEvent?.Invoke(sender,
             new TipPopupEventArgs(tipPopup, position, displaySeconds));
         Logger.Debug("触发事件{EventName},Message={Message},Level={Level},Time={Time}",
             nameof(TipPopupEvent), tipPopup.Message,
             tipPopup.Severity, displaySeconds);
+    }
+
+    /// <inheritdoc />
+    public async Task<ContentDialogResult> ShowDialog(object? sender, ContentDialog dialog)
+    {
+        var resultSource = new TaskCompletionSource<ContentDialogResult>();
+        WeakReferenceMessenger.Default.Send(new ShowDialogMessageArgs(sender, dialog, resultSource));
+        return await resultSource.Task;
     }
 }
