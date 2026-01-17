@@ -160,6 +160,7 @@ public sealed partial class MainWindow
         DiHelper.Init();
         DiFactory.Services.Register<INotifyService, NotifyService>(reuse: Reuse.Singleton);
         DiFactory.Services.Register<ICallableService, CallableService>(reuse: Reuse.Singleton);
+        DiFactory.Services.Register<IFilePickerService, FilePickerService>(reuse: Reuse.Singleton);
 
         DiFactory.Services.Register<SettingsViewModel>(reuse: Reuse.Singleton);
         DiFactory.Services.Register<NavigationViewModel>(reuse: Reuse.Singleton);
