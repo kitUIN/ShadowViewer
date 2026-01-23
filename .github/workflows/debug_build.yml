@@ -106,8 +106,12 @@ jobs:
             Packages/${{ env.Solution_Name }}*/*.*
             Packages/${{ env.Solution_Name }}*/Add-AppDevPackage.resources
             Packages/${{ env.Solution_Name }}*/Dependencies/${{ matrix.platform }}/*.*
-      
- 
+            
+      - name: Create ZIP package 
+        run: | 
+          cd Packages 
+          zip -r ${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}_${{ matrix.configuration }}.zip .
+          
       - name: Create GitHub Pre-release
         if: env.Preview == '1'
         uses: marvinpinto/action-automatic-releases@latest
@@ -117,6 +121,4 @@ jobs:
           prerelease: true
           title: ${{ env.VERSION }}
           files: |
-            Packages/${{ env.Solution_Name }}*/*.msix
-            Packages/${{ env.Solution_Name }}*/Dependencies/**/*.msix
-            Packages/${{ env.Solution_Name }}*/Add-AppDevPackage.resources
+            Packages/${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}_${{ matrix.configuration }}.zip
