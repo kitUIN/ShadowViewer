@@ -16,21 +16,15 @@ on:
       - 'vercel.json'
   workflow_dispatch:
   
-
+env:
+  Solution_Name: ShadowViewer
 jobs:
-
-
   build:
-      
-
     strategy:
         matrix:
           configuration: [Release]
           platform: [x64, x86, arm64]
-
     runs-on: windows-latest
-    env:
-      Solution_Name: ShadowViewer
     steps:
       - name: Delay
         run: sleep 10
@@ -101,16 +95,36 @@ jobs:
       - name: Upload MSIX package
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}_${{ matrix.configuration }}
+          name: ${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}
           path: |
             Packages/${{ env.Solution_Name }}*/*.*
             Packages/${{ env.Solution_Name }}*/Add-AppDevPackage.resources
             Packages/${{ env.Solution_Name }}*/Dependencies/${{ matrix.platform }}/*.*
-            
+  release:
+    runs-on: windows-latest
+    needs: build
+    steps:
+      - name: x86
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.Solution_Name }}_${{ env.VERSION }}_x86
+          path: ./x86 
+      - name: x64
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.Solution_Name }}_${{ env.VERSION }}_x64
+          path: ./x64 
+      - name: arm64
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.Solution_Name }}_${{ env.VERSION }}_arm64
+          path: ./arm64 
       - name: Create ZIP package 
         shell: pwsh
         run: | 
-          Compress-Archive -Path Packages\* -DestinationPath  ${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}_${{ matrix.configuration }}.zip
+          Compress-Archive -Path x86\* -DestinationPath  ${{ env.Solution_Name }}_${{ env.VERSION }}_x86.zip
+          Compress-Archive -Path x64\* -DestinationPath  ${{ env.Solution_Name }}_${{ env.VERSION }}_x64.zip
+          Compress-Archive -Path arm64\* -DestinationPath  ${{ env.Solution_Name }}_${{ env.VERSION }}_arm64.zip
           
       - name: Create GitHub Pre-release
         if: env.Preview == '1'
@@ -121,4 +135,4 @@ jobs:
           prerelease: true
           title: ${{ env.VERSION }}
           files: |
-            ${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}_${{ matrix.configuration }}.zip
+            *.zip
