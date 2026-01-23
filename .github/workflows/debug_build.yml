@@ -64,13 +64,14 @@ jobs:
           [IO.File]::WriteAllBytes("GitHubActionsWorkflow.pfx", $bytes)
 
       - name: Create the app package
-        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj `
-          /p:Configuration=${{ matrix.configuration }} `
-          /p:Platform=${{ matrix.platform }} `
-          /p:UapAppxPackageBuildMode=SideloadOnly `
-          /p:AppxBundle=Never `
-          /p:PackageCertificateKeyFile=../GitHubActionsWorkflow.pfx `
-          /p:AppxPackageDir=../Packages/
+        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=../GitHubActionsWorkflow.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GithubAction=true /p:MainGithubAction=true
+        env:
+          Appx_Bundle: Never
+          Appx_Package_Build_Mode: SideloadOnly
+          Appx_Package_Dir: ..\Packages\
+          Configuration: ${{ matrix.configuration }}
+          Platform: ${{ matrix.platform }}
+          
 
       - name: Get Version
         id: get_version
