@@ -20,6 +20,9 @@ env:
   Solution_Name: ShadowViewer
 jobs:
   build:
+    outputs: 
+      VERSION: ${{ steps.get_version.outputs.VERSION }} 
+      PREVIEW: ${{ steps.get_version.outputs.PREVIEW }}
     strategy:
         matrix:
           configuration: [Release]
@@ -70,6 +73,7 @@ jobs:
           Platform: ${{ matrix.platform }}
           
       - name: Get Version
+        id: get_version
         shell: pwsh
         run: |
           [xml]$proj = Get-Content "$env:Solution_Name/Package.appxmanifest"
@@ -83,7 +87,7 @@ jobs:
           if ($build -ne 0) {
               $minor = $minor + 1
               $newVersion = "$major.$minor-Preview$build"
-              echo "Preview=1" >> $env:GITHUB_ENV
+              echo "PREVIEW=1" >> $env:GITHUB_ENV
           }
           echo "VERSION=$newVersion" >> $env:GITHUB_ENV
 
@@ -103,6 +107,9 @@ jobs:
   release:
     runs-on: windows-latest
     needs: build
+    env:
+      VERSION: ${{ needs.build.outputs.VERSION }}
+      PREVIEW: ${{ needs.build.outputs.PREVIEW }}
     steps:
       - name: x86
         uses: actions/download-artifact@v4
@@ -127,7 +134,7 @@ jobs:
           Compress-Archive -Path arm64\* -DestinationPath  ${{ env.Solution_Name }}_${{ env.VERSION }}_arm64.zip
           
       - name: Create GitHub Pre-release
-        if: env.Preview == '1'
+        if: env.PREVIEW == '1'
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.RELEASE_TOKEN }}"
