@@ -50,8 +50,8 @@
 	  <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250401001" />
 	  <PackageReference Include="WinUIEx" Version="2.5.1" />
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-	  <ProjectReference Include="..\ShadowViewer.Sdk\ShadowViewer.Sdk\ShadowViewer.Sdk.csproj" />
+  <ItemGroup Condition="'$(Configuration)' == 'Debug' Or '$(DepsUseNuget)' != 'true'">
+	  <!-- <ProjectReference Include="..\ShadowViewer.Sdk\ShadowViewer.Sdk\ShadowViewer.Sdk.csproj" /> -->
 	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
@@ -62,12 +62,6 @@
 	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.5.0" />
 	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.5.0.1" />
 	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(DepsUseNuget)' != 'true'">
-	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
-	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
-	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
-  </ItemGroup>   
+  </ItemGroup>  
 </Project>
 
