@@ -126,8 +126,8 @@ internal class FilePickerService(ILogger logger) : IFilePickerService
 
     /// <inheritdoc />
     public async Task<StorageFile?> PickSaveFileAsync(
+        IDictionary<string, IList<string>> fileTypeChoices,
         string? suggestedFileName = null,
-        IDictionary<string, IList<string>>? fileTypeChoices = null,
         PickerLocationId suggestedStartLocation = PickerLocationId.DocumentsLibrary,
         string? settingsIdentifier = null)
     {
@@ -146,16 +146,9 @@ internal class FilePickerService(ILogger logger) : IFilePickerService
             picker.SuggestedFileName = suggestedFileName;
         }
 
-        if (fileTypeChoices == null || fileTypeChoices.Count == 0)
+        foreach (var choice in fileTypeChoices)
         {
-            picker.FileTypeChoices.Add("All Files", new List<string> { "*" });
-        }
-        else
-        {
-            foreach (var choice in fileTypeChoices)
-            {
-                picker.FileTypeChoices.Add(choice.Key, choice.Value);
-            }
+            picker.FileTypeChoices.Add(choice.Key, choice.Value);
         }
 
         var resultSource = new TaskCompletionSource<IStorageItem?>();
