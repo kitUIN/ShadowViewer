@@ -89,6 +89,7 @@ jobs:
           if ($build -ne 0) {
               $minor = $minor + 1
               $newVersion = "$major.$minor-Preview$build"
+              echo "Preview=1" >> $env:GITHUB_ENV
           }
           echo "VERSION=$newVersion" >> $env:GITHUB_ENV
 
@@ -105,3 +106,17 @@ jobs:
             Packages/${{ env.Solution_Name }}*/*.*
             Packages/${{ env.Solution_Name }}*/Add-AppDevPackage.resources
             Packages/${{ env.Solution_Name }}*/Dependencies/${{ matrix.platform }}/*.*
+      
+ 
+      - name: Create GitHub Pre-release
+        if: env.Preview == '1'
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.RELEASE_TOKEN }}"
+          automatic_release_tag: ${{ env.VERSION }}
+          prerelease: true
+          title: ${{ env.VERSION }}
+          files: |
+            Packages/${{ env.Solution_Name }}*/*.msix
+            Packages/${{ env.Solution_Name }}*/Dependencies/**/*.msix
+            Packages/${{ env.Solution_Name }}*/Add-AppDevPackage.resources
