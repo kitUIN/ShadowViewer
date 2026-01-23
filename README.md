@@ -16,7 +16,7 @@
 <p align="center">
   <a href="https://github.com/kitUIN/ShadowViewer/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="license"></a>
   <a href="https://github.com/kitUIN/ShadowViewer/releases"><img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer?style=flat-square" alt="release"></a>
-  <a href="https://github.com/kitUIN/ShadowViewer.Core/releases"><img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Core?color=blueviolet&include_prereleases&label=Core&style=flat-square"></a>
+  <a href="https://github.com/kitUIN/ShadowViewer.Sdk/releases"><img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Sdk?color=blueviolet&include_prereleases&label=Sdk&style=flat-square"></a>
   <a href="https://github.com/kitUIN/ShadowViewer/actions"><img src="https://img.shields.io/github/actions/workflow/status/kitUIN/ShadowViewer/build.yml?logo=github&label=build&style=flat-square" alt="action"></a>
 </p>
 <p align="center">
@@ -42,9 +42,9 @@
 ## 参与贡献🥰
 
 - 环境要求
-  - SDK: .NET 6.0及以上
+  - SDK: .NET 8.0及以上
   - IDE: Visual Studio 2022及以上
-  - C# Version: 12
+  - C# Version: preview
 
 - 项目初始化
 ```bash
