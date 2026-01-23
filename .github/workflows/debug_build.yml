@@ -70,7 +70,7 @@ jobs:
           /p:UapAppxPackageBuildMode=SideloadOnly `
           /p:AppxBundle=Never `
           /p:PackageCertificateKeyFile=../GitHubActionsWorkflow.pfx `
-          /p:AppxPackageDir="../Packages/"
+          /p:AppxPackageDir=../Packages/
 
       - name: Get Version
         id: get_version
