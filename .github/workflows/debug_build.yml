@@ -15,63 +15,63 @@ on:
       - 'ShadowViewer.sln'
       - 'vercel.json'
   workflow_dispatch:
-  
+
 env:
   Solution_Name: ShadowViewer
+
 jobs:
   build:
-    outputs: 
-      VERSION: ${{ steps.get_version.outputs.VERSION }} 
+    outputs:
+      VERSION: ${{ steps.get_version.outputs.VERSION }}
       PREVIEW: ${{ steps.get_version.outputs.PREVIEW }}
+
     strategy:
-        matrix:
-          configuration: [Release]
-          platform: [x64, x86, arm64]
+      matrix:
+        configuration: [Release]
+        platform: [x64, x86, arm64]
+
     runs-on: windows-latest
+
     steps:
-      - name: Delay
-        run: sleep 10
-      - uses: mickem/clean-after-action@v1
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
+
       - uses: actions/cache@v4
         with:
-          path: |
-            ~/.nuget/packages
+          path: ~/.nuget/packages
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
+
       - name: Install .NET
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            9.0.x
-      
+          dotnet-version: 9.0.x
+
       - name: Setup MSBuild.exe
         uses: microsoft/setup-msbuild@v2
-      
+
       - name: Restore the application
-        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj /t:Restore /p:Configuration=$env:Configuration /p:GithubAction=true /p:MainGithubAction=true
-        env:
-          Configuration: ${{ matrix.configuration }}
+        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj /t:Restore /p:Configuration=${{ matrix.configuration }}
+
       - name: Decode the pfx
+        shell: pwsh
         run: |
-          $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
-          $certificatePath = "GitHubActionsWorkflow.pfx"
-          [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
-          
+          $bytes = [Convert]::FromBase64String("${{ secrets.BASE64_ENCODED_PFX }}")
+          [IO.File]::WriteAllBytes("GitHubActionsWorkflow.pfx", $bytes)
+
       - name: Create the app package
-        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj /p:Configuration=$env:Configuration /p:Platform=$env:Platform /p:UapAppxPackageBuildMode=$env:Appx_Package_Build_Mode /p:AppxBundle=$env:Appx_Bundle /p:PackageCertificateKeyFile=../GitHubActionsWorkflow.pfx /p:AppxPackageDir="$env:Appx_Package_Dir" /p:GithubAction=true /p:MainGithubAction=true
-        env:
-          Appx_Bundle: Never
-          Appx_Package_Build_Mode: SideloadOnly
-          Appx_Package_Dir: ..\Packages\
-          Configuration: ${{ matrix.configuration }}
-          Platform: ${{ matrix.platform }}
-          
+        run: msbuild $env:Solution_Name/$env:Solution_Name.csproj `
+          /p:Configuration=${{ matrix.configuration }} `
+          /p:Platform=${{ matrix.platform }} `
+          /p:UapAppxPackageBuildMode=SideloadOnly `
+          /p:AppxBundle=Never `
+          /p:PackageCertificateKeyFile=../GitHubActionsWorkflow.pfx `
+          /p:AppxPackageDir="../Packages/"
+
       - name: Get Version
         id: get_version
         shell: pwsh
@@ -79,60 +79,64 @@ jobs:
           [xml]$proj = Get-Content "$env:Solution_Name/Package.appxmanifest"
           $v = $proj.Package.Identity.Version
           $parts = $v.Split('.')
-          $major = [int]$parts[0]
-          $minor = [int]$parts[1]
           $build = [int]$parts[2]
-          $revision = [int]$parts[3]
-          $newVersion = $v
-          if ($build -ne 0) {
-              $minor = $minor + 1
-              $newVersion = "$major.$minor-Preview$build"
-              echo "PREVIEW=1" >> $env:GITHUB_ENV
-          }
-          echo "VERSION=$newVersion" >> $env:GITHUB_ENV
 
+          if ($build -ne 0) {
+            echo "PREVIEW=1" >> $env:GITHUB_OUTPUT
+            $newVersion = "$($parts[0]).$($parts[1]+1)-Preview$build"
+          } else {
+            echo "PREVIEW=0" >> $env:GITHUB_OUTPUT
+            $newVersion = $v
+          }
+
+          echo "VERSION=$newVersion" >> $env:GITHUB_OUTPUT
 
       - name: Remove the pfx
-        run: |
-          Remove-Item -path GitHubActionsWorkflow.pfx
-      
+        run: Remove-Item GitHubActionsWorkflow.pfx
+
       - name: Upload MSIX package
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}
+          name: ShadowViewer_${{ steps.get_version.outputs.VERSION }}_${{ matrix.platform }}
           path: |
             Packages/${{ env.Solution_Name }}*/*.*
             Packages/${{ env.Solution_Name }}*/Add-AppDevPackage.resources
             Packages/${{ env.Solution_Name }}*/Dependencies/${{ matrix.platform }}/*.*
+
   release:
     runs-on: windows-latest
     needs: build
+
     env:
       VERSION: ${{ needs.build.outputs.VERSION }}
       PREVIEW: ${{ needs.build.outputs.PREVIEW }}
+
     steps:
-      - name: x86
+      - name: Download x86
         uses: actions/download-artifact@v4
         with:
-          name: ${{ env.Solution_Name }}_${{ env.VERSION }}_x86
-          path: ./x86 
-      - name: x64
+          name: ShadowViewer_${{ env.VERSION }}_x86
+          path: ./x86
+
+      - name: Download x64
         uses: actions/download-artifact@v4
         with:
-          name: ${{ env.Solution_Name }}_${{ env.VERSION }}_x64
-          path: ./x64 
-      - name: arm64
+          name: ShadowViewer_${{ env.VERSION }}_x64
+          path: ./x64
+
+      - name: Download arm64
         uses: actions/download-artifact@v4
         with:
-          name: ${{ env.Solution_Name }}_${{ env.VERSION }}_arm64
-          path: ./arm64 
-      - name: Create ZIP package 
+          name: ShadowViewer_${{ env.VERSION }}_arm64
+          path: ./arm64
+
+      - name: Create ZIP package
         shell: pwsh
-        run: | 
-          Compress-Archive -Path x86\* -DestinationPath  ${{ env.Solution_Name }}_${{ env.VERSION }}_x86.zip
-          Compress-Archive -Path x64\* -DestinationPath  ${{ env.Solution_Name }}_${{ env.VERSION }}_x64.zip
-          Compress-Archive -Path arm64\* -DestinationPath  ${{ env.Solution_Name }}_${{ env.VERSION }}_arm64.zip
-          
+        run: |
+          Compress-Archive -Path x86\* -DestinationPath ShadowViewer_${{ env.VERSION }}_x86.zip
+          Compress-Archive -Path x64\* -DestinationPath ShadowViewer_${{ env.VERSION }}_x64.zip
+          Compress-Archive -Path arm64\* -DestinationPath ShadowViewer_${{ env.VERSION }}_arm64.zip
+
       - name: Create GitHub Pre-release
         if: env.PREVIEW == '1'
         uses: marvinpinto/action-automatic-releases@latest
