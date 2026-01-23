@@ -108,9 +108,9 @@ jobs:
             Packages/${{ env.Solution_Name }}*/Dependencies/${{ matrix.platform }}/*.*
             
       - name: Create ZIP package 
+        shell: pwsh
         run: | 
-          cd Packages 
-          zip -r ${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}_${{ matrix.configuration }}.zip .
+          Compress-Archive -Path Packages\* -DestinationPath  ${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}_${{ matrix.configuration }}.zip
           
       - name: Create GitHub Pre-release
         if: env.Preview == '1'
@@ -121,4 +121,4 @@ jobs:
           prerelease: true
           title: ${{ env.VERSION }}
           files: |
-            Packages/${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}_${{ matrix.configuration }}.zip
+            ${{ env.Solution_Name }}_${{ env.VERSION }}_${{ matrix.platform }}_${{ matrix.configuration }}.zip
