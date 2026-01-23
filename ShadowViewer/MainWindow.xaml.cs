@@ -129,30 +129,30 @@ public sealed partial class MainWindow
         }
 
         // 添加类别标签
-        _ = Task.Run(async () =>
-        {
-            var db = DiFactory.Services.Resolve<ISqlSugarClient>();
-            var insertTags = new List<ShadowTag>();
-            var updateTags = new List<ShadowTag>();
-            foreach (var plugin in pluginLoader.GetPlugins())
-            {
-                if (plugin.MetaData.AffiliationTag?.Name == null) continue;
-                var tagId = await db.Queryable<ShadowTag>().Where(x =>
-                    x.PluginId == plugin.Id && x.TagType == 0).Select(it => it.Id).ToListAsync();
-                if (tagId is { Count: > 0 })
-                {
-                    plugin.MetaData.AffiliationTag.Id = tagId[0];
-                    updateTags.Add(plugin.MetaData.AffiliationTag);
-                }
-                else
-                {
-                    insertTags.Add(plugin.MetaData.AffiliationTag);
-                }
-            }
-
-            if (insertTags.Count != 0) await db.Insertable(insertTags).ExecuteReturnSnowflakeIdListAsync();
-            if (updateTags.Count != 0) await db.Updateable(updateTags).ExecuteCommandAsync();
-        });
+        // _ = Task.Run(async () =>
+        // {
+        //     var db = DiFactory.Services.Resolve<ISqlSugarClient>();
+        //     var insertTags = new List<ShadowTag>();
+        //     var updateTags = new List<ShadowTag>();
+        //     foreach (var plugin in pluginLoader.GetPlugins())
+        //     {
+        //         if (plugin.MetaData.AffiliationTag?.Name == null) continue;
+        //         var tagId = await db.Queryable<ShadowTag>().Where(x =>
+        //             x.PluginId == plugin.Id && x.TagType == 0).Select(it => it.Id).ToListAsync();
+        //         if (tagId is { Count: > 0 })
+        //         {
+        //             plugin.MetaData.AffiliationTag.Id = tagId[0];
+        //             updateTags.Add(plugin.MetaData.AffiliationTag);
+        //         }
+        //         else
+        //         {
+        //             insertTags.Add(plugin.MetaData.AffiliationTag);
+        //         }
+        //     }
+        //
+        //     if (insertTags.Count != 0) await db.Insertable(insertTags).ExecuteReturnSnowflakeIdListAsync();
+        //     if (updateTags.Count != 0) await db.Updateable(updateTags).ExecuteCommandAsync();
+        // });
     }
 
     private static void InitDi()

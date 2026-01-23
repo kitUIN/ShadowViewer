@@ -6,15 +6,15 @@
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fluent="using:FluentIcons.WinUI"
     xmlns:helper="using:ShadowViewer.Sdk.Helpers"
     xmlns:i18N="using:ShadowViewer.I18n"
+    xmlns:icx="using:FluentIcons.WinUI.Markup"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:interfaces="using:ShadowViewer.Sdk.Models.Interfaces"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:shadowConverters="using:ShadowViewer.Converters"
     xmlns:ui="using:CommunityToolkit.WinUI"
-    xmlns:fluent="using:FluentIcons.WinUI"
-    xmlns:icx="using:FluentIcons.WinUI.Markup"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.Resources>
@@ -22,12 +22,11 @@
         <x:Double x:Key="SettingIconHeight">30</x:Double>
         <x:Double x:Key="SettingIconFontSize">25</x:Double>
         <x:Int32 x:Key="SettingIconFontIconSize">20</x:Int32>
-        <converters:EmptyObjectToObjectConverter
-            x:Key="EmptyObjectToBoolConverter"
-            EmptyValue="False"
-            NotEmptyValue="True" />
+        <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+
         <shadowConverters:ThemeComboConverter x:Key="ThemeComboConverter" />
     </Page.Resources>
+
     <Grid
         Background="{ThemeResource LayerFillColorDefaultBrush}"
         BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
@@ -45,22 +44,22 @@
             Text="{i18N:Locale Key=Settings}" />
         <ScrollViewer Grid.Row="1" Padding="20,5">
             <StackPanel HorizontalAlignment="Stretch" Spacing="{StaticResource SettingsCardSpacing}">
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}"
-                           Text="{i18N:Locale Key=MainSetting}" />
-                <controls:SettingsCard HeaderIcon="{icx:SymbolIcon Symbol=Communication}"
-                                       Description="{i18N:Locale Key=ThemeDescription}"
-                                       Header="{i18N:Locale Key=Theme}">
-                    <ComboBox
-                        SelectedIndex="{x:Bind CoreConfig.Theme, Mode=TwoWay, Converter={StaticResource ThemeComboConverter}}">
+                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{i18N:Locale Key=MainSetting}" />
+                <controls:SettingsCard
+                    Description="{i18N:Locale Key=ThemeDescription}"
+                    Header="{i18N:Locale Key=Theme}"
+                    HeaderIcon="{icx:SymbolIcon Symbol=Communication}">
+                    <ComboBox SelectedIndex="{x:Bind CoreConfig.Theme, Mode=TwoWay, Converter={StaticResource ThemeComboConverter}}">
                         <ComboBoxItem Content="{i18N:Locale Key=Default}" Tag="Default" />
                         <ComboBoxItem Content="{i18N:Locale Key=Light}" Tag="Light" />
                         <ComboBoxItem Content="{i18N:Locale Key=Dark}" Tag="Dark" />
                     </ComboBox>
                 </controls:SettingsCard>
-                <controls:SettingsExpander HeaderIcon="{icx:SymbolIcon Symbol=Archive}"
-                                           Description="{i18N:Locale Key=FolderDescription}"
-                                           Header="{i18N:Locale Key=DataFolder}"
-                                           ItemsSource="{x:Bind ViewModel.SettingsFolders, Mode=OneWay}">
+                <controls:SettingsExpander
+                    Description="{i18N:Locale Key=FolderDescription}"
+                    Header="{i18N:Locale Key=DataFolder}"
+                    HeaderIcon="{icx:SymbolIcon Symbol=Archive}"
+                    ItemsSource="{x:Bind ViewModel.SettingsFolders, Mode=OneWay}">
 
                     <controls:SettingsExpander.ItemTemplate>
                         <DataTemplate x:DataType="interfaces:ISettingFolder">
@@ -78,72 +77,83 @@
                         </DataTemplate>
                     </controls:SettingsExpander.ItemTemplate>
                 </controls:SettingsExpander>
-                <controls:SettingsCard HeaderIcon="{icx:SymbolIcon Symbol=BookDatabase}"
-                                       Description="{i18N:Locale Key=LogPathDescription}"
-                                       Header="{i18N:Locale Key=LogPath}">
+                <controls:SettingsCard
+                    Description="{i18N:Locale Key=LogPathDescription}"
+                    Header="{i18N:Locale Key=LogPath}"
+                    HeaderIcon="{icx:SymbolIcon Symbol=BookDatabase}">
 
                     <Button Click="LogButton_Click" Content="{i18N:Locale Key=Open}" />
                 </controls:SettingsCard>
-                <controls:SettingsCard HeaderIcon="{icx:SymbolIcon Symbol=Bug}"
-                                       Description="{i18N:Locale Key=DebugDescription}"
-                                       Header="{i18N:Locale Key=Debug}">
+                <controls:SettingsCard
+                    Description="{i18N:Locale Key=DebugDescription}"
+                    Header="{i18N:Locale Key=Debug}"
+                    HeaderIcon="{icx:SymbolIcon Symbol=Bug}">
 
                     <ToggleSwitch IsOn="{x:Bind CoreConfig.IsDebug, Mode=TwoWay}" />
                 </controls:SettingsCard>
 
                 <!--  About  -->
                 <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{i18N:Locale Key=About}" />
-                <controls:SettingsExpander IsExpanded="True"
-                                           Description="© 2023-2025 kitUIN. All rights reserved."
-                                           Header="{i18N:Locale Key=AppTitle}"
-                                           HeaderIcon="{ui:BitmapIcon ShowAsMonochrome=False,
-                                               Source=ms-appx:///Assets/StoreLogo.scale-200.png}">
-                    <TextBlock
-                        FontSize="16"
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
-                        Style="{StaticResource CaptionTextBlockStyle}"
-                        Text="{x:Bind ViewModel.Version}" />
+                <controls:SettingsExpander
+                    Description="© 2023-2026 kitUIN. All rights reserved."
+                    Header="{i18N:Locale Key=AppTitle}"
+                    HeaderIcon="{ui:BitmapIcon ShowAsMonochrome=False,
+                                               Source=ms-appx:///Assets/StoreLogo.scale-200.png}"
+                    IsExpanded="True">
+                    <StackPanel
+                        Height="32"
+                        VerticalAlignment="Stretch"
+                        Orientation="Horizontal"
+                        Spacing="4">
+                        <TextBlock
+                            VerticalAlignment="Bottom"
+                            FontSize="18"
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Text="{x:Bind ViewModel.Version}" />
+                        <Button
+                            Height="20"
+                            Padding="6,2"
+                            VerticalAlignment="Top"
+                            Background="#f79800"
+                            CornerRadius="8"
+                            Foreground="White"
+                            Style="{ThemeResource NoOverButton}"
+                            Visibility="{x:Bind ViewModel.Preview, Mode=OneWay, Converter={StaticResource StringVisibilityConverter}}">
+                            <TextBlock FontSize="10" Text="{x:Bind ViewModel.Preview}" />
+                        </Button>
+
+                    </StackPanel>
                     <controls:SettingsExpander.Items>
-                        <controls:SettingsCard Command="{x:Bind ViewModel.NavigateToUriCommand}"
-                                               CommandParameter="https://github.com/kitUIN/ShadowViewer/issues/new/choose"
-                                               ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
-                                               Header="{i18N:Locale Key=BugRequest}"
-                                               IsClickEnabled="True">
-                        </controls:SettingsCard>
                         <controls:SettingsCard
                             ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
-                            Header="{i18N:Locale Key=Sponsor}" Command="{x:Bind ViewModel.NavigateToUriCommand}"
+                            Command="{x:Bind ViewModel.NavigateToUriCommand}"
+                            CommandParameter="https://github.com/kitUIN/ShadowViewer/issues/new/choose"
+                            Header="{i18N:Locale Key=BugRequest}"
+                            IsClickEnabled="True" />
+                        <controls:SettingsCard
+                            ActionIcon="{ui:FontIcon Glyph=&#xE8A7;}"
+                            Command="{x:Bind ViewModel.NavigateToUriCommand}"
                             CommandParameter="https://ifdian.net/a/kituin"
-                            IsClickEnabled="True">
-                        </controls:SettingsCard>
+                            Header="{i18N:Locale Key=Sponsor}"
+                            IsClickEnabled="True" />
                         <controls:SettingsCard
                             HorizontalContentAlignment="Left"
                             ContentAlignment="Vertical"
                             Header="{i18N:Locale Key=Dependencies}">
                             <StackPanel Orientation="Vertical">
-                                <HyperlinkButton Content="📦Windows App SDK"
-                                                 NavigateUri="https://github.com/microsoft/WindowsAppSDK" />
-                                <HyperlinkButton Content="🔣FluentIcon"
-                                                 NavigateUri="https://github.com/davidxuang/FluentIcons" />
-                                <HyperlinkButton Content="⛓️‍💥ShadowPluginLoader"
-                                                 NavigateUri="https://github.com/KitUIN/ShadowPluginLoader" />
-                                <HyperlinkButton Content="📦Windows Community Toolkit"
-                                                 NavigateUri="https://github.com/CommunityToolkit/dotnet" />
-                                <HyperlinkButton Content="🧪Windows Community Toolkit Labs"
-                                                 NavigateUri="https://github.com/CommunityToolkit/Labs-Windows" />
-                                <HyperlinkButton Content="📦SharpCompress"
-                                                 NavigateUri="https://github.com/adamhathcock/sharpcompress" />
+                                <HyperlinkButton Content="📦Windows App SDK" NavigateUri="https://github.com/microsoft/WindowsAppSDK" />
+                                <HyperlinkButton Content="🔣FluentIcon" NavigateUri="https://github.com/davidxuang/FluentIcons" />
+                                <HyperlinkButton Content="⛓️‍💥ShadowPluginLoader" NavigateUri="https://github.com/KitUIN/ShadowPluginLoader" />
+                                <HyperlinkButton Content="📦Windows Community Toolkit" NavigateUri="https://github.com/CommunityToolkit/dotnet" />
+                                <HyperlinkButton Content="🧪Windows Community Toolkit Labs" NavigateUri="https://github.com/CommunityToolkit/Labs-Windows" />
+                                <HyperlinkButton Content="📦SharpCompress" NavigateUri="https://github.com/adamhathcock/sharpcompress" />
                                 <HyperlinkButton Content="📃Serilog" NavigateUri="https://serilog.net" />
-                                <HyperlinkButton Content="📦SQLSugarCore"
-                                                 NavigateUri="https://github.com/DotNetNext/SqlSugar" />
+                                <HyperlinkButton Content="📦SQLSugarCore" NavigateUri="https://github.com/DotNetNext/SqlSugar" />
                                 <HyperlinkButton Content="📦DryIoc" NavigateUri="https://github.com/dadhi/DryIoc" />
-                                <HyperlinkButton Content="🔩CustomExtensions.WinUI"
-                                                 NavigateUri="https://github.com/dnchattan/winui-extensions" />
-                                <HyperlinkButton Content="📂WinUI Gallery"
-                                                 NavigateUri="https://github.com/microsoft/WinUI-Gallery" />
+                                <HyperlinkButton Content="🔩CustomExtensions.WinUI" NavigateUri="https://github.com/dnchattan/winui-extensions" />
+                                <HyperlinkButton Content="📂WinUI Gallery" NavigateUri="https://github.com/microsoft/WinUI-Gallery" />
                                 <HyperlinkButton Content="📂Bili.Uwp" NavigateUri="https://github.com/Richasy/Bili.Uwp" />
-                                <HyperlinkButton Content="📂Windows Community Toolkit Labs[TitleBar]"
-                                                 NavigateUri="https://github.com/CommunityToolkit/Labs-Windows/discussions/454" />
+                                <HyperlinkButton Content="📂Windows Community Toolkit Labs[TitleBar]" NavigateUri="https://github.com/CommunityToolkit/Labs-Windows/discussions/454" />
                             </StackPanel>
                         </controls:SettingsCard>
                     </controls:SettingsExpander.Items>
