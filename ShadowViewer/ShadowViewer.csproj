@@ -58,13 +58,13 @@
 	  <!-- <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.4.4.1" /> -->
 	  <!-- <PackageReference Include="ShadowViewer.Plugin.PluginManager"   Version="1.4.4.1"/> -->
   </ItemGroup>
-  <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(GithubAction)' != 'true'">
-	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.4.4.6" />
-	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.4.4.5" />
+  <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(DepsUseNuget)' == 'true'">
+	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.5.0" />
+	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.5.0.1" />
 	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(GithubAction)' == 'true'">
+  <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(DepsUseNuget)' != 'true'">
 	  <ProjectReference Include="..\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local\ShadowViewer.Plugin.Local.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager\ShadowViewer.Plugin.PluginManager.csproj" />
 	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
