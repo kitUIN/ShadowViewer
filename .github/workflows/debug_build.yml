@@ -60,8 +60,9 @@ jobs:
         run: |
           ./Extract-LatestChangelog.ps1
           $content = Get-Content "LATEST_CHANGELOG.md" -Raw
-          echo "CHANGELOG=$content" >> $env:GITHUB_OUTPUT
-
+          echo "CHANGELOG<<EOF" >> $env:GITHUB_OUTPUT 
+          echo $content >> $env:GITHUB_OUTPUT 
+          echo "EOF" >> $env:GITHUB_OUTPUT
   build:
     needs: prepare
     strategy:
