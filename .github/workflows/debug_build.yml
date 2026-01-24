@@ -14,6 +14,10 @@ on:
       - 'README_EN.md'
       - 'ShadowViewer.sln'
       - 'vercel.json'
+      - 'vercel.json'
+      - 'CHANGELOG.md'
+      - 'Extract-LatestChangelog.ps1'
+      - 'extract-latest-changelog.sh'
   workflow_dispatch:
 
 env:
