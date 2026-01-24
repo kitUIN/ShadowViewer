@@ -126,7 +126,9 @@ jobs:
 
   release:
     runs-on: windows-latest
-    needs: build
+    needs: 
+      - prepare
+      - build
 
     env:
       VERSION: ${{ needs.prepare.outputs.VERSION }}
