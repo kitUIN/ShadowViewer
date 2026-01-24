@@ -1,6 +1,3 @@
-# Extract-LatestChangelog.ps1
-# 从 CHANGELOG.md 中提取最新版本段落并输出到 LATEST_CHANGELOG.md
-
 param(
     [string]$InputFile = "CHANGELOG.md",
     [string]$OutputFile = "LATEST_CHANGELOG.md"
@@ -26,13 +23,15 @@ $start = $headers[0].LineNumber
 
 # 如果只有一个版本标题
 if ($headers.Count -eq 1) {
-    $latest = $lines[$start-1..($lines.Length-1)]
+    $end = $lines.Length - 1
 }
 else {
-    # 有多个版本，截取到下一个版本标题之前
-    $next = $headers[1].LineNumber
-    $latest = $lines[$start-1..($next-2)]
+    # 下一个版本标题的上一行
+    $end = $headers[1].LineNumber - 2
 }
+
+# 切片（必须确保 start 和 end 都是纯数字）
+$latest = $lines[$start..$end]
 
 $latest | Set-Content $OutputFile
 

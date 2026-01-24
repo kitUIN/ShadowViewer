@@ -24,11 +24,46 @@ env:
   Solution_Name: ShadowViewer
 
 jobs:
-  build:
+  prepare:
+    runs-on: windows-latest
     outputs:
       VERSION: ${{ steps.get_version.outputs.VERSION }}
       PREVIEW: ${{ steps.get_version.outputs.PREVIEW }}
+      CHANGELOG: ${{ steps.changelog.outputs.CHANGELOG }}
 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Get Version
+        id: get_version
+        shell: pwsh
+        run: |
+          [xml]$proj = Get-Content "$env:Solution_Name/Package.appxmanifest"
+          $v = $proj.Package.Identity.Version
+          $parts = $v.Split('.')
+          $minor = [int]$parts[1]
+          $build = [int]$parts[2]
+
+          if ($build -ne 0) {
+            echo "PREVIEW=1" >> $env:GITHUB_OUTPUT
+            $minor = $minor + 1
+            $newVersion = "$($parts[0]).$minor-Preview$build"
+          } else {
+            echo "PREVIEW=0" >> $env:GITHUB_OUTPUT
+            $newVersion = $v
+          }
+
+          echo "VERSION=$newVersion" >> $env:GITHUB_OUTPUT
+      - name: Extract latest changelog (PowerShell script)
+        id: changelog
+        shell: pwsh
+        run: |
+          ./Extract-LatestChangelog.ps1
+          $content = Get-Content "LATEST_CHANGELOG.md" -Raw
+          echo "CHANGELOG=$content" >> $env:GITHUB_OUTPUT
+
+  build:
+    needs: prepare
     strategy:
       matrix:
         configuration: [Release]
@@ -75,28 +110,6 @@ jobs:
           Appx_Package_Dir: ..\Packages\
           Configuration: ${{ matrix.configuration }}
           Platform: ${{ matrix.platform }}
-          
-
-      - name: Get Version
-        id: get_version
-        shell: pwsh
-        run: |
-          [xml]$proj = Get-Content "$env:Solution_Name/Package.appxmanifest"
-          $v = $proj.Package.Identity.Version
-          $parts = $v.Split('.')
-          $minor = [int]$parts[1]
-          $build = [int]$parts[2]
-
-          if ($build -ne 0) {
-            echo "PREVIEW=1" >> $env:GITHUB_OUTPUT
-            $minor = $minor + 1
-            $newVersion = "$($parts[0]).$minor-Preview$build"
-          } else {
-            echo "PREVIEW=0" >> $env:GITHUB_OUTPUT
-            $newVersion = $v
-          }
-
-          echo "VERSION=$newVersion" >> $env:GITHUB_OUTPUT
 
       - name: Remove the pfx
         run: Remove-Item GitHubActionsWorkflow.pfx
@@ -104,7 +117,7 @@ jobs:
       - name: Upload MSIX package
         uses: actions/upload-artifact@v4
         with:
-          name: ShadowViewer_${{ steps.get_version.outputs.VERSION }}_${{ matrix.platform }}
+          name: ShadowViewer_${{ needs.prepare.outputs.VERSION }}_${{ matrix.platform }}
           path: |
             Packages/${{ env.Solution_Name }}*/*.*
             Packages/${{ env.Solution_Name }}*/Add-AppDevPackage.resources
@@ -115,8 +128,9 @@ jobs:
     needs: build
 
     env:
-      VERSION: ${{ needs.build.outputs.VERSION }}
-      PREVIEW: ${{ needs.build.outputs.PREVIEW }}
+      VERSION: ${{ needs.prepare.outputs.VERSION }}
+      PREVIEW: ${{ needs.prepare.outputs.PREVIEW }}
+      CHANGELOG: ${{ needs.prepare.outputs.CHANGELOG }}
 
     steps:
       - name: Download x86
@@ -144,10 +158,7 @@ jobs:
           Compress-Archive -Path x64\* -DestinationPath ShadowViewer_${{ env.VERSION }}_x64.zip
           Compress-Archive -Path arm64\* -DestinationPath ShadowViewer_${{ env.VERSION }}_arm64.zip
 
-      - name: Extract latest changelog (PowerShell script)
-        shell: pwsh
-        run: |
-          ./Extract-LatestChangelog.ps1
+
 
       - name: Create GitHub Pre-release
         if: env.PREVIEW == '1'
@@ -157,6 +168,6 @@ jobs:
           automatic_release_tag: ${{ env.VERSION }}
           prerelease: true
           title: ${{ env.VERSION }}
-          body_path: LATEST_CHANGELOG.md
+          body: ${{ env.CHANGELOG }}
           files: |
             *.zip
