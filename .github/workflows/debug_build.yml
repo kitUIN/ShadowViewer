@@ -38,22 +38,22 @@ jobs:
         id: get_version
         shell: pwsh
         run: |
-          [xml]$proj = Get-Content "$env:Solution_Name/Package.appxmanifest"
-          $v = $proj.Package.Identity.Version
-          $parts = $v.Split('.')
-          $minor = [int]$parts[1]
-          $build = [int]$parts[2]
+          [xml]proj = Get-Content "proj = Get-Content "env:Solution_Name/Package.appxmanifest"
+          v = v = proj.Package.Identity.Version
+          parts = parts = v.Split('.')
+          minor = [int]minor = [int]parts[1]
+          build = [int]build = [int]parts[2]
 
           if ($build -ne 0) {
             echo "PREVIEW=1" >> $env:GITHUB_OUTPUT
-            $minor = $minor + 1
-            $newVersion = "$($parts[0]).$minor-Preview$build"
+            minor = minor = minor + 1
+            newVersion = "newVersion = "(parts[0]).parts[0]).minor-Preview$build"
           } else {
             echo "PREVIEW=0" >> $env:GITHUB_OUTPUT
-            $newVersion = $v
+            newVersion = newVersion = v
           }
 
-          echo "VERSION=$newVersion" >> $env:GITHUB_OUTPUT
+          echo "VERSION=newVersion" >> newVersion" >> env:GITHUB_OUTPUT
       - name: Extract latest changelog (PowerShell script)
         id: changelog
         shell: pwsh
@@ -61,7 +61,7 @@ jobs:
           ./Extract-LatestChangelog.ps1
           $content = Get-Content "LATEST_CHANGELOG.md" -Raw
           echo "CHANGELOG<<EOF" >> $env:GITHUB_OUTPUT 
-          echo $content >> $env:GITHUB_OUTPUT 
+          echo content >> content >> env:GITHUB_OUTPUT 
           echo "EOF" >> $env:GITHUB_OUTPUT
   build:
     needs: prepare
@@ -161,16 +161,15 @@ jobs:
           Compress-Archive -Path x64\* -DestinationPath ShadowViewer_${{ env.VERSION }}_x64.zip
           Compress-Archive -Path arm64\* -DestinationPath ShadowViewer_${{ env.VERSION }}_arm64.zip
 
-
-
       - name: Create GitHub Pre-release
         if: env.PREVIEW == '1'
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: "${{ secrets.RELEASE_TOKEN }}"
-          automatic_release_tag: ${{ env.VERSION }}
-          prerelease: true
-          title: ${{ env.VERSION }}
+          tag_name: ${{ env.VERSION }}
+          name: ${{ env.VERSION }}
           body: ${{ env.CHANGELOG }}
+          prerelease: true
           files: |
             *.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
