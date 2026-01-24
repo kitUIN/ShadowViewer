@@ -17,7 +17,7 @@
   <a href="https://github.com/kitUIN/ShadowViewer/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="license"></a>
   <a href="https://github.com/kitUIN/ShadowViewer/releases"><img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer?style=flat-square" alt="release"></a>
   <a href="https://github.com/kitUIN/ShadowViewer.Sdk/releases"><img src="https://img.shields.io/github/v/release/kitUIN/ShadowViewer.Sdk?color=blueviolet&include_prereleases&label=Sdk&style=flat-square"></a>
-  <a href="https://github.com/kitUIN/ShadowViewer/actions"><img src="https://img.shields.io/github/actions/workflow/status/kitUIN/ShadowViewer/build.yml?logo=github&label=build&style=flat-square" alt="action"></a>
+  <a href="https://github.com/kitUIN/ShadowViewer/releases?q=prerelease%3Atrue&expanded=true"><img src="https://img.shields.io/github/actions/workflow/status/kitUIN/ShadowViewer/debug_build.yml?logo=github&label=preview&style=flat-square" alt="action"></a>
 </p>
 <p align="center">
   <a href="https://shadowviewer.kituin.fun/">📖文档</a>
