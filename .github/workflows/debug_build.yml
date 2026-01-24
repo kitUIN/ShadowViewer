@@ -38,22 +38,22 @@ jobs:
         id: get_version
         shell: pwsh
         run: |
-          [xml]proj = Get-Content "proj = Get-Content "env:Solution_Name/Package.appxmanifest"
-          v = v = proj.Package.Identity.Version
-          parts = parts = v.Split('.')
-          minor = [int]minor = [int]parts[1]
-          build = [int]build = [int]parts[2]
-
+          [xml]$proj = Get-Content "$env:Solution_Name/Package.appxmanifest"
+          $v = $proj.Package.Identity.Version
+          $parts = $v.Split('.')
+          $minor = [int]$parts[1]
+          $build = [int]$parts[2]
+          
           if ($build -ne 0) {
             echo "PREVIEW=1" >> $env:GITHUB_OUTPUT
-            minor = minor = minor + 1
-            newVersion = "newVersion = "(parts[0]).parts[0]).minor-Preview$build"
+            $minor = $minor + 1
+            $newVersion = "$($parts[0]).$minor-Preview$build"
           } else {
             echo "PREVIEW=0" >> $env:GITHUB_OUTPUT
-            newVersion = newVersion = v
+            $newVersion = $v
           }
-
-          echo "VERSION=newVersion" >> newVersion" >> env:GITHUB_OUTPUT
+          
+          echo "VERSION=$newVersion" >> $env:GITHUB_OUTPUT
       - name: Extract latest changelog (PowerShell script)
         id: changelog
         shell: pwsh
