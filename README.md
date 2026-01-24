@@ -26,7 +26,7 @@
 </p>
 
 ## 安装 ▶️
-
+- [获取安装包（预览版与正式版）](https://github.com/kitUIN/ShadowViewer/releases)
 - [侧加载安装教程](https://shadowviewer.kituin.fun/wiki/shadowviewer/use/install/#%E5%BE%AE%E8%BD%AF%E5%95%86%E5%BA%97-%E6%9C%AA%E6%94%AF%E6%8C%81)
 
 ## 插件列表🔩
