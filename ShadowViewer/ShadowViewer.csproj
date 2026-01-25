@@ -12,7 +12,6 @@
 	  <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	  <PublishProfile>win-$(Platform).pubxml</PublishProfile>
 	  <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-	  <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
 	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 	  <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
@@ -26,9 +25,10 @@
 	  <LangVersion>preview</LangVersion>
 	  <PublishReadyToRun>false</PublishReadyToRun>
 	  <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-	  <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
-	  <MetalamaAllowPreviewLanguageFeatures>true</MetalamaAllowPreviewLanguageFeatures>
-
+	  <GenerateTemporaryStoreCertificate Condition="'$(GithubAction)' == 'false'">True</GenerateTemporaryStoreCertificate>
+	  <MetalamaAllowPreviewLanguageFeatures Condition="'$(GithubAction)' == 'false'">true</MetalamaAllowPreviewLanguageFeatures>
+	  <AppxPackageSigningEnabled Condition="'$(GithubAction)' == 'true'">True</AppxPackageSigningEnabled>
+	  <GenerateAppxPackageOnBuild Condition="'$(GithubAction)' == 'true'">true</GenerateAppxPackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
