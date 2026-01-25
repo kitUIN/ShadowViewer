@@ -43,7 +43,7 @@ jobs:
           $parts = $v.Split('.')
           $minor = [int]$parts[1]
           $build = [int]$parts[2]
-
+          
           if ($build -ne 0) {
             echo "PREVIEW=1" >> $env:GITHUB_OUTPUT
             $minor = $minor + 1
@@ -52,7 +52,7 @@ jobs:
             echo "PREVIEW=0" >> $env:GITHUB_OUTPUT
             $newVersion = $v
           }
-
+          
           echo "VERSION=$newVersion" >> $env:GITHUB_OUTPUT
       - name: Extract latest changelog (PowerShell script)
         id: changelog
@@ -126,7 +126,9 @@ jobs:
 
   release:
     runs-on: windows-latest
-    needs: build
+    needs: 
+      - prepare
+      - build
 
     env:
       VERSION: ${{ needs.prepare.outputs.VERSION }}
@@ -159,16 +161,15 @@ jobs:
           Compress-Archive -Path x64\* -DestinationPath ShadowViewer_${{ env.VERSION }}_x64.zip
           Compress-Archive -Path arm64\* -DestinationPath ShadowViewer_${{ env.VERSION }}_arm64.zip
 
-
-
       - name: Create GitHub Pre-release
         if: env.PREVIEW == '1'
-        uses: marvinpinto/action-automatic-releases@latest
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: "${{ secrets.RELEASE_TOKEN }}"
-          automatic_release_tag: ${{ env.VERSION }}
-          prerelease: true
-          title: ${{ env.VERSION }}
+          tag_name: ${{ env.VERSION }}
+          name: ${{ env.VERSION }}
           body: ${{ env.CHANGELOG }}
+          prerelease: true
           files: |
             *.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
