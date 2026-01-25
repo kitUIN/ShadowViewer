@@ -8,6 +8,8 @@
 - 🐛 修改插件管理器添加插件失效错误
 - 🛠️ 重构生成`Icon`代码规则（`StringToIconConverter`）
 - 🔨 允许插件注入`IResponderProcessor`
+- 🌟 启动更丝滑
+- 🔑 更新证书
 
 ## 0.6-Preview2
 
