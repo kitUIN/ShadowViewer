@@ -6,6 +6,7 @@ using Windows.Foundation;
 using ShadowViewer.Sdk.Args;
 using ShadowViewer.Sdk.Enums;
 using ShadowViewer.Sdk.Services;
+using ShadowViewer.Sdk.Utils;
 
 namespace ShadowViewer.Services;
 
@@ -25,7 +26,17 @@ internal class CallableService(ILogger logger) : ICallableService
     public event EventHandler? DebugEvent;
 
     /// <inheritdoc />
-    public event EventHandler<TopLevelControlEventArgs>? TopLevelControlEvent;
+    public event EventHandler<TopLevelControlEventArgs>? TopLevelControlEvent
+    {
+        add => topLevelControlEvent.Subscribe(value);
+        remove => topLevelControlEvent.Unsubscribe(value);
+    }
+
+    /// <summary>
+    /// The top level control event
+    /// </summary>
+    private readonly DeferredEvent<TopLevelControlEventArgs> topLevelControlEvent = new();
+
 
     /// <inheritdoc />
     public event EventHandler? AppLoadedEvent;
@@ -78,7 +89,7 @@ internal class CallableService(ILogger logger) : ICallableService
     /// <inheritdoc />
     public void CreateTopLevelControl(UIElement control)
     {
-        TopLevelControlEvent?.Invoke(this, 
+        topLevelControlEvent.Raise(this,
             new TopLevelControlEventArgs(control, TopLevelControlMode.Add));
         Logger.Debug("触发事件{Event}", nameof(TopLevelControlEvent));
     }
@@ -86,7 +97,7 @@ internal class CallableService(ILogger logger) : ICallableService
     /// <inheritdoc />
     public void RemoveTopLevelControl(UIElement control)
     {
-        TopLevelControlEvent?.Invoke(this,
+        topLevelControlEvent.Raise(this,
             new TopLevelControlEventArgs(control, TopLevelControlMode.Remove));
         Logger.Debug("触发事件{Event}", nameof(TopLevelControlEvent));
     }
