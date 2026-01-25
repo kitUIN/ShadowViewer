@@ -9,7 +9,7 @@
   IgnorableNamespaces="uap rescap uap3 uap18">
 
   <Identity
-    Name="27e531ce-1721-4ddf-80ef-f4c28f27a46d"
+    Name="kitUIN.ShadowViewer"
     Publisher="CN=kitUIN"
     Version="0.5.2.0" />
 

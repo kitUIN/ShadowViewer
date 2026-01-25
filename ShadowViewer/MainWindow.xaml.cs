@@ -19,7 +19,6 @@ using ShadowViewer.Services;
 using ShadowViewer.ViewModels;
 using SqlSugar;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
@@ -37,6 +36,7 @@ public sealed partial class MainWindow
         InitializeComponent();
         ExtendsContentIntoTitleBar = true;
         AppWindow.TitleBar.PreferredHeightOption = TitleBarHeightOption.Tall;
+        Task.Run(async() => await Content_Loaded());
     }
 
     public MainWindow(Uri firstUri) : this()
@@ -44,10 +44,8 @@ public sealed partial class MainWindow
         this.firstUri = firstUri;
     }
 
-
-    private async void Content_Loaded(object sender, RoutedEventArgs e)
+    private async Task Content_Loaded()
     {
-        InAnimationLoadingGrid.Start();
 #if DEBUG
         var sw = new Stopwatch();
         sw.Start();
@@ -57,22 +55,24 @@ public sealed partial class MainWindow
         sw.Stop();
         Debug.WriteLine("加载插件总共花费{0}ms.", sw.Elapsed.TotalMilliseconds);
 #endif
-        LoadingText.Text = "加载标题栏...";
         var caller = DiFactory.Services.Resolve<ICallableService>();
-        navigationPage = new NavigationPage();
-        Grid.SetRow(navigationPage, 1);
-        MainGrid.Children.Add(navigationPage);
-        shadowTitleBar = new ShadowTitleBar(this);
-        MainGrid.Children.Add(shadowTitleBar);
-        shadowTitleBar.InitAppTitleBar_BackButtonClick(navigationPage.AppTitleBar_BackButtonClick);
-        shadowTitleBar.InitAppTitleBar_OnPaneButtonClick(navigationPage.AppTitleBar_OnPaneButtonClick);
-        caller.ThemeChangedEvent += shadowTitleBar.AppTitleBar_ThemeChangedEvent;
-        // await OutAnimationLoadingGrid.StartAsync();
-        MainGrid.Visibility = Visibility.Visible;
-        LoadingGrid.Visibility = Visibility.Collapsed;
-        var navigateService = DiFactory.Services.Resolve<INavigateService>();
-        if (firstUri != null) navigateService.Navigate(firstUri);
-        caller.AppLoaded();
+        DispatcherQueue.TryEnqueue(() =>
+        {
+            navigationPage = new NavigationPage();
+            Grid.SetRow(navigationPage, 1);
+            MainGrid.Children.Add(navigationPage);
+            shadowTitleBar = new ShadowTitleBar(this);
+            MainGrid.Children.Add(shadowTitleBar);
+            shadowTitleBar.InitAppTitleBar_BackButtonClick(navigationPage.AppTitleBar_BackButtonClick);
+            shadowTitleBar.InitAppTitleBar_OnPaneButtonClick(navigationPage.AppTitleBar_OnPaneButtonClick);
+            caller.ThemeChangedEvent += shadowTitleBar.AppTitleBar_ThemeChangedEvent;
+
+            MainGrid.Visibility = Visibility.Visible;
+            LoadingGrid.Visibility = Visibility.Collapsed;
+            var navigateService = DiFactory.Services.Resolve<INavigateService>();
+            if (firstUri != null) navigateService.Navigate(firstUri);
+            caller.AppLoaded();
+        });
 
     }
 
@@ -105,7 +105,7 @@ public sealed partial class MainWindow
         {
             await pluginLoader.CheckUpgradeAndRemoveAsync();
 
-            var session =  pluginLoader.CreatePipeline()
+            var session = pluginLoader.CreatePipeline()
                 .Feed<LocalPlugin>()
                 .Feed<PluginManagerPlugin>();
 
@@ -177,5 +177,10 @@ public sealed partial class MainWindow
         db.DbMaintenance.CreateDatabase();
         db.CodeFirst.InitTables<ShadowTag>();
         db.CodeFirst.InitTables<CacheZip>();
+    }
+
+    private void InAnimationLoadingGridOnLoaded(object sender, RoutedEventArgs e)
+    {
+        InAnimationLoadingGrid.Start();
     }
 }

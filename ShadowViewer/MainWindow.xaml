@@ -12,14 +12,12 @@
         <MicaBackdrop />
     </Window.SystemBackdrop>
     <Grid>
-        <Grid
-            x:Name="MainGrid"
-            MinWidth="650">
+        <Grid x:Name="MainGrid" MinWidth="650">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            
+
         </Grid>
         <Grid
             x:Name="LoadingGrid"
@@ -30,33 +28,39 @@
                 MaxHeight="400"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Loaded="Content_Loaded"
+                Loaded="InAnimationLoadingGridOnLoaded"
                 Orientation="Vertical"
                 Spacing="10">
                 <animations:Explicit.Animations>
                     <animations:AnimationSet x:Name="InAnimationLoadingGrid">
                         <animations:TranslationAnimation
-                            EasingMode="EaseOut"
-                            From="0,225"
+                            EasingMode="EaseIn"
+                            From="0,60"
                             To="0,0"
-                            Duration="0:0:0.7" />
+                            Duration="0:0:0.4" />
                         <animations:OpacityAnimation
-                            EasingMode="EaseOut"
+                            EasingMode="EaseIn"
                             From="0"
                             To="1"
-                            Duration="0:0:0.7" />
-                    </animations:AnimationSet> 
+                            Duration="0:0:0.4" />
+                    </animations:AnimationSet>
                 </animations:Explicit.Animations>
-                <StackPanel Spacing="20" Orientation="Horizontal">
-                    <BitmapIcon ShowAsMonochrome="False" Width="120" UriSource="ms-appx:///Assets/StoreLogo.scale-400.png" />
-                    <TextBlock VerticalAlignment="Center"
+                <StackPanel Orientation="Horizontal" Spacing="20">
+                    <BitmapIcon
+                        Width="120"
+                        ShowAsMonochrome="False"
+                        UriSource="ms-appx:///Assets/StoreLogo.scale-400.png" />
+                    <TextBlock
                         HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         FontFamily="Segoe UI Variable Display"
-                        FontSize="50"
+                        FontSize="54"
                         FontWeight="ExtraBlack"
                         Text="ShadowViewer" />
                 </StackPanel>
                 <ProgressRing
+                    Width="56"
+                    Height="56"
                     HorizontalAlignment="Center"
                     IsActive="True"
                     IsIndeterminate="True" />

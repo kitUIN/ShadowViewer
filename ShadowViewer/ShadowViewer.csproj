@@ -12,14 +12,13 @@
 	  <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
 	  <PublishProfile>win-$(Platform).pubxml</PublishProfile>
 	  <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-	  <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+	  <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
 	  <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
 	  <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
 	  <AppxSymbolPackageEnabled>False</AppxSymbolPackageEnabled>
 	  <GenerateTestArtifacts>True</GenerateTestArtifacts>
 	  <AppxBundle>Never</AppxBundle>
 	  <Nullable>enable</Nullable>
-	  <GenerateAppxPackageOnBuild Condition="'$(GithubAction)' == 'true'">true</GenerateAppxPackageOnBuild>
 	  <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
 	  <AppxPackageDir>..\AppPackages\</AppxPackageDir>
 	  <NoWarn>MSB3277;PRI263;NETSDK1198</NoWarn>
@@ -27,7 +26,8 @@
 	  <LangVersion>preview</LangVersion>
 	  <PublishReadyToRun>false</PublishReadyToRun>
 	  <DefineConstants>DISABLE_XAML_GENERATED_MAIN</DefineConstants>
-	  <PackageCertificateKeyFile>ShadowViewer_TemporaryKey.pfx</PackageCertificateKeyFile>
+	  <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
+	  <MetalamaAllowPreviewLanguageFeatures>true</MetalamaAllowPreviewLanguageFeatures>
 
   </PropertyGroup>
 
