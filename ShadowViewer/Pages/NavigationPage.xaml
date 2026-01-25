@@ -15,9 +15,6 @@
     xmlns:shadow="using:ShadowViewer.Controls"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-    <Page.Resources>
-        <converters:StringToIconConverter x:Key="StringToIconConverter" />
-    </Page.Resources>
     <Grid>
         <NavigationView
             x:Name="NavView"
