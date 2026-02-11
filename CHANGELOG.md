@@ -1,3 +1,18 @@
+## 0.6-Preview5
+
+> [!IMPORTANT]  
+> 低版本（0.6-Preview4及以下）升级该版本需要卸载后安装（会丢失旧版本数据）
+
+### 版本说明
+- `ShadowViewer.Sdk` 版本为`3.2.x`
+- `ShadowViewer.Plugin.Local` 版本为`1.6.1`
+- `ShadowViewer.Plugin.PluginManager` 版本为`1.5.0`
+
+### Local本地阅读器
+
+- 🛠️ 重构漫画阅读器控件（使用Win2D自绘）
+
+
 ## 0.6-Preview4
 
 > [!IMPORTANT]  
