@@ -9,6 +9,7 @@ using System;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using DryIoc;
+using Serilog;
 
 namespace ShadowViewer
 {
@@ -16,6 +17,11 @@ namespace ShadowViewer
     {
         public App()
         {
+            this.UnhandledException += (s, e) =>
+            {
+                Log.Fatal(e.Exception, "Application UnhandledException");
+                Log.CloseAndFlush();
+            };
             ApplicationExtensionHost.Initialize(this);
             this.InitializeComponent();
             ShadowObservableConfig.GlobalSetting.Init(

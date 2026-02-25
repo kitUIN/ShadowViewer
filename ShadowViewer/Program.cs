@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+using Serilog;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -27,6 +28,16 @@ public class Program
     [STAThread]
     static int Main(string[] args)
     {
+        AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+        {
+            Log.Fatal(e.ExceptionObject as Exception, "AppDomain UnhandledException");
+            Log.CloseAndFlush();
+        };
+        TaskScheduler.UnobservedTaskException += (s, e) =>
+        {
+            Log.Fatal(e.Exception, "TaskScheduler UnobservedTaskException");
+            Log.CloseAndFlush();
+        };
         WinRT.ComWrappersSupport.InitializeComWrappers();
         var isRedirect = DecideRedirection();
 
