@@ -30,6 +30,7 @@ jobs:
       VERSION: ${{ steps.get_version.outputs.VERSION }}
       PREVIEW: ${{ steps.get_version.outputs.PREVIEW }}
       CHANGELOG: ${{ steps.changelog.outputs.CHANGELOG }}
+      EXISTS: ${{ steps.check_release.outputs.EXISTS }}
 
     steps:
       - name: Checkout
@@ -63,6 +64,21 @@ jobs:
           echo "CHANGELOG<<EOF" >> $env:GITHUB_OUTPUT 
           echo $content >> $env:GITHUB_OUTPUT 
           echo "EOF" >> $env:GITHUB_OUTPUT
+      - name: Check if release exists
+        id: check_release
+        shell: pwsh
+        run: |
+          $version = "${{ steps.get_version.outputs.VERSION }}"
+          gh release view $version --repo ${{ github.repository }} > $null 2>&1
+          if ($LASTEXITCODE -eq 0) {
+            echo "EXISTS=true" >> $env:GITHUB_OUTPUT
+            Write-Host "Release $version already exists."
+          } else {
+            echo "EXISTS=false" >> $env:GITHUB_OUTPUT
+            Write-Host "Release $version does not exist."
+          }
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   build:
     needs: prepare
     strategy:
@@ -129,6 +145,7 @@ jobs:
     needs: 
       - prepare
       - build
+    if: needs.prepare.outputs.EXISTS != 'true'
 
     env:
       VERSION: ${{ needs.prepare.outputs.VERSION }}
