@@ -66,6 +66,7 @@ jobs:
           echo "EOF" >> $env:GITHUB_OUTPUT
       - name: Check if release exists
         id: check_release
+        continue-on-error: true
         shell: pwsh
         run: |
           $version = "${{ steps.get_version.outputs.VERSION }}"
