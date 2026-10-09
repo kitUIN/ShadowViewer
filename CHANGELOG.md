@@ -1,3 +1,23 @@
+## 0.6-Preview8
+
+> [!IMPORTANT]
+> 低版本（0.6-Preview4及以下）升级该版本需要卸载后安装（会丢失旧版本数据）
+
+### 版本说明
+- `ShadowViewer.Sdk` 版本为`3.3.x`
+- `ShadowViewer.Plugin.Local` 版本为`1.6.6`
+- `ShadowViewer.Plugin.PluginManager` 版本为`1.6.1`
+
+### Local 本地阅读器（[1.6.6](https://github.com/kitUIN/ShadowViewer.Plugin.Local/releases/tag/1.6.6)）
+
+- 🎨优化仿真翻页动画、渐变阴影和自动翻页动画
+- 👐支持双指平移与缩放，优化单指滑动和平移惯性
+- 🐛修复翻页方向、图片错位、翻页距离越界和前后页位置预计算的问题
+- ⚡本地图片直接从文件加载，网络图片按需流式下载并复用磁盘缓存
+- 🐛修复损坏缓存无法恢复、加载队列阻塞及章节切换后旧请求回写的问题
+- ⚡移出预加载窗口时取消下载并释放位图和字节数据，加载失败采用退避重试
+- 🐛修复延迟获取图片尺寸后缩放缓存不更新及布局刷新打断缩放、翻页的问题
+
 ## 0.6-Preview7
 
 > [!IMPORTANT]  
