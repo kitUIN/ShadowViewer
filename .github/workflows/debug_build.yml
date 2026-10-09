@@ -143,6 +143,8 @@ jobs:
 
   release:
     runs-on: windows-latest
+    permissions:
+      contents: write
     needs: 
       - prepare
       - build

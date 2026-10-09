@@ -36,7 +36,8 @@ Use observed commit patterns: `Feat | description`, `Fix | description`, `Style 
 
 ## Release Workflow
 
-1. Update `<Version>` in the released project's `.csproj` and affected package references. For application releases, also update `ShadowViewer/Package.appxmanifest`, which supplies CI's version.
-2. Add the new version's changes and component versions at the top of `CHANGELOG.md`.
-3. Commit as `Release | <version>` and tag it: `git tag <version>`.
-4. Push both: `git push origin master`, then `git push origin <version>`. CI automatically builds packages and publishes releases. Stable tags must match `.github/workflows/build.yml`; preview releases follow new manifest versions pushed to `master` via `debug_build.yml`.
+1. Plugin/SDK versions use `.csproj` `<Version>`; update affected package references too. ShadowViewer's release version comes from `Identity.Version` in `ShadowViewer/Package.appxmanifest`, not `.csproj` `<Version>`.
+2. CI converts manifest `major.minor.build.revision` to `major.(minor+1)-Previewbuild` when `build > 0`. Thus `0.5.8` (stored as `0.5.8.0`) means `0.6-Preview8`. When `build = 0`, CI uses the manifest version unchanged.
+3. Add changes and component versions at the top of `CHANGELOG.md`.
+4. Commit as `Release | <version>` and tag it: `git tag <version>`.
+5. Push both: `git push origin master`, then `git push origin <version>`. CI packages and publishes releases. Stable tags must match `.github/workflows/build.yml`; previews run on pushes to `master` via `debug_build.yml`.
