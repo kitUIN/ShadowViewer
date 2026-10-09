@@ -17,7 +17,10 @@ using ShadowViewer.Sdk.Models;
 using ShadowViewer.Sdk.Services;
 using ShadowViewer.Services;
 using ShadowViewer.ViewModels;
-using SqlSugar;
+using Microsoft.EntityFrameworkCore;
+using ShadowViewer.Sdk.Database;
+using ShadowViewer.Plugin.Local.Database;
+using Windows.Storage;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -50,7 +53,20 @@ public sealed partial class MainWindow
         var sw = new Stopwatch();
         sw.Start();
 #endif
-        await OnLoading();
+        try
+        {
+            await OnLoading();
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, "Application initialization failed");
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                LoadingProgress.IsActive = false;
+                LoadingText.Text = "初始化失败，应用未继续启动。请查看日志后重试。";
+            });
+            return;
+        }
 #if DEBUG
         sw.Stop();
         Debug.WriteLine("加载插件总共花费{0}ms.", sw.Elapsed.TotalMilliseconds);
@@ -128,31 +144,6 @@ public sealed partial class MainWindow
             Log.Error("{E}", ex);
         }
 
-        // 添加类别标签
-        // _ = Task.Run(async () =>
-        // {
-        //     var db = DiFactory.Services.Resolve<ISqlSugarClient>();
-        //     var insertTags = new List<ShadowTag>();
-        //     var updateTags = new List<ShadowTag>();
-        //     foreach (var plugin in pluginLoader.GetPlugins())
-        //     {
-        //         if (plugin.MetaData.AffiliationTag?.Name == null) continue;
-        //         var tagId = await db.Queryable<ShadowTag>().Where(x =>
-        //             x.PluginId == plugin.Id && x.TagType == 0).Select(it => it.Id).ToListAsync();
-        //         if (tagId is { Count: > 0 })
-        //         {
-        //             plugin.MetaData.AffiliationTag.Id = tagId[0];
-        //             updateTags.Add(plugin.MetaData.AffiliationTag);
-        //         }
-        //         else
-        //         {
-        //             insertTags.Add(plugin.MetaData.AffiliationTag);
-        //         }
-        //     }
-        //
-        //     if (insertTags.Count != 0) await db.Insertable(insertTags).ExecuteReturnSnowflakeIdListAsync();
-        //     if (updateTags.Count != 0) await db.Updateable(updateTags).ExecuteCommandAsync();
-        // });
     }
 
     private static void InitDi()
@@ -172,11 +163,13 @@ public sealed partial class MainWindow
     /// </summary>
     private static void InitDatabase()
     {
-        SnowFlakeSingle.WorkId = 4;
-        var db = DiFactory.Services.Resolve<ISqlSugarClient>();
-        db.DbMaintenance.CreateDatabase();
-        db.CodeFirst.InitTables<ShadowTag>();
-        db.CodeFirst.InitTables<CacheZip>();
+        using var core = DiFactory.Services.Resolve<IDbContextFactory<ShadowDbContext>>().CreateDbContext();
+        DatabaseUpgrade.Initialize(core, "__EFMigrationsHistory_Sdk");
+        DatabaseRegistration.Register<LocalDbContext>(DiFactory.Services,
+            Path.Combine(ApplicationData.Current.LocalFolder.Path, "ShadowViewer.sqlite"),
+            "__EFMigrationsHistory_Local", options => new LocalDbContext(options));
+        using var local = DiFactory.Services.Resolve<IDbContextFactory<LocalDbContext>>().CreateDbContext();
+        DatabaseUpgrade.Initialize(local, "__EFMigrationsHistory_Local");
     }
 
     private void InAnimationLoadingGridOnLoaded(object sender, RoutedEventArgs e)

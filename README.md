@@ -62,7 +62,7 @@ git submodule update
 [ShadowPluginLoader.WinUI](https://github.com/kitUIN/ShadowPluginLoader.WinUI) Windows App SDK插件加载器  
 [Windows App SDK](https://github.com/microsoft/WindowsAppSDK) - Windows App SDK  
 [Windows Community Toolkit](https://github.com/CommunityToolkit/dotnet)/[Windows Community Toolkit Labs](https://github.com/CommunityToolkit/Labs-Windows) - 控件及其他帮助类  
-[SQLSugarCore](https://github.com/DotNetNext/SqlSugar) - ORM框架  
+[EF Core SQLite](https://learn.microsoft.com/ef/core/providers/sqlite/) - ORM框架\
 [Serilog](https://serilog.net) - 日志系统  
 [SharpCompress](https://github.com/adamhathcock/sharpcompress) - 提供压缩解压支持  
 [FluentIcon](https://github.com/KitUIN/FluentIcon) - FluentIcon图标  

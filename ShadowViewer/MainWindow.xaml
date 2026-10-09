@@ -59,6 +59,7 @@
                         Text="ShadowViewer" />
                 </StackPanel>
                 <ProgressRing
+                    x:Name="LoadingProgress"
                     Width="56"
                     Height="56"
                     HorizontalAlignment="Center"

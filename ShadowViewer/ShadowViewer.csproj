@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
 	  <OutputType>WinExe</OutputType>
 	  <TargetFramework>net8.0-windows10.0.22621</TargetFramework>
@@ -59,8 +59,8 @@
 	  <!-- <PackageReference Include="ShadowViewer.Plugin.PluginManager"   Version="1.4.4.1"/> -->
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Release' And '$(DepsUseNuget)' == 'true'">
-	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="1.6.6" />
-	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="1.5.0.1" />
+	  <PackageReference Include="ShadowViewer.Plugin.Local" Version="2.0.0" />
+	  <PackageReference Include="ShadowViewer.Plugin.PluginManager" Version="2.0.0" />
 	  <ProjectReference Include="..\ShadowViewer.Controls\ShadowViewer.Controls.TitleBar\ShadowViewer.Controls.TitleBar.csproj" />
   </ItemGroup>  
 </Project>

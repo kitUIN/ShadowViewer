@@ -64,7 +64,7 @@ git submodule update
 [ShadowPluginLoader.WinUI](https://github.com/kitUIN/ShadowPluginLoader.WinUI) Windows App SDK Plugin Loader  
 [Windows App SDK](https://github.com/microsoft/WindowsAppSDK) - Windows App SDK  
 [Windows Community Toolkit](https://github.com/CommunityToolkit/dotnet)/[Windows Community Toolkit Labs](https://github.com/CommunityToolkit/Labs-Windows) - Controls and other helper classes  
-[SQLSugarCore](https://github.com/DotNetNext/SqlSugar) - ORM  
+[EF Core SQLite](https://learn.microsoft.com/ef/core/providers/sqlite/) - ORM\
 [Serilog](https://serilog.net) - Logger  
 [SharpCompress](https://github.com/adamhathcock/sharpcompress) - Supports compression and decompression  
 [FluentIcon](https://github.com/KitUIN/FluentIcon) - FluentIcon  
