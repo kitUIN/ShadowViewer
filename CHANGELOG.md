@@ -1,9 +1,9 @@
-## 未发布
+## 0.6-Preview10
 
 ### 版本说明
 
 - `ShadowViewer.Sdk` 版本为 `4.0.1`
-- `ShadowViewer.Plugin.Local` 版本为 `2.0.0`
+- `ShadowViewer.Plugin.Local` 版本为 `2.0.1`
 - `ShadowViewer.Plugin.PluginManager` 版本为 `2.0.0`
 - `ShadowViewer.Plugin.Bika` 版本为 `1.3.0`
 - `ShadowViewer.Plugin.EpubLoader` 版本为 `0.2.0`
@@ -30,7 +30,7 @@
 
 ### 插件兼容
 
-- 🛠️哔咔漫画与 EPUB 导入插件适配 SDK `4.0.1` 和本地阅读器 `2.0.0`
+- 🛠️哔咔漫画与 EPUB 导入插件适配 SDK `4.0.1` 和本地阅读器 `2.0.1`
 - 🐛修复哔咔分页与章节切换、EPUB 图片路径与阅读顺序的问题
 
 ## 0.6-Preview9
