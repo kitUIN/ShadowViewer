@@ -39,6 +39,11 @@
 ## 导入插件📦
 将插件项目的发行版压缩包下载后,在`插件管理器`页面选择`添加插件`进行导入
 
+## 截图📷
+<img width="1112" height="671" alt="image" src="https://github.com/user-attachments/assets/82251815-d265-4f62-ae1e-1ee8993803db" />
+<img width="1112" height="671" alt="image" src="https://github.com/user-attachments/assets/7db8bf71-ae03-4d9b-bd61-d93cc2fabc42" />
+<img width="1112" height="671" alt="image" src="https://github.com/user-attachments/assets/9065bfb3-ec30-425b-a0d1-4bd5a923a6ec" />
+
 ## 参与贡献🥰
 
 - 环境要求
